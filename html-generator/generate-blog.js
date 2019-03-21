@@ -34,7 +34,7 @@ const templateArticle = (props) => {
       <p><%= blogName %>の跡地</p>
       <nav>
         <ul>
-          <li><a href="<%- publicRootUrl %>">トップ</a></li>
+          <li><a href="<%- publicPath %>">トップ</a></li>
           <li><a href="<%- newBlogUrl %>">新ブログ</a></li>
           <li><a href="<%- githubUrl %>">GitHub</a></li>
         </ul>
@@ -63,6 +63,7 @@ const articles = rawPages
       throw new Error('Invalid uniqueId');
     }
 
+    const fileName = uniqueId + '.html';
     const html = templateArticle({
       articleContent: article.rawMainContent,
       articleTitle: article.rawPageTitle,
@@ -70,13 +71,14 @@ const articles = rawPages
       githubUrl: GITHUB_URL,
       lastUpdatedDateString: article.rawDate,
       newBlogUrl: NEW_BLOG_URL,
-      publicRootUrl,
+      publicPath: PUBLIC_PATH,
     });
 
     return Object.assign({
-      filePath: path.join(articlesDir, `${uniqueId}.html`),
+      filePath: path.join(articlesDir, fileName),
       html,
-      permalink: `${publicArticlesUrl}${uniqueId}.html`,
+      permalink: `${publicArticlesUrl}${fileName}`,
+      rootRelativeUrl: `${PUBLIC_PATH}${ARTICLES_RELATIVE_PATH}/${fileName}`,
       uniqueId,
     }, article);
   })
@@ -98,7 +100,7 @@ const templateIndexPage = (props) => {
       <p><%- blogName %>の跡地</p>
       <nav>
         <ul>
-          <li><a href="<%- publicRootUrl %>">トップ</a></li>
+          <li><a href="<%- publicPath %>">トップ</a></li>
           <li><a href="<%- newBlogUrl %>">新ブログ</a></li>
           <li><a href="<%- githubUrl %>">GitHub</a></li>
         </ul>
@@ -123,10 +125,10 @@ const templateIndexPage = (props) => {
 const generateIndexPageContent = (articles) => {
   return articles.slice().reverse().map(article => {
     return lodash.template(
-      '<li href="<%- permalink %>"><%= title %> (<%- rawDate %>)</li>'
+      '<li><a href="<%- rootRelativeUrl %>"><%= title %></a> (<%- rawDate %>)</li>'
     )({
       title: article.rawPageTitle,
-      permalink: article.permalink,
+      rootRelativeUrl: article.rootRelativeUrl,
       rawDate: article.rawDate,
     });
   }).join('\n');
@@ -139,7 +141,7 @@ const indexPage = {
     content: generateIndexPageContent(articles),
     githubUrl: GITHUB_URL,
     newBlogUrl: NEW_BLOG_URL,
-    publicRootUrl,
+    publicPath: PUBLIC_PATH,
   }),
 };
 
