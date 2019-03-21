@@ -18,9 +18,10 @@ const publicArticlesUrl = `${publicRootUrl}${ARTICLES_RELATIVE_PATH}/`;
 
 const rawPages = require(path.join(__dirname, '../crawling/extended-raw-pages.json'));
 
-/**
- * @param props {articleContent, articleTitle, blogName, githubUrl, newBlogUrl}
- */
+
+//
+// Generate articles
+//
 const templateArticle = (props) => {
   const compiledTemplate = lodash.template(`<!doctype html>
 <html lang="ja">
@@ -33,8 +34,9 @@ const templateArticle = (props) => {
       <p><%= blogName %>の跡地</p>
       <nav>
         <ul>
-          <li><a href="<%- publicRootUrl %>">トップへ</a></li>
-          <li><a href="<%- newBlogUrl %>">新ブログへ</a></li>
+          <li><a href="<%- publicRootUrl %>">トップ</a></li>
+          <li><a href="<%- newBlogUrl %>">新ブログ</a></li>
+          <li><a href="<%- githubUrl %>">GitHub</a></li>
         </ul>
       </nav>
     </header>
@@ -65,6 +67,7 @@ const articles = rawPages
       articleContent: article.rawMainContent,
       articleTitle: article.rawPageTitle,
       blogName: BLOG_NAME,
+      githubUrl: GITHUB_URL,
       lastUpdatedDateString: article.rawDate,
       newBlogUrl: NEW_BLOG_URL,
       publicRootUrl,
@@ -79,7 +82,78 @@ const articles = rawPages
   })
 ;
 
+
+//
+// Generate the index.html
+//
+const templateIndexPage = (props) => {
+  const compiledTemplate = lodash.template(`<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title><%- blogName %></title>
+  </head>
+  <body>
+    <header>
+      <p><%- blogName %>の跡地</p>
+      <nav>
+        <ul>
+          <li><a href="<%- publicRootUrl %>">トップ</a></li>
+          <li><a href="<%- newBlogUrl %>">新ブログ</a></li>
+          <li><a href="<%- githubUrl %>">GitHub</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1><%- blogName %></h1>
+      </section>
+      <section>
+        <ul>
+          <%= content %>
+        </ul>
+      </section>
+    </article>
+  </body>
+</html>
+`);
+  return compiledTemplate(props);
+};
+
+const generateIndexPageContent = (articles) => {
+  return articles.slice().reverse().map(article => {
+    return lodash.template(
+      '<li href="<%- permalink %>"><%= title %> (<%- rawDate %>)</li>'
+    )({
+      title: article.rawPageTitle,
+      permalink: article.permalink,
+      rawDate: article.rawDate,
+    });
+  }).join('\n');
+};
+
+const indexPage = {
+  filePath: path.join(docsDir, 'index.html'),
+  html: templateIndexPage({
+    blogName: BLOG_NAME,
+    content: generateIndexPageContent(articles),
+    githubUrl: GITHUB_URL,
+    newBlogUrl: NEW_BLOG_URL,
+    publicRootUrl,
+  }),
+};
+
+
+//
+// Write articles
+//
 fs.ensureDirSync(articlesDir);
 articles.forEach(article => {
   fs.writeFileSync(article.filePath, article.html);
 });
+
+
+//
+// Write other pages
+//
+fs.writeFileSync(indexPage.filePath, indexPage.html);
