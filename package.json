@@ -1,5 +1,9 @@
 {
-  "scripts": {},
+  "scripts": {
+    "production-test": "npm run production-test:prepare && npm run production-test:run",
+    "production-test:prepare": "rm -rf ./production-test && mkdir production-test && cp -r docs production-test/old-sorenari-blog",
+    "production-test:run": "$(npm bin)/http-server production-test"
+  },
   "private": true,
   "devDependencies": {
     "fs-extra": "^7.0.1",
