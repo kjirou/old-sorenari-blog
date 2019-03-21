@@ -3,6 +3,7 @@
   "private": true,
   "devDependencies": {
     "fs-extra": "^7.0.1",
+    "http-server": "^0.11.1",
     "lodash": "^4.17.11"
   }
 }
