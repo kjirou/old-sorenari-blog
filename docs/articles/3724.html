@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CoffeeScript 好き好き日記 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CoffeeScript 好き好き日記</h1>
+        <p>2013年10月23日</p>
+      </section>
+      <section>
+        <div>
+数ヶ月使ってるけどまだ好きなので、<br />
+便利・面白いと感じた書き方を紹介させていただきます。
+</div>
+<h3>[a,b] や {a,b} でローカル変数に展開</h3>
+<div>
+オブジェクトや配列をローカル変数に展開できる：</p>
+<pre>
+# 配列から
+[a, b] = [1, 2]
+a is 1
+b is 2
+
+# オブジェクトから
+{a, b} = {a:1, b:2}
+
+# for 文の中でも
+for [a, b] in [[1, 2], [3, 4]]
+  a * b
+
+# 関数の引数でも
+func = ({a, b}) -&gt; a * b
+</pre>
+<p></p>
+<p>コールバックの引数を定義・参照するのに便利：</p>
+<pre>
+emitter = (callback) -&gt;
+  callback {
+    foo: 2
+    bar: 3
+    baz: 4
+  }
+
+# Pythonのキーワード引数みたいのが出来る
+aCallback = ({foo, bar}) -&gt; foo * bar
+
+emitter(aCallback) is 6
+</pre>
+<p></p>
+<p>クラス内ならこういうショートカットも可能：</p>
+<pre>
+class Foo
+  # 矢印の先に何もないけど
+  setVal (@val) -&gt;
+
+  # これと等価
+  setVal (value) -&gt; @val = value
+</pre>
+<p></p>
+<p>・・・最後のは個人的にはあんまり好きじゃないけど。<br />
+矢印の指し先が無いと寂しい。</p>
+<p>階層を一段展開したり、適切なローカル変数名を付けれるようになるので、<br />
+全般的に可読性が向上する仕組みだと思ってます。
+</div>
+<h3>new class extends</h3>
+<div>
+クラスを継承してインスタンスを作成する方法は普通こう書く：</p>
+<pre>
+class Bomb extends Item
+
+bomb = new Bomb
+</pre>
+<p></p>
+<p>これらのように書くこともできる</p>
+<pre>
+# 左辺で変数として受け取る
+Bomb = class Bomb extends Item
+
+# その場合、サブクラス名は省略できる
+Bomb = class extends Item
+
+# そのまま new できるんじゃね？
+bomb = new class extends Item
+
+# もちろん、インスタンス変数やクラス変数も使い捨てで定義できる
+bomb = new class extends Item
+  @myName: 'BOMB'
+  doAction: -&gt; 'Dokaaaaan!'
+
+# コンストラクタに引数を渡す場合はこうしてね
+bomb = new (class extends Item)(引数)
+</pre>
+<p></p>
+<p>サブクラス名を省略した場合は Class.name が入らなくなるので注意<br />
+この場合は Bomb.name = &#8216;Bomb&#8217; の値のことです。</p>
+<p>サブクラスを作るテストを書いている時に便利だった。
+</p></div>
+<h3>array&#8230;</h3>
+<div>
+可変長引数の定義に使われることが多い &#8216;&#8230;&#8217; （ドットドットドット）：<br />
+</p>
+<pre>
+func = (args...) -&gt; args.join ','
+func(1, 2, 3) is '1,2,3'
+</pre>
+<p></p>
+<p>定義の時だけでなく、渡すときにも使える：</p>
+<pre>
+func = (a, b, c) -&gt; a + b + c
+func([1,2,3]...) is 6
+</pre>
+<p></p>
+<p>arguments にも使える</p>
+<pre>
+# サブクラスのコンストラクタ引数を全部受け取りたい時に使える
+class Foo
+  constructor: -&gt;
+    super arguments...
+
+# Backbone だとよくこう書く
+class MyModel extends Backbone.Model
+  initialize -&gt;
+    super arguments...
+</pre>
+<p></p>
+<p>Python の args* と一緒？</p>
+<p></p>
+<p>そしてこれ、いわずもがなですが<br />
+JSの配列を引数へ展開するためだけの apply が・・・：</p>
+<pre>
+var args = [1, 2, 3];
+var func = function(a, b, c){ return a * b * c; }
+func.apply({}, args);
+</pre>
+<p></p>
+<p>要らなくなる！楽！！</p>
+<pre>
+args = [1, 2, 3]
+func = (a, b, c) -> a * b * c
+func args...
+</pre>
+<p></p>
+<p>ええっ？ new でも展開できるのかい！？</p>
+<pre>
+new func([1, 2, 3]...)
+</pre>
+</div>
+<h3>制御構文が値を返す</h3>
+<div>
+Ruby が元ネタらしいですね：</p>
+<pre>
+oneOrTwo = if cond
+    1
+  else
+    2
+
+# 三項演算子はこう、ちょっと面倒い
+oneOrTwo = if cond then 1 else 2
+
+# switch で値を返すとカッコイイ
+text = switch httpStatus
+  when 200 then 'OK'
+  when 300 then 'Wasureta'
+  when 404 then 'Not Found'
+  else 'Internal Server Error'
+
+# for も返すよ！
+list = for i in [0..9]
+  i
+
+# リストコンプリヘンショーン！
+list = (i for i in [0..9])
+
+# while は危険そうだから返さないっしょ？
+# ・・・とか、そういう自制心はCSさんには無い
+i = 0
+list = while (i < 10) then i += 1
+</pre>
+<p>
+</div>
+<h3>以上</h3>
+<div>
+他にもあるんですけど、すぐ思い出せません！<br />
+長くなったので、また別の記事でまとめさせていただくかもです。</p>
+<p>「この書き方出来たらうれしいけどなぁ..」<br />
+　　↓<br />
+「うおお、マジで出来た！」</p>
+<p>こういう嬉しいサプライズに満ち満ちているのが CS さんクオリティ！<br />
+コードの標準化なぞ知ったことかっ！！（とは言ってない）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

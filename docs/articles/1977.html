@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>UbuntuのMySQL-5.5でmysqld_multiの設定 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>UbuntuのMySQL-5.5でmysqld_multiの設定</h1>
+        <p>2013年1月10日</p>
+      </section>
+      <section>
+        <div>
+Ubuntu-12.10 で以下のコマンドで入れた MySQL-5.5 に対して</p>
+<pre>
+sudo aptitude install mysql-server
+</pre>
+<p>mysqld_multi を使えるようにするための設定です</p>
+<p>mysqld_multi というのは、<br />
+ひとつのサーバで複数のmysqlデーモンを起動するためのコマンドです<br />
+自分の場合は、レプリケーションのテストをするために使ってます
+</div>
+<h3>datadirを作る</h3>
+<div>
+起動したいMySQLインスタンスの数だけ作ります、以下は2つ起動する場合<br />
+ディレクトリの場所はテキトーなので、好きな場所に作って下さい<br />
+&quot;mysqld{1,2}&quot; は、ディレクトリ２つをコマンド一発で作っています、便利な書き方だ</p>
+<pre>
+sudo mkdir -p /var/lib/mysql/multi/mysqld{1,2}
+</pre>
+</div>
+<h3>データベースの初期化</h3>
+<div>
+<pre>
+sudo mysql_install_db --datadir=/var/lib/mysql/multi/mysqld1/
+sudo mysql_install_db --datadir=/var/lib/mysql/multi/mysqld2/
+sudo chown -R mysql:mysql /var/lib/mysql/multi/
+</pre>
+</div>
+<h3>/etc/mysql/my.cnf の修正</h3>
+<div>
+すっげー見にくいや.. ごめんなさい<br />
+「mysqld_multi 設定」とかでググって、そっちを見てからの方がいいかも</p>
+<pre>
+# 項目は、以下の追加だけで削除はありません
+
+[mysqld_multi]
+mysqld = /usr/bin/mysqld_safe
+mysqladmin = /usr/bin/mysqladmin
+# 以下の user/password は、mysqld_multiプロセスの停止をするためのユーザ設定
+# 後で足すので好きな値を入れて置く
+user = <任意のユーザ名>
+password = <任意のパスワード>
+
+
+# [mysqld+(1から始まる数字)]で、起動するインスタンスの数だけ定義
+# [mysqld] の設定は、全インスタンスの共通設定になり、
+#   変えたいものを各インスタンスで上書きするという仕組み
+
+[mysqld1]
+# - 各インスタンスで重複しないようにする
+#   1や2は、避けた方が無難との意見を見たので101からにした
+server-id = 101
+# - 3307 は、他のサービスとかぶってるらしいので4307からにした
+port = 4307
+datadir = /var/lib/mysql/multi/mysqld1
+# - ルールに則って /var/run/mysqld/ 以下にしたら
+#   権限無しと言われてしまったので、とりあえず /tmp 以下にした、情報求む！
+#socket = /var/run/mysqld/mysqld_multi1.sock
+socket = /tmp/mysqld_multi1.sock
+pid-file = /var/lib/mysql/multi/mysqld1/mysqld.pid
+# - ログの場所は任意、log_bin や relay_log は、
+#   レプリケーションをするなどの理由がなければ特に定義しなくても良い
+#   また、最近は &quot;log-bin&quot; ではなく &quot;log_bin&quot; に移行しつつあるとか
+#log_bin = /var/log/mysql/mysqld_multi1_bin.log
+#relay_log = /var/log/mysql/mysqld_multi1_relay.log
+log = /var/log/mysql/mysqld_multi1.log
+log_error = /var/log/mysql/mysqld_multi1_error.log
+# - どのコマンドを使うのかという設定？、よくわからん
+#   加えて &quot;ledir&quot; も設定すると書いてあるサイトも有ったが、
+#   自分の場合だと、「その設定項目ねーよ」というエラーになった
+mysqld = mysqld_safe
+
+[mysqld2]
+server-id = 102
+port = 4308
+datadir = /var/lib/mysql/multi/mysqld2
+socket = /tmp/mysqld_multi2.sock
+pid-file = /var/lib/mysql/multi/mysqld2/mysqld.pid
+log = /var/log/mysql/mysqld_multi2.log
+log_error = /var/log/mysql/mysqld_multi2_error.log
+mysqld = mysqld_safe
+</pre>
+</div>
+<h3>起動する</h3>
+<div>
+<pre>
+sudo mysqld_multi --verbose start  # 起動
+sudo mysqld_multi --verbose report  # 起動確認
+</pre>
+<p>もし、起動に失敗していたら、標準エラー出力やlog_error を見て修正して下さい<br />
+&#8211;verbose は、動いたと確信するまではとりあえず付けとけ！<br />
+・・・あんまり情報を出してくれねーけどな　m9(^Д^)
+</div>
+<h3>SHUTDOWN用のユーザを作成</h3>
+<div>
+以下の停止コマンドを打っても止まりません</p>
+<pre>
+sudo mysqld_multi --verbose stop
+</pre>
+<p></p>
+<p>stopコマンドを実行するためには、<br />
+先の my.cnf に user/password で記述したユーザにSHUTDOWN権限を持たせて<br />
+データベースに登録する必要があります</p>
+<p>以下を、インスタンスの数だけ行います</p>
+<pre>
+mysql -h 127.0.0.1 -P 4307 -uroot
+mysql&gt; GRANT SHUTDOWN ON *.* TO `任意のユーザ名`@`localhost`
+  IDENTIFIED BY &quot;任意のパスワード&quot; WITH GRANT OPTION;
+</pre>
+<pre>
+mysql -h 127.0.0.1 -P 4308 -uroot
+mysql&gt; GRANT SHUTDOWN ON *.* TO `任意のユーザ名`@`localhost`
+  IDENTIFIED BY &quot;任意のパスワード&quot; WITH GRANT OPTION;
+</pre>
+<p>どうせ、色々操作するんだろということで、<br />
+自分の場合は ALL PRIVILEGES で root を修正しました<br />
+あ、&quot;WITH GRANT OPTION&quot; いらないかも..</p>
+<p>ちなみに、-h localhost だと入れません、不思議！</p>
+<p>終了したら、以下で停止＆その確認</p>
+<pre>
+sudo mysqld_multi --verbose stop
+sudo mysqld_multi --verbose report
+</pre>
+<p></p>
+<p>これで設定は完了です
+</p></div>
+<h3>補足</h3>
+<div>
+これで、指定したインスタンスだけを操作できます<br />
+番号は server-id ではなくて、[mysqld1] の番号</p>
+<pre>
+sudo mysqld_multi start 1  # 1だけ
+sudo mysqld_multi start 1,2  # 1と2
+sudo mysqld_multi start 1-2  # 1から2
+</pre>
+<p></p>
+<p>参考にしたサイト様達です、多謝しまくり！</p>
+<ul>
+<li><a href="http://blog.livedoor.jp/sasata299/archives/51185087.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.livedoor.jp/sasata299/archives/51185087.html', 'http://blog.livedoor.jp/sasata299/archives/51185087.html']);" target="_blank">http://blog.livedoor.jp/sasata299/archives/51185087.html</a></li>
+<li><a href="http://www.kimura-lab.net/wikimura/index.php/MySQL%E3%82%B5%E3%83%BC%E3%83%90%E8%A4%87%E6%95%B0%E8%B5%B7%E5%8B%95%E3%83%A1%E3%83%A2" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.kimura-lab.net/wikimura/index.php/MySQL%E3%82%B5%E3%83%BC%E3%83%90%E8%A4%87%E6%95%B0%E8%B5%B7%E5%8B%95%E3%83%A1%E3%83%A2', 'http://www.kimura-lab.net/wikimura/index.php/MySQL%E3%82%B5%E3%83%BC%E3%83%90%E8%A4%87%E6%95%B0%E8%B5%B7%E5%8B%95%E3%83%A1%E3%83%A2']);" target="_blank">http://www.kimura-lab.net/wikimura/index.php/MySQL%E3%82%B5%E3%83%BC%E3%83%90%E8%A4%87%E6%95%B0%E8%B5%B7%E5%8B%95%E3%83%A1%E3%83%A2</a></li>
+<li><a href="http://blog.trippyboy.com/2011/centos/mysql5-x%E3%81%AB%E3%81%A6%E8%A4%87%E6%95%B0%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%82%92%E8%B5%B7%E5%8B%95%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.trippyboy.com/2011/centos/mysql5-x%E3%81%AB%E3%81%A6%E8%A4%87%E6%95%B0%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%82%92%E8%B5%B7%E5%8B%95%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/', 'http://blog.trippyboy.com/2011/centos/mysql5-x%E3%81%AB%E3%81%A6%E8%A4%87%E6%95%B0%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%82%92%E8%B5%B7%E5%8B%95%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/']);" target="_blank">http://blog.trippyboy.com/2011/centos/mysql5-x%E3%81%AB%E3%81%A6%E8%A4%87%E6%95%B0%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%82%92%E8%B5%B7%E5%8B%95%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</a></li>
+<li><a href="http://yagni.jp/mysql/mysqld_multi" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://yagni.jp/mysql/mysqld_multi', 'http://yagni.jp/mysql/mysqld_multi']);" target="_blank">http://yagni.jp/mysql/mysqld_multi</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

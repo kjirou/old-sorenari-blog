@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MongoDB] 値無しはnullかundefinedか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MongoDB] 値無しはnullかundefinedか</h1>
+        <p>2014年7月9日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.mongodb.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.mongodb.org/', 'MongoDB']);" target="_blank">MongoDB</a> や <a href="https://github.com/LearnBoost/mongoose" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/LearnBoost/mongoose', 'mongoose']);" target="_blank">mongoose</a> で、「値が無い」状態の判定が null なのか undefined なのか それ以外なのかが分かり難いので、それを整理したという話です。</p>
+<p>検証バージョンは、MongoDB 2.4.3 と mongoose 3.8.1 です。<br />
+オプションなどで動作が変わるものもあるかもしれませんが、特に何も設定していません。
+</p></div>
+<h3>undefined で更新すると null になる</h3>
+<div>
+<pre>
+&gt; db.sandboxes.insert({ foo: undefined })
+{ &quot;_id&quot; : ObjectId(&quot;53bd2e0d7e3d4816a9d41206&quot;), &quot;foo&quot; : null }
+</pre>
+<p></p>
+<p>まず、前提として undefined という値は入りません。<br />
+undefined で更新してもエラーにならず、null になっています。
+</p></div>
+<h3>null 条件で検索するとフィールド未定義の行もヒットする</h3>
+<div>
+<pre>
+&gt; db.sandboxes.insert({})
+&gt; db.sandboxes.find({foo: null})
+{ &quot;_id&quot; : ObjectId(&quot;53bd2f837e3d4816a9d41207&quot;) }
+</pre>
+<p></p>
+<p>「foo フィールドが null の行」を検索していますが、それが未定義な行も抽出されます。</p>
+<p>「フィールド未定義」と書きましたが、マニュアル上は「not contained」（日本語だと「値無し」？）と表現されることが多いです。</p>
+<p>ここではSQL脳に配慮して「行」と書いていますが、普通は「ドキュメント」と呼ばれます。</p>
+<p>Refs) <a href="http://docs.mongodb.org/manual/faq/developers/#how-do-i-query-for-fields-that-have-null-values" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.mongodb.org/manual/faq/developers/#how-do-i-query-for-fields-that-have-null-values', 'How do I query for fields that have null values?']);" target="_blank">How do I query for fields that have null values?</a></p>
+<p>定義/未定義を条件に含めたい場合は <a href="http://docs.mongodb.org/manual/reference/operator/query/exists/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.mongodb.org/manual/reference/operator/query/exists/', '$exists']);" target="_blank">$exists</a> を使います。
+</div>
+<h3>オブジェクトを評価する際、未定義は undefined である</h3>
+<div>
+これが混乱する点だと思いますが、ドキュメントをオブジェクトで取得した場合、未定義のフィールドは undefined です。</p>
+<pre>
+&gt; db.sandboxes.insert({foo:1, bar:2})
+&gt; doc = db.sandboxes.findOne({foo:1})
+{ &quot;_id&quot; : ObjectId(&quot;53bd35177e3d4816a9d41209&quot;), &quot;foo&quot; : 1, &quot;bar&quot; : 2 }
+&gt; doc.baz === null
+false
+&gt; doc.baz === undefined
+true
+</pre>
+<p></p>
+<p>えー。</p>
+<p>mongoose では、ドキュメントオブジェクトがラップされて返されますが、普通に評価する限りは undefined です。（null で統一してくれるアクセサがあるかもしれないが、知らない or あまり使われてない）
+</p></div>
+<h3>mongoose でフィールドに default を設定しても既存データには反映されない</h3>
+<div>
+いきなり mongoose の話になりますが、定義/未定義のぶれを解消しようと、フィールドへ default を設定しても：</p>
+<pre>
+title: {
+  type: String,
+  default: &#039;--&#039;
+},
+</pre>
+<p></p>
+<p>データ作成時にその値が初期値として入るだけで、既に存在する行には mongoose の抽出メソッドを使っても反映されません。
+</p></div>
+<h3>つまり、「値無し」の状態が null or undefined</h3>
+<div>
+例えば、「必須ではない、foo という名前の Date フィールド」を後で追加し、その「値が無い」状態を判定したい場合：</p>
+<p>1. フィールド追加前に保存されたドキュメントでは doc.foo === undefined<br />
+2. 一度 null/undefined で更新した場合は doc.foo === null<br />
+3. それに関わらず、MongoDB で find する場合は {foo:null}</p>
+<p>という判定を全て考慮しなければならないことになります。<br />
+</p>
+</div>
+<h3>最初に考えておけ</h3>
+<div>
+ということで、「値無し」の状態が分かり難いと思った話でした。</p>
+<p>これを放置しておくと、テンプレのレベルで</p>
+<pre>
+(doc.foo === null　|| doc.foo === undefined) ? &#039;None&#039; : doc.foo
+</pre>
+<p></p>
+<p>こういう感じのコードが蔓延するようになるので、どう結論を出すにせよ、早めに整理しておいた方が良いと思います。</p>
+<p>RDB脳なら、フィールドを増減する度に migration する、なのかなぁ。
+</p></div>
+<h3>修正: 2014-07-10</h3>
+<div>
+論旨がわかりにくかったので、大幅に書き換えました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

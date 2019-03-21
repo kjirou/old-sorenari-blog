@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Uncaught TypeError: Illegal invocation (JavaScript) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Uncaught TypeError: Illegal invocation (JavaScript)</h1>
+        <p>2011年1月25日</p>
+      </section>
+      <section>
+        <div>
+Chirome上のJavaScriptで、見慣れない、</p>
+<pre>
+Uncaught TypeError: Illegal invocation
+</pre>
+<p>というエラーが発生しました。<br />
+見慣れないエラーなので、ちょこっと調べました。
+</div>
+<h3>「ネイティブ関数の別名を作っちゃダメ！」エラー</h3>
+<div>
+ネイティブ関数の別参照を作ると発生するエラーとのことで、自分の場合は</p>
+<pre><code>var c = console.log;</code></pre>
+<p>の際に発生しました。<br />
+だめなものはダメなので、こういう風に書いちゃダメってことすねー。</p>
+<p>ただ、この場合に限りなら、<br />
+意味合いは大分変わってしまいますが、</p>
+<pre><code>var c = function(value){console.log(value)};</code></pre>
+<p>とやれば、「console.logと書くのが面倒なので短くしたい」という目的は果たして、<br />
+エラーを回避できます。
+</div>
+<div>
+Safariでも発生するようです。</p>
+<p>参考) <a href="http://vidtaker.com/0/0437001" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://vidtaker.com/0/0437001', 'http://vidtaker.com/0/0437001']);" target="_blank">http://vidtaker.com/0/0437001</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

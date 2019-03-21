@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>RequireJSを使うのを止めた理由 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>RequireJSを使うのを止めた理由</h1>
+        <p>2013年7月16日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://requirejs.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://requirejs.org/', 'RequireJS']);" target="_blank">RequireJS</a> はみんな使ってるらしーし、<br />
+何かかっこいいし、意識高そうだし、使っとくか！</p>
+<p>・・・と、思って試しに使い始めてみたのですが、<br />
+自分が作るような小規模なものの場合、<br />
+大変な割に良い事あんまりないので使うのを止めました。</p>
+<p>以下、忘れそうなのでその理由をメモって置きます。
+</p></div>
+<h3>嫌だったところ</h3>
+<div>
+<ul>
+<li>基本的に、1枚のJSファイルが1モジュール、ファイル名がコードに影響する。それもあって、結合・圧縮は <a href="https://github.com/jrburke/r.js/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/jrburke/r.js/', 'r.js']);" target="_blank">r.js</a> という専用のツールが必要になる。Grunt の concat とか uglify とか使えない。</li>
+<li><a href="https://github.com/amdjs/amdjs-api/wiki/AMD" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/amdjs/amdjs-api/wiki/AMD', 'AMD']);" target="_blank">AMD</a> の仕様では、「JSファイルのリストを順番通りに読み込み/実行する」ということができない。実際何が困ったかというと、分割した mocha テストケースを順番通りに実行できなくなったということ。結果は変わらなくても、順番通りに実行されないと結果が見辛いし、問題が起こった時に発見が難しい。ただしこれは、<a href="http://qiita.com/tutuming/items/c5a3d97c2fda0c682601" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://qiita.com/tutuming/items/c5a3d97c2fda0c682601', 'RequireJS の実装上は出来る']);" target="_blank">RequireJS の実装上は出来る</a>。</li>
+<li>上記は <a href="http://d.hatena.ne.jp/monjudoh/20120919/1348043125" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/monjudoh/20120919/1348043125', 'promise を返すようにすること']);" target="_blank">promise を返すようにすること</a>で解決は可能でもある。ただ、そうすると今度は受け手側で promise なのかどうかを知らないといけなくなる。また、CUI から実行しようとすると、Web と node 両方で動く Deferred ライブラリを $.Deferred とは別に入れないといけない。これも Wスタンダードになるので微妙に気持ち悪い。</li>
+<li>AMD に対応していないライブラリは、RequireJS 独自規格である shim で定義することになる。で、ほとんどライブラリが AMD 対応してない。</li>
+<li>キャッシュ対策に使う requirejs.config の urlArgs が全ファイルに付いてしまう。個別に指定したかった。</li>
+<li>色々とダイナミックなことをしているのでソースを追う機会が多いが、ソースコードが難解で読むのが大変。</li>
+</ul>
+</div>
+<h3>良いところ</h3>
+<div>
+<ul>
+<li>依存関係を明示出来る。</li>
+<li>必要なモジュールだけ読み込むことが出来る。多くのWebページで異なった構成のJSファイルを使ったり、1ページ=1JSファイル的なWebページを模したアプリを作るなら、ある規模以上からはほぼ必須だと思う。</li>
+<li>モジュール単位で開発できるので、担当を分けたりするのに便利。</li>
+<li>scriptタグを自動生成してくれる。</li>
+</ul>
+</div>
+<h3>必要だから使うもの</h3>
+<div>
+自分の場合、「scriptタグ自動生成機能」だけ欲しかったので、<br />
+他の面倒さに全く見合わずに止めることにしました。<br />
+（後、勉強したかったというのもあって、それは満足した。）</p>
+<p>もちろん、上記のように良いところはたくさんありますが、<br />
+特に Lazy loading の仕組みは、何かと影響範囲が大きいため、<br />
+「とりあえず入れる」のは止めるべき、というのが今の結論です。</p>
+<p>まー、大規模開発なら、入れざるを得ない感じはしますが・・・。
+</div>
+<h3>オマケ: RequireJS の勉強に使った参考リンク</h3>
+<div>
+あざざざざざざざざーす！</p>
+<ul>
+<li><a href="http://d.hatena.ne.jp/heavenshell/20121224/1356340571" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/heavenshell/20121224/1356340571', '[Javascript] Require.js を使ってみる']);" target="_blank">[Javascript] Require.js を使ってみる</a></li>
+<li><a href="http://d.hatena.ne.jp/naka-06_18/20121101/1351801201" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/naka-06_18/20121101/1351801201', 'RequireJSにてBackbone.jsとMustache.jsを読み込む']);" target="_blank">RequireJSにてBackbone.jsとMustache.jsを読み込む</a></li>
+<li><a href="http://www.yoheim.net/blog.php?q=20130110" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.yoheim.net/blog.php?q=20130110', '[JS] RequireJSのオプションで良く利用するBaseUrl, Paths, Shimを学ぶ']);" target="_blank">[JS] RequireJSのオプションで良く利用するBaseUrl, Paths, Shimを学ぶ</a></li>
+<li><a href="http://d.hatena.ne.jp/maneater_rhythm/20130219/1361282887" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/maneater_rhythm/20130219/1361282887', 'requirejsのconfigを調べてみた']);" target="_blank">requirejsのconfigを調べてみた</a></li>
+<li><a href="http://qiita.com/shuhei@github/items/3069690452ced4b039a7" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://qiita.com/shuhei@github/items/3069690452ced4b039a7', 'RequireJS と mocha を一緒に使う']);" target="_blank">RequireJS と mocha を一緒に使う</a> (init の使い方)</li>
+<li><a href="http://d.hatena.ne.jp/monjudoh/20120919/1348043125" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/monjudoh/20120919/1348043125', 'CommonJS AMDとDeferred']);" target="_blank">CommonJS AMDとDeferred</a></li>
+<li><a href="http://qiita.com/tutuming/items/c5a3d97c2fda0c682601" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://qiita.com/tutuming/items/c5a3d97c2fda0c682601', 'require.js の require関数が同期的に動く理由']);" target="_blank">require.js の require関数が同期的に動く理由</a></li>
+<li><a href="https://github.com/timrwood/moment/blob/develop/moment.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/timrwood/moment/blob/develop/moment.js']);" target="_blank">timrwood/moment</a> (CommonJS/AMD/windowマルチ対応のExports例)</li>
+<li><a href="http://teppeis.hatenablog.com/entry/re-requirejs" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://teppeis.hatenablog.com/entry/re-requirejs', 'Re: RequireJSを使うのを止めた理由']);" target="_blank">Re: RequireJSを使うのを止めた理由</a> (勉強になった、けどもうしばらく封印)</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

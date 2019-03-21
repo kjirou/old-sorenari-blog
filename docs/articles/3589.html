@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] 引数のArrayネストが自動展開された | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] 引数のArrayネストが自動展開された</h1>
+        <p>2013年8月11日</p>
+      </section>
+      <section>
+        <div>
+知らなくて、ちょっとハマった。<br />
+以下、Chrome と Node.js 0.11 で確認。</p>
+<p>array.slice:</p>
+<pre><code>var arr = [1, 2, 3, 4, 5];
+console.log(arr.slice([[[[[3]]]]]));  // -&gt; [4, 5]</code></pre>
+<p></p>
+<p>array.join:</p>
+<pre><code>var arr = [1, 2, 3];
+console.log(arr.join([[[[[&quot;/&quot;]]]]]));  // -&gt; &quot;1/2/3&quot;</code></pre>
+<p></p>
+<p>・・・とか、他にもあるかも。</p>
+<p>concat や apply など、勝手に展開すると困るのはしないみたいです。
+</p></div>
+<h3>番外: [[[[[&quot;str&quot;]]]]]</h3>
+<div>
+<pre><code>console.log([[[[[&quot;str&quot;]]]]] + &quot;&quot;);  // -&gt; &quot;str&quot;</code></pre>
+<p></p>
+<p>これは多分動作に期待しちゃダメだと思われます。
+</p></div>
+<h3>追記: というか、番外の自動キャストが引数に渡ってるだけだった</h3>
+<div>
+<pre><code>[[[[[3]]]]] -&gt; &quot;3&quot; -&gt; 3</code></pre>
+<p></p>
+<p>超すみません、お騒がせしました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

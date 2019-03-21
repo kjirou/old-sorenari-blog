@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>screen中のタイトルバーに任意の文字を出力する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>screen中のタイトルバーに任意の文字を出力する</h1>
+        <p>2008年8月11日</p>
+      </section>
+      <section>
+        <div>
+自分の場合、<br />
+開発はほとんど Windows ＆ Puttyでやっておるのですが、<br />
+Linux側でscreenを起動した時に、Windowsタスクバーの表示が<br />
+&#8220;screen&#8221; になってしまう点に、前々から不便を感じていました。<br />
+（screen実行前はホスト名とかが出るようにしてある）</p>
+<p>んで、最近は時間が出来たので、調べ始めたんですが<br />
+結局は解決しなくて、 <a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'yoshuki']);" >yoshuki</a>氏に聞きましたマル</p>
+<p>・・・お前は何をやっとるんだと・・・・・・。
+</div>
+<p></p>
+<div>
+で、対処として<br />
+例えば、screen実行時に以下のコマンドをコピペで実行すると<br />
+タイトルバーの表示が&#8221;HOGEHOGE&#8221;に変わるので</p>
+<pre>
+printf "\033P\033]0;HOGEHOGE\007\033\\"
+</pre>
+<p>
+.bashrcや.zshrcにこんな風に追記してやると良い<br />
+（今度は&#8221;username@hostname&#8221;が表示されるようになっている）</p>
+<pre>
+case "$TERM" in
+xterm*|kterm*|rxvt*)
+# screenを起動してない時はここを通る
+;;
+screen*)
+# screen起動時はここを通る
+printf "\033P\033]0;$USER@$HOSTNAME\007\033\\"
+;;
+esac
+</pre>
+<p>参考) <a href="http://d.hatena.ne.jp/amt/20060530/Screen" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/amt/20060530/Screen', 'http://d.hatena.ne.jp/amt/20060530/Screen']);" >http://d.hatena.ne.jp/amt/20060530/Screen</a>
+</div>
+<p></p>
+<div>
+これで、ターミナルを立ち上げまくっても安心だっ！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

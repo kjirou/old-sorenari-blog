@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[SEO] Google/Yahooからインデックスを緊急削除 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[SEO] Google/Yahooからインデックスを緊急削除</h1>
+        <p>2009年8月4日</p>
+      </section>
+      <section>
+        <div>
+GoogleやYahooの検索エンジンから、<br />
+特定のページのキャッシュをすぐに消す必要があり、その方法を調べました。<br />
+モタイナイので記事にします。
+</div>
+<p></p>
+<div>
+まず、消すことができる条件としては、</p>
+<p><b>Googleなら、<a href="http://www.google.co.jp/webmasters/tour/tour1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.google.co.jp/webmasters/tour/tour1.html', 'ウェブマスターツール(Web Master Tools)']);" target="_blank">ウェブマスターツール(Web Master Tools)</a> へ</b><br />
+<b>Yahooなら、<a href="http://siteexplorer.search.yahoo.co.jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://siteexplorer.search.yahoo.co.jp/', 'Yahooサイトエクスプローラー']);" target="_blank">Yahooサイトエクスプローラー</a> へ</b>、そのサイトを登録・管理している必要があります。</p>
+<p>両ツールとも、そもそもサイトの管理者しか登録できないようになっているので、<br />
+つまりは、サイト管理人しかインデックスを削除することはできません。</p>
+<p>だから、勝手に人様サイトのインデックスを消してウヘヘヘなんてこたーできません。<br />
+当たり前ですけどねっ！
+</div>
+<p></p>
+<div>
+削除機能へのナビゲーションは以下です。</p>
+<p><b>1. ウェブマスターツール</b></p>
+<p>ログイン<br />
+　↓<br />
+左カラム「サイト設定」内の「クローラのアクセス」クリック<br />
+　↓<br />
+「URLの削除」タブをクリック<br />
+　↓<br />
+後は道なりでOK</p>
+<p>
+<b>2. Yahooサイトエクスプローラー</b></p>
+<p>ログイン<br />
+　↓<br />
+左カラム「インデックス状況」クリック<br />
+　↓<br />
+一覧で削除したいページを絞り込んで表示させる<br />
+　↓<br />
+表示させたら、一覧左端のラジオボタンにチェックを入れて<br />
+「検索結果で非表示」をクリック（「削除」じゃなくて「非表示」という概念になっている）<br />
+　↓<br />
+後は道なりでOK<br />
+非表示ページの一覧を見たい場合は、左カラムの「インデックス状況」から確認できます。
+</div>
+<p></p>
+<div>
+1URLだけ両者で申請しましたが、<br />
+Googleは約1日間で削除されていました。</p>
+<p>Yahooは、日本語に解釈させたい文字列を含むURL（例えば、<a href="http://www.amazon.co.jp/%E3%82%B9%E3%82%AF%E3%82%A6%E3%82%A7%E3%82%A2%E3%83%BB%E3%82%A8%E3%83%8B%E3%83%83%E3%82%AF%E3%82%B9-13306241-%E3%83%89%E3%83%A9%E3%82%B4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88IX-%E6%98%9F%E7%A9%BA%E3%81%AE%E5%AE%88%E3%82%8A%E4%BA%BA/dp/B000LXD7HO" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/%E3%82%B9%E3%82%AF%E3%82%A6%E3%82%A7%E3%82%A2%E3%83%BB%E3%82%A8%E3%83%8B%E3%83%83%E3%82%AF%E3%82%B9-13306241-%E3%83%89%E3%83%A9%E3%82%B4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88IX-%E6%98%9F%E7%A9%BA%E3%81%AE%E5%AE%88%E3%82%8A%E4%BA%BA/dp/B000LXD7HO', 'アマゾンの商品ページ']);" target="_blank">アマゾンの商品ページ</a>のような）があると、処理の途中で、その部分をピュニコード（<a href="http://ja.wikipedia.org/wiki/Punycode" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/Punycode', 'Punycode']);" target="_blank">Punycode</a>、いわゆる&#8221;日本語URL&#8221;）として解釈してしまうバグがあるみたいで、未検証となっています。<br />
+・・・が、Web上の報告を眺めると、大体1日間位の期間で消えるようです。
+</div>
+<p></p>
+<div>
+意外と気安く消せました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

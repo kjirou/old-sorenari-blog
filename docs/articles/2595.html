@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Macのpypyがvirtualenvで動かない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Macのpypyがvirtualenvで動かない</h1>
+        <p>2013年3月1日</p>
+      </section>
+      <section>
+        <div>
+<a href="https://github.com/pypa/virtualenv/issues/366" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/pypa/virtualenv/issues/366', '1.8.4 fails with pypy on mac os x']);" target="_blank">1.8.4 fails with pypy on mac os x</a> の話です</p>
+<p>解決としては、既に開発版ではFIXされているので<br />
+以下のコマンドで virtualenv を最新版にすれば動くようになりました</p>
+<pre>
+pip install https://github.com/pypa/virtualenv/tarball/develop
+</pre>
+</div>
+<h3>tox で pypy のテストをする時にコケた</h3>
+<div>
+そもそもは、tox で pypy のテストをしようとした時に、失敗して気付きました。</p>
+<p>こういうエラーが出たり..</p>
+<pre>
+ERROR: pypy: InvocationError: /usr/local/Cellar/pypy/1.9/bin/pypy /usr/local/lib/python2.7/site-packages/virtualenv.py --distribute pypy (see /Users/kjirou/working/python-mahokanta/.tox/pypy/log/pypy-0.log)
+</pre>
+<p></p>
+<p>ログを見たらこんなことが書いてあったり..</p>
+<pre>
+debug: WARNING: Library path not found, using compiled-in sys.path.
+debug: WARNING: 'sys.prefix' will not be set.
+debug: WARNING: Make sure the pypy binary is kept inside its tree of files.
+debug: WARNING: It is ok to create a symlink to it from somewhere else.
+'import site' failed
+AttributeError: 'module' object has no attribute 'prefix'
+New pypy executable in pypy/bin/pypy
+ERROR: The executable pypy/bin/pypy is not functioning
+ERROR: It thinks sys.prefix is u'/Users/kjirou/working/python-mahokanta/.tox' (should be u'/Users/kjirou/working/python-mahokanta/.tox/pypy')
+ERROR: virtualenv is not compatible with this system or executable
+</pre>
+<p></p>
+<p>.. したので、俺みたいに日本語記事がないとアセる人は、<br />
+上記で検索して来てくれるといいなって。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

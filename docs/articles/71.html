@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascriptでStrategyパターン？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascriptでStrategyパターン？</h1>
+        <p>2007年6月22日</p>
+      </section>
+      <section>
+        <div>
+これはStrategyパターンと呼んでいいのだろうか？</p>
+<pre>
+var Human = function(){
+this.firstName = "亮";
+this.lastName = "諸葛";
+this.azana = "孔明";
+};
+Human.prototype.sayName = function(format){
+alert(format(this.firstName, this.lastName, this.azana));
+};
+var foo = new Human();
+foo.sayName(function(firstName, lastName){
+return lastName + firstName; // -> "諸葛亮"
+});
+foo.sayName(function(firstName, lastName, azana){
+return "我が名は" + lastName + firstName + " 字は" + azana; // -> "我が名は諸葛亮 字は孔明"
+});
+</pre>
+</div>
+<div>
+デザパタとか関係無しに自分がやりたいことは<br />
+上記例ならsayName関数に渡すformat関数のInterfaceを決めて<br />
+（javascriptなので言語のサポートはありませんが）<br />
+ロジックの一部分を関数で渡せるようにしたいということです。</p>
+<p>それをStrategyパターンと呼んでいいのかなぁと。
+</p></div>
+<div>
+<a href="http://ishikawa.arielworks.com/memo/2005/02/24/090533" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ishikawa.arielworks.com/memo/2005/02/24/090533', 'ココ']);" >ココ</a>とか<a href="http://www.techscore.com/tech/DesignPattern/Strategy.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.techscore.com/tech/DesignPattern/Strategy.html', 'ココ']);" >ココ</a>とか<a href="http://www.hellohiro.com/pattern/strategy.htm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.hellohiro.com/pattern/strategy.htm', 'ココ']);" >ココ</a>を見ると、上記で合っているようですが<br />
+<a href="http://www.netlaputa.ne.jp/~hijk/study/oo/designpattern.html#AStrategy" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.netlaputa.ne.jp/~hijk/study/oo/designpattern.html#AStrategy', 'ココ']);" >ココ</a>を見ると、「処理対象により、ロジックを変える」という側面も併せ持つ必要があるように書いてある。</p>
+<p>Javaはほとんど書いたことが無いので、この辺が限界スかね<br />
+残念無念。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

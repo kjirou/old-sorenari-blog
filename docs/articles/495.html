@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>非同期クロスドメイン通信でCookieを送信したかった | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>非同期クロスドメイン通信でCookieを送信したかった</h1>
+        <p>2011年3月24日</p>
+      </section>
+      <section>
+        <div>
+Ajaxによるクロスドメインリクエストでドハマりました。<br />
+未解決なんでセーブしときます。
+</div>
+<h3>IE8だとJSONPででCookieヘッダを送信できない</h3>
+<div>
+<s>IE8だと、クロスドメイン通信にJSONPを使ってもCookieヘッダを送信できない。</s><br />
+<strong>追記：最後に書きました、これはP3Pポリシーによるブロックでした。</strong></p>
+<p>これを、最近のブラウザだと大体実装されている<br />
+<a href="http://www.w3.org/TR/XMLHttpRequest2/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.w3.org/TR/XMLHttpRequest2/', 'XMLHttpRequest Level 2']);" target="_blank">XMLHttpRequest Level 2</a> の仕様で解決しようとしたのが始まり。</p>
+<p>↓によると、</p>
+<p><a href="http://zafiel.wingall.com/archives/2010101816041505.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://zafiel.wingall.com/archives/2010101816041505.php', 'Google App Engineでクロスドメイン通信']);" target="_blank">Google App Engineでクロスドメイン通信</a></p>
+<p>API側で &#8216;Access-Control-Allow-*&#8217; なヘッダを設定してやると、出来るらしい。
+</div>
+<h3>しかし、出来ない</h3>
+<div>
+・・・が、XMLHttpRequest(or XDomainRequest) による<br />
+クロスドメインリクエストまでは出来たけど、<br />
+Cookieヘッダの送信までは出来なかった。<br />
+ということで、参考にしたサイトややったとこなどのメモを残す。</p>
+<p><a href="http://www.netagent-blog.jp/archives/51509761.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.netagent-blog.jp/archives/51509761.html', 'IE8+jQueryによるクロスドメイン通信とXDomainRequestラッパーの作成']);" target="_blank">IE8+jQueryによるクロスドメイン通信とXDomainRequestラッパーの作成</a><br />
+※標準jQueryはIE8のXDomainRequestに対応してないので、その対応方法<br />
+※これと、Access-Control-Allow-* なヘッダを調整することで、<br />
+　Cookieの送信以外は、IE8 と Firefox で動いた</p>
+<p><a href="http://d.hatena.ne.jp/ushiboy/20100902/1283436155" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/ushiboy/20100902/1283436155', 'Access-Control-Allow-Origin試してみた。その２']);" target="_blank">Access-Control-Allow-Origin試してみた。その２</a><br />
+※FirefoxでもCookieが送信できないので、まずはその解決からと参考にしたサイト<br />
+※ここでハマってストップ！</p>
+<p><a href="https://developer.mozilla.org/En/HTTP_access_control" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://developer.mozilla.org/En/HTTP_access_control', 'HTTP access control &#8211; MDC Doc Center']);" target="_blank">HTTP access control &#8211; MDC Doc Center</a><br />
+※本家ドキュメント、日本語版はまだは無い<br />
+※ここを読み込めばわかるんだろうけど、ちょっと読んで止めた</p>
+<p><a href="http://d.hatena.ne.jp/a666666/20100411/1270933672" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/a666666/20100411/1270933672', 'Access-Control-Allow-Origin で Firefox の same origin policy を乗り越える']);" target="_blank">Access-Control-Allow-Origin で Firefox の same origin policy を乗り越える</a><br />
+※同ドメインでもポートが違うとCookieヘッダは送信されなかった</p>
+<p><a href="http://friendfeed.com/koko1000ban/188b3842/access-control-allow-origin" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://friendfeed.com/koko1000ban/188b3842/access-control-allow-origin', 'http://friendfeed.com/koko1000ban/188b3842/access-control-allow-origin']);" target="_blank">http://friendfeed.com/koko1000ban/188b3842/access-control-allow-origin</a><br />
+※Access-Control-Allow-Originは複数指定できないみたい（未確認）<br />
+※これも未確認だけど、&#8217;*&#8217; だとダメなこともあるらしいので、<br />
+　そうだとすると、複数指定できないのがネックになることも有り得る</p>
+<p><a href="http://blog.livedoor.jp/dankogai/archives/51502865.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.livedoor.jp/dankogai/archives/51502865.html', 'Ajax &#8211; Goodbye, JSONP. Hello, Access-Control-Allow-Origin']);" target="_blank">Ajax &#8211; Goodbye, JSONP. Hello, Access-Control-Allow-Origin</a><br />
+※直接関係ないけど、XMLHttpRequestやXDomainRequestのわかり易いサンプルで
+</div>
+<h3>そもそも</h3>
+<div>
+IE6・7で使えないことで、直近は不必要なものだった。<br />
+冷静さを失っていました・・・。
+</div>
+<h3>何でヒットしねーんだろ？</h3>
+<div>
+&#8220;IE8 JSONP Cookie&#8221; とかでググっても、<br />
+Cookieヘッダが送れない件が一向にヒットしないのは何故なんだろう？</p>
+<p>大幅に間違えてる気がスル
+</div>
+<h3>追記：大幅に間違えてました</h3>
+<div>
+IEでダメだったのは、P3Pポリシーによるブロックが原因でした。<br />
+→ <a href="http://memories.zal.jp/WP/20110322_1978.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://memories.zal.jp/WP/20110322_1978.html', 'IEでクロスドメインのiframe内のcookieが取れない']);" target="_blank">IEでクロスドメインのiframe内のcookieが取れない</a></p>
+<p>API側でSet-Cookieをするときに、P3Pヘッダでポリシーを決めてやればよかったんでした。</p>
+<p>その他参考)<br />
+<a href="http://bakera.jp/ebi/topic/3594" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://bakera.jp/ebi/topic/3594', 'P3Pコンパクトポリシーをコピペするのが流行らないことを祈る']);" target="_blank">P3Pコンパクトポリシーをコピペするのが流行らないことを祈る</a><br />
+※コンパクトポリシーの CAO PSA CUR の解説</p>
+<p>@tanabe さんありがとうございます！</p>
+<p>
+・・・これ、アフィリエイトサイトを作るときにやってたわ・・・・・・・・・・・・・。
+</div>
+<h3>追記：XMLHttpRequest Level 2 の有用性チェックリスト</h3>
+<div>
+後日必要になるかもなので、チェックリストを作っとく。</p>
+<ul>
+<li>GET, POST に対応しているか</li>
+<li>Cookieヘッダは送れるか</li>
+<li>もし、Access-Control-Allow-Origin: * 指定がダメな状況がある場合、<br />
+複数サイトでの利用に対応しているか</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

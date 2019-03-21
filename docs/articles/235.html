@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>FireBugの「Net」確認機能のバグっぽいところ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>FireBugの「Net」確認機能のバグっぽいところ</h1>
+        <p>2008年1月9日</p>
+      </section>
+      <section>
+        <div>
+FireBugの機能で、HTTPリクエストの確認等に使える「Net」タブの機能がありますが<br />
+これでちょっとした不具合が。
+</div>
+<div>
+「Net」タブ→「確認したいリクエストの選択」→「Response」タブ で<br />
+送信したリクエストに対するレスポンスの内容を確認できますけど<br />
+このレスポンス内容は確認時にリクエストを投げて新しく取ってきてるようです。</p>
+<p>Apacheのaccess_log見てたら気付きました。
+</p></div>
+<div>
+ちなみに、FireBugのバージョンは1.05です。<br />
+オプションで変えられるのかなー？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

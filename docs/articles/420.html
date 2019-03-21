@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Linux] teeコマンドで標準出力しつつファイルへ保存 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Linux] teeコマンドで標準出力しつつファイルへ保存</h1>
+        <p>2009年6月11日</p>
+      </section>
+      <section>
+        <div>
+Linuxで、<br />
+「標準出力をターミナルに出しつつ、リダイレクトのようにファイルに保存する。」<br />
+ということをしたかった。</p>
+<p>どうも、teeコマンドというのを使うらしい。<br />
+参考）<a href="http://www.linux.or.jp/JM/html/gnumaniak/man1/tee.1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.linux.or.jp/JM/html/gnumaniak/man1/tee.1.html', 'Manpage of tee']);" target="_blank">Manpage of tee</a>
+</div>
+<p></p>
+<div>
+説明がメンドイのでサンプルコード</p>
+<pre>
+#!/bin/sh
+list="0
+1
+2
+3"
+for i in $list
+do
+echo "-----"
+echo $i | tee ./output.txt
+#echo $i | tee -a ./output.txt
+sleep 1
+done
+</pre>
+<p>
+※ -a を付けると追記モードになって、0 1 2 3 がファイルへ保存されます。<br />
+　付けない場合は 3 だけです。<br />
+※ リダイレクトじゃなくてパイプを使う点に注意。</p>
+<pre>
+# echo "aaa" | /path/to/tee
+</pre>
+<p>を</p>
+<pre>
+# echo "aaa" > /path/to/tee
+</pre>
+<p>・・・とか、いつかやっちゃいそうで困るんだぜ・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

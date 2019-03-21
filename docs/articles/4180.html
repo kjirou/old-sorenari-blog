@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>ルートを階層構造で定義できる express-nested-router | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>ルートを階層構造で定義できる express-nested-router</h1>
+        <p>2014年9月7日</p>
+      </section>
+      <section>
+        <div>
+名前空間を入れ子にして定義でき、再帰的にパスの解決ができる express 3.x 用のルーティングモジュールを作成しました。</p>
+<p>GitHub: <a href="https://github.com/kjirou/express-nested-router" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/express-nested-router', 'https://github.com/kjirou/express-nested-router']);" target="_blank">https://github.com/kjirou/express-nested-router</a><br />
+npm: <a href="https://www.npmjs.org/package/express-nested-router" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/express-nested-router', 'https://www.npmjs.org/package/express-nested-router']);" target="_blank">https://www.npmjs.org/package/express-nested-router</a></p>
+<p>インストール手順はこれです:</p>
+<pre>
+npm install express-nested-router
+</pre>
+<p></p>
+<p>シンプルなモジュールなので、概要や使い方は <a href="https://github.com/kjirou/express-nested-router#examples" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/express-nested-router#examples', 'GitHub README の Examples']);" target="_blank">GitHub README の Examples</a> を見てもらえれば、すぐわかると思います。</p>
+<p>なお、express 4.x 系だと、<a href="http://expressjs.com/4x/api.html#router" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://expressjs.com/4x/api.html#router', 'Router']);" target="_blank">Router</a> という概念があるため、それを取り込む形で調整する必要があると思います。<br />
+試していませんが、もし動いたとしても使うには適さないと思います。
+</div>
+<h3>大目的</h3>
+<div>
+プロジェクト内に複数ある機能を、それぞれが疎結合になるようにプラグイン化して分割できる設計にできないかなーというのがそもそもの目的です。</p>
+<p><a href="https://www.djangoproject.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.djangoproject.com/', 'Django']);" target="_blank">Django</a> の設計と似ていますが、Django ほど自由度を設けない変わりに、アプリの外側に影響する部分を減らしたいなと考えています。（というか、自分で使うだけなので規約を固定にしてしまえるから可能、というだけですが..）</p>
+<p><a href="https://github.com/kjirou/express3-sandbox" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/express3-sandbox', 'https://github.com/kjirou/express3-sandbox']);" target="_blank">https://github.com/kjirou/express3-sandbox</a> のリポジトリでその設計の検証をしているので、知見のある方は Pull-Req いただけると大変ありがたいです！<br />
+見ての通り sandbox なので、明らかに動かないコードとかじゃなければ、雑なプルリクでも全然オッケーです！！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

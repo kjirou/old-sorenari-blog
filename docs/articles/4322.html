@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MongoDBでのDateの最大値 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MongoDBでのDateの最大値</h1>
+        <p>2014年10月26日</p>
+      </section>
+      <section>
+        <div>
+MongoDB で Date は最大いくつまで記録できるのかを調べました。</p>
+<p>検証で使った MongoDB のバージョンは 2.6.4 です。
+</p></div>
+<h3>ECMAScript 上の仕様</h3>
+<div>
+大元の Date の仕様は、JavaScript の元である ECMAScript の ECMA 262 という規格によって定義されています。</p>
+<p>以下、ECMA 262 内の該当部分の引用です。</p>
+<blockquote><p>
+15.9.1.1 Time Values and Time Range</p>
+<p>A Date object contains a Number indicating a particular instant in time to within a millisecond. Such a Number is called a time value. A time value may also be NaN, indicating that the Date object does not represent a specific instant of time.</p>
+<p>Time is measured in ECMAScript in milliseconds since 01 January, 1970 UTC. In time values leap seconds are ignored. It is assumed that there are exactly 86,400,000 milliseconds per day. ECMAScript Number values can represent all integers from −9,007,199,254,740,991 to 9,007,199,254,740,991; this range suffices to measure times to millisecond precision for any instant that is within approximately 285,616 years, either forward or backward, from 01 January, 1970 UTC.</p>
+<p>The actual range of times supported by ECMAScript Date objects is slightly smaller: exactly −100,000,000 days to 100,000,000 days measured relative to midnight at the beginning of 01 January, 1970 UTC. This gives a range of 8,640,000,000,000,000 milliseconds to either side of 01 January, 1970 UTC.</p>
+<p>The exact moment of midnight at the beginning of 01 January, 1970 UTC is represented by the value +0.
+</p></blockquote>
+<p>ちなみに、最新の仕様書は、<a href="http://www.ecmascript.org/docs.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.ecmascript.org/docs.php', 'こちらからダウンロード']);" target="_blank">こちらからダウンロード</a>できるようですが、この記事を書いている 2014/10/26 現在はリンクが落ちてて出来ませんでした。</p>
+<p>なので、上記の引用は MDN の <a href="http://people.mozilla.org/~jorendorff/es5.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://people.mozilla.org/~jorendorff/es5.html', 'ECMA-262 Edition 5']);" target="_blank">ECMA-262 Edition 5</a> から引用いたしました。<br />
+最新版は Edition 5.1 であるため少し古いのですが、まぁ大丈夫だろってことで。
+</div>
+<h3>で、いくつなの？</h3>
+<div>
+以下の更に抜粋した箇所によると、「UTCの開始時間から前後に 8,640,000,000,000,000 ミリ秒」とのことです：</p>
+<blockquote><p>
+This gives a range of 8,640,000,000,000,000 milliseconds to either side of 01 January, 1970 UTC.
+</p></blockquote>
+</div>
+<h3>MongoDB 上の仕様</h3>
+<div>
+まず、<a href="https://github.com/mongodb/mongo/blob/master/src/third_party/v8-3.25/src/date.h" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/mongodb/mongo/blob/master/src/third_party/v8-3.25/src/date.h', 'MongoDB のソースコード']);" target="_blank">MongoDB のソースコード</a>を見ると、コメントで「ECMA 262」と書いてあるところが多いので、雑に ECMA 262 準拠なのかと予測しました。</p>
+<p>検証してみましょう：</p>
+<pre>
+&gt; db.foo.save({x:new Date(8640000000000000)})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.foo.save({x:new Date(8640000000000001)})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.foo.save({x:new Date(-8640000000000000)})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.foo.save({x:new Date(-8640000000000001)})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.foo.find()
+{ &quot;_id&quot; : ObjectId(&quot;544c848dad8d38018399bc95&quot;), &quot;x&quot; : ISODate(&quot;275760-09-13T00:00:00Z&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;544c848fad8d38018399bc96&quot;), &quot;x&quot; : ISODate(&quot;0NaN-NaN-NaNTNaN:NaN:NaNZ&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;544c8494ad8d38018399bc97&quot;), &quot;x&quot; : ISODate(&quot;-271821-04-20T00:00:00Z&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;544c8497ad8d38018399bc98&quot;), &quot;x&quot; : ISODate(&quot;0NaN-NaN-NaNTNaN:NaN:NaNZ&quot;) }
+</pre>
+<p></p>
+<p>仕様通りでした。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

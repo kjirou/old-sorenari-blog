@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] FileFieldのカスタムバリデーションで微ハマり | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] FileFieldのカスタムバリデーションで微ハマり</h1>
+        <p>2008年12月15日</p>
+      </section>
+      <section>
+        <div>
+Fieldに対して<a href="http://djangoproject.jp/doc/ja/1.0/ref/forms/validation.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://djangoproject.jp/doc/ja/1.0/ref/forms/validation.html', 'カスタムバリデーション']);" >カスタムバリデーション</a>を設定する際に、<br />
+それがFileField(とそのサブクラス)である場合にやや設定方法に違いがあってハマった。<br />
+Django は 1.0.2-final です。
+</div>
+<p></p>
+<div>
+結論から申しますと、こんな風にcleanを書く必要がある。</p>
+<pre>
+def clean(self, value, initial):
+# ...エラー処理とか...
+return value
+</pre>
+<p>何が違うかというと、第3引数のinitial(変数名はなんでもいいけど)が必要だってことです。
+</div>
+<p></p>
+<div>
+ここで、ググっても話題に出てこないので、<br />
+本当にこれでいいのかとソース確認<br />
+何はともあれ、夢と希望と自分ほど信じられないものはない</p>
+<p><b>&#8230;/django/forms/form.py の full_cleanメソッド内</b></p>
+<pre>
+try:
+if isinstance(field, FileField):
+initial = self.initial.get(name, field.initial)
+value = field.clean(value, initial) # 引数の数が
+else:
+value = field.clean(value) # 違います
+self.cleaned_data[name] = value
+</pre>
+<p>・・・うん、なんか処理分けてるね！</p>
+<p>何で分けてるのかはわからんけど、対処は間違ってないっぽい。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

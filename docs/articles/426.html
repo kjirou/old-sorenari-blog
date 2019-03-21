@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 英語の省略形月名(Jan, Feb, Mar, Apr &#8230;)の場所 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 英語の省略形月名(Jan, Feb, Mar, Apr &#8230;)の場所</h1>
+        <p>2009年7月24日</p>
+      </section>
+      <section>
+        <div>
+datetimeの下かと思ってたら、カレンダーの中だった。<br />
+同僚におせーてもらいました。</p>
+<pre>
+&gt;&gt;&gt; import calendar
+&gt;&gt;&gt; for i ,v in enumerate(calendar.month_abbr): print "%s = '%s'" % (i, v)
+...
+0 = ''
+1 = 'Jan'
+2 = 'Feb'
+3 = 'Mar'
+4 = 'Apr'
+5 = 'May'
+6 = 'Jun'
+7 = 'Jul'
+8 = 'Aug'
+9 = 'Sep'
+10 = 'Oct'
+11 = 'Nov'
+12 = 'Dec'
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

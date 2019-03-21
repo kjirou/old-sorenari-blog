@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[正規表現] ややこしい例に遭遇 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[正規表現] ややこしい例に遭遇</h1>
+        <p>2009年4月28日</p>
+      </section>
+      <section>
+        <div>
+※確認用の言語はJavaScriptを使ってます。</p>
+<p>金額風文字列（\12800 とか）をチェックするのに、<br />
+以下の正規表現を書いている同僚が居た。</p>
+<pre>
+/^[\][0-9]+$/.test("12800")
+</pre>
+<p>どうも、[\] を \\? （エスケープ1文字が有るか無いか） だと思っているようで<br />
+falseが返るぞー返るぞー とワクワクしながら待ってたら・・・</p>
+<pre>
+true
+</pre>
+<p>
+<b>えええっ！？</b>
+</div>
+<p></p>
+<div>
+<b>【解答】</b></p>
+<pre>
+[\][0-9]
+</pre>
+<p>部分が</p>
+<pre>
+] or [ or 0-9
+</pre>
+<p>という解釈になってました。
+</div>
+<p></p>
+<div>
+なるほど、</p>
+<pre>
+[[]
+</pre>
+<p>で [ の1文字を示す書き方が出来たのか！</p>
+<p>文字クラス内は難しいなぁ。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[ssh] ssh_configでPasswordAuthenticationをする意味 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[ssh] ssh_configでPasswordAuthenticationをする意味</h1>
+        <p>2008年11月18日</p>
+      </section>
+      <section>
+        <div>
+sshでパスワード認証を無効にする<br />
+PasswordAuthentication no の設定ですが、<br />
+普通は /etc/ssh/sshd_config にて行うと思います。</p>
+<p>ただ、/etc/ssh/ssh_config でも同様の設定ができるようなので、<br />
+試しに sshd_config = yes / ssh_config = no でやってみたところ、<br />
+クライアント側から秘密鍵の送信があれば鍵認証、無ければパスワード認証、という挙動になりました。
+</div>
+<p></p>
+<div>
+この状態、鍵認証を行うかはクライアント側の任意なので、<br />
+セキュリティ的には単なるパスワード認証です。<br />
+何のためにあるんだろうか？と考えたところ<br />
+サーバの公開鍵認証の設定時にこの状態にしておくと安心ということがわかりました。</p>
+<p>例えば、レンタルサーバで公開鍵認証設定をする時に、<br />
+誤って、DLした秘密鍵ファイルを破壊してしまったりしたときに、<br />
+その時点で全てのsshコネクションが切れていると、もう手が出ません。</p>
+<p>そんな時にこの設定にしておくと、<br />
+いざというときは普通にパスワード認証で入れるので、<br />
+鍵認証が正しく動くことを確認した後に、改めて本来の設定にするという手順で行うことができます。
+</div>
+<p></p>
+<div>
+なるほどねー　ちゃんと考えられてるんだなぁ。</p>
+<p>もう、知らないことが一杯で、<br />
+いっそメテオでもフォールして全部なくならねぇかなぁと<br />
+思ったり思わなかったりたり。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

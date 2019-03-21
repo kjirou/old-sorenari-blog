@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[IE7] HTML要素のプロパティをdeleteできない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[IE7] HTML要素のプロパティをdeleteできない</h1>
+        <p>2010年11月11日</p>
+      </section>
+      <section>
+        <div>
+IE7のクロスブラウザネタです。
+</div>
+<h3>HTMLプロパティの削除が出来ない</h3>
+<div>
+IE7で以下を実行すると・・・</p>
+<pre><code>var obj = document.getElementById(&#039;xxx&#039;);
+obj.prop = &#039;data&#039;;
+delete obj.prop;</code></pre>
+<p>・・・の、最後の delete の際に<br />
+「このオブジェクトではサポートされていない操作です」<br />
+というエラーが上がります。</p>
+<p>HTML要素じゃないオブジェクトのプロパティを削除したり、<br />
+IE8 / IE6 / FireFox3 / Chrome では、同じ現象は起きません。
+</div>
+<h3>ちなみに、最近会社PCが変わりブラウザもIE8になりましたが</h3>
+<div>
+IE8に</p>
+<p>・IE7互換表示機能があったり、<br />
+・デフォルトで開発ツールがついていたり、<br />
+・console.logがあったり、</p>
+<p>で、びっくりしました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

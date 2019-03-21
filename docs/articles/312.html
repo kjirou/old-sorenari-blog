@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP,ZF] クッキーへセッションIDを保存すると、強制的に再生成されてしまう | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP,ZF] クッキーへセッションIDを保存すると、強制的に再生成されてしまう</h1>
+        <p>2008年5月8日</p>
+      </section>
+      <section>
+        <div>
+PHPのZendFrameworkの話です。</p>
+<p>Zend_Session::rememberMe()でクッキーへセッションIDの保存をするようにすると<br />
+リクエストの度に強制的にsession_regenerate_id()されるようになる。</p>
+<p>それで何がいけないかと言うと、この辺↓</p>
+<ul>
+<li>モバイル等でセッションIDをGETパラメータにもたす場合は、<br />
+ブラウザバックするとセッションが切れる。</li>
+<li>GETパラメータへ入れていない場合でも素早くリンクを2連打するとセッションが切れる。</li>
+</ul>
+<p>うーん、セキュリティとのトレードオフとは言え、割と見過ごせない感じ・・・。<br />
+無料のWebサービスなら、再生成より重視したいところだと思います。</p>
+<p>この設定を正式にOFFにすることは出来ないっぽくて、<br />
+どうしてもOFFりたい場合は、Zend_Session::regenerateId()内でsession_regenerate_id()している部分を、直接コメントアウトして対処するしか無いみたいです。(v1.5.1時点)</p>
+<p>・・・と、また無理矢理記事を書いてみた。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

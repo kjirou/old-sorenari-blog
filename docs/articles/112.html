@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>さくら共有にSubversionクライアントを入れる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>さくら共有にSubversionクライアントを入れる</h1>
+        <p>2007年9月1日</p>
+      </section>
+      <section>
+        <div>
+さくらインターネットの共有サーバ（スタンダードプラン）から Google Code を使うためにSubversionクライアントを入れました。<br />
+ので、手順メモ
+</div>
+<div>
+Subversionクライアントを動作させるためには</p>
+<ul>
+<li>apr(Apache Portable Runtime)</li>
+<li>apr-util</li>
+<li>neon</li>
+<li>swig</li>
+</ul>
+<p>という、これらの別ライブラリをインストールした上で、Subversionを入れる必要があります。<br />
+最初それを知ったときは、あまりの多さに冗談かと思いましたが、どうやらこれら全部必要なようです。<br />
+てか、端折ってやったら、見事に動かなくなりました :-p
+</div>
+<div>
+<b>apr</b></p>
+<pre>
+cd $HOME/local/src
+wget http://ftp.kddilabs.jp/infosystems/apache/apr/apr-1.2.9.tar.gz
+tar zvxf apr-1.2.9.tar.gz
+cd apr-1.2.9
+./configure --prefix=$HOME/local --disable-static
+make
+make install
+</pre>
+<ul>
+<li>aprとapr-utilのインストール手順は <a href="http://bokunomichi.blogspot.com/2007/03/subversion143.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://bokunomichi.blogspot.com/2007/03/subversion143.html', 'http://bokunomichi.blogspot.com/2007/03/subversion143.html']);" >http://bokunomichi.blogspot.com/2007/03/subversion143.html</a> をパクった。</li>
+<li>最新版のチェックは <a href="http://ftp.kddilabs.jp/infosystems/apache/apr/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ftp.kddilabs.jp/infosystems/apache/apr/', 'http://ftp.kddilabs.jp/infosystems/apache/apr/']);" >http://ftp.kddilabs.jp/infosystems/apache/apr/</a> でやった。</li>
+</ul>
+</div>
+<div>
+<b>apr-util</b></p>
+<pre>
+cd $HOME/local/src
+wget http://ftp.kddilabs.jp/infosystems/apache/apr/apr-util-1.2.8.tar.gz
+tar zvxf apr-util-1.2.8.tar.gz
+cd apr-util-1.2.8
+./configure --prefix=$HOME/local --with-apr=$HOME/local --disable-static \
+--with-expat=/usr/local --with-iconv=/usr/local
+make
+make install
+</pre>
+<ul>
+<li>&#8220;&#8211;with-iconv&#8221;は文字コード関連のライブラリインストールで、必須です。パスもさくら共有ならみんな一緒だと思います。</li>
+<li>&#8220;&#8211;with-expat&#8221;は自分の共有には無かったみたいですが、コマンドとしては入力してしまいました。</li>
+</ul>
+</div>
+<div>
+<b>neon</b></p>
+<pre>
+cd $HOME/local/src
+wget http://www.webdav.org/neon/neon-0.25.4.tar.gz
+cd neon-0.25.4
+./configure --prefix=$HOME/local --with-libxml2 --with-ssl
+make
+make install
+</pre>
+<ul>
+<li>neon と swig と subversion のインストール手順は <a href="http://recipe.via-kitchen.com/Subversion/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://recipe.via-kitchen.com/Subversion/', 'http://recipe.via-kitchen.com/Subversion/']);" >http://recipe.via-kitchen.com/Subversion/</a> を参考にした。（中の人も朝方なのに質問受け付けてくれて多謝）</li>
+<li>本家 <a href="http://www.webdav.org/neon/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.webdav.org/neon/', 'http://www.webdav.org/neon/']);" >http://www.webdav.org/neon/</a></li>
+<li><b>0.27.0 だと動かないので注意！ 0.25.4 にしたら動いた。</b></li>
+</ul>
+</div>
+<div>
+<b>swig</b></p>
+<pre>
+cd $HOME/local/src
+wget http://jaist.dl.sourceforge.net/sourceforge/swig/swig-1.3.29.tar.gz
+tar zxvf swig-1.3.29.tar.gz
+cd swig-1.3.29
+./configure --prefix=$HOME/local
+make
+make install
+</pre>
+<ul>
+<li>本家 <a href="http://www.swig.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.swig.org/', 'http://www.swig.org/']);" >http://www.swig.org/</a></li>
+<li>subversionで使用するには<b>1.3.29</b>が良いとのこと。上記参考サイトから。</li>
+</ul>
+</div>
+<div>
+<b>subversion</b></p>
+<pre>
+cd $HOME/local/src
+wget http://subversion.tigris.org/downloads/subversion-1.4.5.tar.gz
+tar zvxf subversion-1.4.5.tar.gz
+cd subversion-1.4.5
+./configure --prefix=$HOME/local \
+--with-apr=$HOME/local \
+--with-apr-util=$HOME/local \
+--with-neon=$HOME/local \
+--with-editor=$HOME/local/bin/vim \
+--with-swig=$HOME/local
+make
+make install
+</pre>
+<ul>
+<li>最新版ソースは <a href="http://subversion.tigris.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://subversion.tigris.org/', 'http://subversion.tigris.org/']);" >http://subversion.tigris.org/</a> （左カラム「Downloads」＞ ページ内「in this directory」）から取得</li>
+</ul>
+</div>
+<div>
+これで動くんじゃないかなぁと思います。<br />
+動かなかったら日ごろの行いが影響しているんじゃないかなぁと思います。
+</div>
+<div>
+で、<a href="http://code.google.com/p/ore-bookmark/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://code.google.com/p/ore-bookmark/', '作ったプロジェクト']);" >作ったプロジェクト</a>。人に動かせさせる形にはなってないですが。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

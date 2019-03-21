@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Pythonクックブックを読んでいる(1) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Pythonクックブックを読んでいる(1)</h1>
+        <p>2009年2月7日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2009/02/python2.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2009/02/python2.html', '次回 ＞＞']);" ><b>次回 ＞＞</b></a></p>
+<p>Pythonプロジェクトもいくつか片付けて、<br />
+そろそろ復習しとくと効果的だなということで、<br />
+会社の本棚にあった「<a href="http://www.oreilly.co.jp/books/9784873112763/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.oreilly.co.jp/books/9784873112763/', 'Python クックブック']);" >Python クックブック</a>」を読み始めました。</p>
+<p>主に、「あー、これこれ、どう書くのかと思ってたよ！！」<br />
+・・・的な、自分が不便に感じたことのある内容を拾って読んでます。
+</div>
+<p></p>
+<div>
+<b>【1章 テキスト】</b></p>
+<p><b>1. 文字列を文字の配列に変換する</b></p>
+<pre>
+&gt;&gt;&gt; list("abc")
+['a', 'b', 'c']
+</pre>
+<p>JS的に &#8220;abc&#8221;.split() でやろうとしたらエラーになっちゃったので、どう書くのかと思ってた。<br />
+まさかの灯台元暗し。</p>
+<p><b>2. &#8220;プレーン文字列&#8221;と&#8221;Unicode文字列&#8221;</b><br />
+単なる用語の話ですが、今まで str と ustr を口頭で区別して話すときに、<br />
+str の方を「ただの/単なる/普通の 文字列」とか言ってて不便だった。</p>
+<p><b>3. 正統な文字列型チェック</b><br />
+本によると正解はこれだということ。</p>
+<pre>
+def isAString(anobj):
+return isinstance(anobj, basestring)
+</pre>
+<p>こんな風に書いちゃうとstr継承クラスを判別できないでしょお、ということです。</p>
+<pre>
+type(anobj) == type("")
+</pre>
+<p>過剰に気をつける必要も無い気がするけど、<br />
+色々やり方があってどれか困ってたので、今後はこれにします。</p>
+<p><b>4. テキスト幅寄せ</b></p>
+<pre>
+&gt;&gt;&gt; "1234".center(10)
+'   1234   '
+&gt;&gt;&gt; "1234".ljust(10)
+'1234      '
+&gt;&gt;&gt; "1234".rjust(10)
+'      1234'
+</pre>
+<p>面白いなー、使いどころは今のところ思いつかないけども。</p>
+<p><b>5. スペース/タブ/改行文字等のトリム</b><br />
+今まで正規表現でやってたけど、<br />
+良くある論点なので、特別な関数を覚えてもいいと思ってた。</p>
+<pre>
+&gt;&gt;&gt; "  \t\r\naaa\nbbb\t\r\n  ".lstrip()
+'aaa\nbbb\t\r\n  '
+&gt;&gt;&gt; "  \t\r\naaa\nbbb\t\r\n  ".rstrip()
+'  \t\r\naaa\nbbb'
+</pre>
+<p>
+<b>6. 文字列フォーマットの方が文字列連結よりいいかもね</b><br />
+Pythonの文字列は、修正する度に新しい文字列を生成するので</p>
+<pre>
+"My name is " + "taro" + ", " + "15" + " years old."
+</pre>
+<p>という処理だと、途中で<br />
+&#8220;My name is taro&#8221;<br />
+&#8220;My name is taro, &#8220;<br />
+&#8220;My name is taro, 15&#8221;<br />
+という文字列を作っては破棄することになるそうだ。<br />
+なので、上記より下記のように書いた方が早いよ、ということです。</p>
+<pre>
+"My name is %s, %s years old." % ("taro", "15")
+</pre>
+<p>ただ、最近だとインタプリタがその辺を吸収してくれたりするので、<br />
+どこまで効果が出るかは不明。<br />
+まー、可読性重視でも文字列フォーマットを使うので、問題無し！</p>
+<p><b>7. 文字列の反転</b></p>
+<pre>
+&gt;&gt;&gt; "abcde"[::-1]
+'edcba'
+</pre>
+<p>加えて、スライスに3つ目の引数が存在することと、<br />
+それを「拡張スライシング指示子」と呼ぶことを知った。</p>
+<p><b>8. translate</b><br />
+文字列をフィルタリングしたりフォーマットしたりするのに、<br />
+「素晴らしく強力でフレキシブル」かつ「高速」であるらしい。<br />
+しかし、仕様が特殊で複雑であるのと、<br />
+使い易くしたということで本に載っているラッパ関数の中のまたその中にも<br />
+あんまり使わない関数が入ってたりするので、ちょっと微妙。<br />
+大量のテキストを捌く時には使えるかも、という所で保留。</p>
+<p><b>9. &#8220;クロージャファクトリ&#8221;</b><br />
+クロージャを返す関数を、今まで「クロージャを返す関数」（そのままだ）<br />
+と呼んでたんですが、「クロージャファクトリ」って言っていいらしい。</p>
+<p><b>10. バイナリ列が文字列かを判定する</b><br />
+詳しく読んでないですが、サンプルが載ってた。<br />
+ソケットサーバを作るときとかに使えそう。</p>
+<p><b>11. 結合メソッド(Bound Methods)</b></p>
+<pre>
+&gt;&gt;&gt; L = ['fee', 'fie', 'foo']
+&gt;&gt;&gt; x = L.append
+&gt;&gt;&gt; x('fum')
+&gt;&gt;&gt; L
+['fee', 'fie', 'foo', 'fum']
+</pre>
+<p>この x のことを、結合メソッドというらしい。<br />
+ちなみに、こういう書き方も可能で</p>
+<pre>
+&gt;&gt;&gt; L = ['fee', 'fie', 'foo']
+&gt;&gt;&gt; x = list.append
+&gt;&gt;&gt; x(L, 'fum') # 第1引数でスコープを決められる
+&gt;&gt;&gt; L
+['fee', 'fie', 'foo', 'fum']
+</pre>
+<p>こっちの x は、非結合メソッドというらしい。<br />
+へー、と思ったけど、使いどころは不明。</p>
+<p><b>12. str と ustr の連結は必ずustrになる</b><br />
+・・・んだそうな。今まで無駄にunicode関数とかを掛けてたかも。</p>
+<p><b>13. import this</b></p>
+<pre>
+&gt;&gt;&gt; import this
+The Zen of Python, by Tim Peters
+(... 以下略)
+</pre>
+<p>参考) <a href="http://www.python.jp/Zope/articles/misc/zen" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/Zope/articles/misc/zen', 'The Zen of Python(和訳)']);" >The Zen of Python(和訳)</a>
+</div>
+<p></p>
+<div>
+と、1章は以上っす、満足しました。</p>
+<p>いつもがいつもなので、最後まで読めるとは到底思えないんだけど、<br />
+この本ならK点越えは目指せそう、かも。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>複数行select要素が1行表示になる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>複数行select要素が1行表示になる</h1>
+        <p>2007年5月17日</p>
+      </section>
+      <section>
+        <div>
+sizeで複数行を指定したselectタグの表示で問題があったという<br />
+javascriptのクロスブラウザ（糞IE6用）ネタです。
+</div>
+<div>
+普通にセレクトボックスをbodyに追加している例ですが</p>
+<pre>
+var select = document.createElement("select");
+select.size = 5;
+document.body.appendChild(select);
+</pre>
+<p>これは問題ありません。
+</p></div>
+<div>
+一方これは</p>
+<pre>
+var select = document.createElement("select");
+select.size = 5;
+select.style.display = "none";
+document.body.appendChild(select);
+// id="hoge_trigger"の要素のonclickにイベントを追加
+document.getElementById("hoge_trigger").onclick = function(){
+select.style.display = "inline";
+};
+</pre>
+<p>onclickイベントを呼べば複数行selectボックスが表示されるはずの例ですが<br />
+IE6だとsize=1のselectボックスになってしまう。（FireFoxはOK）
+</div>
+<div>
+対策は</p>
+<pre>
+document.getElementById("hoge_trigger").onclick = function(){
+select.style.visibility = "hidden";
+select.style.display = "inline";
+// 時間差を入れて可視にしてみる
+setTimeout(function(){
+select.style.visibility = "visible";
+}, 100);
+};
+</pre>
+<p>これで期待通りに表示されます。<br />
+描画が間に合わない？ような感じ。
+</div>
+<div>
+知らねーよ、マジで。<br />
+3hハマり
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

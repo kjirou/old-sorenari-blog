@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] 小数点を任意の桁数で切捨て表示 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] 小数点を任意の桁数で切捨て表示</h1>
+        <p>2009年11月4日</p>
+      </section>
+      <section>
+        <div>
+JavaScript(*1) で少数のNumberを文字列として表示すると</p>
+<pre><code>alert(0.1 + 0.1); // -> "0.2"
+alert(0.1 + 0.2); // -> "0.30000000000000004"</code></pre>
+<p>値によっては、「いかにも浮動小数点！」という表示になってしまう。</p>
+<p>ということで、<br />
+表示上、桁数を制御したい場合はNumber.toFixedを使う</p>
+<pre><code>alert((0.333).toFixed(1)); // -> "0.3"
+alert((0.333).toFixed(6)); // -> "0.333000"<code></pre>
+<p>
+参考） <a href="http://d.hatena.ne.jp/pasela/20070207/float" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/pasela/20070207/float', 'http://d.hatena.ne.jp/pasela/20070207/float']);" target="_blank">http://d.hatena.ne.jp/pasela/20070207/float</a>
+</div>
+<p></p>
+<div>
+今まで 「<s>Math.random</s> Math.round  に入れる前に100掛けて100で割る」 とか<br />
+泥臭い手段しかないと思い込んでたんですが、調べたらすぐ出てきた。</p>
+<p>コレ、ヨクナイネ。
+</p></div>
+<p></p>
+<div>
+(*1)<br />
+動作確認環境は、WinXP-FireFox3 と WinXP-IE6 です。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

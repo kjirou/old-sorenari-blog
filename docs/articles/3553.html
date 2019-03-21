@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Math.randomをmockするlaplaceモジュール | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Math.randomをmockするlaplaceモジュール</h1>
+        <p>2013年8月11日</p>
+      </section>
+      <section>
+        <div>
+テスト時に Math.random() の乱数を固定するための npm パッケージです。<br />
+0.0 以上 1.0 未満を指定した回数で割って、順番に出力するようにします。</p>
+<p><a href="https://github.com/kjirou/npm-laplace" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-laplace', 'GitHub &#8211; npm-laplace']);" target="_blank">GitHub &#8211; npm-laplace</a></p>
+<p>例えばこんな風に使います。<br />
+今のところは <a href="http://sinonjs.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://sinonjs.org/', 'Sinon.js']);" target="_blank">Sinon.js</a> と一緒に使うことを想定しています。</p>
+<pre><code>var mock = laplace.createMock(100);
+var stub = sinon.stub(Math, &quot;random&quot;, mock);
+
+for (var i = 0; i &lt; 100; i += 1) {
+  console.log(Math.random());  // 約 0, 約 0.01, 約 0.02, .. , 約 0.99
+}
+
+stub.restore();</code></pre>
+<p></p>
+<p>注意点として、それぞれの値は === では判定できません。<br />
+保証しているのは、値の範囲でしかありません。</p>
+<p>例えば、上記の例なら、<br />
+それぞれの値は以下の範囲に収まる、ということのみを保証しています。</p>
+<pre><code>[
+  0 以上 0.01 未満,
+  0.01 以上 0.02 未満,
+
+  // (..略..)
+
+  0.98 以上 0.99 未満,
+  0.99 以上 1.0 未満
+]</code></pre>
+<p></p>
+<p>できることは、これだけです。<br />
+Sinon.js用のヘルパー関数的な。
+</div>
+<h3>蛇足: 値が「以上」になるためにはどうすれば？</h3>
+<div>
+<a href="https://github.com/kjirou/npm-laplace/blob/master/laplace.js#L34" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-laplace/blob/master/laplace.js#L34', 'この辺のコード']);" target="_blank">この辺のコード</a>を見てもらうとわかるんですが、n を m で割った時の値を確実に「以上」にするために、小さな数を足してます。ひどい処理ですね！</p>
+<p>これは、モックで置換した後に Underscore.js の _.random が、<br />
+このような処理をしないとちゃんと動かなかったため行いました。<br />
+具体的には、100 回で割った時に、26, 27, 28, 28, 30 になってしまいました。</p>
+<p>こういうのって、どーすればいいんでしょうか？</p>
+<p>というか、ちゃんとしたライブラリがあれば是非教えて下さい・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] Paginatorに渡すobject_listを自作クラスでラップ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] Paginatorに渡すobject_listを自作クラスでラップ</h1>
+        <p>2008年12月25日</p>
+      </section>
+      <section>
+        <div>
+Django-1.0から出来たPaginatorですが、<br />
+インスタンス生成時にページングしたい全要素のリストを渡さないといけない点が、若干不便。</p>
+<p>というのも、object_listにQuerySetインスタンスを渡すならば、<br />
+遅延評価して抽出された各要素のみを生成するからいいんですが、<br />
+渡すリストにそのような遅延評価の機能が無い場合は、<br />
+「全要素を生成して渡し、その中で表示するページ分だけの要素を使う。」<br />
+という、非効率なことになってしまう。</p>
+<p>リストが無視できるデータ量ならいいんだけど、<br />
+自分の場合に無視できない問題になってしまったので、<br />
+以下のようにして対応しました。
+</div>
+<p></p>
+<div>
+(1) こういうクラスを作って・・・</p>
+<pre>
+class SomeObjectList(object):
+def __getitem__(self, key):
+start = None
+stop = None
+if isinstance(key, int):
+start = key
+stop = key + 1
+elif isinstance(key, slice):
+start = key.start
+stop = key.stop
+else:
+raise IndexError
+if 0 > start: raise IndexError
+items = []
+# ある行数が多いデータから、上記の start / end を使用して
+# 一部だけ抽出してitemsへ格納して返す。
+return items
+def count(self)
+count = 0
+# ある行数の多いデータから、全体の個数を素早く取得できる手段で取得して返す。
+# 例えば、SQLのCOUNT文的に。
+return count
+</pre>
+<p>(2) ・・・こんな風にPaginatorを生成させる</p>
+<pre>
+Paginator(SomeObjectList(), 10)
+</pre>
+<p>とりあえず、object_listだよって、「枠」だけ渡して、<br />
+中身は paginator.page とかで、実際に評価された時に生成させるという感じです。
+</div>
+<p></p>
+<div>
+このPaginatorの仕様なんですけど、<br />
+(a) Paginatorインスタンス生成時には、全体の個数だけ渡して。<br />
+(b) paginator.page に対して、対応するobject_listを設定する。<br />
+(c) QuerySetとの連携は、ObjectPaginatorサブクラスで対応する。<br />
+・・・という方が、より疎結合でDjangoのイメージに合っている気がするんだけどなー。</p>
+<p>まぁ、上記のような抜け道を用意してくれているので、これでやってね、ってことか。</p>
+<p>と、何かおかしかったらご指摘願います!!
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

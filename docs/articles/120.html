@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascriptで正規表現のメタ文字をエスケープしたいけど | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascriptで正規表現のメタ文字をエスケープしたいけど</h1>
+        <p>2007年9月6日</p>
+      </section>
+      <section>
+        <div>
+ユーザのタグ入力に対する補完機能を実装していたときのこと</p>
+<pre>
+// 候補リスト
+var tags = ["javascript", "php", "ruby"];
+// タグ区切り文字はカンマ
+// 最後のカンマ以降で半角空白をトリムした文字列が補完対象の入力
+var pattern = foo.value.replace(new RegExp('^.*,[ ]*', ""), "");
+for (var i = 0; i < tags.length; i++) {
+if (tags[i].match(pattern) !== null) {
+// 入力フォームの下に補完候補リストを表示する処理
+};
+};
+</pre>
+<p>これで完璧じゃないかと思ってたら、ユーザの入力（foo.value）の中に正規表現のメタ文字が入る場合に、それをそのままメタ文字として解釈してしまうのでよろしくない。
+</p></div>
+<div>
+んー、メタ文字をエスケープする便利関数は、ネイティブだと無くて、ネットでググっても見つからない。<br />
+仕方ないので、String.match の替わりに String.indexOf を使うことで逃げました。
+</div>
+<div>
+どっかに、メタ文字を全部エスケープしてくれる関数は無いっすかねー。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

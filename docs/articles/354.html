@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JS] SingletonをMixinする関数 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JS] SingletonをMixinする関数</h1>
+        <p>2008年9月15日</p>
+      </section>
+      <section>
+        <div>
+以前も<a href="http://kjirou.sakura.ne.jp/mt/2007/06/javascriptsingleton_1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/06/javascriptsingleton_1.html', '何度かトライ']);" >何度かトライ</a>していたが、イマイチ不完全燃焼で終わっていた<br />
+JavaScriptでのSingletonパターンの実装。</p>
+<p>そういやRubyがMix-inで付加する形で付けてたなぁと<br />
+JavaScriptでそれを実装してみた。
+</div>
+<p></p>
+<div>
+<pre><code>// Mix-in singleton pattern.
+var singleton = function(SomeClass){
+    var NewClass = function(){
+        throw new Error("This is Singleton-Pattern Class. Use self.getInstance().");
+    };
+    NewClass.__instance__ = null;
+    NewClass.getInstance = function(){
+        if (this.__instance__ === null) this.__instance__ = applyNew(SomeClass, arguments);
+        return this.__instance__;
+    }
+
+    function applyNew(cls, args){
+        var Tmp = function(){};
+        Tmp.prototype = cls.prototype;
+        var instance = new Tmp;
+        cls.apply(instance, args || []);
+        return instance;
+    }
+    return NewClass;
+}
+
+// This class is for the test.
+var Person = function(name, age){
+    this._name = name;
+    this._age = age;
+}
+Person.prototype = {
+    getName: function(){return this._name},
+    getAge: function(){return this._age}
+};
+// Test
+Person = singleton(Person);
+//p = new Person; // -> Exception
+var p1 = Person.getInstance("kjirou", 31);
+alert(p1.getName()); // -> "kjirou"
+alert(p1.getAge()); // -> 31
+var p2 = Person.getInstance();
+alert(p1 === p2); // -> true</code></pre>
+<p>
+<b>おー!!</b></p>
+<p>newの抑止も出来てるし、<br />
+prototype拡張をやるよりも影響が少ないし<br />
+概ね良いんじゃね？</p>
+<p>これなら案件にも入れやすいので、後は使って試すかー。
+</p></div>
+<p></p>
+<div>
+何かご意見等あればよろしくお願いします!!
+</div>
+<p></p>
+<div>
+<b>【蛇足的追記】</b><br />
+ちなみになんですが、唯一のインスタンスを完全に隠蔽したいのならこっち。<br />
+スクリプト言語畑で育った自分としては、ここまでせんでもとは思いますが・・・。<br />
+（クラスを消しても参照が残っちゃうのがキモチ悪い気がする）<br />
+お好みでどうぞ。</p>
+<pre>
+var singleton = function(SomeClass){
+function applyNew(cls, args){
+var Tmp = function(){};
+Tmp.prototype = cls.prototype;
+var instance = new Tmp;
+cls.apply(instance, args || []);
+return instance;
+};
+return (function(){
+var INSTANCE = null;
+var NewClass = function(){
+throw new Error("This is Singleton-Pattern Class. Use self.getInstance().");
+};
+NewClass.getInstance = function(){
+if (INSTANCE === null)
+INSTANCE = applyNew(SomeClass, arguments);
+return INSTANCE;
+};
+return NewClass;
+})();
+};
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>mysqlコマンドにパスワードを含めることができるのか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>mysqlコマンドにパスワードを含めることができるのか</h1>
+        <p>2007年4月17日</p>
+      </section>
+      <section>
+        <div>
+mysqlコマンドで<br />
+今までは↓の様に記述していて</p>
+<pre>
+mysql -u username -p password
+</pre>
+<p>パスワードを認識してくれないので<br />
+そういうものかと諦めてました。
+</div>
+<div>
+したら<br />
+職場の小金を溜めて海外旅行に行くのが趣味の奴に</p>
+<pre>
+mysql -uusername -ppassword
+</pre>
+<p>こう書けばいけますよ</p>
+<p>と、言われてやってみたら、認識してくれた。
+</div>
+<div>
+MySQLを知って2年の間<br />
+疑問に思ったことがなかったっす。</p>
+<p>反省
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

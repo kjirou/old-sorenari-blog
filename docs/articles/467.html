@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>ブラウザを横幅1024pxで開く方法 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>ブラウザを横幅1024pxで開く方法</h1>
+        <p>2010年4月16日</p>
+      </section>
+      <section>
+        <div>
+大きいモニターを使ってると、<br />
+つい利用者よりも大きい画面でWebサイトを見てしまうので、<br />
+サイズを数値で指定してブラウザを開く方法を探してました。</p>
+<p>Windowsだと、タスクバー右クリで「サイズ変更」を出しても、<br />
+数値で指定はできないみたいで、どうしようかなと。
+</div>
+<h3>JavaScriptを使えば良かった</h3>
+<div>
+人に教えてもらったんですが、FireBugコンソールで</p>
+<pre>
+&gt;&gt;&gt; window.open(&#039;http://google.co.jp/&#039;,&#039;_target&#039;,&#039;width=1024&#039;)
+</pre>
+<p>で、解決した。</p>
+<p>うーん、その発想はなかったわ！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

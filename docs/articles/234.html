@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>DataGridColumnヘッダのスタイル設定が行の設定に負ける | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>DataGridColumnヘッダのスタイル設定が行の設定に負ける</h1>
+        <p>2008年1月8日</p>
+      </section>
+      <section>
+        <div>
+Flex2/ActionScript3のDataGridColumnに対するスタイル設定でイマイチな挙動が
+</div>
+<div>
+これは、期待通りに指定列のヘッダが中央寄せになる</p>
+<pre>
+var hs:CSSStyleDeclaration = new CSSStyleDeclaration;
+hs.setStyle("textAlign", "center");
+dataGridColumn.setStyle("headerStyleName", hs);
+</pre>
+<p>おーしおーし、じゃあ↓のようにしたいのでデータ行は右寄せにしよう</p>
+<pre>
+----------
+|  金額  | <- 中央寄せ
+----------
+|   1,000| <-
+|       0| <- 右寄せ
+|  10,000| <-
+----------
+</pre>
+<p>ということで、こう書く</p>
+<pre>
+var hs:CSSStyleDeclaration = new CSSStyleDeclaration;
+hs.setStyle("textAlign", "center");
+dataGridColumn.setStyle("headerStyleName", hs);
+dataGridColumn.setStyle("textAlign", "right");
+</pre>
+<p>すると、こうなっちまう</p>
+<pre>
+----------
+|    金額| <- 右寄せ
+----------
+|   1,000| <-
+|       0| <- 右寄せ
+|  10,000| <-
+----------
+</pre>
+<p>んだよもおおおおおおお
+</p></div>
+<div>
+DataGridColumnじゃなくてDataGridに対するスタイル設定の場合は<br />
+ちゃんとヘッダの設定が勝ってくれるので、これはいただけない。</p>
+<p>headerRendererの仕様と組み合わせるとできるらしいけど・・・もういいや
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

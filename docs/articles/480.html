@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>tritonn-1.0.12-mysql-5.0.87 のインストール失敗 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>tritonn-1.0.12-mysql-5.0.87 のインストール失敗</h1>
+        <p>2010年10月29日</p>
+      </section>
+      <section>
+        <div>
+こんな環境↓</p>
+<ul>
+<li>VPSのレンタルサーバ</li>
+<li>64bitのCPU</li>
+<li>CentOS-5</li>
+</ul>
+<p>に、 tritonn-1.0.12-mysql-5.0.87 を<br />
+ソースからビルドしてインストールしようとしたら失敗しました。
+</div>
+<h3>エラー出力</h3>
+<div>
+configure は通って、make で下のエラーが出る。</p>
+<pre>
+make[2]: Entering directory `/usr/local/src/tritonn-1.0.12-mysql-5.0.87/sql&#039;
+d --debug --verbose sql_yacc.yy
+make[2]: d: Command not found
+make[2]: [sql_yacc.cc] Error 127 (ignored)
+if test -f y.tab.h; then \
+to=`echo &quot;sql_yacc_H&quot; | sed \
+-e &#039;y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/&#039; \
+-e &#039;s/[^ABCDEFGHIJKLMNOPQRSTUVWXYZ]/_/g&#039;`; \
+sed -e &quot;/^#/!b&quot; -e &quot;s/Y_TAB_H/$to/g&quot; -e &quot;s|y\.tab\.h|sql_yacc.h|&quot; \
+y.tab.h &gt;sql_yacc.ht; \
+rm -f y.tab.h; \
+if cmp -s sql_yacc.ht sql_yacc.h; then \
+rm -f sql_yacc.ht ;\
+else \
+mv sql_yacc.ht sql_yacc.h; \
+fi; \
+fi
+if test -f y.output; then \
+mv y.output sql_yacc.output; \
+fi
+sed &#039;/^#/ s|y\.tab\.c|sql_yacc.cc|&#039; y.tab.c &gt;sql_yacc.cct &amp;&amp; mv sql_yacc.cct  sql_yacc.cc
+sed: can&#039;t read y.tab.c: No such file or directory
+make[2]: *** [sql_yacc.cc] Error 2
+make[2]: Leaving directory `/usr/local/src/tritonn-1.0.12-mysql-5.0.87/sql&#039;
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/usr/local/src/tritonn-1.0.12-mysql-5.0.87&#039;
+make: *** [all] Error 2
+</pre>
+</div>
+<h3>解決方法（下記の追記欄を最初に参照）</h3>
+<div>
+1時間位、エラー文言でググってみたけとわかりませんでした。<br />
+諦めて、tritonn-1.0.12-mysql-5.0.67 にバージョンを落としたら、問題なくインストール出来ました。</p>
+<p>Ref) <a href="http://qwik.jp/tritonn/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://qwik.jp/tritonn/', 'Tritonn本家']);" target="_blank">Tritonn本家</a>
+</div>
+<h3>追記: bisonとflexを入れたら直りました</h3>
+<div>
+makeの前に</p>
+<pre>
+yum install bison
+yum install flex
+</pre>
+<p>をインストールしたら、tritonn-1.0.12-mysql-5.0.87 が入るようになりました。</p>
+<p>Makefileの追い方も何となく教えて貰った<br />
+・・・だからみんなmakeの勉強をし出すのか。</p>
+<p>Thank you <a href="http://izukawa.org/blog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://izukawa.org/blog/', 'HIGE']);" target="_blank">HIGE</a>!
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

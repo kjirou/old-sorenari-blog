@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] IEのsplit(Regex)は空値を消す | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] IEのsplit(Regex)は空値を消す</h1>
+        <p>2012年2月12日</p>
+      </section>
+      <section>
+        <div>
+<pre>
+// Firefox
+&gt;&gt;&gt; &#039;,&#039;.split(/,/).length //-&gt; 2
+// IE
+&gt;&gt;&gt; &#039;,&#039;.split(/,/).length //-&gt; 0 ..空文字列は削除、 /,/g 的動き
+// 全ブラウザ
+&gt;&gt;&gt; &#039;,&#039;.split(&#39;,&#39;).length //-&gt; 2
+</pre>
+<p>つまり split(正規表現) ではなくて split(文字列) にしとけというイマサラなメモ</p>
+<p>参考) <a href="http://aligach.net/diary/20060707.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://aligach.net/diary/20060707.html', '正規表現で文字列を split すると、できた配列から空の要素が消える']);" target="_blank">正規表現で文字列を split すると、できた配列から空の要素が消える</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

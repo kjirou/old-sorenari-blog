@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>「会社名」と「会社の種類」のリアル仕様 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>「会社名」と「会社の種類」のリアル仕様</h1>
+        <p>2009年8月19日</p>
+      </section>
+      <section>
+        <div>
+「会社名」をスキーマに落とそうとしたときに、<br />
+&#8220;株式会社&#8221;とか&#8221;有限会社&#8221;という「会社の種類」というものを、どう扱うべきなのか？<br />
+・・・という辺りをちゃんと調べてみました。</p>
+<p>最初にお断りすると、普通は &#8220;株式会社ほんにゃら商事&#8221; のように<br />
+まんまを文字列で持ってしまっても別段不具合は無いし、検索などを考えると逆に便利だと思います。<br />
+少々特殊な事情があったため、ちゃんとしてみたという経緯があります。
+</div>
+<p></p>
+<div>
+<b>【会社法】</b><br />
+まず、「正しさ」というのをどこに求めるのか？ということですが、<br />
+探してみると、「会社法」という法律が大元になり、関連する法律や判例などが根拠になりそうです。</p>
+<p>関連リンク） ※とりあえず読まなくても良いです<br />
+<a href="http://ja.wikipedia.org/wiki/%E4%BC%9A%E7%A4%BE%E6%B3%95" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E4%BC%9A%E7%A4%BE%E6%B3%95', 'Wikipedia &#8211; 会社法']);" target="_blank">Wikipedia &#8211; 会社法</a><br />
+<a href="http://ja.wikipedia.org/wiki/%E5%95%86%E5%8F%B7" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E5%95%86%E5%8F%B7', 'Wikipedia &#8211; 商号']);" target="_blank">Wikipedia &#8211; 商号</a><br />
+<a href="http://ja.wikipedia.org/wiki/%E7%89%B9%E4%BE%8B%E6%9C%89%E9%99%90%E4%BC%9A%E7%A4%BE" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E7%89%B9%E4%BE%8B%E6%9C%89%E9%99%90%E4%BC%9A%E7%A4%BE', 'Wikipedia &#8211; 特例有限会社']);" target="_blank">Wikipedia &#8211; 特例有限会社</a><br />
+<a href="http://www.info-kigyou.com/k6.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.info-kigyou.com/k6.html', '会社法 第6条（商号）']);" target="_blank">会社法 第6条（商号）</a><br />
+<a href="http://www.info-kigyou.com/k7.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.info-kigyou.com/k7.html', '会社法 第7条（会社と誤認させる名称等の使用の禁止）']);" target="_blank">会社法 第7条（会社と誤認させる名称等の使用の禁止）</a><br />
+<a href="http://law.e-gov.go.jp/announce/H17HO087.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://law.e-gov.go.jp/announce/H17HO087.html', '会社法の施行に伴う関係法律の整備等に関する法律']);" target="_blank">会社法の施行に伴う関係法律の整備等に関する法律</a></p>
+<p>
+<b>【ポイント】</b><br />
+参考リンクからポイントとまとめると以下になります。</p>
+<p>a) 「会社名」「社名」というのは社会通念上の概念で、つまりは法律に根拠のないもの。<br />
+b) 法律上、「会社名」に似た概念に「商号」というものがあり、それは「会社の種類が必ず含まれる会社名」のようなもの。<br />
+例えば、「商号」 が 「株式会社ほんにゃら商事」なら、「会社の種類」は 「株式会社」となる。<br />
+c) 会社の種類は、法人であれば必ず商号に含まれ、かつ、前か後（= /(^株式会社|株式会社$)/）につく。<br />
+d) 「会社の種類」には、「株式会社」「有限会社」「合資会社」「合名会社」「合同会社」がある。</p>
+<p>
+<b>【会社の種類】</b><br />
+便宜上「会社の種類」と読んでいますが、定義されてはおらず、自分が勝手にそう呼んでいるだけです。<br />
+ただ、<a href="http://www.info-kigyou.com/k6.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.info-kigyou.com/k6.html', '会社法 第6条（商号）']);" target="_blank">会社法 第6条（商号）</a>を読むとそう呼ぶのが妥当かなと思いました。</p>
+<p>
+<b>【Djangoモデル化】</b><br />
+上記ポイントを元にDjangoのModel化をしてみました</p>
+<pre>
+class Company(models.Model):
+COMPANY_TYPE_CHOICES = (
+(1000, u'株式会社'),
+(2000, u'有限会社'),
+(3000, u'合資会社'),
+(4000, u'合名会社'),
+(5000, u'合同会社'),
+)
+COMPANY_TYPE_ALIGNMENT_CHOICES = (
+(1000, u'前'),
+(2000, u'後'),
+)
+company_type = models.IntegerField(choices=COMPANY_TYPE_CHOICES,
+blank=True, null=True, help_text=u"会社の種類")
+company_type_alignment = models.IntegerField(choices=COMPANY_TYPE_ALIGNMENT_CHOICES,
+blank=True, null=True, help_text=u"会社の種類の配置")
+name = models.CharField(max_length=255, help_text=u"いわゆる会社名")
+</pre>
+<p>※非法人の時は、company_type と company_type_alignment はNULLになる。<br />
+※商号を引くとき用に、get_company_nameみたいなメソッドを作る。</p>
+<p>
+<b>【FAQ】</b><br />
+Q)<br />
+会社法には「有限会社」の記述が無いのですが？<br />
+A)<br />
+その通りです、ある時期に会社法が更新されて有限会社を新規に作ることができなくなりました。<br />
+しかし、以前に建ててしまった有限会社は残っていて、事実上それは認められおり、<br />
+会社の種類としての「有限会社」という文字列も、<a href="http://law.e-gov.go.jp/announce/H17HO087.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://law.e-gov.go.jp/announce/H17HO087.html', '会社法の施行に伴う関係法律の整備等に関する法律 第3条']);" target="_blank">会社法の施行に伴う関係法律の整備等に関する法律 第3条</a> の辺りで決まっています。</p>
+<p>Q)<br />
+「株式会社株式会社」とか「株式会社有限会社」みたいな商号は存在するの？<br />
+A)<br />
+<a href="http://www.info-kigyou.com/k7.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.info-kigyou.com/k7.html', '会社法 第7条']);" target="_blank">会社法 第7条</a> にダメだと書いているっぽいです。<br />
+（※6条2項と誤記していたのを7条に修正しました）</p>
+<p>Q)<br />
+会社の種類を前と後のどちらかにつけろ・・・ってのはどこで決まってるの？<br />
+A)<br />
+どこで決まってるんでしょうね？ 見つかりませんでした・・・。<br />
+（※ 09/09/01追記、<a href="http://www.e-gyosei.com/ruijisyougou1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.e-gyosei.com/ruijisyougou1.html', 'ココ']);" target="_blank">ココ</a>とか<a href="http://osaka.ii-support.jp/base/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://osaka.ii-support.jp/base/', 'ココ']);" target="_blank">ココ</a>とかを読むと、どうも中間も許されているようです・・・。なので、<b>上記のDjangoのスキーマは正確ではない</b>ということに！）
+</div>
+<p></p>
+<div>
+社内勉強会のネタにしようと思って調べてみたら、思ったより嫌じゃなかった。</p>
+<p>リアルな事象（とは言っても「法律」として既に加工済みだけど）をモデル化するのは、<br />
+プログラミングそのものより好きかもしれない。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

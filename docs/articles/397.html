@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>tarのexcludeオプションを知った夜 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>tarのexcludeオプションを知った夜</h1>
+        <p>2009年2月6日</p>
+      </section>
+      <section>
+        <div>
+例えば、.svnディレクトリを除いて固めたい時とかに</p>
+<pre>
+tar zcvf filename.tar.gz ./dirname --exclude ".svn"
+</pre>
+<p>こう書けることを知った。</p>
+<p>一回調べて無かった気がしてたんですが、もろでした。<br />
+本当に昔の記憶はアテにならんす。
+</div>
+<p></p>
+<div>
+参考リンク<br />
+<a href="http://www.linux.or.jp/JM/html/GNU_tar/man1/tar.1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.linux.or.jp/JM/html/GNU_tar/man1/tar.1.html', 'http://www.linux.or.jp/JM/html/GNU_tar/man1/tar.1.html']);" >http://www.linux.or.jp/JM/html/GNU_tar/man1/tar.1.html</a>
+</div>
+<p></p>
+<div>
+<b>【追記】</b></p>
+<p>grepも&#8211;exclude-dirというので.svnを弾けるというコメントをいただいたけど<br />
+自分のメイン開発環境（CentOS-5.0）では出来なかったので、代替方法を・・・</p>
+<pre>
+grep -r --exclude="*svn-base*" "pattern" .
+</pre>
+<p>これでほぼ弾けます。</p>
+<p>・・・書くのがかったるいですけどね！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

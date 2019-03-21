@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>bundleコマンドでCould not find bundlerエラー | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>bundleコマンドでCould not find bundlerエラー</h1>
+        <p>2012年12月7日</p>
+      </section>
+      <section>
+        <div>
+Bundlerは、前にRedmineを入れる際に使った時は動いていたのですが<br />
+今回Jasmineを入れようと使ったら以下のようなエラーが出てきてしまい・・・</p>
+<pre>
+$ bundle init
+/usr/lib/ruby/site_ruby/1.8/rubygems/dependency.rb:247:in `to_specs&#039;: Could not find bundler (&gt;= 0) amongst [a
+ddressable-2.3.2, childprocess-0.3.6, chunky_png-1.2.6, compass-0.12.2, diff-lcs-1.1.3, ffi-1.2.0, fssm-0.2.9,
+ jasmine-1.3.1, jasmine-core-1.3.1, json-1.7.5, libwebsocket-0.1.7.1, multi_json-1.4.0, rack-1.4.1, rake-10.0.
+2, rspec-2.12.0, rspec-core-2.12.1, rspec-expectations-2.12.0, rspec-mocks-2.12.0, rubyzip-0.9.9, sass-3.2.3,
+selenium-webdriver-2.26.0, websocket-1.0.4] (Gem::LoadError)
+        from /usr/lib/ruby/site_ruby/1.8/rubygems/dependency.rb:256:in `to_spec&#039;
+        from /usr/lib/ruby/site_ruby/1.8/rubygems.rb:1231:in `gem&#039;
+        from /usr/bin/bundle:18
+</pre>
+<p>途方に暮れてアレコレしていました</p>
+<p>そして結局は、もう一度</p>
+<pre>
+# gem install bundler
+</pre>
+<p>をしたら、直ったという話です</p>
+<p>環境は、さくらVPSのCentOS6のyumで入るrubyです
+</p></div>
+<h3>不明点</h3>
+<div>
+ググると、この記事のように<br />
+<a href="http://stackoverflow.com/questions/6166081/could-not-find-bundler-error" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://stackoverflow.com/questions/6166081/could-not-find-bundler-error', '“Could not find bundler” error']);" target="_blank">“Could not find bundler” error</a></p>
+<p>「インストールしているなら bundle update で直るんじゃない？ HAHA」</p>
+<p>という回答はみつかったのですが<br />
+再度 gem install しろってのは見つかりませんでした<br />
+（ちなみに bundle update を打つと、init と同じエラーが出て動かなかった）</p>
+<p>まぁ、わからないけどいいやってことで。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

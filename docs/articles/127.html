@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>サイ本を読んでいる(2) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>サイ本を読んでいる(2)</h1>
+        <p>2007年9月11日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/09/1_1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/09/1_1.html', 'サイ本を読んでいる(1)']);" >サイ本を読んでいる(1)</a>の続き</p>
+<p>今回は、7章～11章を読みました。
+</p></div>
+<div>
+<b>【argumentsと引数の関係】</b><br />
+argumentsの中身を操作すると引数の内容が変わる。逆もまた然り。</p>
+<pre>
+var f = function(x, y){
+alert(x);            // -> "X"
+alert(y);            // -> "Y"
+arguments[0] = null;
+alert(x);            // -> null
+alert(arguments[1]); // -> "Y"
+};
+f("X", "Y");
+</pre>
+</div>
+<div>
+<b>【arguments.callee.length】</b><br />
+関数宣言時の引数の数を取れるプロパティ</p>
+<pre>
+// 渡している引数の数は2個、関数宣言時の引数の数は3個
+var f = function(x, y, z){
+alert(arguments.callee.length); // -> 3
+};
+f(1, 2);
+</pre>
+</div>
+<div>
+<b>【カリー化】</b><br />
+<a href="http://kjirou.sakura.ne.jp/mt/2007/09/post_53.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/09/post_53.html', 'この記事']);" >この記事</a>参照
+</div>
+<div>
+<b>【循環参照によるIEのメモリリークについての小話】</b><br />
+IEのガーベッジコレクションは「各オブジェクトが参照カウントを持ち、それが0になると行われる。」というロジックなので、循環参照をすると参照カウントが0にならないのでメモリリークが起きる。<br />
+・・・という小話がありました。へー。<br />
+「へー」以上に何かを知りたい人は、<a href="http://msdn.microsoft.com/library/en-us/IETechCol/dnwebgen/ie_leak_patterns.asp" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://msdn.microsoft.com/library/en-us/IETechCol/dnwebgen/ie_leak_patterns.asp', 'このページを見ろ']);" >このページを見ろ</a>（英語）だと。
+</div>
+<div>
+<b>【正規表現リテラル】</b></p>
+<pre>
+var pattern = /end$/;
+alert("the end".match(pattern)); // -> "end"
+</pre>
+<p>Rubyに似てる
+</p></div>
+<div>
+以上です。</p>
+<p>ネタが微妙なのは<br />
+読みつかれて飽きてきたので、興味を引く内容以外のコードはほとんど読まなくなったのと、内容自体は良くても、既に調べ済みの内容が多かったということです。
+</div>
+<div>
+<b>【各章別の感想】</b></p>
+<ul>
+<li>7章 &#8211; オブジェクトと配列・・・特に興味を引くものがなかった。</li>
+<li>8章 &#8211; 関数・・・クロージャの説明がありました。調べ済み内容多し。</li>
+<li>9章 &#8211; クラスとコンストラクタとプロトタイプ・・・継承とかmix-inについての話もあった。個人的にはサンプルコードのクラス・関数が全く欲しくなくて、頑張って読む気になれなかった。調べ済み内容多し。</li>
+<li>10章 &#8211; モジュールと名前空間・・・名前空間を如何に管理するとみんなが幸せになれるのかの話。特に興味が無いので読み飛ばした。</li>
+<li>11章 &#8211; 正規表現パターンマッチング・・・javascriptというよりは単なる正規表現の話。読み飛ばした。</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

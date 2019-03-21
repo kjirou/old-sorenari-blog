@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>シェルスクリプトでLinuxとMacを条件分岐 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>シェルスクリプトでLinuxとMacを条件分岐</h1>
+        <p>2012年12月30日</p>
+      </section>
+      <section>
+        <div>
+環境別の処理をする方法です</p>
+<pre><code>if [ `uname` = 'Darwin' ]; then
+    echo 'Mac'
+elif [ `uname` = 'Linux' ]; then
+    echo 'Linux'
+fi</code></pre>
+<p>とりあえずは動いていますが、根本的に正しいのかは不明です
+</p></div>
+<h3>xargs &#8211;no-run-if-empty がMacには無い</h3>
+<div>
+ちなみに、どんなときに上記の場合分けを使ったのかというと、<br />
+xargs の &#8211;no-run-if-empty オプションがLinux環境にしか無いので、<br />
+その際に使いました</p>
+<p>Macのxargsはデフォルトでそれが付いている挙動になっています<br />
+つまり、空文字列が渡された場合は実行されません
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

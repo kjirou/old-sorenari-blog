@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[BulkLoader] getXMLは.xmlのリクエスト以外を例外で返す | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[BulkLoader] getXMLは.xmlのリクエスト以外を例外で返す</h1>
+        <p>2008年2月26日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3ライブラリの<a href="http://code.google.com/p/bulk-loader/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://code.google.com/p/bulk-loader/', 'BulkLoader']);" >BulkLoader</a>で微妙にハマった。</p>
+<p>loader変数はBulkLoaderインスタンスとします</p>
+<pre>
+// addで末尾が .xml  じゃないURLを設定
+loader.add("/url/to/foo", {id: "foo_xml"});
+</pre>
+<p>で、BulkLoader.COMPLETE イベントハンドラ内</p>
+<pre>
+var xml:XML = loader.getXML("foo_xml");
+</pre>
+<p>こう値を取ろうとすると、以下の例外が発生する</p>
+<pre>
+[BulkLoader] Failed to get content with url: 'foo_xml'as type: [class XML]
+</pre>
+<p>どうやら、BulkLoader#getXML() で値を取得しようとすると、<br />
+URLの末尾が .xml で放ったリクエスト以外は例外になるっぽい。
+</div>
+<div>
+対処法は、getContentを使うこと</p>
+<pre>
+var xml:XML = new XML(loader.getContent("foo_xml"))
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

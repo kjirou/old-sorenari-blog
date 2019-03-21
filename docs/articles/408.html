@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MySQL] -h localhost.localdomain の方を認識するのは？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MySQL] -h localhost.localdomain の方を認識するのは？</h1>
+        <p>2009年3月10日</p>
+      </section>
+      <section>
+        <div>
+もうわかんね、降参・・・というところで記事にしてsaveする。</p>
+<p>誰かに聞こうという、固い意志の表れでもある。
+</div>
+<p></p>
+<div>
+TCP/IP通信でmysqlインタラクティブシェルを立ち上げる時に</p>
+<pre>
+$mysql -h127.0.0.1 --port=...
+</pre>
+<p>と</p>
+<pre>
+$mysql -hlocalhost.localdomain --port=...
+</pre>
+<p>は、有効なんですが</p>
+<pre>
+$mysql -hlocalhost --port=...
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+</pre>
+<p>と、localhost指定の場合に弾かれてしまいます。</p>
+<p>その他の情報として、</p>
+<p>1. OSはCentOS-5系<br />
+2. MySQL権限状況</p>
+<pre>
+mysql&gt; SELECT Host,User FROM mysql.user;
++------------+------+
+| Host       | User |
++------------+------+
+| 127.0.0.1  | root |
+| kjirou.net |      |
+| kjirou.net | root |
+| localhost  |      |
+| localhost  | root |
++------------+------+
+5 rows in set (0.00 sec)
+</pre>
+<p>3. /etc/hosts の localhost行は以下の通り</p>
+<pre>
+127.0.0.1 localhost.localdomain localhost
+</pre>
+<p>
+別にいいっちゃいいんですけど、なんでなんだろうなぁ と。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>removeChildしてもremoveEventListenerされない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>removeChildしてもremoveEventListenerされない</h1>
+        <p>2007年11月1日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3で、ある要素をremoveChildしても、要素に対して付されたイベントは削除されないということを知った。
+</div>
+<div>
+[<a href="http://kjirou.net/main/sample/flash/test/event_remains/index.html">サンプル</a>] [<a href="http://kjirou.net/main/sample/flash/test/event_remains/">サンプルのソース</a>]</p>
+<ul>
+<li>50と出力された時点で要素が消えますが、イベントは消えていません。</li>
+<li>100と出力された時に、イベントが消されます。</li>
+</ul>
+</div>
+<div>
+もしかしたら、要素に対するイベント＆イベントハンドラが残っているということで、要素全体もメモリに残ったままになるかもしれない。（未調査）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

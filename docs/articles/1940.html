@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>aptitude install mysql-server が失敗した件 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>aptitude install mysql-server が失敗した件</h1>
+        <p>2013年1月8日</p>
+      </section>
+      <section>
+        <div>
+Ubuntu 12 で表題のコマンドを打ったら<br />
+以下のようなエラーが出ましたが..</p>
+<pre>
+$sudo aptitude install mysql-server
+以下の新規パッケージがインストールされます:
+  libdbd-mysql-perl{a} libmysqlclient18{a} mysql-client-5.5{a}
+mysql-client-core-5.5{a} mysql-common{a}
+  mysql-server mysql-server-5.5{a} mysql-server-core-5.5{a}
+0 個のパッケージを更新、 8 個を新たにインストール、 0 個を削除予定、0 個が更新されていない。
+アーカイブ 26.2 M バイト中 26.1 M バイトを取得する必要があります。 展開後に 94.2 M バイトのディスク領域が新たに消費され
+ます。
+先に進みますか? [Y/n/?] Y
+Err http://jp.archive.ubuntu.com/ubuntu/ quantal-updates/main
+mysql-common all 5.5.28-0ubuntu0.12.10.1
+  404  Not Found
+Err http://security.ubuntu.com/ubuntu/ quantal-security/main
+mysql-common all 5.5.28-0ubuntu0.12.10.1
+  404  Not Found [IP: 91.189.92.200 80]
+Err http://security.ubuntu.com/ubuntu/ quantal-security/main
+libmysqlclient18 amd64 5.5.28-0ubuntu0.12.10.1
+  404  Not Found [IP: 91.189.92.200 80]
+Err http://security.ubuntu.com/ubuntu/ quantal-security/main
+mysql-client-core-5.5 amd64 5.5.28-0ubuntu0.12.10.1
+  404  Not Found [IP: 91.189.92.200 80]
+Err http://security.ubuntu.com/ubuntu/ quantal-security/main
+mysql-client-5.5 amd64 5.5.28-0ubuntu0.12.10.1
+  404  Not Found [IP: 91.189.92.200 80]
+Err http://security.ubuntu.com/ubuntu/ quantal-security/main
+mysql-server-core-5.5 amd64 5.5.28-0ubuntu0.12.10.1
+  404  Not Found [IP: 91.189.92.200 80]
+Err http://security.ubuntu.com/ubuntu/ quantal-security/main
+mysql-server-5.5 amd64 5.5.28-0ubuntu0.12.10.1
+  404  Not Found [IP: 91.189.92.200 80]
+Err http://security.ubuntu.com/ubuntu/ quantal-security/main
+mysql-server all 5.5.28-0ubuntu0.12.10.1
+  404  Not Found [IP: 91.189.92.200 80]
+0% [Working]E: http://security.ubuntu.com/ubuntu/pool/main/m/mysql-5.5/mysql-common_5.5.28-0ubuntu0.12.10.1_all.deb
+を取
+得できませんでした: 404  Not Found [IP: 91.189.92.200 80]
+</pre>
+<p>これを実行したら直りました</p>
+<pre>
+sudo aptitude update
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

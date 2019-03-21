@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] デコレータ適用順序 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] デコレータ適用順序</h1>
+        <p>2012年12月21日</p>
+      </section>
+      <section>
+        <div>
+毎度調べ直してるのでメモっとく<br />
+以下の通り、素直に<strong>上から順</strong>に反映される</p>
+<pre><code>def first(original):
+    def decorated():
+        print(&#039;first&#039;)
+        return original()
+    return decorated
+
+def second(original):
+    def decorated():
+        print(&#039;second&#039;)
+        return original()
+    return decorated
+
+
+@first
+@second
+def execute():
+    print(&#039;original&#039;)
+
+
+execute()
+#---------------
+# 1. &quot;first&quot;
+# 2. &quot;second&quot;
+# 3, &quot;original&quot;
+#---------------</code></pre>
+<p>
+このレベルの話って、ググっても一向にヒットしないんすよね
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

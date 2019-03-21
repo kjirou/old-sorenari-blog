@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Django-1.4.3で国際化対応 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Django-1.4.3で国際化対応</h1>
+        <p>2013年1月28日</p>
+      </section>
+      <section>
+        <div>
+Djangoの国際化(internationalization)対応の手順まとめ</p>
+<p>大体は、<a href="http://docs.djangoproject.jp/en/latest/topics/i18n/index.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.djangoproject.jp/en/latest/topics/i18n/index.html', 'ドキュメントに書いてある']);" target="_blank">ドキュメントに書いてある</a>っしょ？という内容なんですが、<br />
+あまり読まないでやったら自業自得で各所でハマったのでメモっときます</p>
+<p>環境は、Django-1.4.3, Python-2.7.3, Mac OSX(Mountain Lion), Homebrew
+</p></div>
+<h3>xgettextを有効にする</h3>
+<div>
+<pre>
+brew install gettext
+brew link gettext
+</pre>
+<ul>
+<li>たぶん、installは済みだと思う</li>
+<li>brew link gettext は <a href="http://gpiot.com/django-internationalization-on-osx-lion/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://gpiot.com/django-internationalization-on-osx-lion/', 'sudo 付きで行っている記事を多く見かけました']);" target="_blank">sudo 付きで行っている記事を多く見かけました</a>が、逆にそれでやったら怒られた</li>
+</ul>
+</div>
+<h3>settings.py</h3>
+<div>
+<pre><code>LANGUAGE_CODE = &#039;en-us&#039;
+
+gettext = lambda s: s
+LANGUAGES = (
+    (&#039;en&#039;, gettext(&#039;English&#039;)),
+    (&#039;ja&#039;, gettext(&#039;Japanese&#039;)),
+)
+
+LOCALE_PATHS = (
+    PROJECT_ROOT + &#039;/locale&#039;,
+)</code></pre>
+<ul>
+<li>英語をベースにして、日本語に対応するという、二カ国語対応の例です</li>
+<li>lambda の部分は、<a href="https://docs.djangoproject.com/en/dev/topics/i18n/translation/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://docs.djangoproject.com/en/dev/topics/i18n/translation/', 'ココ']);" target="_blank">ココ</a>とか、<a href="https://groups.google.com/forum/?hl=ja&#038;fromgroups=#!topic/django-ja/zu4PQyeBat8" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://groups.google.com/forum/?hl=ja&#038;fromgroups=#!topic/django-ja/zu4PQyeBat8', 'ココ']);" target="_blank">ココ</a>に書いてあるのをそのまま使いました、詳細不明スマソ</li>
+<li>PROJECT_ROOT は別途定義済みとします</li>
+</ul>
+</div>
+<h3>メッセージファイルの作成、コンパイル</h3>
+<div>
+まず、事前に一カ所で良いので <a href="http://docs.djangoproject.jp/en/latest/topics/i18n/translation.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.djangoproject.jp/en/latest/topics/i18n/translation.html', '_() や {% trans %} で、翻訳をする文言を定義']);" target="_blank">_() や {% trans %} で、翻訳をする文言を定義</a>してください<br />
+これをひとつでも行っておかないとメッセージファイルが作られませんでした</p>
+<pre>
+cd /path/to/project_root
+mkdir locale
+django-admin.py makemessages -l ja  # .poファイルを生成
+django-admin.py compilemessages  # .moファイルを生成
+
+  processing language ja
+
+tree locale  # 2ファイル作成されていることを確認
+
+  locale
+  └── ja
+      └── LC_MESSAGES
+          ├── django.mo
+          └── django.po
+</pre>
+<ul>
+<li>自分の場合、<strong>makemessages を実行したら &quot;Error: errors happened while running xgettext on xxxx.py&quot; というエラーが出ました</strong>。<br />
+これは Python ファイル１行目の文字コード指定を &quot;coding: utf8&quot; と &quot;utf8&quot; で指定していたために発生したエラーで、<strong>&quot;utf-8&quot; に修正したら直りました</strong></li>
+<li>compilemessages は、環境によっては &#8211;settings を指定しないと動かないかも</li>
+<li>少なくともDjango開発サーバを使っている場合は、.moファイル生成・変更時にはWebサーバを再起動して下さい</li>
+</ul>
+</div>
+<h3>動作確認</h3>
+<div>
+ブラウザの言語設定を日本語と英語で変えて、翻訳されたりされなかったりするのを確認します<br />
+動かなかったら、以下を確認して下さい</p>
+<ul>
+<li>HTTPリクエストヘッダの Accept-Language を確認する</li>
+<li><a href="https://groups.google.com/forum/?hl=ja&#038;fromgroups=#!topic/django-ja/zu4PQyeBat8" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://groups.google.com/forum/?hl=ja&#038;fromgroups=#!topic/django-ja/zu4PQyeBat8', 'コチラ']);" target="_blank">コチラ</a>の手順通りにデバッグ</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

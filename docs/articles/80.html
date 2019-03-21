@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Event.stopObservingをしてもゴミが残る | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Event.stopObservingをしてもゴミが残る</h1>
+        <p>2007年7月12日</p>
+      </section>
+      <section>
+        <div>
+prototype.jsのイベント追加・削除周りの話です。<br />
+バージョンは、script.acluo.us1.7.0内の1.5.0っす
+</div>
+<div>
+Event.observeでイベントを追加して、<br />
+Event.stopObservingでイベントを削除するのがprototype.jsルールなんすけど、<br />
+それでイベントを削除しても、内部のEvent.observersにゴミが残ってるということに気づいた。
+</div>
+<div>
+ユーザの操作により、イベントを上書きをするものを作ってたのですが、<br />
+どうもprototype.jsにはイベントの上書き手段がないようなので、<br />
+仕方なしに、イベント削除→追加で代替しようと思いきや、なんか釈然としない仕様。<br />
+見なきゃ良かった。
+</div>
+<div>
+ちなみに、Event.stopObservingをする際には<br />
+Event.observeの引数に入れた関数と全く同じものを引数で渡す必要があるようです。</p>
+<p>これはネイティブのelement.removeEventListenerとかelement.detachEventの仕様みたいなんですけど、何で関数を渡さないと削除できないんだろう？？
+</p></div>
+<div>
+3hハマり
+</div>
+<div>
+<b>あああああ</b><br />
+↑の件なんですけど、<b>そりゃ関数を渡さないとダメ</b>ですな</p>
+<pre>
+element.addEventListener("click", handlerA, false);
+element.addEventListener("click", handlerB, false);
+</pre>
+<p>これで、elementオブジェクトに、2つイベントを登録できるので<br />
+片方を明示的に指定したい場合は、関数を渡す以外に判断方法がないすね<br />
+<a href="http://humming.via-kitchen.com/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/weblog/', 'nobu']);" >nobu</a>氏が教えてくれた。ありがとう。</p>
+<p>ついでにIE6で</p>
+<pre>
+element.attachEvent("onclick", handlerA);
+element.attachEvent("onclick", handlerB);
+</pre>
+<p>これをやったら、複数イベントが登録できました。<br />
+&#8220;element.addEventListener(&#8220;click&#8221;, handler, false);&#8221; と、大体同じだと思っていいのかしらん。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

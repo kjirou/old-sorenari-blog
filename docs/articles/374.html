@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python, CentOS] yumのPythonと違うバージョンの方が | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python, CentOS] yumのPythonと違うバージョンの方が</h1>
+        <p>2008年11月28日</p>
+      </section>
+      <section>
+        <div>
+CentOSにPythonをソースから入れた場合に、<br />
+yumが使っている既存Pythonとの関連で色々と問題が出ております。
+</div>
+<p></p>
+<div>
+その内のひとつに、<br />
+&#8211;enable-sharedでインスコした場合に、<br />
+libpython.soを既存の/usr/lib下のものを参照してしまう、<br />
+という点がありました。</p>
+<p>この点は /etc/ld.so.conf.d 下にconfファイルを置いて<br />
+ライブラリにパスを通すという方法で対処したのですが、<br />
+そうすると、yumで使っている /usr/lib/python も<br />
+新たにインスコしたPythonも同じlibpython.soを参照してしまい、<br />
+結果として、「yumが動くが新たな方は動かない」か「新たな方は動くがyumが動かない」という<br />
+状況となってしまいました。</p>
+<p>例えば、こんな↓状況か</p>
+<pre>
+ldd /usr/bin/python
+libpython2.4.so.1.0 => /usr/lib/libpython2.4.so.1.0 (0x00385000)
+ldd /usr/local/python-2.4.5/bin/python
+libpython2.4.so.1.0 => /usr/lib/libpython2.4.so.1.0 (0x00385000)
+</pre>
+<p>こんな状況↓でありました</p>
+<pre>
+ldd /usr/bin/python
+libpython2.4.so.1.0 => /usr/local/python-2.4.5/lib/libpython2.4.so.1.0 (0x005a2000)
+ldd /usr/local/python-2.4.5/bin/python
+libpython2.4.so.1.0 => /usr/local/python-2.4.5/lib/libpython2.4.so.1.0 (0x005a2000)
+</pre>
+</div>
+<p></p>
+<div>
+解決方法としては、<br />
+新たに入れるPythonを2.5にして、既存Pythonバージョンの2.4とは違うバージョンにする<br />
+という対処をして、ライブラリのパスを通すことで解決しました。↓</p>
+<pre>
+ldd /usr/bin/python
+libpython2.4.so.1.0 => /usr/lib/libpython2.4.so.1.0 (0x00385000)
+ldd /usr/local/python-2.5.2/bin/python
+libpython2.5.so.1.0 => /usr/local/python-2.5.2/lib/libpython2.5.so.1.0 (0x005a2000)
+</pre>
+</div>
+<p></p>
+<div>
+上記は全く根本的な解決じゃないですが<br />
+サーバ周りが良くわからない俺みたいな残念な方は、とりあえずは<br />
+<b>「CentOSの場合は既存Pythonのマイナーバージョンと違うものを入れる」</b><br />
+という風にした方が、何かといいかもNE!!
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

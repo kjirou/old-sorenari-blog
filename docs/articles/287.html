@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>OpenIDを調査してた | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>OpenIDを調査してた</h1>
+        <p>2008年3月6日</p>
+      </section>
+      <section>
+        <div>
+仕事でOpenIDのことを一日中調べてた。<br />
+資料とかサンプルコードとかがちらほら出来たので、その辺に置いときます。</p>
+<p>なお、Consumerとして扱う調査しかしてなく、idPとしての調査はしてません。
+</p></div>
+<div>
+<b>【オススメ参考リンク】</b><br />
+最初にオススメ: <a href="http://www.thinkit.co.jp/free/article/0712/7/1/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.thinkit.co.jp/free/article/0712/7/1/', '第1回：2行で簡単Identifierをはじめよう']);" >第1回：2行で簡単Identifierをはじめよう</a><br />
+易しくてPHP OpenID パッケージのサンプルの解説まであって至れり尽くせり。</p>
+<p>次にオススメ: <a href="http://www.atmarkit.co.jp/fsecurity/index/index_openid.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.atmarkit.co.jp/fsecurity/index/index_openid.html', 'OpenIDの仕様と技術']);" >OpenIDの仕様と技術</a><br />
+厳密に説明している。やや難しいかも？（最後まで読んでいないので）
+</div>
+<div>
+<b>【PHP OpenIDパッケージサンプル＆ラッパクラス】</b><br />
+<a href="http://www.openidenabled.com/php-openid/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.openidenabled.com/php-openid/', 'PHP OpenID']);" >PHP OpenID</a>というPHPのPearパッケージについて、<br />
+付属のサンプル調査の過程で簡単なラッパクラスを書いた。</p>
+<p>[<a href="http://kjirou.net/main/public/api/open_id/php-openid-2.0.1/examples/consumer/index.php">付属のサンプルのデモ</a>]</p>
+<p>[<a href="http://kjirou.net/main/public/api/open_id/sample/">ラッパクラスのソースとデモ</a>]<br />
+※index.phpから実行してください。<br />
+※.srcはソース閲覧用です。使えるようなクラスじゃないですが、理解の助けになれば。
+</div>
+<div>
+<b>【発表用資料】</b><br />
+<a href="http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FOpenID" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FOpenID', 'コチラ']);" >コチラ</a><br />
+※ページが移動してたらごめんなさい
+</div>
+<div>
+使い道についての個人的な意見としては<br />
+やっぱり、セキュリティ面がボロボロなので、そこがどうにか成らない間は<br />
+真っ当なWebサービスでは使って貰えないと思いました。</p>
+<p>仮にこのまま流行っても<br />
+怪しげなWebサービス用の「捨てID」「捨てPW」「捨てメルアド」を<br />
+一元管理出来るという程度の使われ方じゃないかなぁと。</p>
+<p>ただ、特に無料サービスであれば、対応することでユーザは増えやすくなるので<br />
+使えなくも無いと思います。
+</div>
+<div>
+以上、間違った部分があったら、キッツイ口調で正していただけると、<br />
+恨みつつ感謝させていただきます。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

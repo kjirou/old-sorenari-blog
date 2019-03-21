@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Titanium MobileでiPhoneアプリをリリースした | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Titanium MobileでiPhoneアプリをリリースした</h1>
+        <p>2011年6月8日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.appcelerator.com/products/titanium-mobile-application-development/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.appcelerator.com/products/titanium-mobile-application-development/', 'Titanium Mobile']);" target="_blank">Titanium Mobile</a> で開発したiPhoneアプリを公開しました。</p>
+<p>就職活動生向けの</p>
+<p><a href="http://itunes.apple.com/jp/app/id441697249" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://itunes.apple.com/jp/app/id441697249', '学歴早見表！ES・履歴書簡単作成！「会社なび/就職活動」の就活シリーズ！']);" target="_blank">学歴早見表！ES・履歴書簡単作成！「会社なび/就職活動」の就活シリーズ！</a></p>
+<p>という、学歴早見表アプリです。
+</p></div>
+<h3>10日間で申請まで完了</h3>
+<div>
+今回、Xcode4がインストールされてるだけのMacを渡されてから<br />
+10日間でiPhoneアプリ申請までを完了することが出来ました</p>
+<p>工数の内訳は以下です。</p>
+<ul>
+<li>1日 = Macの操作がわからない、慣れない(Macで作業するのが初めて)</li>
+<li>1日 = Titanium Developerインストールと開発環境構築(zsh/vim/screen程度)</li>
+<li>1日 = アプリ設計、プログラム設計</li>
+<li>4.5日 = 実装(大半はAPIの調査)</li>
+<li>0.5日 = iPhone実機へテストアプリをインストール(若干ハマった・・・)</li>
+<li>1日 = 公開申請関連(アイコン・詳細文などのコンテンツを揃えて申請作業)</li>
+<li>1日 = 引継ぎのために手順や成果物についてのドキュメント作成</li>
+</ul>
+<p>※objective-Cは全くわからん<br />
+※JavaScriptについては、ある程度は熟練している<br />
+※iPhoneアプリのディレクション経験は有る<br />
+※Android版は・・・設計時には組み込んでましたが、時間切れでした・・・。</p>
+<p>内訳からわかるように、（超簡単なアプリだからですが）実装にはほとんど時間は掛かっていません。<br />
+かつ、実装時間の内の大半は調査時間なので、次はほぼ必要なくなるものです。
+</div>
+<h3>Titanium Mobile を選択する場合に気を付ける点</h3>
+<div>
+プログラマ向けではなく、ディレクター・PM・営業さんなどへ向けた話です。<br />
+（実装する人向けには、もっと良い記事が沢山ありますので！）</p>
+<p>第1に、<b>iPhoneアプリとして自然なUIにならない</b>こともあります。<br />
+いや、ハッキリ言うと、3日以上実装に掛かるようなアプリだとどこかしら不自然になります。<br />
+技術的な話ですが、今回のようなミニマムアプリでも Stand Alone な Window に NavBar を付けられなくて諦めたり（後でブログで発見したけど）、TabBar は不要なんだけどそれが無いと使えない機能があったりするので無理矢理付ける形にしたり、Date Picker が日本語対応してないので諦めたり、など、UIで妥協した点が何点か出てきました。</p>
+<p>第2に、<b>Titanium Mobile の開発体制が不安</b>です。<br />
+これも技術的な話ですが、デバッグプリントが動かなかったり、ビルドが何故か失敗したり（大抵もう一回ボタンを押すと直る）、クリーンビルドが必要になったり、シミュレーターが終了しなくなったりなど、今のところは影響は少ないですが、とにかく不安です。<br />
+「Xcodeを更新したらTitanium Developerも更新しないといけなくなって、そうしたら今のソースがビルドできなくなった」は充分に考えられます。</p>
+<p>第3に、<b>Android側も対応工数が必要</b>です。<br />
+「iPhone側が出来たらAndroid側もボタン押せば出来ますよ」とかエンジニアが言ってても信じてはいけません。絶対無理です。だって、マーケットへのリンクを張るだけでも条件分岐が必要になりますよ。<br />
+テスト工数についても、実機検証が必要になるため、単純にx2 する以上はコストが必要になるはずです。</p>
+<p>ということで、現状は過信は禁物で、受託案件で使うなら、少なくともUIにはうるさくないクライアントの場合に使うことをオススメします。<br />
+ここをおろそかにすると、「Titanium Mobile で頑張ったけど結局要望は実現できず、objective-C で作り直し」という最悪のシナリオになってしまうかもしれません。
+</div>
+<h3>じゃあ使えないの？</h3>
+<div>
+いいええ、<b>JavaScriptでこの短期間にiPhoneアプリが作れた</b>ってだけでも充分利用価値はあります。<br />
+一般人に理解できるUIでちゃんと動きますしね、ショボいけど。</p>
+<p>出来に不満な人は多いと思いますが、「UI勝負のアプリ」って特殊なアプリ（Twitterクライアントとかサービス自体の勝負じゃなくなってるモノとか）なので、大抵のアプリは上手く回避すれば問題無いんじゃないすかねー。</p>
+<p>少なくとも、自分がiPhoneアプリを作る場合は、まずは Titanium Mobile から検討します。
+</p></div>
+<h3>ドキュメント</h3>
+<div>
+引継ぎ用に作った資料ですが、外部公開しているのでリンクを置いておきます。</p>
+<p><a href="http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FTitanium%20Mobile" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FTitanium%20Mobile', 'Titanium Mobile 全般']);" target="_blank">Titanium Mobile 全般</a><br />
+<a href="http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FiPhone%A5%A2%A5%D7%A5%EA%BF%BD%C0%C1" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FiPhone%A5%A2%A5%D7%A5%EA%BF%BD%C0%C1', 'iPhoneアプリ申請について']);" target="_blank">iPhoneアプリ申請について</a></p>
+<p>これから申請方法を含めて学びたい って人には調度いいかも！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

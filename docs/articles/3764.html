@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Railsでブロック内の変数はどこから来ているのか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Railsでブロック内の変数はどこから来ているのか</h1>
+        <p>2013年10月28日</p>
+      </section>
+      <section>
+        <div>
+突然生じているように見えるブロック内の変数が、<br />
+どこから来ているのかを調べました。</p>
+<p>例えば、ActiveRecord のこういうコードや：</p>
+<pre>
+class Entry &lt; ActiveRecord::Base
+  scope :filter, -&gt; {
+    entries = arel_table
+    where(:id, 1)
+  }
+end
+</pre>
+<p></p>
+<p>RSpec のこういうコードで：</p>
+<pre>
+describe 'Foo' do
+  it 'Bar' do
+  end
+end
+</pre>
+<p></p>
+<p>突然出てくる where なり arel_table なり it なりは、<br />
+どこで定義されているのかということです。</p>
+<p>&quot;where&quot; って、お前こそどっから来たんだよ！
+</p></div>
+<h3>ActiveRecord の方</h3>
+<div>
+クラス定義中のスコープである self 以下にあるものでした。</p>
+<p>先の where(:id, 1) はこれらのように書いても一緒です：</p>
+<pre>
+self.where(:id, 1)
+Entry.where(:id, 1)  
+</pre>
+<p></p>
+<p>-&gt; は lambda と等価ですが、<br />
+クラス定義中に lambda を定義した場合は、<br />
+クラス定義中のスコープである（省略されている）self も含めて、<br />
+束縛したクロージャになっているんですね。</p>
+<p>だから where も arel_table も Entry クラスが元々持っている<br />
+全クラスメソッドをそのまま呼び出せるのでした。<br />
+（あ private の時はどうなるんだろ.. 今度調べる）</p>
+<p>そもそも、クラス定義中はスコープが self になるのも知らなかったんですが<br />
+それについては以下を参考にしました。<br />
+<a href="http://doc.ruby-lang.org/ja/1.9.3/doc/spec=2fdef.html#class" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://doc.ruby-lang.org/ja/1.9.3/doc/spec=2fdef.html#class', 'クラス／メソッドの定義 &#8211; クラス定義']);" target="_blank">クラス／メソッドの定義 &#8211; クラス定義</a>
+</div>
+<h3>RSpec の方</h3>
+<div>
+これは多分、ブロックの引数で渡しているんだと思いますが..</p>
+<p><a href="https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L58" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L58', 'https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L58']);" target="_blank">https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L58</a><br />
+<a href="https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L86" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L86', 'https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L86']);" target="_blank">https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/example_group.rb#L86</a></p>
+<p>詳しいことは読めていません..
+</p></div>
+<h3>メモ：スコープ内の変数・メソッドを探す方法</h3>
+<div>
+<a href="http://qiita.com/awakia/items/8ddafed7b01c109ab179" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://qiita.com/awakia/items/8ddafed7b01c109ab179', 'Ruby(Motion)でmethodsを使ってメソッド検索']);" target="_blank">Ruby(Motion)でmethodsを使ってメソッド検索</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

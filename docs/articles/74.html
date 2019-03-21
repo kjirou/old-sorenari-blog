@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>FreeBSD6.2 + Apache1.3 + PHP4.4 で php.ini を読み込まない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>FreeBSD6.2 + Apache1.3 + PHP4.4 で php.ini を読み込まない</h1>
+        <p>2007年7月2日</p>
+      </section>
+      <section>
+        <div>
+さくら専用サーバのFreeBSD6.2 に Apache1.3 と PHP4.4 をソースから入れて動かしたときに、PHPがphp.iniを読み込んでくれません。<br />
+ひたすら調査中なので、ステータスをまとめます。<br />
+<s>はじめに断っておくと、まだ解決してません。</s> <b>解決しました</b>。
+</div>
+<div>
+<b>【解決】</b><br />
+PHP4インストール時のconfigureオプションが間違ってました。</p>
+<pre>
+誤り 　 → --with-config-file-path=/usr/local/etc/php.ini
+正しい → --with-config-file-path=/usr/local/etc
+</pre>
+<p>ディレクトリのパスを指定するもので、ファイル名まで含めるとダメなようです。<br />
+こんなしょーーーーーもないことだとわ。<br />
+（でも、&#8221;file-path&#8221; って書いてあるんだから、ファイルのパスを指定すると考えるのが自然だと思うんだ、ぼかぁ）
+</div>
+<div>
+<b>↓以下、読んでも無意味です。書かなきゃ良かった。</b>
+</div>
+<div>
+<b>【前提】</b></p>
+<ul>
+<li>phpinfoの&#8221;Configuration File (php.ini) Path&#8221;の場所と合わせること。</li>
+<li>同時に別のApacheを動かしているなら全部止めること。（ps aux を見て完全に止めること）</li>
+<li>find / -name &#8220;php.ini&#8221; で探して、ルート以下にphp.iniファイルが1枚のみ存在する状態にすること。</li>
+<li>パーミッションは、php.iniが全員にr権限を持ち、所属ディレクトリが全員にrxを持つこと。</li>
+<li>php.ini変更時には、apacheを停止→起動で再起動すること。（restartより、stop→startで）</li>
+</ul>
+</div>
+<div>
+<b>【Try済みでダメ】</b></p>
+<ul>
+<li>/var/www/php.iniに置く。（<a href="http://www.php.net/manual/ja/install.unix.openbsd.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.php.net/manual/ja/install.unix.openbsd.php', 'ココ']);" >ココ</a>をみてやってみた）</li>
+<li>php.iniをphp4.iniなどの別名にする。</li>
+<li>さくら側で既にインストール済みのApache+PHPのphp.iniの場所である、/usr/local/etc/php.ini に設置する。</li>
+</ul>
+</div>
+<div>
+あまりのわからなさに<br />
+ディスプレイにバーンナックルをかましそうな勢いです。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

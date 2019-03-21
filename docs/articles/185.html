@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>シェルでループ時のデリミタを切り替えたい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>シェルでループ時のデリミタを切り替えたい</h1>
+        <p>2007年11月12日</p>
+      </section>
+      <section>
+        <div>
+ボーンシェルで、文字列をfor文に突っ込んでループするときの、分割文字の指定方法のことです。</p>
+<p>本当は改行区切りの各文字列でループさせたいのに、文字列中の半角空白とかでも分割されてループしてしまう・・・と言う状況への対処です。
+</p></div>
+<div>
+改行文字で&#8221;aaa bbb ccc&#8221; &#8220;AAA BBB CCC&#8221; &#8220;111 222 333&#8243; の文字列でループさせたいのに、&#8221;aaa&#8221; &#8220;bbb&#8221; &#8220;ccc&#8221; &#8230; でループしてしまう例。</p>
+<pre>
+#!/bin/sh
+SUBJECT="aaa bbb ccc
+AAA BBB CCC
+111 222 333"
+for i in $SUBJECT
+do
+echo "----"
+echo $i
+done
+</pre>
+<p>出力</p>
+<pre>
+----
+aaa
+----
+bbb
+----
+ccc
+----
+AAA
+----
+BBB
+----
+CCC
+----
+111
+----
+222
+----
+333
+</pre>
+<p>9回回ってしまいます。<br />
+なお、&#8221;$SUBJECT&#8221; という記述でfor文に入れると、逆に1回しかループしません。
+</div>
+<div>
+対処法</p>
+<pre>
+#!/bin/sh
+ORG_IFS=$IFS
+MOD_IFS="
+"
+SUBJECT="aaa bbb ccc
+AAA BBB CCC
+111 222 333"
+IFS=$MOD_IFS
+for i in $SUBJECT
+do
+IFS=$ORG_IFS
+echo "----"
+echo $i
+IFS=$MOD_IFS
+done
+IFS=$ORG_IFS
+</pre>
+<p>出力</p>
+<pre>
+----
+aaa bbb ccc
+----
+AAA BBB CCC
+----
+111 222 333
+</pre>
+<p>OK-
+</p></div>
+<div>
+ボーンシェルには$IFSという環境変数があって、これがfor文に渡す文字列のデリミタとして使用されます。<br />
+ので、それをfor文実行前に変えてやれば良いということです。<br />
+上記例で、ORG_IFSにこまめに戻しているのは、for文の中でまたfor文を使うとき用の対処です、必須じゃないっす。
+</div>
+<div>
+参考: <a href="http://www.tsden.org/takamiti/shText/shText030.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.tsden.org/takamiti/shText/shText030.html', 'http://www.tsden.org/takamiti/shText/shText030.html']);" >http://www.tsden.org/takamiti/shText/shText030.html</a> (&#8220;IFS&#8221;でページ内検索をしてください)
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

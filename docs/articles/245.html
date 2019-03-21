@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JS] 無名関数にInterfaceを持たせる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JS] 無名関数にInterfaceを持たせる</h1>
+        <p>2008年1月17日</p>
+      </section>
+      <section>
+        <div>
+久々にJavaScript！</p>
+<p>無名関数の引数の型にInterfaceを持たせられる<br />
+Functionオブジェクトのインスタンスメソッドを書いてみました。
+</div>
+<div>
+なんでいきなり？なのかというと、<br />
+<a href="http://kjirou.sakura.ne.jp/mt/2008/01/colin_moock.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/01/colin_moock.html', 'Colin Moock会']);" >Colin Moock会</a>でECMAScript4で、以下のように各種変数の型を宣言できる<br />
+typeキーワードが設定される予定という話を聞きまして</p>
+<pre>
+type var foo = [int]; // 要素の値をint型に決める
+</pre>
+<p>確かに、引数として関数を渡すときや、複雑なデータ構造のハッシュとかは<br />
+型指定が出来る構文は欲しいなー、ということに気付いたので。</p>
+<p>じゃあ、現仕様でも出来るところまでやろうと、<br />
+とりあえずは無名関数にInterfaceを持たせてみようと思いました。
+</div>
+<div>
+前置きが長くなりましたが、簡単に書くとこんな感じ</p>
+<pre>
+Function.prototype.bindInterface = function(){
+var types = arguments;
+var self = this;
+return function(){
+for (var i = 0; i < types.length; i++)
+if (typeof arguments[i] !== types[i]) throw "argument type error.";
+return self.apply(this, arguments);
+};
+};
+</pre>
+<p>こんな風に使う</p>
+<pre>
+var foo = function(a, b){
+alert(a);
+alert(b);
+};
+var f = foo.bindInterface("string", "number");
+f("a", 2); // -> "a", 2
+f(1, 2); // -> エラー
+f("a", "b"); // -> エラー
+</pre>
+<p>arrayとかnullとかundefinedとかNaNとかInfinityとかに対応したり<br />
+"string"はnullとundefinedを許容するけど、"string!"は許容しない（E4パクり）とか<br />
+そういう風にしたら、使えなくもないんじゃないでしょうか？
+</div>
+<div>
+後、arguments って、ダイナミック・スコープの変数だったんだということをはじめて認識した。<br />
+うーん、知らないことだらけだなぁ・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

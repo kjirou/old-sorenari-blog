@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHP4の値渡しと参照渡しについて今一度 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHP4の値渡しと参照渡しについて今一度</h1>
+        <p>2007年8月10日</p>
+      </section>
+      <section>
+        <div>
+既に関東破滅地帯並みに荒んでいるPHP4についてですけど<br />
+変数代入時の値渡しと参照渡し（リファレンス）について、ちょっと疑問が沸いたので調べました。
+</div>
+<div>
+としたら、とても良い<a href="http://www.glamenv-septzen.net/pukiwiki/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.glamenv-septzen.net/pukiwiki/', '参考サイト']);" >参考サイト</a>があったので<br />
+基本的には<a href="http://www.glamenv-septzen.net/pukiwiki/index.php?PHP%2F%BB%B2%BE%C8" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.glamenv-septzen.net/pukiwiki/index.php?PHP%2F%BB%B2%BE%C8', 'そのページ']);" >そのページ</a>を見てもらいつつ、自分用に下に必要なとこだけをメモります。
+</div>
+<div>
+<a href="http://photozou.jp/photo/show/135065/4282992" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/4282992', '']);" ><img src="http://art6.photozou.jp/pub/65/135065/photo/4282992.jpg" alt="php_symbol_table" width="346" height="450" style="border:0" /></a><br /><a href="http://photozou.jp/photo/show/135065/4282992" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/4282992', 'php_symbol_table']);" >php_symbol_table</a> posted by <a href="http://photozou.jp/mypage/top/135065" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/mypage/top/135065', '(C)kjirou']);" >(C)kjirou</a><br />
+↑画像を クリック→フォト蔵に移動→再度クリック すると大きく見れます。
+</div>
+<div>
+<ul>
+<li>
+1をもし</p>
+<pre>
+$a = 1;
+$b = 1;
+$c = 1;
+</pre>
+<p>と書くと、[シンボル]-[変数名] のセットが3つ出来る（多分ですが）。<br />
+つまり、その分メモリの無駄使いになる（はず）。
+</li>
+<li>2は
+<pre>$a = &$b;</pre>
+<p>と書いても全く同じ意味になります。</li>
+<li>2の後に
+<pre>unset($a);</pre>
+<p>をしても、シンボルまでは消えません。<br />
+つまり[シンボル]-[$b]のセットは残ります。
+</li>
+<li>3は、上記参考サイトには書いてありませんが、多分こうなるんじゃないかなぁという予測です。</li>
+</ul>
+</div>
+<div>
+後は</p>
+<pre>
+$obj = new Foo;
+$obj =& new Foo;
+</pre>
+<p>基本的には↓を使うべしというのが、大事だとおもつた<br />
+（↑だと、new Foo; で1つ、$obj = で1つ、計2つのシンボルが作られるとのこと）
+</div>
+<div>
+突っ込みとか批判とか大歓迎です。<br />
+よろしくお願いしまーす。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>parryというバリデーションモジュールを作った | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>parryというバリデーションモジュールを作った</h1>
+        <p>2015年3月8日</p>
+      </section>
+      <section>
+        <div>
+Node.js と browserify 経由でブラウザ使用ができる、Isomophic なバリデーションモジュールを作成しました。</p>
+<p>parry:<br />
+<a href="https://github.com/kjirou/parry" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/parry', 'https://github.com/kjirou/parry']);" target="_blank">https://github.com/kjirou/parry</a>
+</div>
+<h3>Usage</h3>
+<div>
+こんな風に使います。</p>
+<p>Field をクラスっぽく定義して、<br />
+それを結合して Form をクラスっぽく定義して、<br />
+そして (new Form()).validate(inputs, callback) という感じです</p>
+<p>Field.type で指定できる組み込みバリデーションは、<a href="https://github.com/chriso/validator.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/chriso/validator.js']);" target="_blank">validator.js</a> のものです。</p>
+<pre>
+var Field = require(&#039;parry&#039;).Field;
+var Form = require(&#039;parry&#039;).Form;
+
+var UsernameField = Field.extend()
+  .type(&#039;matches&#039;, /[-_a-z0-9]/i)
+  .type(&#039;isLength&#039;, [4, 16])
+;
+var PasswordField = Field.extend()
+  .type(&#039;isAlphanumeric&#039;)
+  .type(&#039;isLength&#039;, [8, 16])
+;
+var GenderField = Field.extend({ passIfEmpty: true })
+  .type(&#039;isIn&#039;, [&#039;male&#039;, &#039;female&#039;])
+;
+
+var UserForm = Form.extend()
+  .field(&#039;username&#039;, UsernameField)
+  .field(&#039;password&#039;, PasswordField)
+  .field(&#039;gender&#039;, GenderField)
+;
+
+// Validate inputs
+var inputs = {
+  username: &#039;my-username@&#039;,
+  password: &#039;abcd123&#039;,
+  gender: &#039;man&#039;
+};
+var userForm = new UserForm(inputs);
+userForm.validate(function(err, validationResult) {
+  console.log(validationResult);
+  // -&gt; {
+  //   isValid: false,
+  //   errors: {
+  //     username: [ &#039;Not matched&#039; ],
+  //     password: [ &#039;String is not in range&#039; ],
+  //     gender: [ &#039;Unexpected value&#039; ]
+  //   },
+  //   reporter: { ErrorReporter instance }
+  // }
+});
+</pre>
+</div>
+<h3>趣旨と特徴</h3>
+<div>
+同じ値に対するバリデーションルールが散在する問題に対応したかった、というのが元々の趣旨です。</p>
+<p>&#8211; browserify を使えばブラウザでも使え、サーバーとクライアントで同じバリデーションが実行できます。<br />
+&#8211; 非同期処理に対応しています。というより callback or promise による非同期制御しかありません。<br />
+&#8211; 定義した Field の再利用が可能です。<br />
+&#8211; Form も Fieldも継承して修正することができます。<br />
+&#8211; 組み込みの型がない場合は、自分で定義できます。
+</p></div>
+<h3>本当の趣旨とポエム</h3>
+<div>
+実装者のバリデーションがずさんで、DBが壊れて、特定の責任感ある人が調査・復旧に消耗する、というパターンを最近色々な職場でみてしまい、その際のイラッとしたパワーで作成しました。</p>
+<p>これで評価を受けるのが実装者だったりすると第三者ながら心が荒むんですが、幸いにもあからさまなそういうケースはまだ見たことが無いです。</p>
+<p>なお、実際の案件で使ってないので、ドックフーディングはほぼしていません。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

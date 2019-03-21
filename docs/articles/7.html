@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>JSのevalが釈然としない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>JSのevalが釈然としない</h1>
+        <p>2007年4月12日</p>
+      </section>
+      <section>
+        <div>
+javascriptの話。
+</div>
+<div>
+何故に</p>
+<pre><code>eval('1+1');</code></pre>
+<p>とか</p>
+<pre><code>eval('parseInt("12345px")');</code></pre>
+<p>は期待したとおりに動くのに</p>
+<pre><code>eval('{"name":"kjirou","battlePoint":2}');</code></pre>
+<p>は構文エラーになるんだろ？（ちなみに、&#8221;(&#8221; と &#8220;)&#8221;で括れば動く）
+</p></div>
+<div>
+文法の基本的な部分が抜けているのか、<br />
+はたまた考えてるぐらいなら寝たほうがいいような話なんだろうか。<br />
+ワカンネッスネ
+</div>
+<div>
+それにしても仕事で聞かれたときに<br />
+「evalは四則演算しか解釈しないはずだ」とか答えちゃったなーっと</p>
+<p>まぁいいか、念波でごめんなさい
+</div>
+<div>
+書き終わった瞬間気づいたんですが<br />
+オブジェクトを渡している方は、値の評価がないからダメってことなのかな？</p>
+<p>そもそも評価って何だっていわれると説明できないんで、<br />
+明日以降暇なときに調べる＆考えよう
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

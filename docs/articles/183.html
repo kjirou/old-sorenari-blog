@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>現時点でのAS3未解決疑問点まとめ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>現時点でのAS3未解決疑問点まとめ</h1>
+        <p>2007年11月10日</p>
+      </section>
+      <section>
+        <div>
+現在のActionScript3の未解決疑問点一覧。<br />
+誰か教えてくれるとうれしいなと。（1問当り3000ガバス払います）
+</div>
+<div>
+<b>【トップレベルのプロパティを定義したい】</b><br />
+trace関数とかみたいに、どこからもアクセスできるプロパティを定義する方法がわからない。<br />
+以下の無名関数を使ったコードを実行すると、トップレベルと思われるオブジェクト名を表示できますが・・・。</p>
+<pre>
+(function():void{trace(this)})(); // -> [object global]
+</pre>
+<p>残念ながらglobalキーワードというものは存在しなかった。<br />
+JSでいうwindowオブジェクトみたいなもんは無いのかな。
+</div>
+<div>
+<b>【動的にクラス名やメソッド名を取得したい】</b><br />
+実行中コードのクラス名やメソッド名を動的に取得したい。
+</div>
+<div>
+<b>【maskに使用したい要素をaddChildしているとエラーになる】</b><br />
+maskに使いたい要素が既にaddChildされていると、ランタイムエラーになる。<br />
+addChildできないので、座標と範囲計算がrootを起点にしてしか行えないというのが困っている点。
+</div>
+<div>
+<b>【graphicsの色だけを変えるときに形状も含めて再描画するしかないのか】</b><br />
+beginFill→drawXXX→endFillを再度やるんじゃなくて、changeColor的メソッド（妄想）で色だけ変えられないものか。<br />
+リファレンスを見た限りでは無理そうな気がする。
+</div>
+<div>
+<b>【for &#8230; in の取り出し順が不明】</b><br />
+<a href="http://kjirou.sakura.ne.jp/mt/2007/10/as3_for_in.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/10/as3_for_in.html', 'コチラ']);" >コチラ</a>参照。
+</div>
+<div>
+こういう点についてJSよりも検索に引っかかり難いのが、AS3の困った点か。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

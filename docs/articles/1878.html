@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] テストケース名をTypoしてハマる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] テストケース名をTypoしてハマる</h1>
+        <p>2013年1月3日</p>
+      </section>
+      <section>
+        <div>
+Djangoのテストを実行して、こういうエラーが出たり..</p>
+<pre>
+Traceback (most recent call last):
+  (..中略..)
+  File &quot;/xxx/xxx/lib/python2.7/unittest/case.py&quot;, line 188, in __init__
+    testMethod = getattr(self, methodName)
+TypeError: getattr(): attribute name must be string
+</pre>
+<p>または、こういうエラーが出たら..</p>
+<pre>
+Traceback (most recent call last):
+  (..中略..)
+  File &quot;/xxx/xxx/lib/python2.7/unittest/case.py&quot;, line 191, in __init__
+    (self.__class__, methodName))
+ValueError: no such test method in &lt;class &#039;someapp.tests.test_forms.HogeForm&#039;&gt;: runTest
+</pre>
+<p>とりあえずは、テストケースのクラス名が間違ってないか、<br />
+確認すると良いです</p>
+<p>
+自分の場合は、テストケースの名前を、<br />
+テスト対象の HogeForm にしてしまって、エラーになっていました</p>
+<pre><code>from django.test import TestCase
+from someapp.forms import HogeForm
+
+class HogeForm(TestCase): # HogeFormTest と書くつもりだった
+  def test_success(self):
+    form = HogeForm()</code></pre>
+<p></p>
+<p>全然わからなくて、ウン十分ハマった！！！！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

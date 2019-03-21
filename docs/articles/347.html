@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] MySQLdb で ImportError が出た | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] MySQLdb で ImportError が出た</h1>
+        <p>2008年8月21日</p>
+      </section>
+      <section>
+        <div>
+PythonでMySQLと接続しようと</p>
+<pre>
+&gt;&gt;&gt; import MySQLdb
+</pre>
+<p>とやったら、以下のようなエラーが出た</p>
+<pre>
+Traceback (most recent call last):
+File "&lt;stdin&gt;", line 1, in ?
+File "/usr/local/python-2.4.5/lib/python2.4/site-packages/MySQL_python-1.2.2-py2.4-linux-i686.egg/MySQLdb/__init__.py"
+, line 19, in ?
+import _mysql
+ImportError: libmysqlclient_r.so.15: cannot open shared object file: No such file or directory
+</pre>
+<p>つまりは、libmysqlclient_r.so.15 が無い、もしくはパスが通ってない、と。</p>
+<p>まず、存否確認をすると<br />
+/usr/local/mysql/lib/mysql/libmysqlclient_r.so.15 下にあり、<br />
+ネットの記事と照合すると多分ここで合っている。</p>
+<p>ので、パスが通ってないのが原因っぽい。</p>
+<p>そういや思い当たる点があって、<br />
+Pythonインストール時もMySQL-pythonインストール時も<br />
+MySQLのパスを指定していなかった。</p>
+<p>ほぼこれで間違いなかろう、スロー過ぎてアクビがでるぜっ！<br />
+・・・と、思ってたら、一向にそのオプションが見つからない。</p>
+<p>なんでだあああっ！
+</div>
+<p></p>
+<div>
+結局、<a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'soundkitchen']);" >soundkitchen</a>氏に聞いて<br />
+ライブラリへのパスが通ってないのが原因だとわかったので、<br />
+/etc/ld.so.conf.d/mysql.conf に /usr/local/mysql/lib/mysql を書いて<br />
+ldconfigで再起動したら動くようになりました。<br />
+毎度、ご迷惑をお掛けします。</p>
+<p><b>【勉強になったこと／反省点】</b></p>
+<ul>
+<li>Python側で取得するMySQLのパスは、<s>インストール時の</s>MySQLdbインストール時に$PATHを見るらしい（未検証）。<br />
+PHPは本体インスコ時に指定するし、RubyもMySQLドライバインストール時に指定するから、<br />
+そういう風にやるもんだと思い込んでいた・・・。<br />
+なので、レンタルサーバとかで、<br />
+最初から入っているような、使う予定の無いMySQLに優先してパスが通っている状態でPythonをインストールしちゃうと、<br />
+そのまま全部ずれてしまうと思われる。</li>
+<li>「ライブラリのパスならldconfigを調べろ」を毎晩10回唱えること。</li>
+</ul>
+</div>
+<p></p>
+<div>
+君達のような若者がインストールしなくてもいい・・<br />
+そんな世の中を築きたいものだな・・・
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

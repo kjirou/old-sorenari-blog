@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>mocha の checkLeaks と globals の使い方 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>mocha の checkLeaks と globals の使い方</h1>
+        <p>2013年6月20日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://visionmedia.github.io/mocha/#browser-support" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://visionmedia.github.io/mocha/#browser-support', 'mocha ドキュメントの Browser support']);" target="_blank">mocha ドキュメントの Browser support</a> の項に、ブラウザで mocha を使う場合の例として以下の HTML が貼ってありますが、<br />
+その中に書いてある checkLeaks と globals の挙動を調べました。</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;Mocha Tests&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;mocha.css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;mocha&quot;&gt;&lt;/div&gt;
+  &lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;expect.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;mocha.js&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;mocha.setup(&#039;bdd&#039;)&lt;/script&gt;
+  &lt;script src=&quot;test.array.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;test.object.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;test.xhr.js&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    mocha.checkLeaks();
+    mocha.globals([&#039;jQuery&#039;]);
+    mocha.run();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p></p>
+<p>今回の話は全てブラウザ内で実行した場合の話になります。
+</p></div>
+<h3>mocha.checkLeaks()</h3>
+<div>
+これは、「テスト前後でグローバル変数が増加していたら、エラーとみなす」オプションです。<br />
+デフォルトは false でこれを実行すると true になります。</p>
+<p>注意として、<strong>テスト実行前後の差分</strong>で判定するので、<br />
+テスト前の、定義時に発生したものは判定してくれません。
+</div>
+<h3>mocha.globals()</h3>
+<div>
+これは、上記の checkLeaks の判定から除外する変数名を設定します。</p>
+<p>例えば、mocha.globals([&#8216;leak1&#8217;, &#8216;leak2&#8217;]); という設定をすれば、<br />
+window.leak1 と window.leak2 は判定から除外します。</p>
+<p>特に注意すべき点として、<br />
+<strong>その時点で定義されている変数を設定してしまうと、判定が壊れます</strong>。<br />
+具体的には、重複した分ひとつにつき、リーク1つを見逃してしまうようになっています。</p>
+<p>意図したものかはわからないのですが、重複チェックをしてくれないんすよねー</p>
+<p>詳細は、内部の globals と checkGlobals などを見てもらうとわかるので、<br />
+興味が有る方はそちらを参照してください。
+</div>
+<h3>という訳で、mocha ドキュメントが間違ってるという話</h3>
+<div>
+mocha.globals([&#039;jQuery&#039;]); の時点で window.jQuery は存在するので、<br />
+リークをひとつ見逃すようになってしまっています。</p>
+<p>この場合、globals は実行する必要ありませぬ。</p>
+<p>くそう..
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

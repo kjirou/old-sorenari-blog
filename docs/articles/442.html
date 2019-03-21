@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] hasattrで属性の有無をチェック | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] hasattrで属性の有無をチェック</h1>
+        <p>2009年10月16日</p>
+      </section>
+      <section>
+        <div>
+オブジェクトの属性(attribute)の有無を調査する時に、<br />
+組み込み関数の<b>hasattr</b>での存否確認方法を知らなくて↓</p>
+<pre>
+class Klass(object):
+    def __init__(self):
+        self.foo = 1
+        k = Klass()
+        print hasattr(k, "foo")
+        print hasattr(k, "bar")
+</pre>
+<p><b>AttributeError</b>でやってた損してた↓<br />
+</p>
+<pre>
+class Klass(object):
+    def __init__(self):
+        self.foo = 1
+        k = Klass()
+        try:
+            print k.foo
+            print k.bar
+        except AttributeError:
+            print "Not Found!"
+</pre>
+<p>・・・という話です、微ネタでスマソ。</p>
+<p><b>【参考】</b><br />
+<a href="http://www.python.jp/doc/release/lib/built-in-funcs.html#l2h-35" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/doc/release/lib/built-in-funcs.html#l2h-35', 'Pythonマニュアル該当部分']);" target="_blank">Pythonマニュアル該当部分</a><br />
+<a href="http://d.hatena.ne.jp/gmaxlab/20090118/1232245005" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/gmaxlab/20090118/1232245005', 'hasattrと例外処理(AttributeError)の処理性能差 &#8211; てけらぼ']);" target="_blank">hasattrと例外処理(AttributeError)の処理性能差 &#8211; てけらぼ</a>
+</div>
+<p></p>
+<div>
+これで、getattr, setattr, hasattr の三兄弟が揃って気分爽快！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

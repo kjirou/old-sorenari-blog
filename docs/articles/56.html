@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHPで 配列 += | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHPで 配列 +=</h1>
+        <p>2007年6月5日</p>
+      </section>
+      <section>
+        <div>
+PHP4で、配列 += 配列 という文法を知ったので試す。
+</div>
+<div>
+連想配列のバヤイ</p>
+<pre>
+$hash = array(
+"a" => 1,
+"b" => 2,
+);
+$hash += array(
+"c" => 3,
+);
+var_dump($hash); // → "a"～"c"まで格納されている
+</pre>
+</div>
+<div>
+配列のバヤイ</p>
+<pre>
+$arr = array(1, 2);
+$arr += array(3);
+var_dump($arr); // → おや？ [0] ～ [1] までしか格納されていない
+</pre>
+<p>じゃあ、こうしよう</p>
+<pre>
+$arr = array(1, 2);
+$arr += array("", "", 3);
+var_dump($arr); // → [0] = 1, [1] = 2, [2] = 3
+</pre>
+<p>OKKK</p>
+<p>末尾に追加というよりは、無いキーの値だけ追加するんスね。<br />
+prototype.js の Object.extend みたいな感じか。
+</div>
+<div>
+調子に乗って</p>
+<pre>
+class Foo {
+var $a = 1;
+var $b = 2;
+}
+$foo = new Foo;
+class Bar {
+var $c = 3;
+}
+$bar = new Bar;
+$foo += $bar;
+var_dump($foo); // → Fatalエラー
+</pre>
+<p>んだよもおお
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

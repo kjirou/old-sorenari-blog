@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[IE6] インターネットサイトを開けません 操作は中断されました バグの修正方法 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[IE6] インターネットサイトを開けません 操作は中断されました バグの修正方法</h1>
+        <p>2010年11月26日</p>
+      </section>
+      <section>
+        <div>
+IE6で、</p>
+<p>　　<b>インターネットサイト *** を開けません</b><br />
+　　<b>操作は中断されました</b></p>
+<p>または</p>
+<p>　　<b>Internet Explorer cannot open the Internet site ***.</b><br />
+　　<b>Operation Aborted.</b></p>
+<p>というエラーが発生することがありますが、その対処方法についてです。
+</div>
+<h3>原因は？</h3>
+<div>
+わからねーっす ヽ( ´ｰ｀)丿</p>
+<p>DOMの生成直後にJavaScriptでDOM属性を操作したりすると発生するようですが、<br />
+あるPCだけバグの再現性があったり、他のPCは無かったりと安定しません。<br />
+これ以上は、仕様書やソースコードを追わないとわからんので、諦めました。
+</div>
+<h3>対処法</h3>
+<div>
+ただ、原因はわからないのですが、まず行う対処法があります。</p>
+<p>バグる部分をある程度絞り込んだ後に setTimeout で該当部分を括って<br />
+実行を遅らせてやると直ることが多いです。</p>
+<p>例えば、こんなコードがあって</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    処理1();
+    処理2();
+&lt;/script&gt;</code></pre>
+<p>処理2の中でエラーが発生するところまで絞り込めたら</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    処理1();
+    setTimeout(function(){
+        処理2();
+    }, 100);
+&lt;/script&gt;</code></pre>
+<p>として、実行を一瞬遅らせると直ることがあります。</p>
+<p>※もし処理1の方でエラーが出ていた場合は、<br />
+　setTimeoutで処理1を括ると、処理2が先に実行されてしまうこともあるので、<br />
+　その点は工夫してください。
+</div>
+<h3>ちなみに: IE6の現在のシェア</h3>
+<div>
+日本で一般ピーポー向けサイトなら、<br />
+IE6のシェアはまだ 10%～20% 位はあるはずです。</p>
+<p>日々下がってはいますが、少なくとも数ヶ月は対応が必要っぽいです。 ふぅ・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

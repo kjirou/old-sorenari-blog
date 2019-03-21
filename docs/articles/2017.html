@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MySQL-5.5でレプリケーションの設定をする | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MySQL-5.5でレプリケーションの設定をする</h1>
+        <p>2013年1月12日</p>
+      </section>
+      <section>
+        <div>
+5.5を明記した記事が思ったより少ないので、まとめてみることにしました<br />
+レプリケーションの種類は、非同期レプリケーション、つまり普通のやつです
+</div>
+<h3>前提</h3>
+<div>
+マスタ側のホスト名を master.com<br />
+スレイブ側のホスト名を slave.com<br /> <br />
+として、別サーバで運用します</p>
+<p><a href="http://blog.kjirou.net/p/2070" title="CentOS5.8へMySQL5.5をRPMでインストール">MySQL-5.5は、MySQL公式のRPMからインストール</a></p>
+<p>OSは、両方共にCentOS-5.8(final)
+</div>
+<h3>マスタ側のmy.cnfを修正</h3>
+<div>
+<pre>
+sudo mkdir -m 0777 /var/log/mysql
+sudo vim /etc/my.cnf
+=================================
+[mysqld]
+server-id = 101
+log_bin = /var/lib/mysql/bin-log
+=================================
+sudo /etc/init.d/mysql restart
+</pre>
+<ul>
+<li>log_bin の場所と名前はテキトーに決めました</li>
+<li>/etc/init.d/mysql と mysql&quot;d&quot; がありませんが、RPMで入れたらそうなってました</li>
+<li>bind-access という値が有ったらコメントアウトして下さい、そのIPからしかアクセスできないようになる設定値らしいです</li>
+</ul>
+</div>
+<h3>マスタ側のデータを保存してスレイブ側へ送る</h3>
+<div>
+<pre>
+mysql -uroot -ppassword -e 'FLUSH TABLES WITH READ LOCK;'
+mysqldump -uroot -ppassword --all-databases --master-data > /tmp/mysqlall.db
+mysql -uroot -ppassword -e 'SHOW MASTER STATUS;'
+=================================
++----------------+----------+--------------+------------------+
+| File           | Position | Binlog_Do_DB | Binlog_Ignore_DB |
++----------------+----------+--------------+------------------+
+| bin-log.000007 |      107 |              |                  |
++----------------+----------+--------------+------------------+
+(*これのFileの値である 'bin-log.000007' と、Positionの値である 107 をどこかにメモする)
+=================================
+mysql -uroot -ppassword -e 'UNLOCK TABLES;'
+sudo scp /tmp/mysqlall.db user@slave.com:/path/to/dir
+mysql -uroot -ppassword -e 'GRANT REPLICATION SLAVE ON *.* TO slave_user@`%` IDENTIFIED BY &quot;slave_password&quot;;'
+</pre>
+<ul>
+<li>FLUSH TABLES WITH READ LOCK はデータの更新を一時止めます</li>
+<li>UNLOCK TABLES でそれを戻します</li>
+<li>slave_user は、スレイブがマスタにアクセスする際に必要なユーザです</li>
+</ul>
+</div>
+<h3>マスタ側のMySQL用ポートを開ける</h3>
+<div>
+iptablesを修正して、MySQL用のポート（デフォルト 3306）を開けて下さい<br />
+設定方法は、ググれば山ほど出てくると思います、以下は一例</p>
+<pre>
+sudo vim /etc/sysconfig/iptables
+=================================
+# For MySQL
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT
+# 下記の行より前に上記を挿入
+# -A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
+=================================
+sudo service iptables restart
+</pre>
+</div>
+<h3>スレイブ側から接続確認</h3>
+<div>
+まずはポートが空いているか？</p>
+<pre>
+sudo nmap -p 3306 master.com
+
+(.. 略 ..)
+PORT     STATE SERVICE
+3306/tcp open  mysql
+(.. 略 ..)
+</pre>
+<ul>
+<li>STATE が open だったらOK</li>
+<li>nmap が無かったら、次でわかるので特にやらないでも良いです</li>
+<li>ちなみに、nmap で外部をスキャンする場合は、root権限での実行が必要でした</li>
+</ul>
+<p></p>
+<p>slave_user でアクセスできるか？</p>
+<pre>
+mysql -h master.com -uslave_user -pslave_password
+(ログインできたら成功)
+</pre>
+</div>
+<h3>スレイブ側のmy.cnfを修正</h3>
+<div>
+マスタ側と同じです</p>
+<pre>
+sudo mkdir -m 0777 /var/log/mysql
+sudo vim /etc/my.cnf
+=================================
+[mysqld]
+server-id = 102  # マスタの値を超える違う値にする
+log_bin = /var/lib/mysql/bin-log
+=================================
+</pre>
+</div>
+<h3>スレイブ側でデータのリストア</h3>
+<div>
+<pre>
+mysql -uroot -ppassword < /path/to/dir/mysqlall.db
+mysql -uroot -ppassword
+mysql> CHANGE MASTER TO
+  MASTER_HOST='master.com',
+  MASTER_PORT=3306,
+  MASTER_USER='slave_user',
+  MASTER_PASSWORD='slave_password',
+  MASTER_LOG_FILE='{先のFIleの値}',
+  MASTER_LOG_POS={先のPositionの値};
+</pre>
+</div>
+<h3>同期開始</h3>
+<div>
+以下を、<strong>順番通りに</strong>実行して下さい</p>
+<ul>
+<li>1. マスタ側を /etc/init.d/mysql restart で再起動</li>
+<li>2. スレイブ側を /etc/init.d/mysql restart で再起動</li>
+</ul>
+</div>
+<h3>レプリケーションの確認</h3>
+<div>
+何でもいいのですが、思いつかなければ<br />
+マスタ側でこれらを実行して、都度スレーブ側で確認してみましょう</p>
+<pre>
+mysql&gt; CREATE TABLE rep_checker (id int(11));
+mysql&gt; DROP TABLE rep_checker;
+</pre>
+<p></p>
+<p>ちゃんと同期出来ていれば、完了です</p>
+<p>動いていない場合は、MySQLエラーログを確認して修正しましょう
+</p></div>
+<h3>補足</h3>
+<div>
+レプリケーションを手動で停止したり再開したりするには<br />
+スレイブ側のMySQLサーバで、STOP SLAVE / START SLAVE というSQLを発行します</p>
+<p>
+同期を止めた後に再開したい場合は、<br />
+今度はスレーブ側で SLAVE START するだけで開始できます<br />
+しかし、詳細不明ですが一度目の START SLAVE が warning 1 になって<br />
+失敗することがあります<br />
+その場合、再度 START SLAVE をしてみると、成功するかもしれません</p>
+<p>
+手順はもしかしたら、無駄なものも多分に含まれている可能性があります<br />
+テーブルロックとか、運用中じゃなければいらないかも？<br />
+ご教授いただけたら幸いです
+</div>
+<h3>蛇足: mysqld_multiで済ます男の人って..</h3>
+<div>
+<a href="http://blog.kjirou.net/p/1977" title="UbuntuのMySQL-5.5でmysqld_multiの設定">前回の記事</a>をご覧になられた方はもしかしたらと感づいているかもしれませんが、<br />
+簡単に mysqld_multi で済まそうと思ったら（そんな簡単に終わらなかったんですが）<br />
+他に検証することもあって、<strong>結局はサーバを分けざるを得なくなりました</strong><br />
+少し先を読めばわかったはずのことで、ダメダメです</p>
+<p>面倒だからひとつのサーバで済まそうと思っている方は、<br />
+「レプリケーションを組むようなアプリなのに、障害・復旧等の検証はしなくていいの？」<br />
+というのを先に考慮して置いた方がいいと思いました！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

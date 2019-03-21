@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>JSONをPretty-Printするmjsonモジュール | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>JSONをPretty-Printするmjsonモジュール</h1>
+        <p>2013年2月16日</p>
+      </section>
+      <section>
+        <div>
+本日開催された <a href="http://connpass.com/event/1729/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://connpass.com/event/1729/', 'Python mini Hack-a-thon']);" target="_blank">Python mini Hack-a-thon</a> での個人的なお題として<br />
+「何でも良いからPyPIにパッケージを上げる」というのを設定しました。</p>
+<p>ということで、<a href="http://pypi.python.org/pypi/mjson/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pypi.python.org/pypi/mjson/', 'mjson モジュール']);" target="_blank">mjson モジュール</a>という、JSON を整形して出力する、<br />
+コマンドライン用のモジュールを作成しました。
+</div>
+<h3>mjson モジュールとは</h3>
+<div>
+通常、PythonでJSONを整形したい場合は、こういうコマンドを実行すると思いますが..</p>
+<pre>
+echo &#039;{&quot;a&quot;:1,&quot;b&quot;:2}&#039; | python -mjson.tool
+{
+    &quot;a&quot;: 1, 
+    &quot;b&quot;: 2
+}
+</pre>
+<p></p>
+<p>これだとインデントの個数が4個固定なので、<br />
+それを調整することができる機能を付与したモジュールです。</p>
+<pre>
+echo &#039;{&quot;a&quot;:1,&quot;b&quot;:2}&#039; | mjson -i 2
+{
+  &quot;a&quot;: 1, 
+  &quot;b&quot;: 2
+}
+</pre>
+<p>コマンドも短くなって覚え易いんだぜ？
+</p></div>
+<h3>PyPIに上げるための参考資料</h3>
+<div>
+初めて、PyPIへモジュールを上げてみたのですが ..<br />
+<a href="http://www.amazon.co.jp/gp/product/4798032948/ref=as_li_ss_tl?ie=UTF8&#038;camp=247&#038;creative=7399&#038;creativeASIN=4798032948&#038;linkCode=as2&#038;tag=sorenari04-22" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/gp/product/4798032948/ref=as_li_ss_tl?ie=UTF8&#038;camp=247&#038;creative=7399&#038;creativeASIN=4798032948&#038;linkCode=as2&#038;tag=sorenari04-22', 'Pythonプロフェッショナルプログラミング']);" >Pythonプロフェッショナルプログラミング</a><img src="http://www.assoc-amazon.jp/e/ir?t=sorenari04-22&#038;l=as2&#038;o=9&#038;a=4798032948" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> の第７章<br />
+.. を読むだけで、ググり無しで完了しました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

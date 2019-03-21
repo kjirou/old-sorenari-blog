@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CoffeeScriptのインタラクティブシェルで改行する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CoffeeScriptのインタラクティブシェルで改行する</h1>
+        <p>2013年6月12日</p>
+      </section>
+      <section>
+        <div>
+node.js の coffee コマンドで開始するシェル内の話です</p>
+<p>普通に Enter キーを入れると実行してしまいますが..</p>
+<pre>
+coffee
+coffee&gt; for i in [1, 2, 3]
+repl:1:19: error: unexpected TERMINATOR
+for i in [1, 2, 3]
+</pre>
+<p></p>
+<p><strong>Ctrl + v</strong> でモードが変わり、改行できるようになりました！</p>
+<pre>
+------&gt; for i in [1, 2, 3]
+.......   i * i
+[ 1, 4, 9 ]
+</pre>
+<p>改行モードでコードを書いて、最後の空行を1行入れてから再度 Ctrl + v で実行<br />
+・・・という感じ。</p>
+<p>「行末にバックスラッシュ(\)を入れる」という記事も散見したけど、<br />
+自分環境だとできなかった、謎。</p>
+<p>あざーす ＞ <a href="https://twitter.com/hrysd/status/343918204130844672" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/hrysd/status/343918204130844672', '@hrysd']);" target="_blank">@hrysd</a>
+</div>
+<h3>蛇足: 改行モード時にインデントしたい</h3>
+<div>
+Tab とかでインデントしたいんですが、どーすればいいでしょうか？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

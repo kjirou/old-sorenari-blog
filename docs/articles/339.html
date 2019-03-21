@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHPからのsendmailで送信元がおかしかった | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHPからのsendmailで送信元がおかしかった</h1>
+        <p>2008年8月7日</p>
+      </section>
+      <section>
+        <div>
+今、新しいサーバの設定をしておるのですが、それ関連でややにハマった。</p>
+<p>MTAが単なるsendmailな状態で<br />
+PHPからsendmail関数でメールを送信した場合に、<br />
+引数で$from（差出人）を設定しても、<br />
+maillogのctladdrに設定されている「送信元を表すっぽい値」が<br />
+&#8220;localhost.localdomain&#8221;となっていました。</p>
+<p>&#8220;localhost.localdomain sendmail&#8221;とかでググってみたら、<br />
+sendmail.cfを書き換えろよ！的なことが多く見つかったので、<br />
+それをやってみましたが変わらなく、<br />
+結局、/etc/sysconfig/networkの$HOSTNAMEの値を書き換えたら、<br />
+反映されるようになりました。
+</div>
+<p></p>
+<div>
+解決したはいいけども、<br />
+じゃあ、sendmail.cfのMASQUERADE_ASの値との兼ね合いはどうなるんだ、とか<br />
+maillogのctladdrってなによ、とか<br />
+もうちょっとスマートにmaillogを見たいのだけど、<br />
+いいドキュメントがネットを探してもなかった、とか</p>
+<p>その辺の備忘を兼ねて記録します。
+</div>
+<p></p>
+<div>
+参考にしたリンク<br />
+<a href="http://pocketstudio.jp/linux/?FC4%2Fsendmail%2FMTA%20%A4%C8%A4%B7%A4%C6%A4%CE%20sendmail%20%A4%CE%C0%DF%C4%EA(%A5%E1%A1%BC%A5%EB%A4%F2%C1%F7%A4%EB%A4%BF%A4%E1%A4%CB%BA%C7%C4%E3%B8%C2%C5%D9%A4%B9%A4%D9%A4%AD%BB%F6)" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pocketstudio.jp/linux/?FC4%2Fsendmail%2FMTA%20%A4%C8%A4%B7%A4%C6%A4%CE%20sendmail%20%A4%CE%C0%DF%C4%EA(%A5%E1%A1%BC%A5%EB%A4%F2%C1%F7%A4%EB%A4%BF%A4%E1%A4%CB%BA%C7%C4%E3%B8%C2%C5%D9%A4%B9%A4%D9%A4%AD%BB%F6)', 'MTA としての sendmail の設定(メールを送るために最低限度すべき事)']);" >MTA としての sendmail の設定(メールを送るために最低限度すべき事)</a><br />
+<a href="http://www.ellinikonblue.com/PukiWiki/index.php?sendmail%2Fsendmail.cf%20%A4%CE%BA%EE%C0%AE" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.ellinikonblue.com/PukiWiki/index.php?sendmail%2Fsendmail.cf%20%A4%CE%BA%EE%C0%AE', 'sendmail.cf の作成']);" >sendmail.cf の作成</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

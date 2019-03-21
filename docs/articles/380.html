@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] こういう短絡実行をしたいんだが | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] こういう短絡実行をしたいんだが</h1>
+        <p>2008年12月12日</p>
+      </section>
+      <section>
+        <div>
+<pre>
+a = None or raise Exception()
+</pre>
+<p>というのを書きたかったんだが、SyntaxErrorでした。</p>
+<pre>
+a = None or str(1)
+</pre>
+<p>というように、後ろがメソッドだとOKなんですが、<br />
+raise とか print とか return だと構文エラーになってしまう。</p>
+<p>いい方法ないすかねー。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>clipセレクタで画像をクリップする | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>clipセレクタで画像をクリップする</h1>
+        <p>2012年2月8日</p>
+      </section>
+      <section>
+        <h3>はじめて</h3>
+<div>
+画像の一部を切り取って、かつその部分をリサイズして表示したい<br />
+・・・ということをやりたかったので、初めて使いました</p>
+<p>どのブラウザでもちゃんと動きました
+</div>
+<h3>設定方法の基本形</h3>
+<div>
+<a href="http://code.kjirou.net/ml/test/img_clip/index.html" target="_blank">コチラのサンプルの「基本形」</a>で行っている指定方法が以下</p>
+<pre><code>&lt;div style=&quot;position:{absoluteまたはrelative}; {表示位置}; {表示サイズ}; overflow:hidden;&quot;&gt;
+&lt;img style=&quot;position:absolute; display:block; {クリップ左上の位置}; {画像サイズ};
+clip:rect({クリップ位置・サイズ});&quot; src=&quot;./yourimage.png&quot; /&gt;
+&lt;/div&gt;</code></pre>
+<p>切り抜くimgタグ本体と、そのディスプレイとしての親要素の2つで構成されています</p>
+<p><b>{表示位置}</b> = absoluteもしくはrelativeによって表示させたい位置<br />
+　　topやleftやその類のセレクタを記述する</p>
+<p><b>{表示サイズ}</b> = 実際の表示サイズ、widthとheightを指定</p>
+<p><b>{クリップ左上の位置}</b> = 画像切り抜き位置の左上座標を指定する、topやleftを指定<br />
+　　これは後述する{クリップ位置・サイズ}で指定する左上の位置と同じになる</p>
+<p><b>{画像サイズ}</b> = この例だと yourimage.png の大きさを widthとheightで指定</p>
+<p><b>{クリップ位置・サイズ}</b> = 例えば、100&#215;100画像の最左上から40&#215;60でクリップしたければ<br />
+　　clip:rect(0 60px 40px 0); になる、(上 右 下 左) という指定順<br />
+　　この点の詳細は <a href="http://www.htmq.com/style/clip.shtml" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.htmq.com/style/clip.shtml', 'clip･････ボックスを切り抜き表示（クリッピング）する']);" target="_blank">clip･････ボックスを切り抜き表示（クリッピング）する</a> を参考にした</p>
+<p>というのを基本形にしました<br />
+imgタグをインラインのまま扱うサンプルも散見しましたが、扱い難いので止めました<br />
+この形なら、自在に切り抜いて配置することができます</p>
+<p>ちなみに、「一部を切り取って拡大・縮小」も出来ました<br />
+<a href="http://code.kjirou.net/ml/test/img_clip/index.html" target="_blank">コチラのサンプルの下の例</a> がそれになります
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

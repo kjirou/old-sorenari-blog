@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>prototype.jsでSyncとAsyncを選択する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>prototype.jsでSyncとAsyncを選択する</h1>
+        <p>2007年7月18日</p>
+      </section>
+      <section>
+        <div>
+というか、昨日職場の人に聞いて<br />
+Sync（同期通信）とAsync（非同期通信）という使い分けが出来るのを初めて知りました。<br />
+そんな便利なものがあるとは。
+</div>
+<div>
+すぐ忘れるので簡単にメモる</p>
+<ul>
+<li>new Ajax.Request(url, options) に渡すoptionsに、asynchronous というキーで、bool型の値を渡す。true=非同期通信・デフォルト、false=同期通信</li>
+<li>同期通信にすると、alert関数のようにそこで処理が止まり、イベントを受け付けなくなる。</li>
+<li>XP-IE6とXP-FF1.5で動作確認済み。</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

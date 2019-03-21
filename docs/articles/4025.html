@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>async.waterfallでハマるパターン | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>async.waterfallでハマるパターン</h1>
+        <p>2014年7月8日</p>
+      </section>
+      <section>
+        <div>
+忘れた頃に async の waterfall 関数を使うと毎度ハマる。</p>
+<p>1分で終わる予定のことに1時間以上掛かると凹むのでメモる、<br />
+メモるんだくそがぁ！
+</p></div>
+<h3>注意すべき三か条</h3>
+<div>
+1. 次タスクへ値を渡す場合は： <tt>next(null, arg1 ,arg2)</tt><br />
+2. タスクが引数を受け取る時は： <tt>function(arg1, arg2, error)</tt><br />
+3. 最後のコールバックが引数を受け取る時は： <tt>function(error, arg1, arg2)</tt>
+</div>
+<h3>サンプル</h3>
+<div>
+<pre>
+async.waterfall([
+  function(next){
+    // エラーの場合は第一引数にエラーオブジェクトを入れるので..
+    var err = エラーが発生したら;
+    if (err) return next(err);
+    // 正常終了時の第一引数は null になる
+    next(null, &#039;arg-one&#039;);
+  },
+  // タスクが引数を受け取る場合は、コールバックの前に配置する
+  function(arg1, next){
+    next(null, arg1, &#039;arg-two&#039;);
+  },
+  // 複数ある場合はこうなる
+  function(arg1, arg2, next){
+    next(null, arg1, &#039;arg-two&#039;);
+  }
+  // ただし、締めのコールバックは、エラーオブジェクトが前になる
+  // これは async というよりは node 全体の慣例
+], function(err, arg1, arg2){
+});
+</pre>
+<p></p>
+<p>くそがー！！！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

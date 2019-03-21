@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Pythonクックブックを読んでいる(2) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Pythonクックブックを読んでいる(2)</h1>
+        <p>2009年2月21日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2009/02/python1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2009/02/python1.html', '＜＜ 前回']);" ><b>＜＜ 前回</b></a> |<br />
+<a href="http://kjirou.sakura.ne.jp/mt/2009/02/python3.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2009/02/python3.html', '次回 ＞＞']);" ><b>次回 ＞＞</b></a></p>
+<p><a href="http://kjirou.sakura.ne.jp/mt/2009/02/python1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2009/02/python1.html', '前回']);" >前回</a> から引き続き。<br />
+今回は、「2章 ファイル」だけを読みました。</p>
+<p>「オライリー本は1日1章まで」</p>
+<p>この標語が無ければ1日で全部読んでやるのに！
+</div>
+<p></p>
+<div>
+<b>1. fileオブジェクトをそのままループできる</b><br />
+こんな風に書けるそうで。</p>
+<pre>
+f = open('/path/to/filename', 'r')
+for line in f: print line
+</pre>
+<p>fileオブジェクトはジェネレータなので、<br />
+readやreadlinesで一回で全部読み込むのとは違い、<br />
+メモリ消費が少なくて済むというメリットがある。<br />
+超巨大ファイルを処理する場合は、こっちの方がいいすな。
+</div>
+<p></p>
+<div>
+<b>2. fileへの書き込みが保障されるのはcloseした時</b><br />
+そういえば、過去自分が書いたバッチの話なんですが、<br />
+&#8220;a&#8221;モードで開いたファイルに対して、closeなしに延々追記をしてたときに、<br />
+実際にHD上のテキストファイルに反映されるのが、スクリプトの進行より遅かったことがある。<br />
+こういう仕組みだったのか。
+</div>
+<p></p>
+<div>
+<b>3. str.replace</b></p>
+<pre>
+print "abcdeabcde".replace("b", "B") # -> "aBcdeaBcde"
+</pre>
+<p>このメソッド知らなかった・・・。<br />
+同じことするのに、re.subとかでやってたぜ金返せ！
+</div>
+<p></p>
+<div>
+<b>4. stdin, stdout</b><br />
+標準入力/標準出力制御をできる。<br />
+例えば標準入力の場合は、こんな風に書けば</p>
+<pre>
+for line in sys.stdin: print line.rstrip()
+</pre>
+<p>OSから標準入力を受け付けることができる。</p>
+<pre>
+$echo "111\n222\n333" | ./filename.py
+</pre>
+<p>なお、sys.stdin, sys.stdout 両方ともfileライクオブジェクト。
+</div>
+<p></p>
+<div>
+<b>5. timeitモジュール</b><br />
+簡単なスクリプトの実行時間計測モジュール。<br />
+Pythonソースを文字列で渡さないといけないのが、やや気持ち悪いけど、<br />
+簡単なスクリプト用としては、これがベストだろうなぁ。</p>
+<p>と、テストがてら、前回の文字列連結の時間計測をしてみた。</p>
+<pre>
+import timeit
+source = """
+s = "1" + ", 2" + ", 3" + " da---!"
+"""
+timer = timeit.Timer(stmt=source)
+print "join: ", timer.timeit(10000) # 試行回数
+source = """
+s = "%s, %s, %s da---!" % (1, 2, 3)
+"""
+timer = timeit.Timer(stmt=source)
+print "format: ", timer.timeit(10000)
+</pre>
+<p>じゃん、結果！</p>
+<pre>
+join:  0.0010929107666
+format:  0.0233690738678
+</pre>
+<p>・・・あれっ？フォーマットの方が遅いんだけど・・・・・<br />
+・・・・・・ま、まぁいいや、見なかったことにしよう・・・。<br />
+（つーか、timeitの使い方が間違ってたら元も子もないな）
+</div>
+<p></p>
+<div>
+<b>6. os.tmpfile()</b><br />
+一時ファイルを作成できる、一時ファイルはcloseするとGC対象になる。<br />
+使いどころは、巨大データをメモリ上から退避させて、ゆっくり処理する時とかだろうか。</p>
+<pre>
+tf = os.tmpfile()
+# 少しずつ膨れ上がるデータをメモリから退避
+for c in "1GB data": tf.write(c)
+# 読み込みのためにファイルポインタを頭に戻す
+tf.seek(0)
+# 今度は少しずつ先のファイルを読み込み
+new_data = ""
+while True:
+c = tf.read(1)
+new_data += c.replace("G", "M")
+if not c: break
+tf.close()
+print new_data # -> "1MB data"
+</pre>
+<p>こんな感じ？<br />
+あれ、closeしないとHD上への書き込みは保存されないんだっけか・・・？</p>
+<p>・・・と、ググったけど、tmpfileを使ったサンプルが出てこないのでとりあえず保留。<br />
+実際使うときになったら、標準モジュールとかDjangoとかから探そうっと。
+</div>
+<p></p>
+<div>
+<b>7. os.walk()</b><br />
+指定パスから、再帰的に全てのファイルとディレクトリを返してくれる。<br />
+こりゃあ、便利だねっ！<br />
+同じような関数を自分で書いちゃったなー。
+</div>
+<p></p>
+<div>
+以上。</p>
+<p>色々、挙動が不明の場所もありましたが、<br />
+そこはそれ、スルー力には自信がある。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>AS3のデータ型がよくわからない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>AS3のデータ型がよくわからない</h1>
+        <p>2007年10月18日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3のデータ型がよくわからんす。<br />
+というのも
+</div>
+<div>
+以下のコードは正常にコンパイルされ、正常に動作する</p>
+<pre>
+// BoxクラスはSpriteクラスのサブクラス
+var box:Box = new Box();
+var sprite:Sprite = Sprite(box);
+var box2:Box = Box(sprite);
+// BoxクラスにあってSpriteクラスに無いプロパティにアクセス
+trace(box2.hoge); // アクセス可能
+</pre>
+<p>Box→Spriteの型変換の時点でhogeプロパティが消えていないということは、オブジェクトの型の情報は、オブジェクトの内容とは別にラベルのように存在するのかなぁ？？
+</p></div>
+<div>
+ちなみに全く関係の無いクラスだと型変換に失敗する。<br />
+以下のコードはStrictモードでも正常にコンパイルされるが、Errorを出して実行が止まる</p>
+<pre>
+// BoxクラスとEventクラスは全く関係ない
+var box:Box = new Box();
+var evt:Event = Event(box); // -> Error
+</pre>
+<p>Error はこんなん</p>
+<pre>
+TypeError: Error #1034: 強制型変換に失敗しました。Box@xxxxxxx を flash.events.Event に変換できません。
+at xxxx/::xxxxxxxx()
+</pre>
+</div>
+<div>
+んー、JavaScriptとPHPとRubyしか知らない俺ですけど、AS3のデータ型って、「後付けで作った感」がﾌﾟﾝﾌﾟﾝ臭う。</p>
+<p>どうなんでしょうかなぁ
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CoffeeScriptで文字列への変数埋め込み | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CoffeeScriptで文字列への変数埋め込み</h1>
+        <p>2013年6月13日</p>
+      </section>
+      <section>
+        <div>
+Underscore.js の _.template とか、Python の format とか、<br />
+そういう感じのを CoffeeScript で書くときどうすれば良いのか調べてました。</p>
+<p>というのも、普通にこう書いてもいいのですが..</p>
+<pre><code>name = 'Taro'
+text = &quot;My name is #{name}.&quot;</code></pre>
+<p>これだと、どの変数に依存しているのかが分かり難くて、<br />
+込み入った状況だと使いにくいと思ったからです。</p>
+<p>ということで、今のところの結論です。（Thanks to <a href="https://twitter.com/Takazudo/status/344656629914030080" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/Takazudo/status/344656629914030080', '@Takazudo']);" target="_blank">@Takazudo</a>）</p>
+<pre><code>name = 'Taro'
+text = do (name) -> &quot;My name is #{name}.&quot;</code></pre>
+<p></p>
+<p>おすすめの書き方があったら、是非教えてください！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Ruby] へぇへぇ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Ruby] へぇへぇ</h1>
+        <p>2008年1月30日</p>
+      </section>
+      <section>
+        <div>
+Rubyで最近へぇと思ったことをちょっと。</p>
+<p>最近は、会社でも家でもとりあえず動かすことを優先で物を作っているので<br />
+ぅわー　いいこと知っちゃったよ　という話がほとんどない！
+</div>
+<div>
+<b>【CSV出力時に改行文字をCRLFにする】</b><br />
+CSV.generateならば、第三引数で以下のように指定する。</p>
+<pre>
+CSV.generate("/path/to/filename.csv", ",", "\r\n") do |writer|
+# ...
+end
+</pre>
+</div>
+<div>
+<b>【Boolean型が無い！】</b><br />
+結構書いているはずなのに今日知った。<br />
+trueはTrueクラスのインスタンスで、falseはFalseクラスのインスタンスなんだと！</p>
+<p>どうしてBooleanじゃなくしたのかは今はわからないですけど、<br />
+例えば accessor/reader/writer の用語とか<br />
+「意図的に最近の普通のプログラミング言語と違うようにした」部分は<br />
+理解するととても勉強になるということが往々にしてRubyにはありました。<br />
+これも何か、調べるとお宝を掘り当てるような気がする。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

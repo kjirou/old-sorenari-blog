@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] ビット演算は32ビットまで | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] ビット演算は32ビットまで</h1>
+        <p>2012年11月28日</p>
+      </section>
+      <section>
+        <div>
+JavaScriptのビット演算子が正しく扱えるのは<br />
+<a href="http://ja.wikibooks.org/wiki/JavaScript_%E3%83%93%E3%83%83%E3%83%88%E6%BC%94%E7%AE%97" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikibooks.org/wiki/JavaScript_%E3%83%93%E3%83%83%E3%83%88%E6%BC%94%E7%AE%97', '32ビットの値の範囲だけ']);" target="_blank">32ビットの値の範囲だけ</a>のようです</p>
+<p>例えば、よく自分は parseInt の替わりに　~~(1の補数を2回) をしていますが<br />
+その範囲を超えると意図したように動きません</p>
+<pre><code>&gt; ~~2147483647
+2147483647
+&gt; ~~2147483649
+-2147483647 // 値が変わっている</code></pre>
+<p></p>
+<p>(new Date()).getTime() の値を文字列と相互変換している時に気付きました</p>
+<pre><code>&gt; var dateStr = String((new Date()).getTime())
+&gt; dateStr
+&quot;1354079055775&quot;
+&gt; ~~dateStr
+1164357535</code></pre>
+</div>
+<h3>蛇足: parseInt と ~~ の違い</h3>
+<div>
+<pre><code>&gt; parseInt(&#039;&#039;)
+NaN
+&gt; parseInt(null)
+NaN
+&gt; parseInt(undefined)
+NaN
+&gt; ~~&#039;&#039;
+0
+&gt; ~~null
+0
+&gt; ~~undefined
+0</code></pre>
+<p>
+Readableかはさておき、parseInt より便利なんすよねー<br />
+NaN にするならエラーにして欲しいなぁ
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

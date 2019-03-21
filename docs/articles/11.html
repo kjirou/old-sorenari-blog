@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>シェル変数のエスケープをちゃんと知ろうと思った | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>シェル変数のエスケープをちゃんと知ろうと思った</h1>
+        <p>2007年4月16日</p>
+      </section>
+      <section>
+        <div>
+ここ↓見れば、自分のかったるい説明なんぞ不要ですが</p>
+<blockquote><p>
+<a href="http://www.glasscom.com/tone/linux/Reference/Bash/BashMisc.htm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.glasscom.com/tone/linux/Reference/Bash/BashMisc.htm', 'WindowsユーザのためのLinux入門 &#8211; その他の機能']);" >WindowsユーザのためのLinux入門 &#8211; その他の機能</a>
+</p></blockquote>
+<p>まとめると、ダブルクォートで括るによるエスケープは<br />
+シングルクォートの場合と比べて、「$」「`」「\」を特殊な文字として扱う点だけ違うんだ<br />
+ということらしいす
+</div>
+<div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/04/for_1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/04/for_1.html', '前もちょろっと書きました']);" >前もちょろっと書きました</a>が</p>
+<pre>
+#!/bin/sh
+LIST="a b c"
+for i in "$LIST"
+do
+echo "$i"
+done
+</pre>
+<p>こういうシェルスクリプトで、$LISTがリスト要素として分解されないのは<br />
+スペースやらタブやら改行やらを、シェルの特殊文字として扱わないからなんじゃないかと思った。<br />
+微妙に確信はありませんけど。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

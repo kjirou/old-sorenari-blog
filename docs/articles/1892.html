@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] FileFieldのファイルを削除 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] FileFieldのファイルを削除</h1>
+        <p>2013年1月5日</p>
+      </section>
+      <section>
+        <div>
+Django-1.4.3のFileFieldを使った場合に、<br />
+リンク先のファイルを削除する方法とその存否判定についてです<br />
+(FileFieldマニュアル: <a href="http://docs.djangoproject.jp/en/latest/ref/models/fields.html#filefield" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.djangoproject.jp/en/latest/ref/models/fields.html#filefield', '日本語']);" target="_blank">日本語</a> / <a href="https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.FileField" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.FileField', '英語']);" target="_blank">英語</a>)</p>
+<p>FileFieldに格納した値は、<a href="https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.fields.files.FieldFile" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.fields.files.FieldFile', 'FieldFile']);" target="_blank">FieldFile</a>(ややこしい)にマップされている</p>
+<pre><code>some_model_obj = SomeModel.objects.get(id=1)
+print type(some_model_obj.some_file_field)
+# -&gt; &quot;&lt;class &#039;django.db.models.fields.files.FieldFile&#039;&gt;&quot;
+</code></pre>
+<p></p>
+<p>削除はdeleteを手動で呼び出して行う</p>
+<pre><code># この時点でファイルが削除
+some_model_obj.some_file_field.delete()
+</code></pre>
+<p></p>
+<p>ファイルの存否判定はFieldFileオブジェクトをboolへキャスト<br />
+(<a href="http://stackoverflow.com/questions/8850415/django-filefield-check-if-none" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://stackoverflow.com/questions/8850415/django-filefield-check-if-none', 'コチラ']);" target="_blank">コチラ</a>を参考にした)</p>
+<pre><code>print bool(some_model_obj.some_file_field) # -&gt; True
+some_model_obj.some_file_field.delete()
+print bool(some_model_obj.some_file_field) # -&gt; False</code></pre>
+<p></p>
+<p>モデルオブジェクトを削除した際は同期しない、<br />
+マニュアルには「コマンド作って同期したら？」と書いてある</p>
+<blockquote><p>
+Note that when a model is deleted, related files are not deleted. If you need to cleanup orphaned files, you&#8217;ll need to handle it yourself (for instance, with a custom management command that can be run manually or scheduled to run periodically via e.g. cron).
+</p></blockquote>
+<p>個人的には、安易にタスクを増やすのは好きじゃないんですけども
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

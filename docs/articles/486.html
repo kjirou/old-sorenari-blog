@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHPインタラクティブシェルをワンライナーで起動 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHPインタラクティブシェルをワンライナーで起動</h1>
+        <p>2010年12月10日</p>
+      </section>
+      <section>
+        <div>
+こんなんで</p>
+<pre>
+$ php -r &#039;while(1){$L=fgets(STDIN,512);echo $L;}&#039; | php -R &#039;var_dump(eval(&quot;return($argn);&quot;));&#039;
+</pre>
+<p>素晴らしい挙動</p>
+<pre>
+1+1
+int(2)
+kjirou
+string(6) &quot;kjirou&quot;
+str_replace(&#039;a&#039;,&#039;A&#039;,&#039;anan&#039;)
+string(4) &quot;AnAn&quot;
+</pre>
+<p>
+参考) <a href="http://www.vish-develop.jp/tech/php/340" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.vish-develop.jp/tech/php/340', '意外と使えるPHPのワンライナー']);" target="_blank">意外と使えるPHPのワンライナー</a>
+</div>
+<h3>以上</h3>
+<div>
+<br />
+軽量化案、便利にする案、大ぼ・・・いや、小募集中！</p>
+<p><b>TODO:</b></p>
+<ul>
+<li>空行入力で構文エラーが出る（優先度：B）</li>
+<li>入力待ちの際に &quot;&gt; &quot; を付けたい（優先度：C）</li>
+<li>phpに標準でインタラクティブシェルが欲しい（優先度：<b>S</b>）</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

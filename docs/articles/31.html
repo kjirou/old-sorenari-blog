@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>eregはPOSIX NFAエンジンじゃないっぽい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>eregはPOSIX NFAエンジンじゃないっぽい</h1>
+        <p>2007年4月29日</p>
+      </section>
+      <section>
+        <div>
+ereg関数ってのは、PHPの正規表現用の関数なんですが<br />
+この挙動がおかしいという話です。</p>
+<p>「おかしい」ってのは、<a href="http://www.amazon.co.jp/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE-%E7%AC%AC2%E7%89%88-Jeffrey-E-F-Friedl/dp/4873111307/ref=sr_1_18/250-2818051-5421007?ie=UTF8&#038;s=books&#038;qid=1177860852&#038;sr=1-18" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE-%E7%AC%AC2%E7%89%88-Jeffrey-E-F-Friedl/dp/4873111307/ref=sr_1_18/250-2818051-5421007?ie=UTF8&#038;s=books&#038;qid=1177860852&#038;sr=1-18', 'オライリーの正規表現本']);" >オライリーの正規表現本</a>に書いてある内容と反しているってことです。<br />
+申し訳ありませんが、それ以外の基準を知らないので、用語とかもそれに準拠します。
+</div>
+<div>
+で、何がおかしいかというと<br />
+例えば</p>
+<pre>
+&lt;?php
+$p = '^(abc|[a-z]+)';
+$s = 'abcdefghi'
+$m = array();
+ereg($p, $s, $m);
+var_dump($m[1]); // 1番目のサブパターンにマッチした内容を出力する
+?&gt;
+</pre>
+<p>これを実行した場合に、<br />
+仮に従来型のNFAエンジンなら<br />
+最初にマッチングする&#8221;abc&#8221;が1番目のサブパターンのマッチとして格納されるはず。</p>
+<p>また、POSIX準拠NFAエンジンなら、<br />
+最もマッチ範囲の大きい&#8221;abcdefghi&#8221;が1番目のサブパターンのマッチとして格納されるはず。</p>
+<p>またまた、DFAエンジンなら、そもそもサブパターンによるマッチが出来ないはず。
+</div>
+<div>
+ということで実行すると &#8220;abcdefghi&#8221;を出力するので、<br />
+「あー、やっぱりPOSIX NFAか」と思いましたが・・・が<br />
+念のため、↓的な、POSIX NFAの場合にフリーズするような奴で実行してみたら</p>
+<pre>
+&lt;?php
+$p = '.*.*.*.*.*.*.*.*.*.*';
+$s = 'aaaaaaaaaa'
+$m = array();
+ereg($p, $s, $m);
+?&gt;
+</pre>
+<p>・・・あれ？すぐ返ってくるな。
+</div>
+<div>
+んで、続けて調べていると</p>
+<pre>
+&lt;?php
+$p = '123|[a-z]+';
+$s = '123abcdef';
+$m = array();
+ereg($p, $s, $m);
+var_dump($m[0]); // "123"を出力
+?&gt;
+</pre>
+<p>・・・？<br />
+POSIX NFA なら、&#8221;abcdef&#8221;を返すはずなんだけど・・・？？</p>
+<p>しつこく実行</p>
+<pre>
+&lt;?php
+$p = 'abc|[a-z]+';
+$s = '123abcdef';
+$m = array();
+ereg($p, $s, $m);
+var_dump($m[0]); // "abcdef"を出力
+?&gt;
+</pre>
+<p>・・・？？<br />
+アルファベット同士なら、長い方を返してくれるのかな？？
+</div>
+<div>
+どうにもereg関数は、<br />
+NFAとかPOSIXとか関係無しに、単なる独自仕様の関数っぽいです。<br />
+暇だったら、頑張ってCのソースでも追ってみようかと思います。</p>
+<p>俺、C言語読めないジャン
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] pip で入れた numpy が消えなくなった | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] pip で入れた numpy が消えなくなった</h1>
+        <p>2013年5月14日</p>
+      </section>
+      <section>
+        <div>
+virtualenv ではない環境にて、freeze するとあるのに..</p>
+<pre>
+$ pip freeze
+(..略..)
+numpy==1.7.1
+(..略..)
+</pre>
+<p></p>
+<p>消せない！</p>
+<pre>
+%pip uninstall numpy
+Can't uninstall 'numpy'. No files were found to uninstall.
+</pre>
+<p></p>
+<p>この前にも一度 pip uninstall numpy して「egg_info消す？」って言われて、<br />
+y で実行していた経緯がある。</p>
+<p>もしかしたら、 brew install numpy をしている時に pip install numpy をしたからかも？</p>
+<p>未解決でイラっとしたので記事にしました
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

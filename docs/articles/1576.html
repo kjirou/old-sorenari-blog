@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CentOS6へstart-stop-daemonをインストール | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CentOS6へstart-stop-daemonをインストール</h1>
+        <p>2012年12月7日</p>
+      </section>
+      <section>
+        <div>
+さくらVPSのCentOS6にて<br />
+Debian用のシェルスクリプトをそのまま使いたくてインストールしました</p>
+<pre>
+# cd /usr/local/src
+# wget http://developer.axis.com/download/distribution/apps-sys-utils-start-stop-daemon-IR1_9_18-2.tar.gz
+# tar zxvf apps-sys-utils-start-stop-daemon-IR1_9_18-2.tar.gz
+# cd apps/sys-utils/start-stop-daemon-IR1_9_18-2
+# gcc start-stop-daemon.c -o start-stop-daemon
+# cp start-stop-daemon /usr/sbin/
+</pre>
+<p>
+参考リンクは・・・というか、上記はこちらの記事↓まんまです<br />
+<a href="http://kaihatsu.mikagamikobo.com/2010/11/start-stop-daemoncentos.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kaihatsu.mikagamikobo.com/2010/11/start-stop-daemoncentos.html', 'start-stop-daemonをCentOSで使う']);" target="_blank">start-stop-daemonをCentOSで使う</a></p>
+<p>6でも使えたよーということで、自記事にしちゃいました
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

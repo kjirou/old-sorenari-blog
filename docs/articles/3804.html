@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Dungeons &#038; Parties の開発的な話 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Dungeons &#038; Parties の開発的な話</h1>
+        <p>2014年1月19日</p>
+      </section>
+      <section>
+        <div>
+『<a href="http://dap.intergames.jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://dap.intergames.jp/', 'Dungeons &#038; Parties']);" target="_blank">Dungeons &#038; Parties</a>』というスマホゲームを作ったので、<br />
+その技術構成などの開発面の話をしてみようと思います。</p>
+<p>ゲームの紹介は、<a href="http://blog.kjirou.net/p/3792" title="スマホゲー『Dungeons &#038; Parties』">こちらの記事</a>を参照して下さい。
+</div>
+<h3>JavaScript/CoffeeScript</h3>
+<div>
+クライアントサイドは JavaScript/HTML5、サーバサイドは今のところなし。<br />
+サーバサイドを入れる際には、本体と連携出来たほうが良いので Node.js の何かを使います。</p>
+<p>AltJS は CoffeeScript を書かないと死ぬ病気に掛かっているぼくに選択肢はありません。<br />
+coffee の短く柔軟な記法は、ゲームデータをコードで表現している場合、凄い良かった。<br />
+それだけのために使ってもいいくらい。
+</div>
+<h3>JS/HTML/CSS ライブラリや素材</h3>
+<div>
+使ったライブラリや素材などは<a href="http://dap.intergames.jp/help/credit/index.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://dap.intergames.jp/help/credit/index.html', 'クレジット']);" target="_blank">クレジット</a>にまとめています。<br />
+JSに詳しい人が見るとわかってしまうんですが、超・安定指向です。枯れた技術万歳！</p>
+<p>他、そのために作った自前のライブラリがいくつか。<br />
+このブログのサイドバーに置いてある jQuery Plugin と npm のライブラリ群がそれです。
+</div>
+<h3>JSフレームワーク</h3>
+<div>
+生 <a href="http://backbonejs.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://backbonejs.org/', 'Backbone.js']);" target="_blank">Backbone.js</a> のみです。<br />
+node で実行できることだけを条件に、あんまり考えないで選定しました。</p>
+<p>ゲーム作りのフレームワークとしては、<br />
+他のJSフレームワークをたしなむ程度にしか触ったことがないので比較は難しいですが、<br />
+無いよりは有ったほうが遥かに良いことだけは確かでした。<br />
+この辺は、一言では言えないので、別記事にするかもです。</p>
+<p>おそらくですが、Web ページっぽいのを想定して作り込まれている他フレームワーク、<br />
+例えば、AngularJS, Knockout.js, Ember.js などよりも余計な機能が無い分、適切だと思います。</p>
+<p>今後、もう少し重めのを使うなら、<br />
+モデル側の強化は Backbone.js のバリアントから選択して学習コストを下げます。<br />
+そして、ビュー側の強化は、別に Cocos2d, enchant.js などのゲームエンジンを入れて連携させようと思っています。</p>
+<p>また、CoffeeScript が、クラス継承などの基本的な部分について、統一した書き方を提供してくれています。
+</p></div>
+<h3>テスト環境</h3>
+<div>
+テストケースは <a href="http://visionmedia.github.io/mocha/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://visionmedia.github.io/mocha/', 'mocha']);" target="_blank">mocha</a> / <a href="https://github.com/LearnBoost/expect.js/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/LearnBoost/expect.js/', 'expect.js']);" target="_blank">expect.js</a> / <a href="http://sinonjs.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://sinonjs.org/', 'Sinon.JS']);" target="_blank">Sinon.JS</a> などで書きました。<br />
+実行は基本 node 内で行い、DOM や localStorage などのブラウザが必要になる所は <a href="https://github.com/airportyh/testem" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/airportyh/testem', 'Testem']);" target="_blank">Testem</a> で行いました。</p>
+<p>テストを node だけで実行するメリットはいくつかあって、<br />
+1) 圧倒的に実行が早いこと。<br />
+2) 黒い画面内で完結するので、オッサンには安心できるということ。<br />
+3) 強制的にブラウザ依存の部分が炙り出せることです。<br />
+最後のは JS本体を Grunt 内で参照したり、後に必要なサーバサイドとの連携の際などに便利になります。</p>
+<p>デメリットは、node 対応していないライブラリが多いことです。<br />
+X18n というライブラリはそれで、しょうがないので<a href="http://blog.kjirou.net/p/3666" title="X18nモジュールをNode.js対応した" target="_blank">自分で修正して</a>使いました。</p>
+<p>ビューやアニメーションのテストは、基本書いていません。<br />
+描画やアニメーションは、<br />
+1) モデル側でコンテキストを生成<br />
+2) ビュー側はその情報のみで動く<br />
+これを厳守すれば、ハマったりバグったりというのは、あまりありませんでした。<br />
+バグが見つかった時は、修正ついでに書きました。</p>
+<p>というか、最初ビューやアニメーションのテストも書いてたんですが、<br />
+修正・調整が多すぎて効率ワロスということで止めました。</p>
+<p>テストはゲーム作りに欠かせないと思います。<br />
+もう保守性だけがオーバーフローしている Web アプリ界よりも全然大事です。<br />
+アーティスト肌のゲーム開発者さんたちも、シンプルな関数のテストだけでいいから書く手段を身に付けて、書く方がいいと思います。</p>
+<p>テストが大事な理由は、概ねこれです。<br />
+1) ゲームだと最初動くかどうか、意図通りに動いてもそれが正しいのかがわからんので、最初の実装は雑になります。<br />
+2) 後でこれでいいと決めた時にリファクタリングが出来ないと、一定規模で破綻します。<br />
+3) リファクタリングをするためには、テストはほぼ必須だと思われます。
+</div>
+<h3>静的コンテンツの生成</h3>
+<div>
+ヘルプなどの静的コンテンツは、<a href="http://assemble.io/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://assemble.io/', 'Assemble']);" target="_blank">Assemble</a> を使っています。</p>
+<p>本体との連携が必要になったので、<br />
+本体を読み込んで Assemble のコンテキストデータを作る Grunt タスク、を作って行いました。</p>
+<p>最初は流行に乗って Ruby の Middleman を使ってたんですが、<br />
+本体との連携が必要になったので止めました。<br />
+まぁ、普通に考えりゃメインがJSなんだからJS使えって感じですよね。</p>
+<p>後、特に書いていませんが、各方面で <a href="http://gruntjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://gruntjs.com/', 'Grunt']);" target="_blank">Grunt</a> さんにド依存しています。
+</div>
+<h3>アプリケーションキャッシュ</h3>
+<div>
+全てのファイルをアプリケーションキャッシュしています。<br />
+なので、一度読み込めばオフラインで遊べます。</p>
+<p>一番ハマったことは、iPhone の Mobile Safari だと頻繁に読み込みに失敗することです。<br />
+正確には、サーバが弱くて、キャッシュ対象のファイルが多い、と読み込みに時間が掛かって、最終的に失敗します。<br />
+なので、最初 150 ファイルくらいあったのを 80 ファイルくらいまで減らすことになりました。</p>
+<p>ファイルはそれぞれ軽いので通信量も大したことないし、<br />
+そもそも PC ブラウザからだと一瞬で終わるし、<br />
+理由が今でもよくわかってません。</p>
+<p>時間がかかってもいいから、リクエストを失敗にしないで欲しいですが、どうしたらいいのやら。<br />
+Android 端末だと調べていないので、どうなんでしょうか。</p>
+<p>なお、ファイル数を減らすための対応のひとつとして、<br />
+画像を分割しないでもチップとして取り出せる <a href="http://kjirou.github.io/jquery.imageIndexer/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.github.io/jquery.imageIndexer/', 'jQuery.imageIndexer']);" target="_blank">jQuery.imageIndexer</a> というのを作って使っています。
+</div>
+<h3>開発期間</h3>
+<div>
+お恥ずかしながら、これだけの期間が掛かりました。<br />
+ザ・半年間。</p>
+<p><img src="http://gyazo.com/f0c4086e7c374b243086145b9ef7bbd2.png" /></p>
+<p>仕事しながら（一部期間してないけど）とか、<br />
+オレオレ JS をある程度一般的な開発フローに合わせたりとか、<br />
+そういうのが重かったです。<br />
+2・3ヶ月で出来るんじゃね？とか思ってた。</p>
+<p>ただ、技術面も、ゲーム中身も、整理しながらやったので、今度は使いまわせます。<br />
+特に戦闘のルーチンとか、RPG的パラメータの定義とか、割りと綺麗に実装できました。
+</div>
+<h3>残タスク</h3>
+<div>
+<ul>
+<li>テキストを英語化</li>
+<li>Android で動作確認</li>
+<li>広告の調整</li>
+<li>宣伝</li>
+<li>アプリ化してリリース</li>
+<li>他に置けそうな場所を探す</li>
+<li>効果音ファイルを結合して、部分部分取り出して使える方法を募集中</li>
+<li>canvas アニメーションがモバイルでも大丈夫そうなので、それで戦闘エフェクトなどを入れてみたい</li>
+<li>実は最後の方のステージが少し出来てない</li>
+</ul>
+</div>
+<h3>犠牲にしたもの</h3>
+<div>
+<ul>
+<li>最近のJSその他技術についての勉強</li>
+<li>社会性</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

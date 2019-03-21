@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>カリー化 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>カリー化</h1>
+        <p>2007年9月10日</p>
+      </section>
+      <section>
+        <div>
+カリー化とは、<a href="http://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AA%E3%83%BC%E5%8C%96" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AA%E3%83%BC%E5%8C%96', 'Wikipedia']);" >Wikipedia</a>によると、「直感的には『引数を幾つか固定すると、残った引数の関数が得られる』ということ」　・・・だと。<br />
+（「直感的には」＝「簡単に言うとねぇ」ってことっぽいですけど）
+</div>
+<div>
+なんでいきなりカリー化なのかというと、サイ本にその実装例が載ってて、プログラム的な用途も含めて理解したので</p>
+<pre>
+// サイ本のカリー化のサンプルコード
+function bindArguments(f){
+var boundArgs = arguments;
+return function(){
+var args = [];
+for (var i = 1; i < boundArgs.length; i++) args.push(boundArgs[i]);
+for (var i = 0; i < arguments.length; i++) args.push(arguments[i]);
+return f.apply(this, args);
+};
+};
+</pre>
+</div>
+<div>
+使ってみる</p>
+<pre>
+var makeCurry = function(apple, honey, spice){
+if (apple && honey && spice)
+return apple + "と" + honey + "で" + spice + "化しようぜ";
+};
+var makeCurryByVermont = bindArguments(makeCurry, "りんご", "ハチミツ");
+alert(makeCurryByVermont("カリー"));
+</pre>
+<p>おー
+</p></div>
+<div>
+- 前略オフクロ様 -<br />
+<a href="http://p0t.jp/mt/archives/2006/12/post_529.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://p0t.jp/mt/archives/2006/12/post_529.html', 'Haskell勉強会']);" >Haskell勉強会</a>から半年経過して、はじめて前に進むことができました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

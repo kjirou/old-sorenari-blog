@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>さくら専用サーバにApache1.3+PHP4+MySQL4.1+Ethnaな開発環境を作る(1) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>さくら専用サーバにApache1.3+PHP4+MySQL4.1+Ethnaな開発環境を作る(1)</h1>
+        <p>2007年6月14日</p>
+      </section>
+      <section>
+        <div>
+人様の<a href="http://www.sakura.ad.jp/services/dedicated/sakura_dedicated/specification.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.sakura.ad.jp/services/dedicated/sakura_dedicated/specification.html', 'さくらの専用サーバ']);" >さくらの専用サーバ</a>に<br />
+Apache1.3 + PHP4 + MySQL4.1 + Ethna な開発環境を作ることになりました。<br />
+勿体無いので手順を淡々とまとめます。
+</div>
+<div>
+今回は開発ツールのインストールを行うということで<br />
+cvsup, ports, zsh, vim, screen, lv を使える状態にするところまで書きます。</p>
+<p>じゃあ、早速開始。
+</p></div>
+<div>
+<b>OSの選択</b><br />
+OSは「FreeBSD 6.2-RELEASE」「Fedora Core 6」のいずれかから選べるのですが<br />
+FreeBSDを選択しました。
+</div>
+<div>
+<b>cvsupとportsのインストール</b><br />
+FreeBSDにはportsというパッケージ管理システムがありますが、<br />
+さくらの専用サーバにはそれがデフォルトでインストールされていないので入れる必要があります。<br />
+更に、portsを入れるためにcvsupというコマンドが必要になるので、それを最初に落としてこなくてはなりません。<br />
+という訳でコマンド</p>
+<pre>
+cd /usr/share/examples/cvsup/
+wget ftp://ftp.freebsd.org/pub/FreeBSD/ports/i386/packages-6.2-release/net/cvsup-without-gui-16.1h_2.tbz
+pkg_add cvsup-without-gui-16.1h_2.tbz
+cp -ip ports-supfile ports
+vi ports
+</pre>
+<p>　↓<br />
+viでportsファイルの一部分を以下のように編集する</p>
+<pre>
+#*default host=CHANGE_THIS.FreeBSD.org
+*default host=cvsup3.jp.freebsd.org
+</pre>
+<p>※cvsup3.jp.freebsd.org のホスト名は変わり得るので、実行時に調べてください。<br />
+で、続きのコマンド<br />
+　↓</p>
+<pre>/usr/local/bin/cvsup -g -L 2 ports</pre>
+<p>　↓<br />
+（※portsのインストールがログを出力しながら開始）<br />
+　↓</p>
+<pre>
+Checkout ports/x11-wm/yawm/pkg-descr
+Shutting down connection to server
+Finished successfully
+</pre>
+<p>インストールが成功して、ログの末尾にこんなのが出力されました。<br />
+ちなみに、（ports-allなので）portsのインストールに30分以上かかりました。</p>
+<p>参考サイト</p>
+<ul>
+<li><a href="http://support.sakura.ad.jp/support/rs/benri/rs-tech_ports.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://support.sakura.ad.jp/support/rs/benri/rs-tech_ports.html', 'さくらFAQ &#8211; 専用サーバ FreeBSD Ports・Packages']);" >さくらFAQ &#8211; 専用サーバ FreeBSD Ports・Packages</a></li>
+<li><a href="http://q.hatena.ne.jp/1159331293" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://q.hatena.ne.jp/1159331293', 'さくらの専用サーバー(OSはFreeBSD)」に MySQL と phpMyAdmin　をインストールしたい']);" >さくらの専用サーバー(OSはFreeBSD)」に MySQL と phpMyAdmin　をインストールしたい</a></li>
+</ul>
+</div>
+<div>
+<b>make.confの設定</b><br />
+makeコマンドの共通設定を書き換えて、GUI用のソフトがインストールされないようにします。</p>
+<pre>vi /etc/make.conf</pre>
+<p>でファイルを開いて、以下を追記します</p>
+<pre>WITHOUT_X11=yes</pre>
+<p>参考サイト</p>
+<ul>
+<li><a href="http://www.otsune.com/diary/2005/10/14/1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.otsune.com/diary/2005/10/14/1.html', 'FreeBSDなサーバにportsでvimを入れようとしたら・・・']);" >FreeBSDなサーバにportsでvimを入れようとしたら・・・</a></li>
+</ul>
+</div>
+<div>
+<b>zshのインストールと設定</b><br />
+コマンド</p>
+<pre>
+cd /usr/ports/shells/zsh
+make
+make install
+chsh
+</pre>
+<p>viが立ち上がるので標準シェルを変えてください<br />
+zshの位置がわからなければ、「find / -name &#8220;zsh&#8221;」で調べることができます。<br />
+後は「/root/.zshrc」ファイルを作成し、いいように設定を書いて終わり。
+</div>
+<div>
+<b>vimのインストールと設定</b><br />
+コマンド</p>
+<pre>
+cd /usr/ports/editors/vim
+make
+make install
+</pre>
+<p>後は「/root/.vimrc」ファイルを作成し、いいように設定を書いて終（ｒｙ<br />
+特に設定しないでも、全角文字は使えました。
+</div>
+<div>
+<b>screenのインストールと設定</b><br />
+コマンド</p>
+<pre>
+cd /usr/ports/sysutils/screen
+make
+make install
+</pre>
+<p>後は「/root/.screenrc」ファイルを作成し、い（ｒｙ
+</div>
+<div>
+<b>lvのインストール</b><br />
+コマンド</p>
+<pre>
+cd /usr/ports/misc/lv
+make
+make install
+</pre>
+</div>
+<div>
+・・・というか、<br />
+portsが入ってしまえば、後は「/usr/ports」以下から、入れたいソフト名で検索して<br />
+同名のディレクトリへ移動してmake～make install をするだけでOKでした。<br />
+（複雑な設定を要する場合は、make config で設定をする必要がある）
+</div>
+<div>
+とりあえず、今日はここまでにします。<br />
+飽きつかれた。
+</div>
+<div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/06/apache13php4mysql41ethna2.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/06/apache13php4mysql41ethna2.html', '続く・・・']);" >続く・・・</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

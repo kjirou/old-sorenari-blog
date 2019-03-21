@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascriptでuseMapを指定する際は、mapのname属性ではなくid属性を指定する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascriptでuseMapを指定する際は、mapのname属性ではなくid属性を指定する</h1>
+        <p>2007年8月3日</p>
+      </section>
+      <section>
+        <div>
+WinXP-IE6のバグだと思われるものです。
+</div>
+<div>
+クリッカブルマップの設定で、img要素とmap要素を紐付ける場合<br />
+通常は以下のように書きます。</p>
+<pre>
+&lt;map name="map_name"/&gt;
+&lt;area shape="poly" coords="xx,xx,xx,xx,xx,xx,xx,xx" /&gt;
+&lt;map/&gt;
+&lt;img src="hoge.gif" usemap="#map_name"/&gt;
+</pre>
+<p>img要素が、使用map要素のname属性をキーにして紐つけています。
+</p></div>
+<div>
+これをjavascriptにすると</p>
+<pre>
+var m = document.createElement("map");
+m.name = "map_name";
+document.body.appendChild(m);
+var a = document.createElement("area");
+a.shape = "poly";
+a.coords = "xx,xx,xx,xx,xx,xx,xx,xx";
+m.appendChild(a);
+var i = document.createElement("img");
+i.src = "hoge.gif";
+i.isMap = true;
+i.useMap = "#map_name";
+document.body.appendChild(i);
+</pre>
+<p>こうなるはずであり、実際、WinXP-FireFox2では期待通りに動きます
+</p></div>
+<div>
+・・・が、WinXP-IE6の場合は、map要素のname属性ではなく、id属性を参照するようです。<br />
+つまり、上記例であれば</p>
+<pre>
+m.id = "map_name";
+</pre>
+<p>を指定する必要があります。</p>
+<p>ちなみに、javascriptで生成したDOMではなく、HTMLによるものであれば、name属性を参照しています。
+</p></div>
+<div>
+45分掛かった
+</div>
+<div>
+参考リンク</p>
+<ul>
+<li><a href="http://www.htmq.com/html/map.shtml" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.htmq.com/html/map.shtml', 'HTMLクイックリファレンス']);" >HTMLクイックリファレンス</a>（クリッカブルマップの説明）</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

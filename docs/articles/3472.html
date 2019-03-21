@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[CoffeeScript] class内で自クラスを取得 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[CoffeeScript] class内で自クラスを取得</h1>
+        <p>2013年7月20日</p>
+      </section>
+      <section>
+        <div>
+@constructor が自分のクラスになる。<br />
+例えばこんな風</p>
+<p><strong>test.coffee</strong>:</p>
+<pre><code>class Foo
+  @myName = &#039;Foo&#039;
+
+  getMyName: -&gt;
+    @constructor.myName
+
+class Bar extends Foo
+  @myName = &#039;Bar&#039;
+
+console.log (new Foo).getMyName()
+console.log (new Bar).getMyName()</code></pre>
+<p></p>
+<pre>$ coffee test.coffee
+Foo
+Bar</pre>
+<p></p>
+<p>生 JavaScript の constructor は、<br />
+プロトタイプ継承した場合に参照先が親に変わってしまいますが、<br />
+CoffeeScript の場合は、常に自分のクラスを返してくれます。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

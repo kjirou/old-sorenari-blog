@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MySQL] 先頭が &#8220;test_&#8221; データベース名には権限を解放 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MySQL] 先頭が &#8220;test_&#8221; データベース名には権限を解放</h1>
+        <p>2013年1月9日</p>
+      </section>
+      <section>
+        <div>
+Ubuntu-12.10 の aptitude で MySQL-5.5 を入れました。<br />
+それを使って、Django のテストを行っていたら・・・おかしい！</p>
+<p>MySQLユーザの foouser には、foodb のデータベースにしか権限を付けていないのに<br />
+test_foodb を勝手に作ってテストを行っている・・・！？<br />
+なんだこりゃ？
+</div>
+<h3>&#8220;test_&#8221;のDB名は特殊扱い</h3>
+<div>
+原因は以下のように、&#8221;test_&#8221;プレフィックスのあるデータベース名に対しては<br />
+MySQL 側がデフォルトで権限を全開にしていました</p>
+<pre>
+mysql&gt; select * from mysql.db;
+(..他の行は略..)
+*************************** 2. row ***************************
+                 Host: %
+                   Db: test\_%
+                 User: 
+          Select_priv: Y
+          Insert_priv: Y
+          Update_priv: Y
+          Delete_priv: Y
+          Create_priv: Y
+            Drop_priv: Y
+           Grant_priv: N
+      References_priv: Y
+           Index_priv: Y
+           Alter_priv: Y
+Create_tmp_table_priv: Y
+     Lock_tables_priv: Y
+     Create_view_priv: Y
+       Show_view_priv: Y
+  Create_routine_priv: Y
+   Alter_routine_priv: N
+         Execute_priv: N
+           Event_priv: Y
+         Trigger_priv: Y
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

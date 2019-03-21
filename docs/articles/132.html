@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>使えるネットVPSとの戦い【基本編】(1) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>使えるネットVPSとの戦い【基本編】(1)</h1>
+        <p>2007年9月16日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.tsukaeru.net/plans/vps/detail.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.tsukaeru.net/plans/vps/detail.php', '使えるネット Linux VPS シルバープラン']);" >使えるネット Linux VPS シルバープラン</a>を借りたので、それへの設定を苦闘しながら進めています。<br />
+勿体無いので、行った設定や各種アプリのインストール等を淡々とまとめていこうと思います。誰かの参考になれば幸いです。<br />
+なお、OSは CentOS を選択しました。
+</div>
+<div>
+<b>【とりあえずバージョンの確認】</b></p>
+<pre>
+cat /etc/issue
+CentOS release 4.5 (Final)
+Kernel \r on an \m
+</pre>
+</div>
+<div>
+<b>【yumのインストールと設定】</b></p>
+<ul>
+<li>rpmソースは<a href="http://mirror.centos.org/centos/4.5/os/i386/CentOS/RPMS/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mirror.centos.org/centos/4.5/os/i386/CentOS/RPMS/', 'ココ']);" >ココ</a>から新しいのを落とす</li>
+<li>実はglibc-dummyの削除がわからずにハマった自分を見かねて、<a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'yoshuki']);" >yoshuki</a>が替わりに設定してくれたログを編集したものだったりします。</li>
+</ul>
+<pre>
+cd /usr/local/src
+rpm -ihv python-elementtree-1.2.6-4.2.1.i386.rpm
+rpm -ihv sqlite-3.3.3-1.2.i386.rpm
+rpm -ihv sqlite-devel-3.3.3-1.2.i386.rpm
+rpm -ihv python-sqlite-1.1.7-1.2.i386.rpm
+rpm -ihv python-urlgrabber-2.9.8-2.noarch.rpm
+rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-4
+rpm -ihv yum-2.4.3-1.c4.noarch.rpm
+yum update
+</pre>
+<p>失敗</p>
+<pre>
+(...中略...)
+--> Running transaction check
+--> Processing Dependency: glibc-common = 2.3.4-2.25 for package: glibc-dummy-centos-4
+--> Finished Dependency Resolution
+Error: Missing Dependency: glibc-common = 2.3.4-2.25 is needed by package glibc-dummy-centos-4
+</pre>
+<p>dummyを削除する必要があった</p>
+<pre>
+yum remove glibc-dummy-centos-4.i386
+yum update
+</pre>
+<p>30分以上updateに掛かるので注意
+</p></div>
+<div>
+<b>【zshのインストールと設定】</b><br />
+yumでインスコ</p>
+<pre>
+yum install zsh
+</pre>
+<p>ログインシェルにするため</p>
+<pre>
+vi /etc/passwd
+</pre>
+<p>を開いて</p>
+<pre>
+root:x:0:0:root:/root:/bin/bash
+</pre>
+<p>を</p>
+<pre>
+root:x:0:0:root:/root:/bin/zsh
+</pre>
+<p>へ変更する。
+</p></div>
+<div>
+<b>【vimのインストールと設定】</b><br />
+vimはバージョン7以上を使いたかったので、ソースからいれることにした。<br />
+patchとgccが必要になるのでyumで入れとく</p>
+<pre>
+yum install patch
+yum install gcc
+</pre>
+<p>インストール</p>
+<pre>
+cd /usr/local/src
+wget ftp://ftp.vim.org/pub/vim/unix/vim-7.1.tar.bz2
+wget ftp://ftp.vim.org/pub/vim/extra/vim-7.1-extra.tar.gz
+wget ftp://ftp.vim.org/pub/vim/extra/vim-7.1-lang.tar.gz
+tar jxf vim-7.1.tar.bz2
+tar xzvf vim-7.1-extra.tar.gz
+tar xzvf vim-7.1-lang.tar.gz
+cd vim71
+mkdir patches
+cd patches
+curl -O 'ftp://ftp.vim.org/pub/vim/patches/7.1/7.1.[001-100]'
+cd ..
+cat patches/7.1.* | patch -p0
+./configure \
+--enable-multibyte \
+--enable-xim \
+--enable-fontset \
+--with-features=big \
+--prefix=/usr/local
+make
+make install
+</pre>
+<p>なお、configureオプションは、どこかの設定のパクりで、すげー適当です。
+</p></div>
+<div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/09/vps2.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/09/vps2.html', '【基本編】(2)へ続く・・・。']);" >【基本編】(2)へ続く・・・。</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

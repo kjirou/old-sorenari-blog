@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHP5のforeach($hash as &#038;$val) を | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHP5のforeach($hash as &#038;$val) を</h1>
+        <p>2007年8月10日</p>
+      </section>
+      <section>
+        <div>
+PHP5の</p>
+<pre>
+foreach ($hash as &$val) {}
+</pre>
+<p>の挙動がイマイチよくわからなかったので、別コードにしてみた</p>
+<pre>
+foreach ($hash as $k => $devnull) {
+unset($val);
+$val = &$hash[$k];
+/* ここに本来の処理が入る */
+}
+</pre>
+<p>foreach後に$valをunsetしないと$hash最後の要素が参照になっちゃう素敵な点も、完全に再現しております。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

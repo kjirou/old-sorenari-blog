@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>最近のPython: Episode-2 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>最近のPython: Episode-2</h1>
+        <p>2008年10月16日</p>
+      </section>
+      <section>
+        <div>
+段々、慣れてきたので書き方に欲が出てきました。<br />
+以下、お勉強になったこと。
+</div>
+<p></p>
+<div>
+<b>1. Noneを&#8221;&#8221;として出力したい</b><br />
+Noneをそのままstr型として評価すると&#8221;None&#8221;になってしまう。<br />
+「えー、普通None（nullとかnilとか）は空文字じゃーん」と思うのは人情なので<br />
+それを手軽に書く書き方↓</p>
+<pre>
+hoge = None
+str(hoge or "")
+</pre>
+<p>Falseとか0も空文字列になっちゃいますけどね。
+</p></div>
+<p></p>
+<div>
+<b>2. dict型を展開されるように引数へ渡す</b><br />
+引数に**をつけて関数へ渡せば展開されます。<br />
+機能名としては、ネームインジェクションというらしいです。<br />
+以下、サンプルコード↓</p>
+<pre>
+def foo(one, **kwargs):
+print one, kwargs
+foo(**{"one": 1, "two": 2})            # -> 1 {'two': 2}
+foo(11, **{"two": 22})                 # -> 11 {'two': 22}
+foo(111, **{"one": 1111, "two": 2222}) # -> TypeError
+</pre>
+</div>
+<p></p>
+<div>
+<b>3. float型を文字列表示する際に小数点以下の桁数を制御したい</b><br />
+例えば、str(3. / 9) とやると、&#8217;0.333333333333&#8242; と長くなってしまいます。<br />
+これを表示するときに、桁数を制御したいなということです。</p>
+<p>最初、round関数で丸めればいいのかなぁと考えましたが<br />
+丸めたところで桁数は変わらないということを知り、<br />
+結局はdecimalモジュールを使って解決したのですが、<br />
+decimalモジュールが少しばかりダサかったる過ぎたので、<br />
+他に方法ないのかなと思いました。</p>
+<p>文字列フォーマット操作で解決できるようです↓</p>
+<pre>
+print '%.2f' % (3. / 9) # -> '0.33'
+</pre>
+</div>
+<p></p>
+<div>
+・・・信じられないだろ？<br />
+ひとつも自分で解決できなかったんだぜ、それら・・・。</p>
+<p>Thank you for your kindness and <a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'hige']);" >hige</a>.
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

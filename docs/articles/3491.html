@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>nodeシェルでUnderscore.jsが読み込めない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>nodeシェルでUnderscore.jsが読み込めない</h1>
+        <p>2013年7月24日</p>
+      </section>
+      <section>
+        <div>
+Node.js のインタラクティブシェルで Underscore.js を読み込もうとした際に、<br />
+以下のように書いたら展開できなかったという話です。</p>
+<pre><code>$ node
+&gt; _ = require(&quot;underscore&quot;)</code></pre>
+</div>
+<h3>半角アンダースコアは予約されている</h3>
+<div>
+node コンソール内の 半角アンダースコア ( _ ) は予約されていて、<br />
+「直前に評価された変数/値」を返す、という特殊な意味を持ちます。</p>
+<pre><code>$ node
+&gt; 123
+123
+&gt; _
+123
+&gt; obj = {x:1}
+{ x: 1 }
+&gt; _
+{ x: 1 }
+&gt; obj === _
+true</code></pre>
+<p></p>
+<p>だから、代入することはできません。<br />
+_und 等、なんでもいいので別の変数名にしろよーという話でした。</p>
+<p>Ref) <a href="http://stackoverflow.com/questions/5691901/using-the-underscore-module-with-node-js" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://stackoverflow.com/questions/5691901/using-the-underscore-module-with-node-js', 'Using the Underscore module with Node.js']);" target="_blank">Using the Underscore module with Node.js</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

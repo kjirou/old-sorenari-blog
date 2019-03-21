@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>timeline.js という非同期処理連携用ライブラリを作成 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>timeline.js という非同期処理連携用ライブラリを作成</h1>
+        <p>2012年2月2日</p>
+      </section>
+      <section>
+        <h3>timeline.js</h3>
+<div>
+<a href="http://pub.kjirou.net/timeline.js/intro/">timeline.js</a> という非同期処理同士を連携させるライブラリを書きました</p>
+<p>ライブラリの主な目的は以下の2点です</p>
+<ul>
+<li>1. 非同期処理同士の分離性を高めること</li>
+<li>2. 連携状況をわかり易くすること</li>
+</ul>
+<p>作った直接の理由は<br />
+　「アニメAとBが終わったらCを実行して<br />
+　　Cが終わったらXとYとZを1秒ずらして実行して<br />
+　　その3つが終わったらムービー終了」<br />
+・・・とこのような複雑な非同期処理の絡み合いを、後で読めるように書くためです</p>
+<p>なお、<a href="http://cho45.stfuawsc.com/jsdeferred/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://cho45.stfuawsc.com/jsdeferred/', 'JSDeferred']);" target="_blank">JSDeferred</a> に超依存しています
+</div>
+<h3>使い方の例</h3>
+<div>
+<pre><code>var timeline = Timeline.factory();
+
+var layer1 = timeline.createLayer();
+var layer2 = timeline.createLayer();
+var layer3 = timeline.createLayer();
+var layer4 = timeline.createLayer();
+
+layer1.onstart(function(){ /*非同期処理*/ });
+layer2.onstart(function(){ /*非同期処理*/ });
+layer3.onstart(function(){ /*非同期処理*/ });
+layer4.onstart(function(){ /*非同期処理*/ });
+
+// 1秒後にlayer1を実行し、終わったら2と3を同時実行し
+// 2と3の両方が終わったら4を実行する
+layer1.on(1000);
+layer2.after(layer1);
+layer3.after(layer1);
+layer4.after(layer2);
+layer4.after(layer3);
+
+timeline.start();</code></pre>
+</div>
+<h3>ダウンロードなど</h3>
+<div>
+<a href="http://pub.kjirou.net/timeline.js/intro/" target="_blank">timeline.js の紹介ページ</a> からどうぞ
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

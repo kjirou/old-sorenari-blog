@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>svnリポジトリ群を全部dumpしてtar.gz化するシェルスクリプト | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>svnリポジトリ群を全部dumpしてtar.gz化するシェルスクリプト</h1>
+        <p>2008年3月14日</p>
+      </section>
+      <section>
+        <div>
+svnadmin dump はひとつのリポジトリに対してしか出来ないので<br />
+リポジトリが増えてくるとバックアップが面倒になる。</p>
+<p>・・・ので、特定ディレクトリ以下のリポジトリを<br />
+全部dumpしてtar.gzで固めるシェルスクリプトを書いた。
+</div>
+<div>
+<pre><code>#!/bin/sh
+#
+# SVNリポジトリ群を保存する
+#
+# svnadmin dump は1リポジトリに対してしか出来ないので
+# それを特定ディレクトリ以下全てのリポジトリに対して行うのが基本機能
+#
+
+#---------------
+# 設定値
+#
+# *ディレクトリを指定する際は、末尾に"/"を付けること
+#---------------
+# svnadminコマンドへのパス
+SVNADMIN_CMD='svnadmin'
+# リポジトリ群ディレクトリへの絶対パス
+REPOS_DIR='/var/repos/'
+# バックアップファイル保存先ディレクトリへの絶対パス
+OUTPUT_DIR='/tmp/'
+# バックアップファイル名
+OUTPUT_FILENAME='svn_repos_backup_'`date '+%Y%m%d_%H%M%S'`
+# 作業用一時出力ディレクトリへの絶対パス
+TMP_DIR='/tmp/__svn_repos_backuper__/'
+
+#---------------
+# 処理
+#---------------
+echo "... start processing."
+# 全リポジトリへ svnadmin load
+mkdir -p $TMP_DIR$OUTPUT_FILENAME
+for i in `ls $REPOS_DIR`
+do
+    echo "... start dumping. $REPOS_DIR$i"
+    `$SVNADMIN_CMD dump $REPOS_DIR$i &gt; $TMP_DIR$OUTPUT_FILENAME/$i'.dat'`
+    echo "... complete dumping. $REPOS_DIR$i"
+done
+# ファイルを圧縮
+echo "... start compression."
+keeping_cd=`pwd`
+cd $TMP_DIR
+tar zcf $OUTPUT_DIR$OUTPUT_FILENAME.tar.gz ./$OUTPUT_FILENAME
+cd $keeping_cd
+echo "... complete compression."
+# 一時ファイルを削除
+rm $TMP_DIR$OUTPUT_FILENAME/*.dat
+echo "... complete processing."</code></pre>
+<p>これでA環境で固めたリポジトリ群を<br />
+B環境で解凍してsvnadmin load して<br />
+C環境からチェックアウト出来た</p>
+<p>・・・という、動作確認は出来たので、ヨシとしました
+</p></div>
+<div>
+作ろう作ろうと思って半年経ってしまった。<br />
+簡単なスクリプトなんだから、ストレスを感じるぐらいならサッサと作りゃいいのになぁ
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

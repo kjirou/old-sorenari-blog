@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>git diff が動かない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>git diff が動かない</h1>
+        <p>2012年10月7日</p>
+      </section>
+      <section>
+        <div>
+git diff を打っても何も表示されないなー<br />
+おかしいなー、怖いな怖いなー と思っていたら<br />
+単に $PAGER 環境変数に指定していた lv が無いだけでした<br />
+（※サーバは設定したてで別環境からコピった.zshrcを使っていた）</p>
+<p>ということで .zshrc を以下の様にして対応</p>
+<pre><code>PAGER=less
+もしくは
+GIT_PAGER=less</code></pre>
+<p>存在しないコマンドを指定していても、エラーは出ないんすね</p>
+<p>gitを触り始めなモンで<br />
+&quot;ワーキングディレクトリ&quot;や&quot;インデックス&quot;とか<br />
+この辺の理解が誤ってて出力されないのかと若干ハマったよこん畜生
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

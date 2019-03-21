@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>続・javascriptでSingletonパターン | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>続・javascriptでSingletonパターン</h1>
+        <p>2007年6月20日</p>
+      </section>
+      <section>
+        <div>
+<b>【後日追記】</b><br />
+<b>もうちょいマシな書き方になりました → <a href="http://kjirou.sakura.ne.jp/mt/2008/09/js_singletonmixin.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/09/js_singletonmixin.html', 'コチラ']);" >コチラ</a>の記事へどうぞ</b>
+</div>
+<p></p>
+<div>
+この二つのエントリが凄い楽しかった。</p>
+<ul>
+<li><a href="http://la.ma.la/blog/diary_200508141140.htm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://la.ma.la/blog/diary_200508141140.htm', '最速インターフェース研究会 &#8211; JavaScriptのデザインパターン &#8211; Singleton']);" >最速インターフェース研究会 &#8211; JavaScriptのデザインパターン &#8211; Singleton</a></li>
+<li><a href="http://nanto.asablo.jp/blog/2005/10/24/118564" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://nanto.asablo.jp/blog/2005/10/24/118564', 'Days on the Moon &#8211; JavaScript の new 演算子の意味']);" >Days on the Moon &#8211; JavaScript の new 演算子の意味</a></li>
+</ul>
+</div>
+<div>
+自分用はこんな感じにしようかしらん（99.99%パクリ）</p>
+<pre>
+/**
+* インスタンスを生成する
+*
+* var foo = Foo.applyNew([param1, param2]);  は
+* var foo = new Foo(param1, param2); と等しい。
+*/
+Function.prototype.applyNew = function(args){
+var Scope = function(){};
+Scope.prototype = this.prototype;
+var scope = new Scope();
+var instance = this.apply(scope, args || []);
+return (instance instanceof Object) ? instance : scope;
+};
+/**
+* Singletonパターンでインスタンスを生成する
+*/
+<s>Function.prototype.singleton = function(){
+var self = arguments.callee;
+if ("_instance" in self === false)
+self._instance = this.applyNew(arguments);
+return self._instance;
+};</s>
+Function.prototype.singleton = function(){
+if ("__instance__" in this === false)
+this.__instance__ = this.applyNew(arguments);
+return this.__instance__;
+};
+</pre>
+<p>テスト</p>
+<pre>
+var Foo = function(a, b){
+this.a = a;
+this.b = b;
+};
+var f1 = Foo.singleton(1, "one");
+var f2 = Foo.singleton();
+f2.a = "two";
+f2.b = 2;
+alert(f1.a); // -> "two"
+alert(f1.b); // -> 2
+</pre>
+<p>OKPK
+</p></div>
+<div>
+にしても、これ両方とも約2年前の記事なのか。<br />
+世の中は一体どうなってんだ・・・。
+</div>
+<div>
+<b>あああ、間違ったぁぁぁ！</b></p>
+<p>最初のソースだと、Function.prototype.singletonでひとつのインスタンスしか保持できないので、<br />
+複数のクラスでsingletonを使用出来ない！</p>
+<p>以下、修正後のソースでテスト</p>
+<pre>
+var Foo = function(a){
+this.a = a;
+};
+var Bar = function(b){
+this.b = b;
+};
+var f = Foo.singleton(1);
+var b = Bar.singleton(2);
+alert(f.a); // -> 1
+alert(b.b); // -> 2
+f.a = 11;
+b.b = 22;
+var ff = Foo.singleton();
+alert(ff.a); // -> 11
+var bb = Bar.singleton();
+alert(bb.b); // -> 22
+</pre>
+<p>OKPKPKK!（多分）
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

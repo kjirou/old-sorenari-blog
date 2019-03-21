@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] マルチバイト文字をヘキサ表記に変換する関数 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] マルチバイト文字をヘキサ表記に変換する関数</h1>
+        <p>2009年11月12日</p>
+      </section>
+      <section>
+        <div>
+マルチバイト文字を &#8220;\x00&#8221; という16進数表記 で書きたいな！<br />
+・・・という時に、<a href="http://ash.jp/code/unitbl21.htm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ash.jp/code/unitbl21.htm', '文字コード一覧表']);" target="_blank">文字コード一覧表</a> の類をいちいち引くのも面倒なので。</p>
+<p><b>最後の追記にありますが、bin2hex という関数がありました。</b><br />
+<b>糞エントリしてすみません。</b>
+</div>
+<h3>コード</h3>
+<div>
+<pre>
+&lt;?php
+function mb2hex($mb_char) {
+$decoded = &quot;&quot;;
+$len = strlen($mb_char);
+for ($i = 0; $i &lt; $len; $i++) {
+$char = substr($mb_char, $i, 1);
+$dec = ord($char);
+$hex = dechex($dec);
+$decoded .= $hex;
+}
+return $decoded;
+}
+</pre>
+</div>
+<h3>動作確認</h3>
+<div>
+<pre>
+&lt;?php
+$mb_char = &quot;ち&quot;;
+$decoded = mb2hex($mb_char);
+var_dump($decoded); // -&gt; &quot;e381a1&quot;
+$mb_char = &quot;ん&quot;;
+$decoded = mb2hex($mb_char);
+var_dump($decoded); // -&gt; &quot;e38293&quot;
+$mb_char = &quot;こ&quot;;
+$decoded = mb2hex($mb_char);
+var_dump($decoded); // -&gt; &quot;e38193&quot;
+</pre>
+</div>
+<h3>ってか、こんな面倒な方法以外に</h3>
+<div>
+var_dumpにオプションがあったり、とか、何か表示する方法ないっすかね？
+</div>
+<h3>[追記] ぐわ、あった・・・</h3>
+<div>
+<pre>
+$python
+Python 2.5.2 (r252:60911, Nov 28 2008, 15:07:26)
+[GCC 4.1.2 20071124 (Red Hat 4.1.2-42)] on linux2
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; u&quot;あ&quot;.encode(&quot;utf8&quot;)
+'xe3x81x82'
+</pre>
+<p>俺、本当に頭固いなぁ・・・・・・。
+</p></div>
+<h3>[追記] そのものずばりの bin2hex</h3>
+<div>
+<pre>
+&lt;php?
+var_dump(bin2hex("あ")); // -&gt; &quot;e38182&quot;
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>AS3で半Singleton | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>AS3で半Singleton</h1>
+        <p>2007年10月24日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3で半Singletonパターンのコードを書くときのサンプルです。</p>
+<p>「半」ってなんだよーというと、以下のSingletonの効用の内</p>
+<ul>
+<li>1クラスに対し1つのインスタンスのみしか作らせない。</li>
+<li>スコープを気にせず唯一のインスタンスにアクセスできる。</li>
+</ul>
+<p>下の方の特性だけを使えるようにするためです。<br />
+上の方は、どうせ一人開発だからいいや、と、あんまり気持ち良く書けなさそうですし。
+</div>
+<div>
+こんな感じで定義する</p>
+<pre>
+public class Hoge {
+/** 唯一のインスタンスを格納する */
+private static var _instance:Hoge;
+/** コンストラクタ */
+public function Hoge():void {
+// コンストラクタの処理の最後にこれを書く
+_instance = this;
+}
+/** Singletonパターンでインスタンスを取得する */
+public static function getInstance():Hoge {
+return _instance;
+}
+}
+</pre>
+<p>使い方としては、普通に1回newでインスタンスを生成した後に</p>
+<pre>
+new Hoge();
+</pre>
+<p>後はこれで唯一のインスタンスにアクセスできる</p>
+<pre>
+var hoge:Hoge = Hoge.getInstance();
+</pre>
+<p>やっぱ、これが使えると楽だなー、自分は。
+</p></div>
+<div>
+参考: <a href="http://weblogs.macromedia.com/akamijo/archives/2005/12/interface.cfm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://weblogs.macromedia.com/akamijo/archives/2005/12/interface.cfm', 'コンストラクタ （と Singleton）']);" >コンストラクタ （と Singleton）</a>
+</div>
+<div>
+<b>【追記】</b><br />
+getterをstaticで定義できることを知り、更に適当さがパワーアップしました</p>
+<pre>
+public class Hoge {
+/** 唯一のインスタンスを格納する */
+private static var _instance:Hoge;
+/** コンストラクタ */
+public function Hoge():void {
+// コンストラクタの処理の最後にこれを書く
+_instance = this;
+}
+/** Singletonパターンでインスタンスを取得する */
+public static function get i():Hoge {
+return _instance;
+}
+}
+</pre>
+<p>これでアクセス</p>
+<pre>
+Hoge.i
+</pre>
+<p>短くていいや
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

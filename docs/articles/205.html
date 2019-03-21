@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHPの嫌な点 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHPの嫌な点</h1>
+        <p>2007年12月7日</p>
+      </section>
+      <section>
+        <div>
+「言語なんてPHPだけでいいじゃん」というような会話がありまして、<br />
+その時に相手にささるような反撃ができなかったのが心残り。<br />
+・・・ので、今度は上手くやるぜぇと、PHPをDISらせたら西日本屈指の<a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'nobu']);" >nobu</a>さんに助力を頼んでリスト化してみた。</p>
+<p>Let&#8217;s disrespect!
+</p></div>
+<div>
+<ul>
+<li>変数のスコープが不完全・・・クロージャが作れない</li>
+<li>無名関数が無い・・・create_function<a href="http://p0t.jp/mt/archives/2007/04/1byte.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://p0t.jp/mt/archives/2007/04/1byte.html', '（笑）']);" >（笑）</a></li>
+<li>メソッドチェインが無い・・・PHP5で追加されたと聞いてたのに、あれかよ</li>
+<li>型が曖昧すぎる・・・ $str == &#8220;&#8221; と empty($str) とか、どうにかしろよ</li>
+<li>後方互換用の関数が多い・・・mysql_escape_string と mysql_real_escape_string とか、httpspecialcharsの第2引数とか、誤った方でもとりあえず動くので、細かい間違いが放置されたままになり易い</li>
+<li>例外処理が悪い・・・set_error_handlerを設定しないとFatalErrorで実行が止まる</li>
+<li>ネイティブ関数はアンダースコア表記なのに、メソッドはキャメルキャプス・・・PEARが悪いのか？</li>
+<li>代表されるframeworkが無い・・・PHP5リリースとZendFrameworkリリースが近ければ変わったかもしれないけど</li>
+<li>信頼出来るライブラリが無い・・・Rubyならgems・Pythonならsetuptools。PHPだとPEARなんだけど、何度中身を見るハメになったことか</li>
+<li>php.iniとconfigureオプションが冗長・・・php.iniの設定項目が多すぎて把握しきれない。同じくconfigureオプションも項目が多すぎる。「本番サーバで動かない！」→「php.iniの1項目が違った」</li>
+<li>PHP6からgoto文がサポートされる・・・nobu「さらにクソ度合いが抜群に上がります。」</li>
+</ul>
+<p>こんなところすかね
+</p></div>
+<div>
+ちょっと前は<a href="http://kjirou.sakura.ne.jp/mt/2007/05/php.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/05/php.html', 'こういう風に思ってた']);" >こういう風に思ってた</a>んですけど、JSをやりRubyをやりASをやったら、恩義だけという対象になりつつあるような。
+</div>
+<div>
+<b>【追記】</b><br />
+メソッドチェインが無いというのを足した。Yahooおおおお！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

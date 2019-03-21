@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] microtimeがfloat型に対応してた | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] microtimeがfloat型に対応してた</h1>
+        <p>2010年3月18日</p>
+      </section>
+      <section>
+        <h3>PHP4時代</h3>
+<div>
+microtime は、文字列しか返さなかったので</p>
+<pre>
+list($micro, $sec) = explode(" ", microtime());
+$sec = intval($sec);
+$micro = floatval($micro);
+</pre>
+<p>わざわざexplodeで分割して、<br />
+各々どうにかするような処理を書いていた記憶があります。
+</div>
+<h3>PHP5時代</h3>
+<div>
+どうやら、第一引数に $get_as_float という引数が付いていたようで・・・</p>
+<pre>
+$micro = microtime(true);
+var_dump($micro); // -> float(1268908179.96)
+</pre>
+<p>floatで取得できるようになってたのを、教えてもらった。</p>
+<p><a href="http://www.php.net/manual/ja/function.microtime.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.php.net/manual/ja/function.microtime.php', 'PHPマニュアル: microtime']);" target="_blank">PHPマニュアル: microtime</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>AS3で、コンストラクタで親クラスのプロパティを上書きしたい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>AS3で、コンストラクタで親クラスのプロパティを上書きしたい</h1>
+        <p>2007年10月31日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3で、「サブクラスのコンストラクタ内で、スーパークラスのプロパティを上書きする」ときにまつわるメモです。
+</div>
+<div>
+<b>【成功例1】</b></p>
+<pre>
+package {
+public class SuperClass extends Object {
+protected var _a:String = "SuperClass no property desu.";
+public function SuperClass(a:String = ""):void {
+if (a !== "") _a = a;
+trace(_a);
+};
+};
+};
+</pre>
+<pre>
+package {
+public class SubClass extends SuperClass {
+public function SubClass():void {
+super("SubClass no property desu.");
+};
+};
+};
+</pre>
+<p>実行</p>
+<pre>
+new SubClass;
+</pre>
+<p>trace出力</p>
+<pre>
+SubClass no property desu.
+</pre>
+<p>
+スーパークラスの方で受け口を用意して、そこを介してプロパティを操作しています。
+</div>
+<div>
+<b>【成功例2】</b></p>
+<pre>
+package {
+public class SuperClass extends Object {
+protected var _a:String;
+public function SuperClass():void {
+trace(_a);
+};
+};
+};
+</pre>
+<pre>
+package {
+public class SubClass extends SuperClass {
+public function SubClass():void {
+_a = "SubClass no property desu.";
+super();
+};
+};
+};
+</pre>
+<p>実行</p>
+<pre>
+new SubClass;
+</pre>
+<p>trace出力</p>
+<pre>
+SubClass no property desu.
+</pre>
+<p>
+サブクラス内でスーパークラスのプロパティを直接操作しています。</p>
+<p>なお、サブクラスのコンストラクタにsuper()が無い場合は、<s>コンストラクタの終了時に</s><b>コンストラクタの開始時に</b>引数なしのスーパークラスのコンストラクタが自動的に呼び出されるとのことです。<br />
+（参考: <a href="http://livedocs.adobe.com/flex/2_jp/langref/statements.html#super" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://livedocs.adobe.com/flex/2_jp/langref/statements.html#super', 'http://livedocs.adobe.com/flex/2_jp/langref/statements.html#super']);" >http://livedocs.adobe.com/flex/2_jp/langref/statements.html#super</a>）<br />
+・・・ので、<s>SubClassのsuper()は書いても書かなくても同じ結果になります。</s><b>書かないと開始時に呼ばれるので結果が変わります。</b>
+</div>
+<div>
+<b>【失敗例1】</b><br />
+成功例2の方のSuperClassを以下に置き換える</p>
+<pre>
+package {
+public class SuperClass extends Object {
+// 宣言時に値を入れる
+protected var _a:String = "SuperClass no property desu.";
+public function SuperClass():void {
+trace(_a);
+};
+};
+};
+</pre>
+<p>trace出力</p>
+<pre>
+SuperClass no property desu.
+</pre>
+<p>
+super()実行時に、スーパークラスの初期値で上書きされてしまうようです。
+</div>
+<div>
+<b>【失敗例2】</b><br />
+成功例2の方のSubClassを以下に置き換える</p>
+<pre>
+package {
+public class SubClass extends SuperClass {
+public function SubClass():void {
+// superを使ってアクセスしてみる
+super._a = "SubClass no property desu.";
+super();
+};
+};
+};
+</pre>
+<p>コンパイルエラーが出る</p>
+<pre>
+/xxx/xxx/SubClass.as(x): col: xx エラー: super ステートメントは、このステートメント、super
+ステートメント、return ステートメント、または throw ステートメントの後に続けることはできません。
+</pre>
+<p>
+なんでいけないんだろうなぁ？（未調査）
+</div>
+<div>
+<b>【失敗例3】</b><br />
+成功例2の方のSubClassを以下に置き換える</p>
+<pre>
+package {
+public class SubClass extends SuperClass {
+public function SubClass():void {
+super._a = "SubClass no property desu.";
+// コンパイルエラーにならないように super() を消してみる
+};
+};
+};
+</pre>
+<p>trace出力</p>
+<pre>
+null
+</pre>
+<p>
+上書きはダメなのかなぁ。<br />
+trace(super._a) とか書くと、ちゃんとスーパークラスのプロパティを取得できるんですけども。
+</div>
+<div>
+この辺の書き方が、PHP(4)ともJavaScriptともRubyとも違うので、どう書けばいいのか全くわかりません。<br />
+誰か教えて下さいませ。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

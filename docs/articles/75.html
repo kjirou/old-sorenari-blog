@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>vimで改行を超えて置換する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>vimで改行を超えて置換する</h1>
+        <p>2007年7月3日</p>
+      </section>
+      <section>
+        <div>
+例えばこういうテキストを</p>
+<pre>
+aaa111
+222bbb
+ccc333
+444ddd
+</pre>
+<p>こういうsコマンドで置換すると</p>
+<pre>
+:s/\d\+\n\d\+/@@@/c
+</pre>
+<p>こういう結果になるんだっ</p>
+<pre>
+aaa@@@bbb
+ccc@@@ddd
+</pre>
+<p>っっっってさ<br />
+（ちなみに、&#8221;g&#8221;修飾子を入れると、置換確認の[y/n]でnの選択が効かなくなるので入れてない。）
+</div>
+<div>
+「vi系は改行を超えて置換・検索を出来ない」って、そういう嘘知識を持ってましたス。</p>
+<p>ありがとう、職場の異国の（ような風貌を持っている）人。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

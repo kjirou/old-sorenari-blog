@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>怠惰にpsql時のパスワード入力を省略する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>怠惰にpsql時のパスワード入力を省略する</h1>
+        <p>2008年9月4日</p>
+      </section>
+      <section>
+        <div>
+PostgreSQLはpsqlコマンドでインタラクティブシェルを起動しますが<br />
+MySQLの-pオプションのような、パスワードを自動で与えるオプションが無い。<br />
+イチイチ入力して起動は面倒なので省略したいんだが、どうすればいいんだろうか？</p>
+<p>・・・と、わからなかったので <a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'yoshuki']);" >yoshuki</a>氏に聞いたら<br />
+<a href="http://saikyoline.jp/weblog/2005/10/psql_1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/2005/10/psql_1.html', '「その場所は我々が3年前に通過済みだッ！」']);" >「その場所は我々が3年前に通過済みだッ！」</a>って言われた。<br />
+基本的には $HOME/.pgpass を使うっぽい、なるほど。
+</div>
+<p></p>
+<div>
+ただ、どうせ自分しか使わないサーバなので、<br />
+非推奨の方でもいいやってんで、aliasでこんなコマンドを作った。</p>
+<pre>
+alias pp='export PGPASSWORD=password;psql -U username '
+</pre>
+<p>使うときは pp db_name みたいに、後にDB名をつけて使う。</p>
+<p>ちなみに、MySQL用にはこういうのを作っている</p>
+<pre>
+alias mm='mysql -hhostname -uusername -ppassword '
+</pre>
+</div>
+<p></p>
+<div>
+うーん、.pgpassを置くのと手間があんまり変わらんな！<br />
+まぁいいや・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

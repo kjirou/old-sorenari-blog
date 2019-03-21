@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>使えるネットの既存MySQLのID/PW | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>使えるネットの既存MySQLのID/PW</h1>
+        <p>2007年12月11日</p>
+      </section>
+      <section>
+        <div>
+既存MySQLプロセスを止めようと思ったんだが、MySQLのIDとPWがわからなかった。</p>
+<p>0.2秒後にサポートにチケットを送って聞いたら</p>
+<pre>
+username=admin
+password=/etc/psa/.psa.shadow の中身
+</pre>
+<p>だそうだ。</p>
+<p>ということで</p>
+<pre>
+mysqladmin shutdown -uadmin -p`/etc/psa/.psa.shadow`
+</pre>
+<p>にて、無事止まりました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

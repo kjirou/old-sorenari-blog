@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascript用の円運動クラス | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascript用の円運動クラス</h1>
+        <p>2007年8月4日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.amazon.co.jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/', 'Amazonトップページ']);" >Amazonトップページ</a>の一番下の方に、たまに出てくるんですが<br />
+商品をぐるぐる回して紹介するFlashアプリがあります。</p>
+<p>たまたま休日出勤してた<a href="http://blog.mj-site.net/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.mj-site.net/', 't-matsuda']);" >t-matsuda</a>さんに、「貴様にこれが作れるのか？あああん？」って言われたので（言われてないです）、作るついでに円運動と三角関数の調査をするついでにjavascriptで円運動クラスを作りました。
+</div>
+<div>
+で、アプリは出来ずに円運動クラスだけ出来ました。</p>
+<pre>
+/**
+* 円運動クラス
+*
+* @author kjirou &lt;kjirou.webあっとまーくgmail.com&gt;
+*/
+var Circulator = function(){
+// 円の中心座標
+this._circleTop = 150;
+this._circleLeft = 300;
+// 円の半径
+this._radiusY = 20;
+this._radiusX = 200;
+// 開始角度
+this._startAngle = 0;
+// イベント毎の角度の幅
+this._stepAngle = 0.5;
+// イベント毎の間隔
+this._timerPeriod = 10;
+// タイマーID保持用
+this._timerId;
+};
+/**
+* 角度をラジアン値に変換する
+*
+* @param number angle  角度
+* @return number ラジアン値
+*/
+Circulator.prototype.toRadian = function(angle){
+return angle * 0.017453290;
+};
+/**
+* 円運動を開始する
+*
+* @param function hander タイマーイベントハンドラ用関数
+* @return void
+*/
+Circulator.prototype.start = function(hander){
+var self = this;
+var angle = this._startAngle;
+this._timerId = setInterval(function(){
+var coords = [];
+coords[0] = self._circleTop + Math.sin(self.toRadian(angle)) * self._radiusY;
+coords[1] = self._circleLeft + Math.cos(self.toRadian(angle)) * self._radiusX;
+hander.call(self, coords, angle);
+angle += self._stepAngle;
+if (angle >= 360) angle -= 360;
+}, this._timerPeriod);
+};
+/**
+* 円運動を終了する
+*
+* @return void
+*/
+Circulator.prototype.stop = function(){
+clearInterval(this._timerId);
+};
+</pre>
+<p>サンプルは<a href="http://kjirou.sakura.ne.jp/samples/js9004/index.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/samples/js9004/index.html', 'ココ']);" >ココ</a>です。WinXP-IE6とWinXP-FireFox2で動作確認をしています。（若干、IEの方が動きが良い）</p>
+<p>一応ですけど、ライセンスはパブリックドメインです。<br />
+全くサンプルのレベルなので、実際に使う場合は適当に書き直して使ってくださいまし。
+</div>
+<div>
+三角関数の参考リンク</p>
+<ul>
+<li><a href="http://www8.plala.or.jp/ap2/suugaku/sankakukansuunoshoho.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www8.plala.or.jp/ap2/suugaku/sankakukansuunoshoho.html', '三角関数の初歩']);" >三角関数の初歩</a></li>
+<li><a href="http://www.esli.co.jp/javascript/dhtml/enn/index.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.esli.co.jp/javascript/dhtml/enn/index.html', '「オブジェクト円運動」の解説とサンプル']);" >「オブジェクト円運動」の解説とサンプル</a></li>
+<li><a href="http://ja.wikipedia.org/wiki/%E4%B8%89%E8%A7%92%E9%96%A2%E6%95%B0" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E4%B8%89%E8%A7%92%E9%96%A2%E6%95%B0', 'Wikipedia']);" >Wikipedia</a></li>
+</ul>
+</div>
+<div>
+ご意見・ご要望・強い口調の批判があれば、コメントください！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

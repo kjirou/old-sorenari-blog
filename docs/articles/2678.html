@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>旧いDateUtilsがPyPIから消えてた件 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>旧いDateUtilsがPyPIから消えてた件</h1>
+        <p>2013年5月16日</p>
+      </section>
+      <section>
+        <div>
+2013の末頃に、おそらくは pip install dateutils で入れた</p>
+<pre>
+DateUtils==0.5.2
+</pre>
+<p>が、PyPI から<a href="https://pypi.python.org/pypi/DateUtils/0.5.2" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://pypi.python.org/pypi/DateUtils/0.5.2', '消失してた']);" target="_blank">消失してた</a>。<br />
+<a href="https://pypi.python.org/pypi/dateutils" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://pypi.python.org/pypi/dateutils', 'dateutils']);" target="_blank">dateutils</a> というパッケージ名に変わって、前の奴は消された模様。<br />
+本番リリース後の案件で、環境を再構築をする時に困りました。</p>
+<p>結局は新しいものに変えることにしたんですが、<br />
+今後、案件によっては sdist をリポジトリに残して管理しようと思いました！</p>
+<p>インストール後の site-packages の内容から、<br />
+元のパッケージを復元することって出来るんすかね？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

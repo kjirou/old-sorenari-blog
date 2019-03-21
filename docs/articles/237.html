@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>HashToXML.as | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>HashToXML.as</h1>
+        <p>2008年1月10日</p>
+      </section>
+      <section>
+        <div>
+続きあります、<a href="http://kjirou.sakura.ne.jp/mt/2008/01/as_hashxmlconverteras.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/01/as_hashxmlconverteras.html', 'コチラ']);" >コチラ</a>をどうぞ。
+</div>
+<div>
+ActionScript3でXML関連は充実していると聞いたけど<br />
+<a href="http://www.fxug.net/modules/xhnewbb/viewtopic.php?topic_id=1420" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.fxug.net/modules/xhnewbb/viewtopic.php?topic_id=1420', 'ハッシュ（連想配列）とXMLオブジェクトの変換は出来ないらしい']);" >ハッシュ（連想配列）とXMLオブジェクトの変換は出来ないらしい</a>・・・ﾅﾝﾃｺｯﾀｲ!
+</div>
+<div>
+んー、JSON慣れしていると不便だなぁ　ということで<br />
+まずは、ハッシュ→XMLオブジェクト をしてくれるクラスを作ってみました。</p>
+<p>[<a href="http://kjirou.net/main/sample/flash/hash_to_xml/releases/1.0/HashToXML.as">HashToXML.as</a>]</p>
+<p>凄まじく誰かも作ってるような気がするけど、気にしないッ！
+</p></div>
+<div>
+<b>【使用例】</b><br />
+hash変数をXMLオブジェクトに変換して<br />
+toXMLStringメソッドの出力でXMLへの変換を確認します。</p>
+<p>ということで変換</p>
+<pre>
+var hash:Object = {
+root: {
+str: "STR"
+,num: 123
+,bool: false
+,nl: null
+,ud: undefined
+,arr: [11,22,33]
+,obj: {a:1, b:2, c:3}
+,nested: {
+x: 1
+,y: [111, 222, {sss:444}]
+,z: {zz:[9, 99]}
+}
+,blankArr: []
+,oneElemArr: ["only one"]
+}
+};
+var xml:XML = HashToXML.toXML(hash);
+trace(xml.toXMLString());
+</pre>
+<p>んで出力</p>
+<pre>
+&lt;root&gt;
+&lt;blankArr&gt;&lt;/blankArr&gt;
+&lt;nl&gt;&lt;/nl&gt;
+&lt;oneElemArr&gt;only one&lt;/oneElemArr&gt;
+&lt;num&gt;123&lt;/num&gt;
+&lt;bool&gt;false&lt;/bool&gt;
+&lt;ud&gt;&lt;/ud&gt;
+&lt;nested&gt;
+&lt;x&gt;1&lt;/x&gt;
+&lt;y&gt;111&lt;/y&gt;
+&lt;y&gt;222&lt;/y&gt;
+&lt;y&gt;
+&lt;sss&gt;444&lt;/sss&gt;
+&lt;/y&gt;
+&lt;z&gt;
+&lt;zz&gt;9&lt;/zz&gt;
+&lt;zz&gt;99&lt;/zz&gt;
+&lt;/z&gt;
+&lt;/nested&gt;
+&lt;arr&gt;11&lt;/arr&gt;
+&lt;arr&gt;22&lt;/arr&gt;
+&lt;arr&gt;33&lt;/arr&gt;
+&lt;str&gt;STR&lt;/str&gt;
+&lt;obj&gt;
+&lt;c&gt;3&lt;/c&gt;
+&lt;a&gt;1&lt;/a&gt;
+&lt;b&gt;2&lt;/b&gt;
+&lt;/obj&gt;
+&lt;/root&gt;
+</pre>
+<p>要素の順番が無茶苦茶なのは、ASのforがそういう仕様だから・・・。<br />
+あ、でも、リストになってるところは順番通りです。
+</div>
+<div>
+arguments.calleeって言いたいが為に無理矢理それを使ってたら<br />
+最近少し再帰処理に慣れてきた気がする
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

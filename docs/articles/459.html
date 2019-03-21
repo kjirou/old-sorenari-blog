@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>FireFox＋FireBugでxml表示がバグる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>FireFox＋FireBugでxml表示がバグる</h1>
+        <p>2010年2月15日</p>
+      </section>
+      <section>
+        <h3>なんのことかというと</h3>
+<div>
+あるシンプルな sitemap.xml をブラウザで開いた時に<br />
+XMLドキュメントとして解釈されなくなり<br />
+text/plain風にに表示されるようになってしまった。</p>
+<p>例えば、こんな風↓</p>
+<p>【こういう表示にして欲しいんだが】<br />
+<a href="http://photozou.jp/photo/show/135065/33111524" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/33111524', '']);" ><img src="http://art22.photozou.jp/pub/65/135065/photo/33111524.gif" alt="fb_xml_bug-1" width="240" height="132" style="border:0" /></a><br /><a href="http://photozou.jp/photo/show/135065/33111524" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/33111524', 'fb_xml_bug-1']);" >fb_xml_bug-1</a> posted by <a href="http://photozou.jp/user/top/135065" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/user/top/135065', '(C)kjirou']);" >(C)kjirou</a></p>
+<p>【こんな風にデチャウ！】<br />
+<a href="http://photozou.jp/photo/show/135065/33111531" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/33111531', '']);" ><img src="http://art20.photozou.jp/pub/65/135065/photo/33111531.gif" alt="fb_xml_bug-2" width="240" height="61" style="border:0" /></a><br /><a href="http://photozou.jp/photo/show/135065/33111531" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/33111531', 'fb_xml_bug-2']);" >fb_xml_bug-2</a> posted by <a href="http://photozou.jp/user/top/135065" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/user/top/135065', '(C)kjirou']);" >(C)kjirou</a></p>
+<p>
+なお、全く同じsitemap.xmlソースを別ドメインにアップしたら<br />
+こちらは正常に表示された。
+</div>
+<h3>原因・解決法</h3>
+<div>
+結局、FireBug(1.5.0)が自動で有効(*1)になってるのが原因で、<br />
+上記のような現象を引き起こしていた。</p>
+<p>FireBugは、ドメイン別に自動で有効にする設定を保存しているらしく<br />
+そのリストから除外すれば、<br />
+再度同じドメインでFireBugを有効にするまではXMLファイルは正しく表示された。</p>
+<p>ということで、<br />
+以下が、その「自動で有効にするドメイン」をクリアして<br />
+正常にxmlドキュメントを表示するための手順</p>
+<p>＞ 右下のFireFoxの枠上にある、「FireBugの虫アイコン」を右クリック<br />
+＞ 「アクティブ化リストをクリア」を押すとクリア<br />
+＞ xmlのページをリロードで表示されるようになる</p>
+<p>・・・ちなみに、FireBug的には仕様だと思う。</p>
+<p>(*1)<br />
+FireBugアイコンが灰色で無効っぽくても、完全に無効とは違うみたい？<br />
+というのも、灰色状態でダメで、それじゃあと<br />
+アドオン設定からFireBugを無効にしたら直ったので。
+</div>
+<h3>＊おおっと＊</h3>
+<div>
+トラップにかかり1時間を消費した！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MySQL] -hオプションは最初の方に書く | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MySQL] -hオプションは最初の方に書く</h1>
+        <p>2008年5月24日</p>
+      </section>
+      <section>
+        <div>
+これは動く</p>
+<pre>
+$ mysql -hXXX.XXX.XXX.XXX -uusername -ppassword
+</pre>
+<p>これは動かない</p>
+<pre>
+$ mysql -uusername -ppassword -hXXX.XXX.XXX.XXX
+</pre>
+<p>
+つまり、-hはさいしょのほうにかくんだ！（アバウト）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

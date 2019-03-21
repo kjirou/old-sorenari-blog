@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] リファラを残さないリンクにする関数 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] リファラを残さないリンクにする関数</h1>
+        <p>2010年4月6日</p>
+      </section>
+      <section>
+        <h3>メッセサンオーの顧客情報漏洩事件関連で</h3>
+<div>
+以下のスクリプトが旬じゃないかと貼ってみる。</p>
+<p>引用元: <a href="http://qootas.org/blog/archives/2004/11/referrer.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://qootas.org/blog/archives/2004/11/referrer.html', 'http://qootas.org/blog/archives/2004/11/referrer.html']);" target="_blank">http://qootas.org/blog/archives/2004/11/referrer.html</a></p>
+<pre><code>var OpenExtLink = function(el){
+    var url = el.href;
+    w = window.open();
+    w.document.write(&#039;&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=&#039;+url+&#039;&quot;&gt;&#039;);
+    w.document.close();
+    return false;
+}</code></pre>
+</div>
+<h3>使い方</h3>
+<div>
+アンカータグに設定すると、遷移先にリファラが残らないようになる。</p>
+<pre>
+&lt;a href=&quot;http://somedomain.com/&quot;&gt;リファラが残る&lt;/a&gt;
+&lt;a href=&quot;http://somedomain.com/&quot; onclick=&quot;return OpenExtLink(this);&quot;&gt;リファラは残らない&lt;/a&gt;
+</pre>
+</div>
+<h3>動作確認</h3>
+<div>
+<script type="text/javascript">
+var OpenExtLink = function(el){
+var url = el.href;
+w = window.open();
+w.document.write('<meta http-equiv="refresh" content="0;url='+url+'">');
+w.document.close();
+    return false;
+}
+</script><br />
+<a href="http://code.kjirou.net/js/snippet/referer_blanker/referer_checker.php">リファラが残るリンク</a><br />
+<a href="http://code.kjirou.net/js/snippet/referer_blanker/referer_checker.php" onclick="return OpenExtLink(this);">リファラが残らないリンク</a></p>
+<p>Webアプリの管理画面から直リンクしたい場合は、<br />
+とりあえずは、入れといてもいいと思う。
+</div>
+<h3>にしても</h3>
+<div>
+少しタイミング遅い・・・。</p>
+<p>参考) <a href="http://internet.watch.impress.co.jp/docs/news/20100402_358712.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://internet.watch.impress.co.jp/docs/news/20100402_358712.html', 'メッセサンオー、PCゲーム通販の顧客情報がネットで流出']);" target="_blank">メッセサンオー、PCゲーム通販の顧客情報がネットで流出</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

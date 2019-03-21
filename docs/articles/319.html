@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MySQL] UPDATE行数の更新制限 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MySQL] UPDATE行数の更新制限</h1>
+        <p>2008年5月30日</p>
+      </section>
+      <section>
+        <div>
+MySQL5.1しか確認して無いですが、<br />
+UPDATE文にもLIMIT句があるんすね</p>
+<pre>
+UPDATE table_name SET colunm_name="value" LIMIT=1
+</pre>
+<p>本番データをいじるときとかに、<br />
+とりあえず付けとくといいかも（気分的にだけど）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

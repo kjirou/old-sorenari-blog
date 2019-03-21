@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] pyqueryのインストールが失敗したら | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] pyqueryのインストールが失敗したら</h1>
+        <p>2012年11月21日</p>
+      </section>
+      <section>
+        <div>
+easy_installなどでpyqueryを入れたけどエラーが出た、という場合は<br />
+恐らくはですが、エラーメッセージの上の方に</p>
+<pre>
+** make sure the development packages of libxml2 and libxslt are installed **
+</pre>
+<p>という出力があると思うので、もしそうなら<br />
+libxml2 と libxslt の開発ライブラリをOSに入れれば解決します</p>
+<p>CentOS6ならこうする</p>
+<pre>
+yum install libxml2-devel
+yum install libxslt-devel
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

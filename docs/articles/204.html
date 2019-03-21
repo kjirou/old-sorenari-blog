@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>GoogleMapsAPIで住所から緯度・経度を取得する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>GoogleMapsAPIで住所から緯度・経度を取得する</h1>
+        <p>2007年12月6日</p>
+      </section>
+      <section>
+        <div>
+GoogleMapsAPIを使って、住所文字列から緯度・経度を取得する。</p>
+<p>・・・とまぁ、新しいネタでもなんでもないんですが、<br />
+自分で調べたときに若干見つかりにくかったので上げときます。
+</div>
+<div>
+叩くURLのフォーマット</p>
+<pre>
+http://maps.google.co.jp/maps/geo?q={*住所*}&output={*取得形式*}&key={*APIキー*}
+</pre>
+<p>試しにこれをアドレスバーに入れて叩いてみよう</p>
+<pre>
+http://maps.google.co.jp/maps/geo?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E6%B8%8B%E8%B0%B71-2-5&output=xml&key=ABQIAAAAZOlyLyDe18RyB1iSNq6E_xQ-opQx7k7Itge3hfkWsuIaGj0jThQ9ap2hldWJB6APa4LLJJQGkVEabw
+</pre>
+<p>coordinatesノードに &#8220;経度,緯度,0&#8221; で座標情報の含まれるXMLが返るはずです。<br />
+（最後の&#8221;0&#8243;はなんだかわかりません）
+</div>
+<div>
+<b>【解説とか】</b></p>
+<ul>
+<li>qパラメータは、URLエンコードした住所文字列を指定します。手軽に取得したければ、<br />
+JSで encodeURIComponent(&#8216;住所文字列&#8217;) と書けば取得できます。</li>
+<li>outputパラメータは、&#8221;xml&#8221;か&#8221;json&#8221;を指定できます。効果は・・・見たとおりです。</li>
+<li>keyはAPIキーというGoogleMapAPIを使用するためのキーを指定します。<br />
+APIキーを取得するためにサービスのドメインを記述する必要がありますが、<br />
+何気にクライアントとして使うだけならドメインは無関係に使えたりします。<br />
+（サーバにコンテンツの一部としてGoogleMapsAPIキーを配置するならドメインと整合している必要がある）</li>
+<li>APIキーの取得方法は<a href="http://www.geekpage.jp/web/google-maps-api/signup.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.geekpage.jp/web/google-maps-api/signup.php', 'コチラ']);" >コチラ</a>参照</li>
+<li>xmlの解析は、(1)まず、codeノードのテキストを取得して、「&#8221;200&#8243;=緯度経度取得成功、その他=緯度経度の取得失敗」を判別して、(2)その後でcoordinatesノードの値を取りに行く、と良いです。</li>
+<li>住所文字列の末尾にマンション名とかが付いていると失敗する。例えば、&#8221;渋谷区渋谷1-2-3コーポベルサイユ201&#8243; とかは失敗する。</li>
+</ul>
+<p>
+参考：<a href="http://www.tatamilab.jp/rnd/archives/000218.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.tatamilab.jp/rnd/archives/000218.html', 'http://www.tatamilab.jp/rnd/archives/000218.html']);" >http://www.tatamilab.jp/rnd/archives/000218.html</a>
+</div>
+<div>
+また、もっと簡単に座標を取得するに当たって、<a href="http://www.geocoding.jp/api/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.geocoding.jp/api/', 'Geocoding']);" >Geocoding</a>とか<a href="http://www.vector.co.jp/soft/winnt/home/se440615.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.vector.co.jp/soft/winnt/home/se440615.html', 'Goocoder']);" >Goocoder</a>とかもありました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

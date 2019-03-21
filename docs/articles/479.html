@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Python-2.5を使ってgoo.glの短縮URLを得る | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Python-2.5を使ってgoo.glの短縮URLを得る</h1>
+        <p>2010年10月18日</p>
+      </section>
+      <section>
+        <div>
+<b>Pythonを使ってgoo.glの短縮URLを得る</b><br />
+<a href="http://coreblog.org/ats/pythonic-way-of-obtaining-shorten-url-by-using-goo_gl" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://coreblog.org/ats/pythonic-way-of-obtaining-shorten-url-by-using-goo_gl', 'http://coreblog.org/ats/pythonic-way-of-obtaining-shorten-url-by-using-goo_gl']);" target="_blank">http://coreblog.org/ats/pythonic-way-of-obtaining-shorten-url-by-using-goo_gl</a></p>
+<p>・・・が、<a href="http://nakagami.blog.so-net.ne.jp/2010-03-19" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://nakagami.blog.so-net.ne.jp/2010-03-19', 'Python-2.5だと 201 Created を HTTPError にしてしまう問題']);" target="_blank">Python-2.5だと 201 Created を HTTPError にしてしまう問題</a>で<br />
+動かすまでに少々手間取ったので、その対応版です。
+</div>
+<h3>Python-2.5用コード</h3>
+<div>
+<pre><code>
+def shorten(url):
+from re import match
+from urllib2 import urlopen, Request, HTTPError
+from urllib import quote
+from simplejson import loads
+req=Request(&#039;http://goo.gl/api/url&#039;,
+&#039;url=%s&#039;%quote(url), {&#039;User-Agent&#039;:&#039;toolbar&#039;})
+try:
+# -- 変更:ここから --
+r=urlopen(req)
+source=r.read()
+except HTTPError, e:
+if e.code != 201:
+raise Exception(&#039;Unknown eror forming short URL.&#039;)
+source=e.read()
+j = loads(source)
+# -- 変更:ここまで --
+return j[&#039;short_url&#039;]
+if __name__ == &#039;__main__&#039;:
+from sys import argv
+print shorten(argv[1])</code></pre>
+<p>
+まだ、古いPythonは世間に多いと思ふ。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

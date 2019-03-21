@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MySQL] mysql.serverにlogオプションを渡す | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MySQL] mysql.serverにlogオプションを渡す</h1>
+        <p>2008年12月22日</p>
+      </section>
+      <section>
+        <div>
+/etc/init.d/mysqldを、mysql.serverをコピって作った場合に、<br />
+ログ出力有無をオプションで渡せることに気付いた。</p>
+<pre>
+/etc/init.d/mysqld start --log=/tmp/mysqllog.log
+</pre>
+<p>
+今まで、ログを出したい時だけ my.cnf を書き換えて再起動してた。
+</div>
+<p></p>
+<div>
+これは<br />
+<b>&#8220;フレームワークが吐くSQLの確認コスト&#8221; -30%</b><br />
+・・・の能力に相当するなー、とか<br />
+<a href="http://www.s-f.co.jp/soft/ds/elminage/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.s-f.co.jp/soft/ds/elminage/', 'Elminage']);" >Elminage</a>をやってるので、全部数値変換にしちゃう脳が。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

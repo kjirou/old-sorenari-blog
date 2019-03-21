@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] Webサービスをリリース | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] Webサービスをリリース</h1>
+        <p>2009年2月2日</p>
+      </section>
+      <section>
+        <div>
+お仕事なんですけど、以下のサービスをリリースしました。</p>
+<p><b>【BBPlanet】（ビービープラネット と発音します）</b><br />
+<a href="http://it.bbplanet.jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://it.bbplanet.jp/', 'http://it.bbplanet.jp/']);" target="_blank">http://it.bbplanet.jp/</a></p>
+<p>いわゆるマッチングサイトというやつで・・・</p>
+<p>1. お仕事を頼みたい企業/個人が、<br />
+　「こういう案件があります、100万でどーですか？」<br />
+　というような情報を入力。</p>
+<p>2. その仕事に対して、会員が、見積を作成したり、<br />
+　コンタクトしたりすることができる。</p>
+<p>・・・という感じのサービスです。<br />
+一年稼動してましたが、この度Djangoで大幅リニューアルをしました。</p>
+<p>ち・な・み に、ほぼほぼ皆さんどうでもいいと思いますが、<br />
+お仕事を発注する側は無料で、個人情報も多くは求められなく、<br />
+今は<a href="http://it.bbplanet.jp/article/90000001/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://it.bbplanet.jp/article/90000001/', 'キャンペーン']);" target="_blank">キャンペーン</a>もやってたりするので、興味があれば、覗いていってくれると有難いです。<br />
+（お仕事を請ける側は有料です。）</p>
+<p>てことで、宣伝でした。
+</p></div>
+<p></p>
+<div>
+しかし、<a href="http://kjirou.sakura.ne.jp/mt/2008/11/django_jquery_web.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/11/django_jquery_web.html', '前は']);" >前は</a>APIしか作ってなかったからわからなかったですが、<br />
+Djangoのテンプレート継承の仕組みはとても良いと思いました。</p>
+<p>
+<b>1. 想定外の状況に強い</b></p>
+<p>これで大丈夫だろうというレイアウトをしていて・・・</p>
+<pre>
+&lt;body&gt;
+&lt;div id=&quot;header&quot;&gt;Header&lt;/div&gt;
+&lt;div id=&quot;contents&quot;&gt;{% block contents %}Contents{% endblock %}&lt;/div&gt;
+&lt;div id=&quot;footer&quot;&gt;Footer&lt;/div&gt;
+&lt;/body&gt;
+</pre>
+<p>ほぼ大丈夫なところに、<br />
+ほんの一部のテンプレでdivタグそのものを書き換えないとダメになった場合に</p>
+<pre>
+&lt;body&gt;
+&lt;div id=&quot;header&quot;&gt;Header&lt;/div&gt;
+{% block contents_tag %}
+&lt;div id=&quot;contents&quot;&gt;{% block contents %}Contents{% endblock %}&lt;/div&gt;
+{% endblock %}
+&lt;div id=&quot;footer&quot;&gt;Footer&lt;/div&gt;
+&lt;/body&gt;
+</pre>
+<p>こんな風に、ちょっと多く切り分けたblockを設定すれば、他に影響無く解決する。<br />
+下手なテンプレの仕組みだと、if したりとか、そのために変数を入れたりとか、面倒になりがち。</p>
+<p>
+<b>2. テンプレートファイルが少なくて済む</b></p>
+<p>部分テンプレートをひたすらincludeする地獄から抜けられる。<br />
+1ページ直すのに、何個ファイル開かせるんだよ、ということが無い。</p>
+<p>
+もちろん、他にもあるんですが、特に気に入ったのはこの2点。<br />
+総じて、<b>「テンプレートのレイアウトを失敗したコスト」を抑えられる仕組み</b>なので、<br />
+設計を熟考するよりも「まぁいいや、困ったら考えよう」的な開発をするには超イイです。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

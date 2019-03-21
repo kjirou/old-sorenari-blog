@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>thisを整理する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>thisを整理する</h1>
+        <p>2007年5月9日</p>
+      </section>
+      <section>
+        <div>
+javascriptのthisのことです。<br />
+よくわからないで使ってたなということで、まとめようと。</p>
+<p>なお、サンプルコードのconsole.logはFireBug専用関数です。<br />
+実行環境により適宜変えてくださいませ。
+</div>
+<div>
+<b>&#8211; thisは、thisを記述した関数オブジェクトを格納しているオブジェクトへの参照である。</b></p>
+<pre>
+var foo = function(){
+console.log(this);
+};
+var obj = {};
+foo.call(window); // windowを出力
+foo.call(obj); // objを出力
+</pre>
+</div>
+<div>
+<b>&#8211; thisへの値を代入や宣言をし直すことは出来ない</b></p>
+<pre>
+var this;
+this = null;
+</pre>
+<p>はエラー。
+</div>
+<div>
+<b>&#8211; thisは、ダイナミックスコープの変数である</b><br />
+<b>例1</b></p>
+<pre>
+var make = function(){
+return function(){
+console.log(this);
+};
+};
+var maked = make();
+maked.call(window); // windowオブジェクトを出力
+maked.call(foo);    // fooオブジェクトを出力
+var maked2 = make.call(foo);
+maked2.call(window); // windowオブジェクトを出力
+maked2.call(foo);    // fooオブジェクトを出力
+</pre>
+<p><b>例2</b></p>
+<pre>
+var make = function(){
+var self = this;
+return function(){
+console.log(self);
+};
+};
+var maked = make();
+maked.call(window); // windowオブジェクトを出力
+maked.call(foo);    // windowオブジェクトを出力
+var maked2 = make.call(foo);
+maked2.call(window); // fooオブジェクトを出力
+maked2.call(foo);    // fooオブジェクトを出力
+</pre>
+<p>
+例1のmake関数内のthisは<br />
+レキシカルスコープ的に考えるとmake関数実行時のthisが格納されるので<br />
+それを受けてreturnされるmaked・maked2関数のthisも、<br />
+make関数を呼び出したオブジェクトを参照するはずです。</p>
+<p>しかし、thisはダイナミックスコープなので、<br />
+「自分が所属しているオブジェクトがthisになる」というルールに基づいて、<br />
+実行時の環境にのみ影響を受け、maked.callの第一引数がその所属オブジェクトになります。<br />
+また、make関数実行時の環境であるthisはどこからも参照されないため、<br />
+メモリから消去されます。</p>
+<p>一方、例2のmake関数内のselfは<br />
+returnしたmaked・maked2関数から参照され、<br />
+selfから参照されているmake関数内のthisもメモリ上に残り、<br />
+つまりは、make関数実行時の環境が残り、make・maked関数はクロージャとなります。
+</div>
+<div>
+ということで<br />
+ほとんど人から聞いた話やら、検証結果やら、推測やらで成り立っているので<br />
+間違ってたら厳しい口調で突っ込んでくれるといいなと思ってます。
+</div>
+<p><span id="more-38"></span></p>
+<div><b>***追記***</b></div>
+<div>
+ダイナミックスコープについての例文追加</p>
+<p><b>例3</b></p>
+<pre>
+var foo = function(){
+console.log(this); // hogeオブジェクトを出力
+(function(){console.log(this);})(); // windowオブジェクトを出力
+};
+var hoge = {};
+foo.call(hoge);
+</pre>
+<p>無名関数はwindow所属になる（常にかどうかは不明です）</p>
+<p><b>例4</b></p>
+<pre>
+var list = [1];
+var foo = function(){
+console.log(this); // hogeオブジェクトを出力
+list.each(function(){
+console.log(this); // windowオブジェクトを出力
+});
+};
+var hoge = {};
+foo.call(hoge);
+</pre>
+<p>渡した無名関数でも同じ、蛇足っすね。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

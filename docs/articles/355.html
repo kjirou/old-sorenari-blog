@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JS] constructorで生成元オブジェクトを判別 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JS] constructorで生成元オブジェクトを判別</h1>
+        <p>2008年9月24日</p>
+      </section>
+      <section>
+        <div>
+JavaScriptで、<br />
+あるオブジェクトのインスタンスから生成元オブジェクトを知ることは出来る？<br />
+・・・というのを（イマサラ）思って調べたらハッケソした。
+</div>
+<p></p>
+<div>
+こんな感じに</p>
+<pre>
+// Not native object.
+var Person = function(name){
+this._name = name;
+};
+Person._name = "Person!";
+var p = new Person("kj");
+alert(p._name); // -> "kj"
+alert(p.constructor._name); // -> "Person!"
+// Native object.
+var s = "hogehoge";
+alert(s.constructor === String); // -> true
+alert(s.constructor === Object); // -> false
+</pre>
+</div>
+<p></p>
+<div>
+Windows の IE6 / FireFox2 / Google Chrome で動作確認しました。<br />
+IEには無さそうだとドキドキしてたけど、ありました。ひゃっほう！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

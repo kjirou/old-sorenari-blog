@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHPで func((new Foo)) を書けるんだ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHPで func((new Foo)) を書けるんだ</h1>
+        <p>2007年4月11日</p>
+      </section>
+      <section>
+        <div>PHPの4の話</div>
+<div>関数とかメソッドの引数に</p>
+<pre><code>func((new Foo));
+</code></pre>
+<p>と書いて、直接インスタンスを生成して渡すことができるんだ。<br />
+PHPで出来るって知らなかった。</p>
+</div>
+<div>調子に乗って</p>
+<pre><code>$bar = (new Foo)-&gt;a;</code></pre>
+<p>とかやってみたけど、これは構文エラーになりました。</p>
+</div>
+<div>残念無念</div>
+
+      </section>
+    </article>
+  </body>
+</html>

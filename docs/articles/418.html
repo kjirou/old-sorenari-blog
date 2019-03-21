@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] Webstemmerを試してみた | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] Webstemmerを試してみた</h1>
+        <p>2009年5月22日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.unixuser.org/~euske/python/webstemmer/index-j.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.unixuser.org/~euske/python/webstemmer/index-j.html', 'Webstemmer']);" target="_blank">Webstemmer</a>という<br />
+サイトをクロール＆スクレイピングして記事を抽出するツール を試してみました。</p>
+<p>ドキュメントを読むと、以下の特徴があるよう。</p>
+<p>(1) 自動で本文抽出を行う<br />
+　レイアウトを学習してくれる仕組みなので、どんなサイトでも自動的に解析できる。</p>
+<p>(2) Pure Python製なので、インストールが楽！<br />
+　ソースをDLして解凍するだけで完了、yumで入っているpythonで動く。</p>
+<p>(3) 出来が良い<br />
+　オプション等も細かく整備されており、丁寧に作りこまれている感じがする。</p>
+<p>おおー、良さそうだ！　試してみよう。
+</div>
+<p></p>
+<div>
+プロセスが、(1)クロール (2)レイアウト解析 (3)記事抽出 に分かれており、<br />
+それぞれ別のPythonバッチを叩く必要がある。</p>
+<p><b>(1) クロール</b></p>
+<pre>
+python ./textcrawler.py -o kjirou -m1 -c utf-8 http://kjirou.sakura.ne.jp/mt/archives.html
+</pre>
+<p>記事の索引ページとなるURLを指定して、その1階層下が記事である<br />
+・・・というように、抽出対象の記事リストを指定します。<br />
+（索引URLは当サイトのアーカイブページ、階層は-mオプションで指定）<br />
+実行結果として、kjirou.YYYYMMDDHHIISS.zip という、その記事情報の詰まったファイルが生成されます。</p>
+<p><b>(2) レイアウト解析</b></p>
+<pre>
+python ./analyze.py kjirou.200905211722.zip > kjirou.pat
+</pre>
+<p>クロールした記事情報から、レイアウトを解析します。<br />
+解析結果をリダイレクトで保存する必要があり、今回は kjirou.pat として保存しています。</p>
+<p><b>(3) 記事抽出</b></br></p>
+<pre>
+python ./extract.py -c utf-8 kjirou.pat kjirou.200905211722.zip > kjirou-result.txt
+</pre>
+<p>クロール記事とレイアウト解析結果を引数に入れて、目的である記事抽出を行います。<br />
+kjirou-result.txtは例えばこのような内容です。</p>
+<pre>
+!UNMATCHED: 200905211722/kjirou.sakura.ne.jp/mt/2007/08/
+!MATCHED: 200905211722/kjirou.sakura.ne.jp/mt/2009/05/good_by_lingr.html
+PATTERN: 200905211722/kjirou.sakura.ne.jp/mt/2007/09/vpsror.html
+SUB-3: « [正規表現] ややこしい例に遭遇 | メイン
+SUB-5: good_by_lingr_mod posted by (C)kjirou
+SUB-5: お世話になりました。
+SUB-5: 俺がエンジニアリングで成果を出せたら、
+SUB-5: Special Thanks の欄に "Lingr" と入れざるを得ない。
+</pre>
+<p>&#8220;kjirou.sakura.ne.jp/mt/2007/08/&#8221;のページは、記事ではないと判断されて解析されていません。<br />
+&#8220;kjirou.sakura.ne.jp/mt/2009/05/good_by_lingr.html&#8221; は記事だと認識され、本文抽出が成功しています。<br />
+<b>・・・すげぇ！　俺より賢い！！</b><br />
+（タイトルの抽出に失敗しているけど・・・多分オプションでどうにかなるはず）
+</div>
+<p></p>
+<div>
+ただし、いくつか弱点もあります。</p>
+<p><b>(1) 遅い</b><br />
+　割と各処理に時間が掛かる。<br />
+　また、計算量が記事数の二乗で増加してゆく部分があり、そこを調整しないと大変なことになる。</p>
+<p><b>(2) メンテが止まっている</b><br />
+　2007/9を最後に更新が止まっている。</p>
+<p>ですが、ハマればちゃんと動くので、<br />
+自作クローラの前に試すのはいいと思います。</p>
+<p>それでは、素晴らしきチュルチュル人生を！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

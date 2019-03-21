@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascriptでの値の複製は？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascriptでの値の複製は？</h1>
+        <p>2007年9月2日</p>
+      </section>
+      <section>
+        <div>
+prototype.jsのObject.cloneって、完全な複製じゃないですよね。<br />
+って、<a href="http://humming.via-kitchen.com/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/weblog/', 'nobu']);" >nobu</a>氏に言われて、そういやそうだなと思った。
+</div>
+<div>
+どういうことかというと</p>
+<pre>
+Object.extend = function(destination, source) {
+for (var property in source) {
+destination[property] = source[property];
+}
+return destination;
+}
+Object.clone: function(object) {
+return Object.extend({}, object);
+}
+var foo = {a:[1,2,3]};
+var bar = Object.clone(foo);
+bar.a[0] = 4;
+alert(foo.a); // -> [4,2,3] 参照渡しになっている
+</pre>
+<p>fooへの参照は切れているけど、fooの持つ各プロパティ ←→ barの持つ各プロパティ 間の参照は切れていないっつーことですな。
+</p></div>
+<div>
+値渡しもしたいよねってことで</p>
+<pre>
+myClone = function(obj){
+var clone = function(){};
+for (var i in obj) clone.prototype[i] = obj[i];
+return new clone;
+};
+</pre>
+<p>prototypeに入れてnewしたら<br />
+値が複製されているんじゃないかとやってみると・・・</p>
+<pre>
+var foo = {a:[1,2,3]};
+var bar = myClone(foo);
+bar.a[0] = 4;
+alert(foo.a); // -> [4,2,3] 参照渡しになっている
+</pre>
+<p>失敗か・・・。
+</p></div>
+<div>
+evalを使ってソースコードを書くしか無いのかなぁ
+</div>
+<div>
+<b>【追記】</b></p>
+<pre>
+# kjirou
+# jsで完全に・簡単に値渡しする方法ってないすかねー
+# komagata
+# RubyだったらMarshal.dump経由でいけそうだけどなー
+# deep copyってことだよね？
+</pre>
+<p>値渡しと参照渡しをもっと正確に定義すると、deep copy と shallow copy ってプログラミング用語になるんですね。<a href="http://www.python.jp/doc/2.4/lib/module-copy.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/doc/2.4/lib/module-copy.html', '参考']);" >参考</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

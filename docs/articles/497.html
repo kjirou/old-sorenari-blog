@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] 配列から要素番号を指定して削除 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] 配列から要素番号を指定して削除</h1>
+        <p>2011年4月17日</p>
+      </section>
+      <section>
+        <div>
+Array.splice を使う。</p>
+<pre>
+&gt;&gt;&gt; var a = [11, 22, 33];
+&gt;&gt;&gt; a.splice(1, 1) // (要素番号, 個数)
+[22]
+&gt;&gt;&gt; a
+[11, 33]
+</pre>
+<p>毎回忘れるので書いてみた。
+</p></div>
+<h3>他の言語はどうなんだろう？</h3>
+<div>
+削除だから &#8216;delete&#8217; や &#8216;remove&#8217; じゃね？ または &#8216;pop&#8217; じゃね？<br />
+・・・と、考えてしまうのが原因で忘れることに気付いたので、<br />
+その脳インデックスを修正する必要があるのか、他の言語を見てみる。</p>
+<p><b>Python</b></p>
+<pre>
+&gt;&gt;&gt; l = [11, 22, 33]
+&gt;&gt;&gt; del l[1]
+&gt;&gt;&gt; l
+[11, 33]
+</pre>
+<p>または</p>
+<pre>
+&gt;&gt;&gt; l = [11, 22, 33]
+&gt;&gt;&gt; l.pop(1)
+22
+&gt;&gt;&gt; l
+[11, 33]
+</pre>
+<p><b>PHP</b></p>
+<pre><code>
+$array = array(11, 22, 33);
+array_splice($array, 1, 1);
+var_dump($array);
+/*
+array(2) {
+[0]=&gt;
+int(11)
+[1]=&gt;
+int(33)
+}
+*/</code></pre>
+<p>
+と、ここまで調べたら、こんな良エントリがあった・・・。<br />
+<a href="http://0xcc.net/blog/archives/000043.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://0xcc.net/blog/archives/000043.html', '配列操作の比較表: Ruby, Python, JavaScript, Perl, C++']);" target="_blank">配列操作の比較表: Ruby, Python, JavaScript, Perl, C++</a></p>
+<p>&#8216;delete&#8217; だと思っちゃうこと自体は、間違いじゃなさそうだ！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

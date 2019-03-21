@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Gumblar(GENOウィルス)亜種のQA風まとめ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Gumblar(GENOウィルス)亜種のQA風まとめ</h1>
+        <p>2010年1月7日</p>
+      </section>
+      <section>
+        <div>
+1/5に担当のWebサービスのために調べました。<br />
+大事なところをQA形式で残しておきます。
+</div>
+<h3>Q. URLを踏んだだけで感染するのですか？</h3>
+<div>
+A. 現在だと、その通りです。</p>
+<p>いくつか感染ルートがある中のひとつに、Adobe Reader の脆弱性を突いたものがあって、<br />
+これが悪いことに、最新アップデートをしても防げない状態です。<br />
+（いわゆるゼロデイ攻撃状態）</p>
+<p>Adobe Reader をインストールしてなかったり、<br />
+オプションをいじってる人は大丈夫な可能性もあるけど、<br />
+ほとんどの人が条件に当てはまると思います。</p>
+<p>引用） <a href="http://pc11.2ch.net/test/read.cgi/sec/1259607683/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pc11.2ch.net/test/read.cgi/sec/1259607683/', 'http://pc11.2ch.net/test/read.cgi/sec/1259607683/']);" target="_blank">http://pc11.2ch.net/test/read.cgi/sec/1259607683/</a></p>
+<pre>
+405 ：名無しさん＠お腹いっぱい。：2010/01/06(水) 01:32:24
+今北さん用、GENO（Gumblar）ウイルス対処法。
+行っておくべき事項を箇条書きにしました。
+細かなことは他にもいろいろありますが、とりあえず以下を実施して下さい。
+(1）Microsoft Update（Windows Update）を実行しシステムを最新の状態にする
+(2）Adobe Readerを最新版に更新する
+(3) Adobe ReaderのAcrobat JavaScriptを無効に設定
+(4) JRE(Java Runtime Environment)を最新版に更新する
+(5) Flash Playerを最新版に更新する
+(6) QuickTimeを最新版に更新する
+(1)～(4)を行っていれば、現時点で改ざんサイトを閲覧してもウイルスには感染しない。
+攻撃コードは変化する可能性もあるので、念のため全て行っていただきたい。
+Adobe Readerなどのアップデート方法については下記のトピックスを参照のこと。
+Acrobat JavaScriptを無効にする方法は以下の通り。
+(1）Adobe Readerを起動し[編集]メニューの[環境設定]を選択
+(2）「分類」の中の「JavaScript」を選択
+(3）「Acrobat JavaScriptを使用」のチェックをクリア
+(4）「OK」ボタンを押す
+</pre>
+</div>
+<h3>Q. 感染の確認方法は？</h3>
+<div>
+A. 現在は、ウィルススキャン以外は手軽に確認できる方法がないようです。</p>
+<p>多分、各社のウィルス対策ソフトはもう対応してると思うので、とりあえずは手持ちの奴でどうぞ。<br />
+イマイチ信用ならないなら、今回は対応が良さそうなKasperskyが、以下の無料サービスをやっているので、合わせてやっとけばいいかなと思います。</p>
+<p>オンラインスキャン（配布はnifty）：<br />
+<a href="http://www.nifty.com/security/vcheck/index.htm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.nifty.com/security/vcheck/index.htm', 'http://www.nifty.com/security/vcheck/index.htm']);" target="_blank">http://www.nifty.com/security/vcheck/index.htm</a><br />
+クライアントインストール型ウィルススキャン：<br />
+<a href="http://support.kaspersky.com/faq/?qid=208280701" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://support.kaspersky.com/faq/?qid=208280701', 'http://support.kaspersky.com/faq/?qid=208280701']);" target="_blank">http://support.kaspersky.com/faq/?qid=208280701</a>
+</div>
+<h3>Q. 感染してたらどうする？</h3>
+<div>
+A. 一般的な対処以外は、特に無いよう（再インスコや駆除）です。<br />
+または、神田川にPCを投げ込むといいと思います。</p>
+<p>特にやってはいけないことは、「FTPでWebサイトを更新する」こと。
+</p></div>
+<h3>Q. Gumblar（ガンブラー）の「亜種」？「GENOウィルス」「8080」？？</h3>
+<div>
+A. まず、「Gumblar」は公式のウィルス名です。<br />
+その俗称が「GENOウィルス」で、つまり二つは同じことを指してます。</p>
+<p>ただ、上記は今年の春に流行ったもので、厳密には今回のものとは違います。<br />
+で、とりあえず公式名が無いので、今回のものは「Gumblar亜種」と呼ばれているようです。<br />
+で、「8080」「8080系」ってのが、その「Gumblarの亜種」の俗称です。</p>
+<p>引用）<a href="http://pc11.2ch.net/test/read.cgi/sec/1259607683/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pc11.2ch.net/test/read.cgi/sec/1259607683/', 'http://pc11.2ch.net/test/read.cgi/sec/1259607683/']);" target="_blank">http://pc11.2ch.net/test/read.cgi/sec/1259607683/</a></p>
+<pre>
+524 ：名無しさん＠お腹いっぱい。：2010/01/07(木) 13:01:24
+&gt;&gt;513
+&gt;&gt;519 のとおり。補足すると
+LACが11月に
+【注意喚起】Gumblarおよびその亜種に関する大量の感染事例について
+ttp://www.lac.co.jp/info/alert/alert20091119.html
+を出し(これはGumblar.x)、その後「続報」として(一部使いまわして)
+【注意喚起】Gumblar（ガンブラー）ウイルスの組織内感染拡大とホームページ改ざん被害増加に伴う対策の確認
+ttp://www.lac.co.jp/info/alert/alert20091225.html
+を出した(これは8080)。
+JR東日本やホンダは(IPAやJPCERTでは具体名を出していないのでこれを元に)
+「Gumblar亜種」との告知を作り、新聞社は「亜種」を外し、後はみんなコピペ、だと思う。
+</pre>
+<p>
+ちなみに、&#8221;8080&#8243;の由来は、<br />
+ウィルス設置サイトへアクセスする際のポートが8080だからです。</p>
+<p>自分が実際のJSのスクリプトを見て確認したURLだと以下だった。</p>
+<pre>microsoft-com.sendspace.com.google-co-jp.superaguide.ru:8080/（下に続く）
+wikipedia.org/wikipedia.org/www.net.cn/google.com/tomshardware.com/
+※リンクとして踏んじゃだめですよ！
+※URLは色々なパターンがあるみたい</pre>
+</div>
+<h3>Q. どのニュースが「亜種」によるもの？</h3>
+<div>
+A. ネットの多分こうだろうという意見だと</p>
+<p>国内60サイト以上が改ざん、Gumblar亜種が台頭か<br />
+<a href="http://headlines.yahoo.co.jp/hl?a=20091023-00000030-zdn_ep-sci" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://headlines.yahoo.co.jp/hl?a=20091023-00000030-zdn_ep-sci', 'http://headlines.yahoo.co.jp/hl?a=20091023-00000030-zdn_ep-sci']);" target="_blank">http://headlines.yahoo.co.jp/hl?a=20091023-00000030-zdn_ep-sci</a></p>
+<p>・・・と、この頃から始まっており・・・</p>
+<p>ＪＲ東サイト改ざんウイルス、ホンダなども被害<br />
+<a href="http://headlines.yahoo.co.jp/hl?a=20100105-00000745-yom-soci" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://headlines.yahoo.co.jp/hl?a=20100105-00000745-yom-soci', 'http://headlines.yahoo.co.jp/hl?a=20100105-00000745-yom-soci']);" target="_blank">http://headlines.yahoo.co.jp/hl?a=20100105-00000745-yom-soci</a><br />
+ローソンの採用サイト改ざん　閲覧者にGumblarウイルス感染の恐れ<br />
+<a href="http://www.itmedia.co.jp/news/articles/1001/06/news083.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.itmedia.co.jp/news/articles/1001/06/news083.html', 'http://www.itmedia.co.jp/news/articles/1001/06/news083.html']);" target="_blank">http://www.itmedia.co.jp/news/articles/1001/06/news083.html</a></p>
+<p>・・・は、既に二次三次被害になってるのでは？</p>
+<p>という感じです。
+</div>
+<h3>Q. 参考サイトは？</h3>
+<div>
+A. 今は、<a href="http://www.ipa.go.jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.ipa.go.jp/', 'IPA']);" target="_blank">IPA</a>も<a href="http://www.lac.co.jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.lac.co.jp/', 'LAC']);" target="_blank">LAC</a>もまとまった記事を出してくれてないようなので、<br />
+2chの関連スレが良さそうです。</p>
+<p>GENOウイルススレ　★23<br />
+<a href="http://pc11.2ch.net/test/read.cgi/sec/1259607683/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pc11.2ch.net/test/read.cgi/sec/1259607683/', 'http://pc11.2ch.net/test/read.cgi/sec/1259607683/']);" target="_blank">http://pc11.2ch.net/test/read.cgi/sec/1259607683/</a><br />
+【Gumblar/GENO】Web改竄ウイルス総合スレ【8080】<br />
+<a href="http://pc11.2ch.net/test/read.cgi/sec/1261855221/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pc11.2ch.net/test/read.cgi/sec/1261855221/', 'http://pc11.2ch.net/test/read.cgi/sec/1261855221/']);" target="_blank">http://pc11.2ch.net/test/read.cgi/sec/1261855221/</a>
+</div>
+<h3>Q. 感染状況を肌で感じたい！</h3>
+<div>
+A. <a href="http://www.bing.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.bing.com/', 'Bing']);" target="_blank">Bing</a>で &#8220;*/ try{window.onload&#8221; と検索すると、<br />
+（おそらくは）感染しているサイトの一覧が出て、被害状況を肌で感じ取れます。</p>
+<p><b style="color:#FF0000;">※検索結果のリンクは、絶対踏んではだめ！</b>
+</div>
+<h3>以上</h3>
+<div>
+モッタイナイマインドで、記事にしてみました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] クエリのキャッシュ機能でメモリ的に失敗した件 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] クエリのキャッシュ機能でメモリ的に失敗した件</h1>
+        <p>2008年10月17日</p>
+      </section>
+      <section>
+        <div>
+Django クエリのキャッシュ機能の理解不足で<br />
+メモリの状況がひどいことになった。
+</div>
+<p></p>
+<div>
+例えば、こんな感じ↓のモデル構成で</p>
+<pre>
+# データ数は数百件程度
+class SubModel(models.Model):
+title = models.CharField(maxlength=255)
+# データ数は50万件程度
+class MainModel(models.Model):
+sub_model = models.ForeignKey(SubModel)
+</pre>
+<p>こういうスクリプト↓を回した。</p>
+<pre>
+for i in models.MainModel.objects.all():
+t = i.sub_model.title
+# 何か処理をするが変数tはガベージコレクション行き
+</pre>
+<p>そうしたら、次の日にはメモリ使用量が98.7%になってた・・・。</p>
+<p>「models.MainModel.objects.all() が展開された状態でのメモリ使用量」<br />
+を確認の上で、続行したはずなんだけどもなぁ・・・。</p>
+<p>うーむむむ？
+</div>
+<p></p>
+<div>
+と、うなっててもしょーーーも無いので調べたところ、<br />
+以下の理由によるものだった</p>
+<ul>
+<li>for文が終わるまでは、MainModel.objects.all() のリストはメモリから開放されない。</li>
+<li>i.sub_modelを参照する度に上記のリストに紐付く形でメモリにキャッシュする。つまり、for文が終わるまで解放されない状況で、1ループの度にメモリ消費量が増えていく。</li>
+<li>SubModelのデータは数百件であるが、メモリ上は正規化されずに各MainModelデータに紐付く形でキャッシュされる。例えば、今回だと50万件それぞれに対してメモリを消費する。</li>
+</ul>
+<p>なるほどぅ。
+</p></div>
+<p></p>
+<div>
+なお、解決はどうしたかというと、<a href="http://michilu.com/django/doc-ja/model-api/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://michilu.com/django/doc-ja/model-api/', 'カスタムSQLの実行']);" >カスタムSQLの実行</a>により対処しましたとさ。<br />
+以上。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

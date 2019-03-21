@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[EC-CUBE] 商品登録CSV機能テスト用のサンプル生成スクリプト | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[EC-CUBE] 商品登録CSV機能テスト用のサンプル生成スクリプト</h1>
+        <p>2010年7月11日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.ec-cube.net/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.ec-cube.net/', 'EC-CUBE']);" target="_blank">EC-CUBE</a> の管理機能に「商品登録CSV」という機能がありますが、<br />
+そのテストをしたい場合の、「サンプル商品CSV」を生成するスクリプトを作成しました。
+</div>
+<h3>EC-CUBE Product CSV Generator</h3>
+<div>
+<a href="http://code.kjirou.net/php/snippet/eccube_product_csv_generator/releases/1.0/" target="_blank">Version 1.0 リリース</a><br />
+※generate.php だけをコピペなり「右クリックで保存」なりで保存してください
+</div>
+<h3>概要</h3>
+<div>
+<ul>
+<li>ec-cube 2.4.3 でテスト（しまった・・・2.4.4が）</li>
+<li>プログラマ向け</li>
+<li>使い方はスクリプト内に記述</li>
+<li>そこそこ読み易いように書いたつもりなので、ソースを眺めて貰えば大体わかると思います</li>
+<li>CSVアップロード機能にカスタマイズが入ることを前提に、後で拡張し易い作りにしております</li>
+</ul>
+</div>
+<h3>実行例</h3>
+<div>
+<pre>
+$php generate.php 1 100
+</pre>
+<p>を実行すると、カレントディレクトリに eccube_products.csv という<br />
+100行の商品情報が入ったサンプルCSVが生成されます。</p>
+<p>オプションをフル表示するとこう↓です。</p>
+<pre>
+$php generate.php &lt;START_ID&gt; &lt;END_ID&gt; &lt;OUTPUT_FILEPATH&gt; &lt;OUTPUT_ENCODING&gt;
+</pre>
+</div>
+<h3>なんか</h3>
+<div>
+「ちょっとした性能調査」のつもりが何故こんなことに・・・。</p>
+<p>ご意見、ご要望があればどうぞ！<br />
+100%聞くだけは聞きます！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MongoDB] Type &#8220;it&#8221; for more が面倒な場合 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MongoDB] Type &#8220;it&#8221; for more が面倒な場合</h1>
+        <p>2014年3月12日</p>
+      </section>
+      <section>
+        <div>
+MongoDB コンソールで db.collection.find() をしても、全行は出力されない。</p>
+<pre>
+&gt; db.somecollection.find()
+{ &quot;_id&quot; : ObjectId(&quot;52b0083902b845c0bc000001&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;530c3544f5baead709468da5&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;5315614b5d28a84c560e5dfa&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;53159c18339971ce658f6ae4&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;5316b3871355b09a7a35ea88&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;5319b8b25e96d9810e330898&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;5319b9fd2458c0860e672211&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;5319baf82458c0860e67221b&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;5319be9c464e9fd00e00d138&quot;) }
+{ &quot;_id&quot; : ObjectId(&quot;5319c03c0ee2a2050f647e93&quot;) }
+Type &quot;it&quot; for more
+</pre>
+<p></p>
+<p>この場合、<b>Type &quot;it&quot; for more</b> とある通り、&quot;it&quot; を入力すると、都度残りの行が出力される。</p>
+<p>とはいえ、都度打つのは面倒なので、その対策の話です。</p>
+<p>参考) <a href="https://groups.google.com/forum/#!searchin/mongodb-user/getting$20output/mongodb-user/5BmLdJcYNGo/rxwAGdiKMKEJ" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://groups.google.com/forum/#!searchin/mongodb-user/getting$20output/mongodb-user/5BmLdJcYNGo/rxwAGdiKMKEJ', 'getting output from db..find()']);" target="_blank">getting output from db..find()</a>
+</div>
+<h3>対策1: DBQuery.shellBatchSize</h3>
+<div>
+これで最大出力行数を変更出来る。デフォルトは 20。</p>
+<pre>
+&gt; DBQuery.shellBatchSize = 100
+</pre>
+</div>
+<h3>対策2: toArray()</h3>
+<div>
+<pre>
+&gt; db.somecollection.find().toArray()
+</pre>
+</div>
+<h3>蛇足: どっちも微妙なので</h3>
+<div>
+チェインしたら全行出るようなメソッドは無いっすかねー？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

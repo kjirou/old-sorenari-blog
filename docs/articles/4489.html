@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>公開鍵暗号方式に対するセルフFAQ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>公開鍵暗号方式に対するセルフFAQ</h1>
+        <p>2015年2月20日</p>
+      </section>
+      <section>
+        <div>
+昔からわかったようなわからんような、そしてやっぱりわかってないしすぐ忘れる。</p>
+<p>という、<a href="http://ja.wikipedia.org/wiki/%E5%85%AC%E9%96%8B%E9%8D%B5%E6%9A%97%E5%8F%B7" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E5%85%AC%E9%96%8B%E9%8D%B5%E6%9A%97%E5%8F%B7', '公開鍵暗号']);" target="_blank">公開鍵暗号</a>方式について、脳に優しいFAQ形式でメモを残してみることにしました。</p>
+<p>お恥ずかしい限りですが、マジで基本的です。<br />
+まずは、水道とか電気とかと同程度に抽象化して、把握できるようにしたいです。
+</p></div>
+<h3>Q1. 通信開始時にまず行われることは何ですか？</h3>
+<div>
+送信先である受信者の公開鍵を、送信者が取得します。
+</div>
+<h3>Q2. 送信時に手元の秘密鍵で暗号化しても、公開鍵で復号されませんか？</h3>
+<div>
+その理解は正しいですが、それ以前の認識が誤っています。</p>
+<p>送信者は自分の秘密鍵で暗号化するのではなく、<b>受信者の公開鍵を使って暗号化</b>して、文章を送信します。
+</div>
+<h3>Q3. 公開鍵で暗号化したものは誰でも復号できるのではないですか？</h3>
+<div>
+公開鍵は誰でも取得できるから、それを使って暗号化してもすぐ解読されるんじゃね？<br />
+って、誰でも考えると思います。</p>
+<p>しかし、<b>「あるキーで暗号化できるけど、そのキーを使っても復号化はできない」</b>(*1)というオーパーツな<a href="http://ja.wikipedia.org/wiki/RSA%E6%9A%97%E5%8F%B7" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/RSA%E6%9A%97%E5%8F%B7', 'RSA暗号']);" target="_blank">RSA暗号</a>という暗号化手法がそれを解決しています。</p>
+<p>難しいところだと思いますが、公開鍵暗号方式を理解するに当たっては、まずはそれを定理として認識しておけば充分だと思います。<br />
+他に有名な特徴として「秘密鍵から公開鍵を生成できる」というのがありますが、この論点にはあまり関係なかったりします。</p>
+<p>個人的に、「RSA」という単語から入ると、迷走してわかったようなわからなかったような結果になることが多い気がします。（文系並感）</p>
+<p>(*1)受信者の公開鍵だけでなく送信者の秘密鍵も使って暗号化するんじゃない？、という情報も貰いました。自分に判断付かず、詳細追わなくても良さそうな論点なので、参考情報として付記します。
+</p></div>
+<h3>Q4. その公開鍵は本物ですか？</h3>
+<div>
+もし、<a href="http://ja.wikipedia.org/wiki/%E4%B8%AD%E9%96%93%E8%80%85%E6%94%BB%E6%92%83" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E4%B8%AD%E9%96%93%E8%80%85%E6%94%BB%E6%92%83', '中間者攻撃']);" target="_blank">中間者攻撃</a>などで公開鍵をすり替えられている場合、その後のセキュリティは全く機能しません。そのため、公開鍵の身元保証が必要になります。</p>
+<p>ということで、もちろん行われています。<br />
+例えば「この公開鍵はgithub.comのもの」という風に、ドメイン単位(*1) で認証されています。</p>
+<p>証明は、<a href="http://ja.wikipedia.org/wiki/%E5%85%AC%E9%96%8B%E9%8D%B5%E8%A8%BC%E6%98%8E%E6%9B%B8" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E5%85%AC%E9%96%8B%E9%8D%B5%E8%A8%BC%E6%98%8E%E6%9B%B8', '公開鍵証明書']);" target="_blank">公開鍵証明書</a>や<a href="http://ja.wikipedia.org/wiki/%E5%85%AC%E9%96%8B%E9%8D%B5%E5%9F%BA%E7%9B%A4" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E5%85%AC%E9%96%8B%E9%8D%B5%E5%9F%BA%E7%9B%A4', '公開鍵基盤']);" target="_blank">公開鍵基盤</a>という仕組みによって担保されています。<br />
+ブラウザでSSL通信をする時に「正しくない証明書です」と表示されたり、wget を &#8211;no-check-certificate なしに実行したときにエラーが出たり、というのはこの公開鍵の証明が無いのが原因です。</p>
+<p>それらの仕組みや機関がどうやって証明できるかは、理解不足なので割愛します。<br />
+まずは、<b>「公開鍵には身元保証の有無がある」</b><b>「公開鍵の身元保証確認は各ソフトウェアが独立して行える(*2)」</b>という点を理解すればいいと思います。</p>
+<p>(*1)「ドメイン単位で」の記述は正確でないか、もしかすると誤りかもです。自分のSSL証明書購入経験やオレオレ証明書作成経験から推測して書きました。ソースキボンヌ。</p>
+<p>(*2) 先日の<a href="http://d.hatena.ne.jp/nekoruri/20150220/superfish" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/nekoruri/20150220/superfish', 'Lenovoがやらかした']);" target="_blank">Lenovoがやらかした</a>悪質な点は、IEやChromeなど一部のソフトウェアの公開鍵証明の確認を実質無効化してしまうという点でした。
+</div>
+<h3>Q5. あるサイトで、共通鍵で暗号化して通信している、という記述を見つけたのですが・・・？</h3>
+<div>
+それも正しいです。</p>
+<p>RSA暗号は処理が重いため、最初に共通鍵を受け渡すまでを公開鍵暗号方式で行い、以降は<a href="http://ja.wikipedia.org/wiki/%E5%85%B1%E9%80%9A%E9%8D%B5%E6%9A%97%E5%8F%B7" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E5%85%B1%E9%80%9A%E9%8D%B5%E6%9A%97%E5%8F%B7', '共通鍵暗号']);" target="_blank">共通鍵暗号</a>方式へ移行するようです。</p>
+<p>この手法は、公開鍵暗号の具体的な手法ひとつして<a href="http://ja.wikipedia.org/wiki/%E3%83%87%E3%82%A3%E3%83%95%E3%82%A3%E3%83%BC%E3%83%BB%E3%83%98%E3%83%AB%E3%83%9E%E3%83%B3%E9%8D%B5%E5%85%B1%E6%9C%89" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E3%83%87%E3%82%A3%E3%83%95%E3%82%A3%E3%83%BC%E3%83%BB%E3%83%98%E3%83%AB%E3%83%9E%E3%83%B3%E9%8D%B5%E5%85%B1%E6%9C%89', 'ディフィー・ヘルマン鍵共有']);" target="_blank">ディフィー・ヘルマン鍵共有</a>と呼ばれています。
+</div>
+<h3>以上</h3>
+<div>
+水道、ひねれば出る<br />
+電気、スイッチ押せば付く<br />
+公開鍵暗号方式、公開鍵が本物なら安心</p>
+<p>はい、パパッと理解して、終わりっ
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

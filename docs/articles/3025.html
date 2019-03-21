@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>jQueryプラグインを作りつつ開発環境パワーアップ！ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>jQueryプラグインを作りつつ開発環境パワーアップ！</h1>
+        <p>2013年7月4日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.github.io/jquery.imageIndexer/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.github.io/jquery.imageIndexer/', 'jQuery ImageIndexer']);" target="_blank">jQuery ImageIndexer</a> という jQuery プラグインを作成しました。</p>
+<p>画像をキーで管理したり、<br />
+複数が画像まとまったものの一部を切り取って jQeury 要素として返したり、<br />
+というライブラリです。</p>
+<p>アイコン集とかキャラチップ・マップチップは大抵 1 枚の画像になっているので、<br />
+それをイチイチファイルとして切り取るのが面倒なので作ったという経緯です。
+</div>
+<h3>JavaScript 開発環境整備の一環</h3>
+<div>
+モノとしては、すぐできちゃうようなものなのですが、<br />
+今自分は、JS の、主にテスト周りの開発環境を整備していて、<br />
+その練習として色々なことをやってみました。</p>
+<p>開発用の環境設定やデプロイ方法・コマンドの使い方などは<br />
+全部 README に残しているので、<br />
+興味が有ったら是非 <a href="https://github.com/kjirou/jquery.imageIndexer" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/jquery.imageIndexer', 'GitHub のリポジトリ']);" target="_blank">GitHub のリポジトリ</a>を覗いて下さい。<br />
+<a href="https://github.com/kjirou/jquery.imageIndexer/issues?state=open" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/jquery.imageIndexer/issues?state=open', 'Issues']);" target="_blank">Issues</a> にコメントくれたり、Pull-Request を発射してくれたりすると大層喜びます。</p>
+<p>大体、こんな構成です。</p>
+<ul>
+<li><a href="http://visionmedia.github.io/mocha/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://visionmedia.github.io/mocha/', 'mocha']);" target="_blank">mocha</a> &#8211; JSテストフレームワーク</li>
+<li><a href="https://github.com/LearnBoost/expect.js/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/LearnBoost/expect.js/', 'expect.js']);" target="_blank">expect.js</a> &#8211; アサーションライブラリ、asset()してくれる</li>
+<li><a href="http://sinonjs.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://sinonjs.org/', 'Sinon.js']);" target="_blank">Sinon.js</a> &#8211; テストダブル用ライブラリ、モックとかスタブとか</li>
+<li><a href="https://github.com/airportyh/testem" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/airportyh/testem', 'Testem']);" target="_blank">Testem</a> &#8211; テストランナー、CI テストも出来た！複数ブラウザ x jQuery複数バージョン という tox みたいなのもギリギリ出来てる</li>
+<li><a href="http://gruntjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://gruntjs.com/', 'Grunt']);" target="_blank">Grunt</a> &#8211; 主にビルドに関するタスクランナー</li>
+<li><a href="https://github.com/sideroad/grunt-testem" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/sideroad/grunt-testem', 'grunt-testem']);" target="_blank">grunt-testem</a> &#8211; Testem と連携するための Grunt タスク、手で書くと大変です</li>
+<li><a href="http://coffeescript.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://coffeescript.org/', 'CoffeeScript']);" target="_blank">CoffeeScript</a> &#8211; 現仕事でも使ってる、もうこれなしにはイキテユケナイ</li>
+</ul>
+<p></p>
+<p>後は、ついでにこの辺も使ってみました。</p>
+<ul>
+<li><a href="http://pages.github.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pages.github.com/', 'GitHub Pages']);" target="_blank">GitHub Pages</a>、ただし Jekyll とか Octpress とかは使ってなくて HTML 置いただけ</li>
+<li><a href="http://plugins.jquery.com/imageIndexer/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://plugins.jquery.com/imageIndexer/', 'jQuery Plugin Registry']);" target="_blank">jQuery Plugin Registry</a> へ登録</li>
+<li><a href="https://travis-ci.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://travis-ci.org/', 'Travis CI']);" target="_blank">Travis CI</a></li>
+</ul>
+<p></p>
+<p>RequireJS も使いたかったけど、<br />
+JS を 1 枚にまとめた時に動かす方法がわからなくて止めました。
+</div>
+<h3>参考リンク</h3>
+<div>
+まずはこれらの記事の真似から入りました。あざーす！</p>
+<p><a href="http://d.hatena.ne.jp/naoya/20130509/1368085935" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/naoya/20130509/1368085935', 'require.js 環境で mocha + expect + testem を使った JavaScript テスト']);" target="_blank">require.js 環境で mocha + expect + testem を使った JavaScript テスト</a><br />
+<a href="http://hokaccha.github.io/slides/javascript_design_and_test/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://hokaccha.github.io/slides/javascript_design_and_test/', 'フロントエンドJavaScriptにおける設計とテスト']);" target="_blank">フロントエンドJavaScriptにおける設計とテスト</a></p>
+<p>その他、参考にした記事群です。あざざーす！</p>
+<ul>
+<li><a href="http://zakuni.blogspot.jp/2013/06/javascript.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://zakuni.blogspot.jp/2013/06/javascript.html', 'JavaScriptのテスト環境を整える']);" target="_blank">JavaScriptのテスト環境を整える</a></li>
+<li><a href="http://tmlife.net/programming/javascript/javascript-test-framework-mocha-usage.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://tmlife.net/programming/javascript/javascript-test-framework-mocha-usage.html', 'JavaScript テストフレームワーク『Mocha』の使い方メモ']);" target="_blank">JavaScript テストフレームワーク『Mocha』の使い方メモ</a></li>
+<li><a href="http://d.hatena.ne.jp/hokaccha/20111202/1322840375" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/hokaccha/20111202/1322840375', 'テストフレームワーク mocha']);" target="_blank">テストフレームワーク mocha</a></li>
+<li><a href="http://hokaccha.github.io/slides/sinonjs/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://hokaccha.github.io/slides/sinonjs/', 'Sinon.JS 第38回HTML5とか勉強会']);" target="_blank">Sinon.JS 第38回HTML5とか勉強会</a></li>
+<li><a href="http://mirahalab.blogspot.jp/2013/05/unit-test-using-test-doubles-with-sinonjs.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mirahalab.blogspot.jp/2013/05/unit-test-using-test-doubles-with-sinonjs.html', 'Sinon.JSのテストダブルを使ったユニットテスト']);" target="_blank">Sinon.JSのテストダブルを使ったユニットテスト</a></li>
+<li><a href="http://blog.mach3.jp/2012/10/js-testem-script.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.mach3.jp/2012/10/js-testem-script.html', 'JavaScriptのテストツール「testem」が素晴らしいぞ | Mach3.laBlog']);" target="_blank">JavaScriptのテストツール「testem」が素晴らしいぞ | Mach3.laBlog</a></li>
+<li><a href="http://dev.classmethod.jp/tool/grunt-plugin1/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://dev.classmethod.jp/tool/grunt-plugin1/', '[Grunt]自分でtaskを定義して使ってみよう ｜ Developers.IO']);" target="_blank">[Grunt]自分でtaskを定義して使ってみよう ｜ Developers.IO</a></li>
+<li><a href="http://ginpen.com/2012/12/13/grunt-exec/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ginpen.com/2012/12/13/grunt-exec/', 'GruntJSでシェルのコマンドを（非同期に）実行する方法。']);" target="_blank">GruntJSでシェルのコマンドを（非同期に）実行する方法。</a></li>
+<li><a href="http://minghai.github.io/library/coffeescript/index.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://minghai.github.io/library/coffeescript/index.html', 'The Little Book on CoffeeScript']);" target="_blank">The Little Book on CoffeeScript</a></li>
+<li><a href="http://js.studio-kingdom.com/grunt" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://js.studio-kingdom.com/grunt', 'Grunt 日本語リファレンス']);" target="_blank">Grunt 日本語リファレンス</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>tarコマンドのオプションをすぐ忘れるので | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>tarコマンドのオプションをすぐ忘れるので</h1>
+        <p>2007年11月7日</p>
+      </section>
+      <section>
+        <div>
+tarコマンドのオプションをすぐ忘れるという旨をLingrで愚痴ったら、<br />
+<a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'yoshuki']);" >yoshuki</a>さんが「英文で覚えると良いよ」って言ってた。ほうほう
+</div>
+<div>
+圧縮</p>
+<pre>
+z (--gzip)    gzipで
+c (--create)  作り出す
+v (--verbose) 冗長に
+f (--file)    このファイルへ
+tar zcvf filename.tar.gz filepath
+</pre>
+<p>解凍</p>
+<pre>
+z (--gzip)    gzipで
+x (--extract) 抽出する
+v (--verbose) 冗長に
+f (--file)    このファイルを
+tar zxvf filename.tar.gz
+</pre>
+</div>
+<div>
+そうか、だから zxvf って並びなんだ。<br />
+俺はアルファベット順で fvxz とかにしてた。
+</div>
+<div>
+これで、<a href="http://www.linux.or.jp/JM/html/GNU_tar/man1/tar.1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.linux.or.jp/JM/html/GNU_tar/man1/tar.1.html', 'Manpage of TAR']);" >Manpage of TAR</a> からも卒業だっ！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

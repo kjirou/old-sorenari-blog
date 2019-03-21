@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CircleCI REST API ラッパーの npm torus | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CircleCI REST API ラッパーの npm torus</h1>
+        <p>2015年8月26日</p>
+      </section>
+      <section>
+        <div>
+こちらです：</p>
+<p><a href="https://github.com/kjirou/torus" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/torus', 'https://github.com/kjirou/torus']);" target="_blank">https://github.com/kjirou/torus</a></p>
+<p>このように使います：</p>
+<pre>
+$torus -t your_api_token project kjirou your-repo-name
+success 2015-08-25T09:44:09.747Z https://circleci.com/gh/kjirou/your-repo-name/87 master 42
+success 2015-08-25T09:12:46.239Z https://circleci.com/gh/kjirou/your-repo-name/86 master 40
+success 2015-08-25T05:02:48.911Z https://circleci.com/gh/kjirou/your-repo-name/85 master 41
+success 2015-08-24T19:28:23.703Z https://circleci.com/gh/kjirou/your-repo-name/84 master 62
+...
+</pre>
+<p></p>
+<p>作った目的：</p>
+<p>「朝出社すると、夜走らせているCIが何回か落ちている」<br />
+・・・という状況がままあり、その Failed だったビルド一覧を手軽に抽出するためです。</p>
+<p>とりあえずは、今現在欲しいこの機能だけが存在します。<br />
+今後もやりたいことが増えたら追加しますが、<a href="https://circleci.com/docs/api" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://circleci.com/docs/api', 'CircleCI REST API']);" target="_blank">CircleCI REST API</a> がイマイチであるという理由から、もはや無い可能性もあります。</p>
+<p>また、急ぎで作ったために作りが非常に雑です。<br />
+CI 用のツールなのにテストねぇとか、もうこれわかんねぇな・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 文字クラスを使った範囲指定でunicode型を検索 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 文字クラスを使った範囲指定でunicode型を検索</h1>
+        <p>2008年10月1日</p>
+      </section>
+      <section>
+        <div>
+コードだけ書きなぐりますが、<br />
+例えば、ユニコード型文字列の内、漢字のみ（&#8221;一&#8221;～&#8221;龥&#8221;）をマッチさせる場合</p>
+<pre>
+l = re.findall(u"[\u4e00-\u9fa5]+", "ひらがな漢字カタカナascii".decode("utf-8"))
+print l[0].encode("utf-8") # -> "漢字"
+</pre>
+<p>他の言語と違ってUnicode型というデータ型があるので明瞭極まりない！<br />
+気持ちいいねぇ、お前さん
+</div>
+<p></p>
+<div>
+<b>【参考リンク】</b><br />
+<a href="http://ja.wikipedia.org/wiki/Unicode" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/Unicode', 'Wikipedia &#8211; Unicode']);" >Wikipedia &#8211; Unicode</a><br />
+ちなみに <a href="http://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_4000-4FFF" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_4000-4FFF', '一']);" >一</a> と <a href="http://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_9000-9FFF" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_9000-9FFF', '龥']);" >龥</a> を含むUnicode表。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

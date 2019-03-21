@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>メソッドが足りない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>メソッドが足りない</h1>
+        <p>2007年10月3日</p>
+      </section>
+      <section>
+        <div>
+Apacheで、間違って以下の設定がWebDAV使用時に通るようになったとき</p>
+<pre>
+&lt;Limit GET POST OPTIONS&gt;
+Order allow,deny
+Allow from all
+&lt;/Limit&gt;
+&lt;LimitExcept GET POST OPTIONS&gt;
+Order deny,allow
+Deny from all
+&lt;/LimitExcept&gt;
+</pre>
+<p>見事に動かなくなった。
+</p></div>
+<div>
+error_logを見ると</p>
+<pre>
+xxx.xxx.xxx.xxx - username [03/Oct/2007:19:43:22 +0900] "PROPFIND /svn/prj/trunk HTTP/1.1" 207 698
+xxx.xxx.xxx.xxx - username [03/Oct/2007:19:43:22 +0900] "REPORT /svn/prj/!svn/vcc/default HTTP/1.1" 200 10036
+</pre>
+<p>なるほど、PROPFIND と REPORT ってメソッドが使われてるのかー
+</p></div>
+<div>
+ていうことを、nobuさんが教えてくれた。<br />
+俺にわかるかよ
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

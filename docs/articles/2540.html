@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MarkdownとreST記法でのリンク書式比較 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MarkdownとreST記法でのリンク書式比較</h1>
+        <p>2013年2月26日</p>
+      </section>
+      <section>
+        <div>
+GitHub Wikiなどで使われている<a href="http://blog.2310.net/archives/6" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.2310.net/archives/6', 'マークダウン']);" target="_blank">マークダウン</a>記法と<br />
+Sphinx などで使われている <a href="http://sphinx.shibu.jp/rest.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://sphinx.shibu.jp/rest.html', 'reStructuredText']);" target="_blank">reStructuredText</a> 記法の、それぞれでのリンクの書き方</p>
+<p>比較っつうか、毎度忘れて仕方ないのでメモ
+</p></div>
+<h3>Markdownでのリンクの書き方</h3>
+<div>
+<pre>
+[リンクテキスト](URL)
+[それなりブログ](http://blog.kjirou.net/)
+</pre>
+<p>
+補足:</p>
+<ul>
+<li>別ウィンドウ(target=&quot;_blank&quot;)で開く方法は無い</li>
+</ul>
+</div>
+<h3>reStructuredTextでのリンクの書き方</h3>
+<div>
+<pre>
+`リンクテキスト &lt;URL&gt;`_
+`それなりブログ &lt;http://blog.kjirou.net&gt;`_ 
+</pre>
+<p>
+補足:</p>
+<ul>
+<li>これも別窓で開く方法は無い</li>
+<li>上記は外部リンクに対しての書き方、内部リンクに関しては別途専用のロールを使う</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

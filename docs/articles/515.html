@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] console.logのラッパー方法 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] console.logのラッパー方法</h1>
+        <p>2012年2月7日</p>
+      </section>
+      <section>
+        <h3>まずは何故上書きをするのか？</h3>
+<div>
+1. &quot;console.log&quot;は常に使うには少々長いし、ドットを含むので記述し難い<br />
+2. IE8で「console.logがありません」というエラーになることがある<br />
+3. デバッグフラグなどで一括して出力を制御したい<br />
+・・・というのが理由です</p>
+<p>※ 2 は普通ならないはずなんだけど発生することがある、原因はワカラン
+</p></div>
+<h3>結論</h3>
+<div>
+<pre><code>var debug = function(){
+    if (typeof console === &#39;object&#39; &amp;&amp; &#039;log&#039; in window.console) {
+        try {
+            return window.console.log.apply(window.console, arguments);
+        } catch (err) {// For IE
+            var args = Array.prototype.slice.apply(arguments);
+            return window.console.log(args.join(&#039; &#039;));
+        }
+    }
+}</code></pre>
+<p>
+console.log の参照を直接コピーしないのは<br />
+Chromeなど一部のブラウザで不正なコードと見なされてエラーになるから</p>
+<p>例外処理をしているのは、4行目がIEで動かないため（原因不明）<br />
+catch部分は大体同じ出力になるように加工している</p>
+<p>2行目の、「console.logがあるのか」の条件判定部分は<br />
+IEで console instanceof Object が何故か false になるのと<br />
+typeof console.log === &#8216;function&#8217; も false になるので、今の形に落ち着いた</p>
+<p>デバッグフラグを付けたかったら、2行目の条件分岐式に入れれば良い
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

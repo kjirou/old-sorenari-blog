@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>GoogleMapsAPIのジオコーディングがまた変わってる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>GoogleMapsAPIのジオコーディングがまた変わってる</h1>
+        <p>2008年10月8日</p>
+      </section>
+      <section>
+        <div>
+HTTP版の方のGoogleMapsAPIですが、<br />
+ちょっと前に<a href="http://kjirou.sakura.ne.jp/mt/2008/08/googlemapsapi.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/08/googlemapsapi.html', '妙な検索結果を返すようになってしまった']);" >妙な検索結果を返すようになってしまった</a>な、と思ってたら<br />
+今日、再確認したところ、直っているようです。
+</div>
+<p></p>
+<div>
+例えば、こういうクエリを投げると</p>
+<pre>
+http://maps.google.co.jp/maps/geo?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E6%B8%8B%E8%B0%B71-2-5&output=xml&key={$API-Key}
+</pre>
+<p>以下が返って来ます</p>
+<pre>
+&lt;kml&gt;
+&lt;Response&gt;
+&lt;name&gt;東京都渋谷区渋谷1-2-5&lt;/name&gt;
+&lt;Status&gt;
+&lt;code&gt;200&lt;/code&gt;
+&lt;request&gt;geocode&lt;/request&gt;
+&lt;/Status&gt;
+&lt;Placemark id=&quot;p1&quot;&gt;
+&lt;address&gt;日本東京都渋谷区渋谷１丁目２&lt;/address&gt;
+&lt;AddressDetails Accuracy=&quot;7&quot;&gt;
+&lt;Country&gt;
+&lt;CountryNameCode&gt;JP&lt;/CountryNameCode&gt;
+&lt;CountryName&gt;日本&lt;/CountryName&gt;
+&lt;AdministrativeArea&gt;
+&lt;AdministrativeAreaName&gt;東京都&lt;/AdministrativeAreaName&gt;
+&lt;Locality&gt;
+&lt;LocalityName&gt;渋谷区&lt;/LocalityName&gt;
+&lt;DependentLocality&gt;
+&lt;DependentLocalityName&gt;渋谷&lt;/DependentLocalityName&gt;
+&lt;Thoroughfare&gt;
+&lt;ThoroughfareName&gt;１丁目２&lt;/ThoroughfareName&gt;
+&lt;/Thoroughfare&gt;
+&lt;/DependentLocality&gt;
+&lt;/Locality&gt;
+&lt;/AdministrativeArea&gt;
+&lt;/Country&gt;
+&lt;/AddressDetails&gt;
+&lt;Point&gt;
+&lt;coordinates&gt;139.706406,35.661491,0&lt;/coordinates&gt;
+&lt;/Point&gt;
+&lt;/Placemark&gt;
+&lt;/Response&gt;
+&lt;/kml&gt;
+</pre>
+<p>
+昔と比べて、精度(Accuracy)は下がっているようですが<br />
+ちゃんとした結果を返すようになっていました。
+</div>
+<p></p>
+<div>
+とりあえず、良かったなぁということで。</p>
+<p>ただ、返って来る情報が不安定なようなので、<br />
+常に使うサービスを予定している人は注意した方がいいと思います。<br />
+逆にAjax側のAPI方が返す情報は安定しているようなので、<br />
+いざという時のために、そっち側をAPI的に使えるようにしておくのも手かもしれないです。</p>
+<p>精度はオプションで指定できるんじゃ？とか<br />
+そもそも、ニュースリリース読めばそんなこと書いてあるんじゃね？とか<br />
+後で時間が空いた時に覚えてたら調べます・・・・・・のつもりです・・・。
+</div>
+<p></p>
+<div>
+さっさと調べろよ使えねーなボケというせっかちさんのために、リンクを置いておきますね・・・。<br />
+<a href="http://code.google.com/intl/en/apis/maps/documentation/services.html#Geocoding_Direct" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://code.google.com/intl/en/apis/maps/documentation/services.html#Geocoding_Direct', 'マニュアル該当部分（英語）']);" >マニュアル該当部分（英語）</a>
+</div>
+<p></p>
+<div>
+<b>【追記】</b><br />
+上記のリクエスト例は、<br />
+「東京都渋谷区渋谷1-2-5」をクエリで指定しているのですが<br />
+そのような住所が存在しないために変な結果が返っているというものでした・・・。</p>
+<p>APIの仕様として、指定住所が存在しない場合は、<br />
+精度を落とした座標や類似の住所を勝手に判別して座標を返すようです。</p>
+<p>ただし、実際に存在する住所を指定しても、<br />
+このような結果になる場合がありますが、<br />
+それはおそらくは、Google Maps側の住所情報の更新が間に合ってないということなので<br />
+諦めて情報の更新を待つしか無いっぽいです。</p>
+<p>以上、教えてくれた方、ありがとうございました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

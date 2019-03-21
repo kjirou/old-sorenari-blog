@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] _get_FIELD_displayが無い時もある | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] _get_FIELD_displayが無い時もある</h1>
+        <p>2009年1月23日</p>
+      </section>
+      <section>
+        <div>
+Django微ネタ、バージョンは 1.0.2-final です。</p>
+<p>例えば、以下のsave直後のobjは get_*_display のメソッド群を持ってない。</p>
+<pre>
+obj = SomeObject()
+obj.some_column = "some_data"
+obj.save()
+</pre>
+<p>このobjをそのままテンプレに投げたときに、それらのメソッドが使えなくて微ハマりした。</p>
+<p>対策は、obj.idを使ってDBから抽出しました。芸無し。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] PILがlibjpegを参照してくれない場合 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] PILがlibjpegを参照してくれない場合</h1>
+        <p>2013年9月3日</p>
+      </section>
+      <section>
+        <div>
+Mac OS X &amp; virtualenv &amp; pip で PIL を入れた際に、<br />
+あるはずの libjpeg を参照しない場合の対処方法です。</p>
+<pre>$ pip uninstall PIL
+$ pip install --no-install PIL
+$ vim env/build/PIL/setup.py
+
+  #JPEG_ROOT = None
+  JPEG_ROOT = libinclude('/usr/local')
+
+$ pip install PIL</pre>
+<p></p>
+<p>流れの概要：</p>
+<ul>
+<li>PIL を消す</li>
+<li>インストールしないでパッケージだけDLする</li>
+<li>setup.py で libjpeg のある場所を明示的に指定する</li>
+<li>もう一度インストールする</li>
+</ul>
+<p></p>
+<p>参考) <a href="http://stackoverflow.com/questions/4435016/install-pil-on-virtualenv-with-libjpeg" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://stackoverflow.com/questions/4435016/install-pil-on-virtualenv-with-libjpeg', 'install pil on virtualenv with libjpeg &#8211; stackoverflow']);" target="_blank">install pil on virtualenv with libjpeg &#8211; stackoverflow</a>
+</div>
+<h3>しかし、本当のところ問題は問題じゃなかった</h3>
+<div>
+JPEG が available にならねーよ！と調査してたのですが、<br />
+よく見たら普通に pip install で入れるだけで有効になっていました。</p>
+<p><img src="http://gyazo.com/105f6e2ab93fffd306d4b2458c88cbc2.png" alt="" /></p>
+<p>上記をナナメ見て、<br />
+&#8212; が not available の意味だと勘違いしました。<br />
+*** の方が有効だと思ってたよ！　まあ、ちゃんと読めってことですね！</p>
+<p>ということで、本当は困ってなかったのですが、<br />
+手順自体は使えそうなので、残しておいたという記事でした。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

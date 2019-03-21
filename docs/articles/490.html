@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Firebug-1.6がiframe内の構文エラーを拾わない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Firebug-1.6がiframe内の構文エラーを拾わない</h1>
+        <p>2011年1月21日</p>
+      </section>
+      <section>
+        <h3>現象</h3>
+<div>
+Firebug-1.6系から、iframe内のsyntax errorを拾ってくれないようです。<br />
+<a href="http://code.kjirou.net/js/test/firebug1.6_cant_get_error_in_iframe/" target="_blank">例えば、こんな現象</a>です。<br />
+<br />
+※その他の環境は、Windows7、Firefox-3.6.13 です。
+</div>
+<h3>解決</h3>
+<div>
+iframe単体を表示しにくい状況での開発で、<br />
+内部のシンタックスエラーが取れないと困りまくるため、<br />
+ここ↓から、1.5.4へダウングレードして解決しました。<br />
+<a href="http://getfirebug.com/releases/firebug/1.5X/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://getfirebug.com/releases/firebug/1.5X/', 'http://getfirebug.com/releases/firebug/1.5X/']);" target="_blank">http://getfirebug.com/releases/firebug/1.5X/</a>
+</div>
+<h3>蛇足</h3>
+<div>
+<a href="http://groups.google.com/group/firebug" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://groups.google.com/group/firebug', 'コミュニティ']);" target="_blank">コミュニティ</a>に報告しようとか思ったんですけど、<br />
+拙い英語力で見た感じ、割と強い口調な世界な気がしたので、日和って止めました。</p>
+<p>まぁ、開発は進んでるから、1.7系が出たら直ってるっしょ！</p>
+<p><s>後、一部のエラーがデフォルト break point として止まるようになってしまったんだけど、</s><br />
+<s>これも関係あるんでしょうか？（スクリプトパネルを無効にすれば回避できる）</s><br />
+<span style="color:#999;">別件でした、スマソ</span>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>treeコマンドをホームディレクトリ以下へインストールする | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>treeコマンドをホームディレクトリ以下へインストールする</h1>
+        <p>2008年4月23日</p>
+      </section>
+      <section>
+        <div>
+treeコマンドなんかは、普通はyumなりapt-getなりで入れるはずだけど<br />
+諸般の事情のためにホームディレクトリ以下へ入れたいと思ったときに、微妙に詰まった。</p>
+<p>ソースからの基本的なインストール手順はコレなんすけど・・・</p>
+<pre>
+cd /home/username/local
+wget http://archives.sertice.org/devs/linux/centos/tree-1.5.1.1.tgz
+tar zxvf tree-1.5.1.1.tgz
+cd tree-1.5.1.1
+make
+make install
+</pre>
+<p>・・・ん？.configureが無い？<br />
+なので、&#8211;prefixが設定できないんです。</p>
+<p>調べると、make前に内包のMakefile内を、以下のように直接書き換えるよう</p>
+<pre>
+#prefix = /usr
+prefix = /home/username/local
+</pre>
+<p>
+これで任意の場所に入りました。<br />
+同じような場合の対処として応用もききそうだなと、<br />
+・・・makeの仕組みをちゃんと理解しろよって感じですが・・・。</p>
+<p>とにかく、メデタシ！メデタシ！
+</p></div>
+<div>
+<b>【追記】</b><br />
+<a href="http://journal.mycom.co.jp/column/osx/089/index.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://journal.mycom.co.jp/column/osx/089/index.html', 'http://journal.mycom.co.jp/column/osx/089/index.html']);" >http://journal.mycom.co.jp/column/osx/089/index.html</a><br />
+なるほど、configureってのはMakefileを作るためのコマンドだったのか・・・。</p>
+<p>configureでMakefileを設定するのとMakefileを直接生成・編集する差は<br />
+シェルスクリプトでコマンドを書くときに、引数でオプションを設定できるようにするか、ファイルの設定値を書き換えてから実行してもらうか、の違いみたいなもんか。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

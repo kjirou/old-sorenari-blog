@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] list_filterをtuple型で指定すると失敗 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] list_filterをtuple型で指定すると失敗</h1>
+        <p>2008年8月29日</p>
+      </section>
+      <section>
+        <div>
+超小ネタなんすけど、<br />
+調べて直接出てこなかったので、書いとく。</p>
+<p>Django-0.96.2 なんですがAdmin機能のオプションのlist_filterを</p>
+<pre>
+list_filter = ("column_name")
+</pre>
+<p>と指定するとエラーになりました。</p>
+<p>以下のように、list型で指定するようです。</p>
+<pre>
+list_filter = ["column_name"]
+</pre>
+<p>世間様のサンプルはみんなtupleで入れていたんで、アセった。
+</p></div>
+<p></p>
+<div>
+ついでですが</p>
+<p>DjangoのAdmin機能は、まだ触って1・2時間というところですが<br />
+出来の良さにびっくりしております。<br />
+受託案件の要望にも、上手く持って行けば充分に対応可能だと思いました。</p>
+<p>「どーせ、オマケ機能だろ」と思っている俺の様な方も、一見の価値有りだと思う。
+</p></div>
+<p></p>
+<div>
+<b>【追記】</b><br />
+<b>あああっ!!</b></p>
+<pre>
+print "abc" == ("abc",) # False
+print "abc" == ("abc") # True
+</pre>
+<p>ってことか、基本文法だったのか、なるほどう
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

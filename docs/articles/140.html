@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>ぶちまけた | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>ぶちまけた</h1>
+        <p>2007年9月25日</p>
+      </section>
+      <section>
+        <div>
+使えるネットにApache2.2でも入れようかと思って</p>
+<pre>
+cd /usr/local/src
+wget http://ftp.kddilabs.jp/infosystems/apache/httpd/httpd-2.2.6.tar.gz
+tar fvxz httpd-2.2.6.tar.gz
+cd httpd-2.2.6
+./configure --prefix=/usr/local \
+--enable-so
+make
+make install
+</pre>
+<p><b>あああああ、志村！ prefix！！ ぷれふぃっくすー！！！</b>
+</div>
+<div>
+一転して地獄のような光景に<br />
+/usr/local と apache がマッシュアップしてる・・・</p>
+<pre>
+ls -lAF
+合計 92
+drwxr-xr-x  14 root root  4096  9月 25 23:19 apache22/
+drwxr-xr-x   2 root root  4096  9月 25 23:05 bin/
+drwxr-xr-x   2 root root  4096  9月 25 23:06 build/
+drwxr-xr-x   2 root root  4096  9月 25 23:05 cgi-bin/
+drwxr-xr-x   4 root root  4096  9月 25 23:05 conf/
+drwxr-xr-x   3 root root  4096  9月 25 23:05 error/
+drwxr-xr-x   2 root root  4096  2月 22  2005 etc/
+drwxr-xr-x   2 root root  4096  2月 22  2005 games/
+drwxr-xr-x   2 root root  4096  9月  5 05:02 htdocs/
+drwxr-xr-x   3 root root  4096  9月 25 23:05 icons/
+drwxr-xr-x   2 root root  4096  9月 25 23:06 include/
+drwxr-xr-x   5 root root  4096  9月 25 23:05 lib/
+drwxr-xr-x   2 root root  4096  2月 22  2005 libexec/
+drwxr-xr-x   2 root root  4096  9月 25 23:05 logs/
+drwxr-xr-x  15 root root  4096  9月 25 23:06 man/
+drwxr-xr-x  14 root root  8192  9月  5 05:09 manual/
+drwxr-xr-x   2 root root  4096  9月 25 23:05 modules/
+drwxr-xr-x  11 root mysql 4096  9月 15 10:57 mysql50/
+drwxr-xr-x   2 root root  4096  2月 22  2005 sbin/
+drwxr-xr-x   5 root root  4096  9月 13 00:27 share/
+drwxr-xr-x  12 root root  4096  9月 25 23:13 src/
+lrwxrwxrwx   1 root root    13  9月 24 21:53 subversion -> subversion145/
+drwxr-xr-x   8 root root  4096  9月 24 21:53 subversion145/
+</pre>
+<p>binとかincludeの中もひでぇ</p>
+<p>・・・マジでincludeはどうやって復旧させりゃいいんだぁ・・・。
+</div>
+<div>
+＄％＆‘；ｖっ！！！！　（言葉にならない）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

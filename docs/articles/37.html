@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>thisの実体を決定するロジックがわからない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>thisの実体を決定するロジックがわからない</h1>
+        <p>2007年5月7日</p>
+      </section>
+      <section>
+        <div>
+javascriptで、こういうクラスがあったときに</p>
+<pre>
+var Human = function(){
+this.word = "Hello";
+};
+Human.prototype.talk = function(){
+alert(this.word);
+};
+</pre>
+<p>それを使ってこう書いたときと</p>
+<pre>
+var h = new Human;
+document.getElementById("hoge").onclick = function() {
+h.talk(); // "Hello"を出力
+};
+</pre>
+<p>こう書いたときに</p>
+<pre>
+var h = new Human;
+document.getElementById("hoge").onclick = h.talk(); // undefinedを出力
+</pre>
+<p>thisの実体が変わりますが<br />
+このthisの実体を決定するJSのルールがわかりませぬ。
+</div>
+<div>
+実装する時に、そこがわからないので<br />
+「applyとcallの第一引数で指定した場合は大丈夫」<br />
+「オブジェクトを指定して関数を呼んだ場合は大丈夫」<br />
+「それ以外は呼び出した要素がthisに入る」<br />
+という風に、ほぼ暗記で把握しておりますが・・・。
+</div>
+<div>
+thisについてのいいエントリが有ったら<br />
+是非、教えて下さい。
+</div>
+<p><span id="more-37"></span></p>
+<div><b>***追記***</b></div>
+<div>
+thisはダイナミックスコープの変数で<br />
+var宣言したものはレキシカルスコープの変数だったからだというので<br />
+なんとなく・概ね・わかったつもりになりました。<br />
+心にささるまで理解できたら、<a href="http://kjirou.sakura.ne.jp/mt/2007/05/return.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/05/return.html', '別に書こう']);" >別に書こう</a>と思います。
+</div>
+<div>
+参考資料</p>
+<ul>
+<li>「まるごとJavaScript&#038;Ajax!」の「FlashのActionScriptで関数型風プログラミング」の項目</li>
+<li><a href="http://www.geocities.jp/m_hiroi/func/smlnj04.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.geocities.jp/m_hiroi/func/smlnj04.html', 'Functional Programming']);" >Functional Programming</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

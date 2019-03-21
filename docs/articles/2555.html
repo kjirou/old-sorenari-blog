@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>HTTPリクエスト確認用WebサーバをPythonで作った | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>HTTPリクエスト確認用WebサーバをPythonで作った</h1>
+        <p>2013年3月1日</p>
+      </section>
+      <section>
+        <div>
+たまーにですが、HTTPリクエストを生に近い形で確認したいことがあるので、<br />
+投げられたHTTPリクエストをそのまま表示するだけの、簡単なWebサーバを作りました。
+</div>
+<h3>インストールと使い方</h3>
+<div>
+インストール:</p>
+<pre>
+$ pip install mahokanta
+</pre>
+<p></p>
+<p>サーバ起動:</p>
+<pre>
+$ mahokanta
+</pre>
+<p></p>
+<p>この状態で、ブラウザで localhost:8080 にアクセスすると、<br />
+ブラウザとコンソールの両方に、HTTPリクエストの内容が表示されます。<br />
+Python 2 / Python 3 / PyPy に対応！</p>
+<p>パッケージやソースなど:</p>
+<ul>
+<li><a href="https://pypi.python.org/pypi/mahokanta" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://pypi.python.org/pypi/mahokanta', 'PyPI/mahokanta']);" target="_blank">PyPI/mahokanta</a></li>
+<li><a href="https://github.com/kjirou/python-mahokanta" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/python-mahokanta', 'GitHub/python-mahokanta']);" target="_blank">GitHub/python-mahokanta</a></li>
+</ul>
+</div>
+<h3>すぺしゃるさんくすとぅー</h3>
+<div>
+最初に自分で作ったやつを、モヒカン達に真っ二つにされる覚悟で、<br />
+今お世話になってるビープラウドのSkypeに貼り付けたら<br />
+<a href="http://www.freia.jp/taka/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.freia.jp/taka/', '@shimizukawa']);" target="_blank">@shimizukawa</a> と <a href="https://bitbucket.org/aodag" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://bitbucket.org/aodag', '@aodag']);" target="_blank">@aodag</a> にすげー添削して貰いました</p>
+<p>.. あまつさえ、@aodag 氏からは最早別物と呼べるソースの差分を貰いました<br />
+上述の Python 3 と PyPy 対応は頂き物です、ハイ。</p>
+<p>あざーす！</p>
+<p>shimizukawa++<br />
+aodag++</p>
+<p>(ちなみに、そのために Python 3 を初インストールしたというのは意識低そうなので黙っとく)
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>使えるネットVPSとの戦い【マイリポジトリ作成編】(1) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>使えるネットVPSとの戦い【マイリポジトリ作成編】(1)</h1>
+        <p>2007年10月2日</p>
+      </section>
+      <section>
+        <div>
+専用サーバを借りたら自分のリポジトリを持とうと思っていました。<br />
+ので、やってみたら、望むものが作れるまで5日間掛かった。夢というのは叶えがたきものですな。</p>
+<p>この件について、<a href="http://humming.via-kitchen.com/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/weblog/', 'nobu']);" >nobu</a>氏とberian氏に忘れるまで忘れないような恩を受けました。（すぐ忘れるけど）
+</div>
+<div>
+<b>【はじめに】</b><br />
+最終的な目的ですが、Web経由でアクセスできるリポジトリを建てることと、ある程度のセキュリティを確保することです。<br />
+ということで、Subversion + Apache + SSL を使って、マイリポジトリサーバを構築することにしました。</p>
+<p>それでは、さっそく開始。<br />
+ちなみに、<a href="http://kjirou.sakura.ne.jp/mt/2007/09/vps.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/09/vps.html', 'ココ']);" >ココ</a>とか<a href="http://kjirou.sakura.ne.jp/mt/2007/09/vpsror.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/09/vpsror.html', 'ココ']);" >ココ</a>とか他にも記事に上げてないことをしているので、もしかするとライブラリが足りなくて、明記している以外の yum install をする必要があるかもしれません。
+</div>
+<div>
+<b>【OpenSSLのインストール】</b><br />
+SSL認証のためにOpenSSLをインストールします。yumに無いのでソースから入れる。</p>
+<pre>
+cd /usr/local/src
+wget http://www.openssl.org/source/openssl-0.9.8e.tar.gz
+tar fvxz openssl-0.9.8e.tar.gz
+cd openssl-0.9.8e
+./config \
+--prefix=/usr/local/openssl \
+-fPIC shared
+make
+make install
+</pre>
+<p>※最新版ソースは <a href="http://www.openssl.org/source/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.openssl.org/source/', 'http://www.openssl.org/source/']);" >http://www.openssl.org/source/</a> から取得した。</p>
+<p>続けて、今入れたOpenSSLライブラリへのパスを設定する。<br />
+openssl.confファイルを新規作成して</p>
+<pre>
+cd /etc/ld.so.conf.d
+vim openssl.conf
+</pre>
+<p>以下の行のみを記入する</p>
+<pre>
+/usr/local/openssl/lib
+</pre>
+<p>今行った設定を反映する</p>
+<pre>
+ldconfig
+</pre>
+<p>※参考までに、 /etc/ld.so.confファイルや/etc/ld.so.conf.d/以下のファイルは、共有ライブラリを参照するパスの設定を行っている。なお、設定はここだけではなく、ユーザ別の環境変数でも設定できたり色々あるらしい。（けど、未調査）
+</p></div>
+<div>
+<b>【Apache2.2のインストール】</b><br />
+使えるネットVPSには元々入っているApacheがあるが、今回はSVNと連携させるため再構築する必要がある。<br />
+前準備として、元Apacheのプロセスを止める</p>
+<pre>
+httpd -k stop
+</pre>
+<p>Apacheのソースを取得し、展開する</p>
+<pre>
+cd /usr/local/src
+wget http://ftp.kddilabs.jp/infosystems/apache/httpd/httpd-2.2.6.tar.gz
+tar fvxz httpd-2.2.6.tar.gz
+</pre>
+<p>※最新版ソースは <a href="http://httpd.apache.org/download.cgi" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://httpd.apache.org/download.cgi', 'http://httpd.apache.org/download.cgi']);" >http://httpd.apache.org/download.cgi</a> から取得した</p>
+<p>aprとapr-utilは、ApacheとSVNで共通のものを参照する必要があるため、個別にインストールする。<br />
+aprのインストール</p>
+<pre>
+cd /usr/local/src/httpd-2.2.6/srclib/apr
+./configure \
+--prefix=/usr/local/apr
+make
+make install
+</pre>
+<p>apr-utilのインストール</p>
+<pre>
+cd /usr/local/src/httpd-2.2.6/srclib/apr-util
+./configure \
+--prefix=/usr/local/apr \
+--with-apr=/usr/local/apr
+make
+make install
+</pre>
+<p>apacheのインストール</p>
+<pre>
+cd /usr/local/src/httpd-2.2.6
+./configure \
+--prefix=/usr/local/apache-2.2.6 \
+--enable-mods-shared=most \
+--enable-dav \
+--enable-dav-fs \
+--enable-dav-lock \
+--enable-cgi \
+--enable-cgid \
+--enable-proxy \
+--enable-proxy-balancer \
+--enable-so \
+--enable-ssl \
+--with-ssl=/usr/local/openssl \
+--with-apr=/usr/local/apr \
+--with-apr-util=/usr/local/apr
+make
+make install
+</pre>
+<p>※&#8211;enable-proxy と &#8211;enable-proxy-balancer は、RailsでMongrelを動かすのに必要（らしい）ので、実際のオペレーションとしては入れた。マイリポジトリを作るのみなら不要（らしい）。</p>
+<p>これも不要っちゃ不要ですが、フォルダ名が若干長いのでシンボリックリンクを張りました</p>
+<pre>
+cd /usr/local
+ln -s apache-2.2.6 apache
+</pre>
+</div>
+<div>
+<b>【Apacheの設定】</b><br />
+/usr/local/apache/conf/httpd.conf を開いて、いくつか修正を行う。</p>
+<p>まずは、Apache実行ユーザの設定を行う。<br />
+Apache実行ユーザ＝SVNリポジトリ権限のユーザとなるように、UserとGroupをwebadminに変更する。（もちろん、任意のユーザでも良い）<br />
+使えるネットVPSの場合は、webadminは元から居るはず。</p>
+<pre>
+#User daemon
+#Group daemon
+User webadmin
+Group webadmin
+</pre>
+<p>続けて、SSL設定ファイルを読み込むようにする<br />
+以下のInclude行が最初はコメントアウトされているので、以下のように解除する</p>
+<pre>
+# Secure (SSL/TLS) connections
+Include conf/extra/httpd-ssl.conf
+</pre>
+<p>
+お次は /usr/local/apache/conf/extra/httpd-ssl.conf を開いて、修正を行う。<br />
+秘密鍵と自己証明書の格納フォルダ名を示す以下の2行を、修正する必要があるなら修正する</p>
+<pre>
+SSLCertificateFile "/usr/local/apache-2.2.6/conf/server.crt"
+SSLCertificateKeyFile "/usr/local/apache-2.2.6/conf/server.key"
+</pre>
+<p>今回は以下のように変えた（ディレクトリ名ダサくてすみません）</p>
+<pre>
+SSLCertificateFile "/usr/local/apache-2.2.6/ssl_key_and_crt/server.crt"
+SSLCertificateKeyFile "/usr/local/apache-2.2.6/ssl_key_and_crt/server.key"
+</pre>
+</div>
+<div>
+<b>【秘密鍵と自己署名証明書の作成】</b><br />
+格納用ディレクトリを作成する</p>
+<pre>
+cd /usr/local/apache-2.2.6
+mkdir ssl_key_and_crt
+cd ssl_key_and_crt
+</pre>
+<p>サーバ側の秘密鍵の生成<br />
+passの入力が求められるが、後でApacheを再起動するたびに使うことになるので、あまり適当じゃない文字列を入力する。</p>
+<pre>
+/usr/local/openssl/bin/openssl genrsa -des3 -out server.key 1024
+Generating RSA private key, 1024 bit long modulus
+.++++++
+.........++++++
+e is 65537 (0x10001)
+Enter pass phrase for server.key:
+Verifying - Enter pass phrase for server.key:
+</pre>
+<p>自己証明書の生成、passは先ほどと同じものを入力すること。<br />
+その他の項目は任意だが、入力なしでEnterは止めて、何かしら入力した方がいい。（後でSVNクライアントでSSL通信をした時に、これが原因でエラーになったことがある）</p>
+<pre>
+/usr/local/openssl/bin/openssl req -new -x509 -days 3650 -key server.key -out server.crt<br />
+Enter pass phrase for server.key:<br />
+You are about to be asked to enter information that will be incorporated<br />
+into your certificate request.<br />
+What you are about to enter is what is called a Distinguished Name or a DN.<br />
+There are quite a few fields but you can leave some blank<br />
+For some fields there will be a default value,<br />
+If you enter '.', the field will be left blank.</p>
+
+      </section>
+    </article>
+  </body>
+</html>

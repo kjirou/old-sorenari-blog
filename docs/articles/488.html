@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Linux] sendmailの本文は標準入力で渡せる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Linux] sendmailの本文は標準入力で渡せる</h1>
+        <p>2011年1月13日</p>
+      </section>
+      <section>
+        <div>
+これで渡せる！</p>
+<pre>
+$echo &#039;HONBUN&#039; | /usr/sbin/sendmail hoge@email.com
+</pre>
+<p>調べた理由は、crontab上に直接記述する際に、<br />
+パイプして本文を渡さないと対話的な操作が必要になってしまうため、です。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

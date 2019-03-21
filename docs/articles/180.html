@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>bashとzshでechoの挙動が違う | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>bashとzshでechoの挙動が違う</h1>
+        <p>2007年11月8日</p>
+      </section>
+      <section>
+        <div>
+微ネタもいいところですが
+</div>
+<div>
+zsh</p>
+<pre>
+echo "a\nb\nc"
+</pre>
+<p>出力</p>
+<pre>
+a
+b
+c
+</pre>
+</div>
+<div>
+bash</p>
+<pre>
+echo "a\nb\nc"
+</pre>
+<p>出力</p>
+<pre>
+a\nb\nc
+</pre>
+</div>
+<div>
+echoには\n等のエスケープシーケンスを解釈する -e と逆に解釈しない -E というオプションがある。<br />
+それが、bashはデフォルト -E で zsh はデフォルト -e のようだ。</p>
+<p>シェルスクリプトの動作確認の時に少しハマった。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

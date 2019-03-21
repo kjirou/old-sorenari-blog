@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>&#8220;javascript:void(0);&#8221;をhrefに指定したときにハマる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>&#8220;javascript:void(0);&#8221;をhrefに指定したときにハマる</h1>
+        <p>2007年6月25日</p>
+      </section>
+      <section>
+        <div>
+<pre>
+element.href = "javascript:void(0);";
+</pre>
+<p>とか</p>
+<pre>
+&lt;a href="javascript:void(0);" /&gt;
+</pre>
+<p>を指定した際に、IE6で意図しない挙動になったという話。
+</p></div>
+<div>
+こんなHTMLを書いて</p>
+<pre>
+&lt;img id="image" src="./test.gif"/&gt;
+&lt;a id="switch_error" href="javascript:void(0);"&gt;SWITCH_ERROR&lt;/a&gt;
+&lt;a id="switch_success" href="javascript:void(0);"&gt;SWITCH_SUCCESS&lt;/a&gt;
+</pre>
+<p>javascript側でこんなのを設定する</p>
+<pre>
+document.getElementById("switch_error").onclick = function(){
+document.getElementById("image").src = "./test2.gif";
+};
+document.getElementById("switch_success").onclick = function(){
+document.getElementById("image").src = "./test2.gif";
+return false;
+};
+</pre>
+<p>リンクを押下すると、test.gif が test2.gif に変わるという意図のコードである。
+</p></div>
+<div>
+特になんでもないコードだと思いきや<br />
+IE6の場合は、SWITCH_ERRORのリンクを押下した場合に、<br />
+画像部分が空白になる。</p>
+<p>そこで、SWITCH_SUCCESS リンクのonclickように、<br />
+return false を入れると意図通りに動作するようになる。</p>
+<p>XP-FireFox1.5では、両方とも動作した。
+</div>
+<div>
+これは・・・IEが悪いってよりは<br />
+そもそも、hrefにjavascript:void(0); を入れて制御すること自体が<br />
+気持ちよくない仕様に見えるんですけど、やり方がわからないス。</p>
+<p>まぁいいや、動いたし。</p>
+<p>30分ハマり
+</div>
+<div>
+参考リンク</p>
+<ul>
+<li><a href="http://blog.zuzara.com/2006/11/28/168/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.zuzara.com/2006/11/28/168/', 'JavaScriptで画像を切り替える際に、あるコードだとIE6で動かなくなる']);" >JavaScriptで画像を切り替える際に、あるコードだとIE6で動かなくなる</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

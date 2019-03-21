@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>A* (A-star, エースター) 探索アルゴリズムのメモ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>A* (A-star, エースター) 探索アルゴリズムのメモ</h1>
+        <p>2014年6月29日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.zusaar.com/event/10467019" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.zusaar.com/event/10467019', '個人開発を支える技術Night']);" target="_blank">個人開発を支える技術Night</a> の雑談にて、ダイクストラ法よりも効率が良い経路探索アルゴリズムの話を聞いたのでメモっとく。
+</div>
+<h3>参考リンク</h3>
+<div>
+以下、上から順に観る/読むと良い：</p>
+<p><a href="https://www.youtube.com/watch?v=19h1g22hby8" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.youtube.com/watch?v=19h1g22hby8', 'A* Pathfinding Algorithm Visualization']);" target="_blank">A* Pathfinding Algorithm Visualization</a> (動画)</p>
+<p><a href="http://piyajk.com/archives/162" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://piyajk.com/archives/162', 'A*（A-star：エースター）探索アルゴリズムの原理']);" target="_blank">A*（A-star：エースター）探索アルゴリズムの原理</a></p>
+<p><a href="http://www.geocities.jp/m_hiroi/light/pyalgo28.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.geocities.jp/m_hiroi/light/pyalgo28.html', 'Algorithms with Python &#8211; ヒューリスティック探索']);" target="_blank">Algorithms with Python &#8211; ヒューリスティック探索</a> (A*箇所から読んで良い)
+</div>
+<h3>ダイクストラ法と比較しての個人的な理解</h3>
+<div>
+<a href="http://www.deqnotes.net/acmicpc/dijkstra/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.deqnotes.net/acmicpc/dijkstra/', 'ダイクストラ法']);" target="_blank">ダイクストラ法</a>は、ゴールを確認せずに、「そのノードまでの移動コスト」が少ない順にノードを展開する。</p>
+<p>A*は、「そのノードまでの移動コスト ＋ ゴールまでの推定移動コスト」で、次に展開するノードの優先順位を決める。<br />
+「ゴールまでの推定移動コスト」は、直線距離だったり、マス目を1として数えたり、とか、「最短」である必要があるようだ。（正確には「最短」じゃなくてもいい、「h* <= h」であれば良いらしい？）
+これにより、正解の経路を引きやすくなる。
+
+なお、FEのようにマス目の種類で移動コストが激しく変わったりすると、推定が上手く働かなくなって、あまり有効ではなくなると思われる。（※ 計算量が多くなるだけで、正しい経路は導き出せる）
+
+・・・間違ってたら指摘して下さい！
+</div>
+<h3>追記：</h3>
+<div>
+参考にならない参考資料) <a href="https://github.com/kjirou/pathsearcher.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/kjirou/pathsearcher.js']);" target="_blank">昔作った何法でもない経路探索ライブラリ</a></p>
+<p>(ありがとうございま)ｼﾀｯ ＞ <a href="https://twitter.com/mizchi/status/482911316328198144" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/mizchi/status/482911316328198144', '@mizchi']);" target="_blank">@mizchi</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

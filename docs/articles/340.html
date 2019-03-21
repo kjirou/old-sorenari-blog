@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Linux] あるファイルについての全シンボリックリンク先を調べる方法 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Linux] あるファイルについての全シンボリックリンク先を調べる方法</h1>
+        <p>2008年8月7日</p>
+      </section>
+      <section>
+        <div>
+Linuxにて、とあるファイルがシンボリックリンクされている場合に<br />
+その全ての被リンク先を調査する方法。</p>
+<p>・・・とわ言っても、専用の調査方法は不明だったので、以下のように↓</p>
+<pre>
+find / -type l -name "予測されるシンボリックリンク名"
+</pre>
+<p>
+<b>えー、ルートから調査ー、きもーい</b></p>
+<p>という感が否めませんが、普通以下の性能のサーバでも、意外にすぐ帰ってくる。</p>
+<p>また、あくまでシンボリックリンク名で調査するので、<br />
+あまりにも違った名前で配置されていると拾えないという弱点もある。</p>
+<p>しかしながら、<br />
+やらないよりは遥かにマシだと思うので<br />
+シンボリックリンク元のファイルを移動させたり削除するときは、<br />
+一応打って置くといいと思った。
+</div>
+<p></p>
+<div>
+参考) <a href="http://linux.ascii24.com/linux/allascii/linuxmag/2001/06/18/626705-002.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://linux.ascii24.com/linux/allascii/linuxmag/2001/06/18/626705-002.html', 'findについて']);" >findについて</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

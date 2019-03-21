@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>最近のPython | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>最近のPython</h1>
+        <p>2008年10月8日</p>
+      </section>
+      <section>
+        <div>
+昨日と今日はPython漬け。<br />
+程良いネタをいくつか取得できたので、だらだら記事に起こす。
+</div>
+<p></p>
+<div>
+<b>1. dictからkeyとvalueを取得しつつfor文でループ</b></p>
+<pre>
+for k, v in {"a":11, "b":22}.items(): print k, v
+# -> "a 11\nb 22"
+</pre>
+<p>てか、dict#items() で tupleへ変換するんすね。
+</p></div>
+<p></p>
+<div>
+<b>2. HTML特殊文字のエスケープとアンエスケープ</b><br />
+標準だと xml.sax.saxutils.escape と xml.sax.saxutils.unescape を使うしか無いらしい。<br />
+→ <a href="http://kjirou.net/main/public/py/beginning_scripts/web.py">サンプルコード</a><br />
+<a href="http://www.htmq.com/text/index.shtml" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.htmq.com/text/index.shtml', 'こういう表']);" >こういう表</a>を全部変換してくれるようなライブラリは落ちてないかなー。
+</div>
+<p></p>
+<div>
+<b>3. クロージャについて大誤解してた件</b><br />
+JavaScriptみたいに、参照した変数がスコープ（この場合は関数）内に無い場合、自動的にスコープ外の変数にて解決しにいくよう。<br />
+→ <a href="http://kjirou.net/main/public/py/beginning_scripts/scope.py">サンプルコード</a>（と、その中で呼んでいる<a href="http://kjirou.net/main/public/py/beginning_scripts/scopetestmodule.py">モジュール</a>）<br />
+何かが原因でこういう挙動じゃないと思ってたんだけど、それが思い出せない・・・。
+</div>
+<p></p>
+<div>
+<b>4. BeautifulSoupを使ってGoogle検索結果をスクレイピング</b><br />
+出来はダメダメですが、<a href="http://kjirou.net/main/public/api/google_search_by_python/">サンプルのクラス</a>を作った。<br />
+Pythonのサンプルというよりは、Google検索の仕様調査にどうぞ。<br />
+ちなみに、何時からかUser-Agentを送信しないとGoogle Searchが403を返すようになってた。
+</div>
+<p></p>
+<div>
+<b>5. TraceBackを手動で取得する</b><br />
+自分で例外を捕捉したときに、お便利なトレースバック情報群が吹っ飛んでしまっていたので調べた。<br />
+traceback.format_exc() を使ったら、一発で解決した。<br />
+→ <a href="http://kjirou.net/main/public/py/beginning_scripts/use_traceback_module.py">サンプルコード</a>
+</div>
+<p></p>
+<div>
+段々、Pythonの良い所（と、カッタルイ所）が見えてきました。<br />
+未だに思うのは、unicode型が非常にいいなぁ　ということです。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

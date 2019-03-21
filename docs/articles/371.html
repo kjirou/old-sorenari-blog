@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django, Python] Change ListのURLをリンクにする | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django, Python] Change ListのURLをリンクにする</h1>
+        <p>2008年11月25日</p>
+      </section>
+      <section>
+        <div>
+Adminサイトの変更リスト内にURLを表す文字列が合った場合に、ハイパーリンクへ変換する方法です。<br />
+本来的な対応は面倒そうに見えたので、JavaScriptで強引にやりました。<br />
+Djangoバージョンは 0.96.2 です。</p>
+<p>改修は <b>django/contrib/admin/templates/admin/change_list.html</b> を修正します。<br />
+テンプレの改修手順は、Django本来のやり方に従ってください。</p>
+<p>(変更前)</p>
+<pre>
+{% block result_list %}{% result_list cl %}{% endblock %}
+</pre>
+<p>
+(変更後)</p>
+<pre>
+{% block result_list %}
+&lt;script type=&quot;text/javascript&quot;&gt;
+(function(){
+var id = '__change_urls_to_links__';
+document.write('&lt;div id=&quot;' + id + '&quot;&gt;&lt;/div&gt;');
+var e = document.createElement('a');
+e.innerHTML = '[Change urls to links]';
+e.href = &quot;javascript:void(0);&quot;;
+var f = function(){var l=document.getElementById(&quot;changelist&quot;).getElementsByTagName(&quot;td&quot;);for(var i=0;i&lt;l.length;i++){var h=l[i].innerHTML;l[i].innerHTML=h.replace(/^https?:.+$/,'&lt;a href=&quot;'+h+'&quot; target=&quot;_blank&quot;&gt;'+h+'&lt;/a&gt;',h)}}
+e.onclick = f;
+document.getElementById(id).appendChild(e);
+})();
+&lt;/script&gt;
+{% result_list cl %}{% endblock %}
+</pre>
+<ul>
+<li>改修後に画面に表示される Change urls to links というリンクを押すと変換されます。</li>
+<li>処理は、tdタグのinnerHTMLが&#8221;http://&#8221;や&#8221;https://&#8221;で始まる文字列を<br />
+URLとみなしてリンクに変換するだけです。<br />
+なんで、中のテキスト次第では、リンクにしたくない文字列がリンクになったり、XSSを発生させるセキュリティホールになります。</li>
+<li>下記はテンプレいじりたくなーい！という人向けにブクマ化したもの<br />
+＞ <a href="javascript:(function(){var%20l%3Ddocument.getElementById(%22changelist%22).getElementsByTagName(%22td%22);for(var%20i%3D0;i%3Cl.length;i++){var%20h%3Dl[i].innerHTML;l[i].innerHTML%3Dh.replace(/^https?:.+$/,'%3Ca%20href%3D%22'+h+'%22%20target%3D%22_blank%22%3E'+h+'%3C/a%3E',h)}})()">[Change urls to links]</a>
+</li>
+</ul>
+</div>
+<p></p>
+<div>
+JSは便利だなー。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

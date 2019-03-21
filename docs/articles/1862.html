@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] 管理サイトでオブジェクトにリンク | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] 管理サイトでオブジェクトにリンク</h1>
+        <p>2013年1月2日</p>
+      </section>
+      <section>
+        <div>
+UserProfileのChangeListからUserにリンクを貼りたい場合</p>
+<pre><code>from django.contrib import admin
+from django.core.urlresolvers import reverse
+from accounts.models import UserProfile
+
+class UserProfileAdmin(admin.ModelAdmin):
+    def subactions(self, obj):
+        return u&#039;&#039;&#039;&lt;a href=&quot;%s&quot;&gt;Change User&lt;/a&gt;&#039;&#039;&#039; % (
+            reverse(&#039;admin:auth_user_change&#039;, args=(obj.user.id,)),
+        )
+    subactions.allow_tags = True 
+    subactions.short_description = u&#039;Actions&#039;
+admin.site.register(UserProfile, UserProfileAdmin)</code></pre>
+<p></p>
+<p>Djangoバージョンは1.4.3
+</p></div>
+<h3>管理サイトのURL名一覧</h3>
+<div>
+該当部分のコピペ</p>
+<p>django/contrib/admin/site.py</p>
+<pre><code># Admin-site-wide views.
+urlpatterns = patterns(&#039;&#039;,
+    url(r&#039;^$&#039;,
+        wrap(self.index),
+        name=&#039;index&#039;),
+    url(r&#039;^logout/$&#039;,
+        wrap(self.logout),
+        name=&#039;logout&#039;),
+    url(r&#039;^password_change/$&#039;,
+        wrap(self.password_change, cacheable=True),
+        name=&#039;password_change&#039;),
+    url(r&#039;^password_change/done/$&#039;,
+        wrap(self.password_change_done, cacheable=True),
+        name=&#039;password_change_done&#039;),
+    url(r&#039;^jsi18n/$&#039;,
+        wrap(self.i18n_javascript, cacheable=True),
+        name=&#039;jsi18n&#039;),
+    url(r&#039;^r/(?P&lt;content_type_id&gt;\d+)/(?P&lt;object_id&gt;.+)/$&#039;
+        wrap(contenttype_views.shortcut)),
+    url(r&#039;^(?P&lt;app_label&gt;\w+)/$&#039;,
+        wrap(self.app_index),
+        name=&#039;app_list&#039;)
+)</code></pre>
+<p></p>
+<p>django/contrib/admin/options.py</p>
+<pre><code>urlpatterns = patterns(&#039;&#039;,
+    url(r&#039;^$&#039;,
+        wrap(self.changelist_view),
+        name=&#039;%s_%s_changelist&#039; % info
+    url(r&#039;^add/$&#039;,
+        wrap(self.add_view),
+        name=&#039;%s_%s_add&#039; % info),
+    url(r&#039;^(.+)/history/$&#039;,
+        wrap(self.history_view),
+        name=&#039;%s_%s_history&#039; % info),
+    url(r&#039;^(.+)/delete/$&#039;,
+        wrap(self.delete_view),
+        name=&#039;%s_%s_delete&#039; % info),
+    url(r&#039;^(.+)/$&#039;,
+        wrap(self.change_view),
+        name=&#039;%s_%s_change&#039; % info),
+)</code></pre>
+<p></p>
+<p>下の方は、アプリ名とモデル名から動的に名前が変わります<br />
+例えば、django.contrib.authアプリのユーザ情報ならこうなる</p>
+<pre>
+reverse(&#039;auth_user_changelist&#039;)
+reverse(&#039;auth_user_add&#039;)
+reverse(&#039;auth_user_history&#039;, args=(id,))
+reverse(&#039;auth_user_delete&#039;, args=(id,))
+reverse(&#039;auth_user_change&#039;, args=(id,))
+</pre>
+</div>
+<h3>蛇足</h3>
+<div>
+aタグをベタ打ちしたくないんだけど、どうすりゃいいんだろう？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

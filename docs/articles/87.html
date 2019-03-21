@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>描画処理は別スレッドだ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>描画処理は別スレッドだ</h1>
+        <p>2007年7月20日</p>
+      </section>
+      <section>
+        <div>
+javascriptで</p>
+<pre>
+document.getElementById("element_id").style.display = "inline";
+</pre>
+<p>のように、HTMLや画像の表示を変えた場合に<br />
+そのブラウザの描画処理自体は別スレッド化するみたいです。
+</div>
+<div>
+例えば、こんな処理の場合</p>
+<pre>
+// elementはHTML要素のオブジェクト
+element.style.display = "inline";
+var devnull = 1;
+</pre>
+<p>&#8220;inline&#8221;を代入したタイミングでブラウザの描画処理が始まりますが<br />
+描画処理の途中に&#8221;var devnull = 1;&#8221;が同時に動いているような、イメージ的にはそんな感じ。
+</div>
+<div>
+具体的に言うと<br />
+こういうイベント↓を設定したときには</p>
+<pre>
+// waitingはHTML要素のオブジェクト
+// リクエスト送信中の「お待ち下さい」の表示を行うための要素
+waiting.style.display = "inline";
+// prototype.jsを使った例となっています
+new Ajax.Request("/path/to/filename.txt", {
+method: "get"
+// 同期通信を選択
+,asynchronous: false
+,onComplete: function(http){
+/* 何か処理 */
+// 処理が終わったら、「お待ち下さい」を非表示にする
+waiting.style.display = "none";
+}
+});
+</pre>
+<p>イベントを発動させても<br />
+おそらく、「お待ち下さい」は表示されません。</p>
+<p>というのもこの場合<br />
+まず、「waiting.style.display = &#8220;inline&#8221;;」によりブラウザは描画処理を始めますが、JSのプロセスは先に進みます。<br />
+次に、同期通信によるリクエスト送信が行われますが、同期通信は画面をフリーズさせる(*1)ため、その間の描画処理はされません。<br />
+ということで、折角表示しようとして「お待ち下さい」は、同期通信の画面フリーズにより表示されなくなります。</p>
+<p>(*1) 画面をフリーズさせているように見えますが、正確なところはわかりません。<br />
+(**) XP-IE6とXP-FireFox2で確認しました<br />
+(**) &#8220;,asynchronous: false&#8221;をコメントアウトして非同期通信にすると、レスポンス待ちの間に表示されるようになります。
+</div>
+<div>
+以上、上記の話は自分の調査のみの話なので、間違っているところは多々あるかもしれません。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

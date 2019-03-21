@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHPで関数ポインタ？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHPで関数ポインタ？</h1>
+        <p>2007年5月31日</p>
+      </section>
+      <section>
+        <div>
+PHP4で</p>
+<pre>
+&lt;?php
+function say($w) {
+echo $w;
+}
+$s = say;
+$s("tiwa"); // "tiwa"を出力
+</pre>
+<p>へー、こんなこと出来るのか！
+</div>
+<div>
+ref) <a href="http://www.akiyan.com/blog/archives/2007/05/php8.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.akiyan.com/blog/archives/2007/05/php8.html', 'PHPの開発を8倍早くする方法']);" >PHPの開発を8倍早くする方法</a>（のコメント欄）
+</div>
+<div>
+追記あります↓
+</div>
+<p><span id="more-54"></span></p>
+<div>
+あれ、ちょっと待てよ</p>
+<pre>
+&lt;?php
+function say($w) {
+echo $w;
+}
+$s = "say"; // 単に文字列を代入
+$s("tiwa"); // これも動く
+</pre>
+<p>あーなるほど、文字列に()が付くと、関数になるのか。<br />
+だから、最初の $s = say; も、単に文字列を代入しているだけなのかよ。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

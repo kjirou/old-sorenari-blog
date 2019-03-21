@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] MySQLdbのメモリリーク | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] MySQLdbのメモリリーク</h1>
+        <p>2008年12月1日</p>
+      </section>
+      <section>
+        <div>
+先日、MySQLdb.cursor.executeが<br />
+メモリのリークを<a href="http://kjirou.sakura.ne.jp/mt/2008/11/django_mysqldb_connectioncurso.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/11/django_mysqldb_connectioncurso.html', '起こしている']);" >起こしている</a>というということを書きましたが、<br />
+同僚の方から、割と一般的な論点だったということを教えてもらいました。
+</div>
+<p></p>
+<div>
+<a href="http://jjinux.blogspot.com/2008/09/python-debugging-memory-leaks.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://jjinux.blogspot.com/2008/09/python-debugging-memory-leaks.html', 'Python: Debugging Memory Leaks']);" >Python: Debugging Memory Leaks</a></p>
+<p>これを結論だけ解読すると、</p>
+<pre>
+I prefer SQLAlchemy when I have a little bit of really complex data,
+but I prefer straight SQL when I have a ton of really simple data.
+</pre>
+<p>「オッス、オラごくう！<br />
+ちっちぇ複雑なデータはSQLAｌchemyを使って、<br />
+でっけぇ単純なデータは通常のSQL発行で対処するといいぞ！<br />
+オラ、ワクワクしてきたぞ！」</p>
+<p>ということらしいです。<br />
+・・・全部読めば、もっとたくさんのことがわかりそうですが、<br />
+気力が尽きたので、もういいやー。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

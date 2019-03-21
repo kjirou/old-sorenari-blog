@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Pythonクックブックを読んでいる(3) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Pythonクックブックを読んでいる(3)</h1>
+        <p>2009年2月28日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2009/02/python2.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2009/02/python2.html', '＜＜ 前回']);" ><b>＜＜ 前回</b></a> |<br />
+<b><a href="http://kjirou.sakura.ne.jp/mt/2009/03/python4.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2009/03/python4.html', '次回 ＞＞']);" >次回 ＞＞</a></b></p>
+<p>たまに技術本を読んでいるのでブログ書かなきゃ損損シリーズ の続き。
+</div>
+<p></p>
+<div>
+<b>【3章 時間とお金】</b></p>
+<p><b>1. dateutilパッケージ</b><br />
+標準のdateモジュールには無い便利機能を提供してくれる、サードパーティのパッケージ。<br />
+例えば、timedeltaには出来ない「月や年の加減算」や「月初日と月末日の取得」といった、ありがちな処理を提供してくれる。</p>
+<pre>
+&gt;&gt;&gt; import datetime
+&gt;&gt;&gt; from dateutil import relativedelta
+&gt;&gt;&gt; one_day = datetime.date(2009, 3, 15)
+&gt;&gt;&gt; one_day
+datetime.date(2009, 3, 15)
+&gt;&gt;&gt; one_day + relativedelta.relativedelta(months=1) # 1月加算
+datetime.date(2009, 4, 15)
+&gt;&gt;&gt; one_day + relativedelta.relativedelta(day=1) # 月初
+datetime.date(2009, 3, 1)
+&gt;&gt;&gt; one_day + relativedelta.relativedelta(day=99) # 月末
+datetime.date(2009, 3, 31)
+</pre>
+<p>Python標準だと、日時はローカルな環境の影響を受けやすい部分なので、方針として便利な機能よりも安定した機能のみを提供するようにしている・・・<br />
+・・・と、もっと端的にいうと「標準だと不便」なので、このパッケージはとてもありがたい。<br />
+常に必要かは考えどころだけど、カレンダー機能を作るような場合は、是非是非使いたい！</p>
+<p>ダウンロード) <a href="http://labix.org/python-dateutil" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://labix.org/python-dateutil', 'http://labix.org/python-dateutil']);" target="_blank">http://labix.org/python-dateutil</a><br />
+※setup.pyではなく手動でdateutilディレクトリだけ配置してもtest.pyは通ったので、プロジェクト単位でも使用可能っぽい。</p>
+<p><b>2. weekday()</b></p>
+<pre>
+&gt;&gt;&gt; import datetime, calendar
+&gt;&gt;&gt; today = datetime.date.today()
+&gt;&gt;&gt; today
+datetime.date(2009, 2, 28)
+&gt;&gt;&gt; today.weekday() == calendar.SATURDAY
+True
+</pre>
+<p>Python的に勉強になったというよりは、<br />
+「曜日が日付から一意で決まるものである」という、リアル仕様の方にガッテンした。</p>
+<p><b>3. raw_input</b><br />
+章のテーマに無関係だけど、目に止まったので。<br />
+[y/N] を要求するような対話的なスクリプトを書くときにraw_inputという組み込み関数が使えるようだ。<br />
+<b>raw_input.py</b></p>
+<pre>
+print "Start prompting."
+while True:
+cmd = raw_input()
+if cmd == "q":
+break
+else:
+print cmd * 3
+print "Completed prompting."
+</pre>
+<p>実行、入力を3倍にして標準出力へ返すか、qを入力すると終了する。</p>
+<pre>
+$python raw_input.py
+Start prompting.
+aiueo
+aiueoaiueoaiueo
+Ask him!
+Ask him!Ask him!Ask him!
+URUSE-YO!
+URUSE-YO!URUSE-YO!URUSE-YO!
+q
+Completed prompting.
+</pre>
+<p>おー、おもしれー。</p>
+<p>本のサンプルでは、入力を受け取るときにありがちなエラー周りも実装してくれていたので、何か作るときは参考になる。<br />
+デプロイ用にインタラクティブなスクリプトを提供する・・・とかも出来るなー。</p>
+<p><b>4. Decimalモジュール</b><br />
+お金周りとか、シビアに十進数で計算する必要がある場合は、Decimalモジュールを使うべし。<br />
+ただ、記述が面倒なモジュールなので、何かしらラッパクラス/関数は作った方がいいかも・・・。
+</div>
+<p></p>
+<div>
+3章は以上。</p>
+<p>全体的に「これ必要かな？」というような、細かいネタが多かった気がする。<br />
+ざっくりと、日時周りで困ったらdateutilで、ちょっと頑張りたかったらクックブックを開こうか・・・という風に把握させていただいた。</p>
+<p>まぁ、頑張らないんですけどね！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

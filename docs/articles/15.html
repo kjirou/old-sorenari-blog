@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>さくらにRubyを入れる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>さくらにRubyを入れる</h1>
+        <p>2007年4月19日</p>
+      </section>
+      <section>
+        <div>
+周りでRuby臭が蔓延してきて洗脳されました
+</div>
+<div>
+てなわけで、さくらインターネットでRoR計画始動！<br />
+まずは生Rubyで&#8221;Hello World&#8221;だっ</p>
+<p>インストール用コマンド</p>
+<pre>
+cd $HOME/local/src
+wget ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6.tar.gz
+tar xzf ruby-1.8.6.tar.gz
+cd ruby-1.8.6
+./configure --prefix=$HOME/local
+make
+make install
+</pre>
+<p>これでRuby本体はインストール完了。<br />
+ちなみに、コマンド場所が $HOME/local/bin/ruby になるようにインストールしています。</p>
+<li />
+</div>
+<div>
+次は$PATHの設定ですが<br />
+&#8220;which ruby&#8221; と打って自分が先程いれたRubyを見ていないなら、<br />
+環境変数$PATHを修正する必要があります。<br />
+上記例なら、&#8221;$HOME/local/bin&#8221;を、$PATHの先頭の方に持って来ます。<br />
+んで、sourceコマンドで、設定ファイル再読み込み。
+</div>
+<div>
+さて</p>
+<pre>
+ruby -e "puts 'Hello World'"
+Hello World
+</pre>
+<p>OKPK</p>
+<p><a href="http://kjirou.sakura.ne.jp/mt/2007/04/rails.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/04/rails.html', '続けてRailsのインストール']);" >続けてRailsのインストール</a>だっ！
+</div>
+<div>
+参考リンク</p>
+<ul>
+<li><a href="http://www.ruby-lang.org/ja/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.ruby-lang.org/ja/', 'Ruby本家']);" >Ruby本家</a></li>
+<li><a href="http://radastery.jp/wiki.cgi?page=RubyOnRails(%A4%B5%A4%AF%A4%E9%A5%B5%A1%BC%A5%D0%CA%D4)" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://radastery.jp/wiki.cgi?page=RubyOnRails(%A4%B5%A4%AF%A4%E9%A5%B5%A1%BC%A5%D0%CA%D4)', 'RubyOnRails(さくらサーバ編)']);" >RubyOnRails(さくらサーバ編)</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

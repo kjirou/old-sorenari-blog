@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>多対多なPub-Subの場合はどこに仕様を記載するのか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>多対多なPub-Subの場合はどこに仕様を記載するのか</h1>
+        <p>2015年8月9日</p>
+      </section>
+      <section>
+        <div>
+例えば、同じ foo イベント名に対して複数の購読者(Subscriber)が設定されている場合、</p>
+<pre>
+emitter.on('foo', function({ x, y }) {
+  // do stuff
+});
+
+emitter.on('foo', function({ y, z }) {
+  // do stuff
+});
+</pre>
+<p></p>
+<p>イベント名 foo が発行もしくは購読する全引数 x, y, z を満たす実装は基本的にどこにも無い。<br />
+だから仕様を書く場所が無い。</p>
+<p>聞いた管理手法だと：</p>
+<p>・テストに残す<br />
+・別ドキュメントに残す</p>
+<p>というのがあるが、まぁ状況によっては期待できないこともあるだろう。</p>
+<p>コールバックの型を検証するような高階関数を介すのがいいのだろうか？
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>
