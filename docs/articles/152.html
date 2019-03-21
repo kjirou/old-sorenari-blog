@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>【三国志Online】自動攻撃と技能の攻撃で連続攻撃 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>【三国志Online】自動攻撃と技能の攻撃で連続攻撃</h1>
+        <p>2007年10月7日</p>
+      </section>
+      <section>
+        <div>
+三国志Onlineで、たまに連続で攻撃がヒットしているようなことがあるので調査してみた。
+</div>
+<div>
+で、結論から申し上げますと</p>
+<ol>
+<li>自動攻撃（スキルを使わない通常の攻撃）が相手に当たる直前に、</li>
+<li>準備時間0.0の技能による攻撃を行うと、</li>
+<li>自動攻撃と技能による攻撃がほぼ同じタイミングでヒットする。</li>
+</ol>
+<p>こういうメカニズムでヒットしているのでした。
+</p></div>
+<div>
+もうちょっと詳しく説明すると<br />
+自動攻撃は、装備中の武器による「攻撃速度」の消化により攻撃が発動する一方、<br />
+技能による攻撃は、技能ごとに設けられた「準備時間」の消化により攻撃が発動するため、<br />
+自動攻撃が作動した後に準備時間0.0の技能による攻撃を行うと、タイムラグが無くヒットする、という仕組みのようです。</p>
+<p>もちろん、準備時間があるものでも、時間によっては攻撃間隔の短縮に繋がります。
+</p></div>
+<div>
+技能を使うタイミングは、敵のゲージが減る一瞬前ぐらいがベストなため、武器ごとのモーションで違います。（もしかすると、モーションに入る前のタイミングを体感で計ってやらないといけないかもしれない）<br />
+自動攻撃を開始してから技能使うまでが早すぎると、自動攻撃が解除されて、技能による攻撃のみになってしまうので注意が必要です。</p>
+<p>弓の場合は、成功すると以下のようになります。</p>
+<p><a href="http://photozou.jp/photo/show/135065/5341632" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/5341632', '']);" ><img src="http://art6.photozou.jp/pub/65/135065/photo/5341632.jpg" alt="SOL20071007175301" width="450" height="281" style="border:0" /></a><br /><a href="http://photozou.jp/photo/show/135065/5341632" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/5341632', 'SOL20071007175301']);" >SOL20071007175301</a> posted by <a href="http://photozou.jp/mypage/top/135065" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/mypage/top/135065', '(C)kjirou']);" >(C)kjirou</a></p>
+<p>小猪へ、自動攻撃と爆裂矢・壱がほぼ同時にヒットしています。<br />
+画像が見難いので、画像をクリックして大きくしてくださいあ。
+</div>
+<div>
+技能による攻撃から入ると、技能回復時間があるので連続にはなりません。</p>
+<p>近接攻撃系は微妙かもですが、弓の場合は単純に攻撃回数が1回儲かるのでとても使えます。<br />
+自己回復を挿入するのにも使えますねっ（でも、自動攻撃モードが切れちゃうので一工夫か操作スキルが必要になりそう）
+</div>
+<div>
+こういう話は、絶対誰かが検証しているはずなのに、どうググってもヒットしねぇ・・・。<br />
+Ultima Online とは違って、仕様検証職人みたいのは居ないんだろか。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

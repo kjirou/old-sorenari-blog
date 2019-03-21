@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PHPでforeach最終ループを簡潔に知りたい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>PHPでforeach最終ループを簡潔に知りたい</h1>
+        <p>2007年5月30日</p>
+      </section>
+      <section>
+        <h3>現状の有力案</h3>
+<div>
+<pre><code>foreach ($hash as $k => $v) {
+    if (end(array_keys($hash)) === $k) {
+        echo "last";
+    }
+}</code></pre>
+<p>これだと、$hashの内部配列ポインタとやらも汚染しないでいい感じ。<br />
+若干重そうな気がしますけど・・・気にしない！
+</div>
+<h3>ボツ案</h3>
+<div>
+<pre><code>foreach ($hash as $k => $v) {
+    if (next($hash) === false) {
+        echo "last";
+    }
+}</code></pre>
+<p>これだと</p>
+<ul>
+<li>$hashの要素値にfalseが含まれている場合にバグる</li>
+<li>1回のforeachループで必ず1回のnextを通す必要がある。</li>
+</ul>
+<p>という点でダメ。
+</p></div>
+<h3>今までのやり方</h3>
+<div>
+<pre><code>$count = 1;
+$max = count($hash);
+foreach ($hash as $k => $v) {
+    if ($max === $count++) {
+        echo "last";
+    }
+}</code></pre>
+<p>基本的な線として、これよりはいいよなと思いました。
+</p></div>
+<h3>後、初めて知ったこと</h3>
+<div>
+<pre><code>foreach ($hash as $k => $v) {
+    $hash = null;
+}</code></pre>
+<p>これは途中でループが止まらない。<br />
+<a href="http://jp.php.net/manual/ja/control-structures.foreach.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://jp.php.net/manual/ja/control-structures.foreach.php', 'マニュアルによると']);" >マニュアルによると</a>、参照渡しでない限りは、<br />
+foreachをループさせるためにそれ専用に値をコピーするとのこと。</p>
+<p>えー・・・。
+</div>
+<h3>2012/11/20 追記</h3>
+<div>
+上記の方法は、全くオススメしません<br />
+デメリットとしては以下が上げられます</p>
+<ul>
+<li>一般的なロジックでないので読み手が混乱する</li>
+<li>その配列が性能に影響がない位短いのかを読み手が理解する必要が出てしまう</li>
+</ul>
+<p>つまりは、他の人に迷惑が掛かる書き方です<br />
+一方、対価としてのメリットは、ローカル変数と行数が少し減るだけなので<br />
+見合ってないと思います</p>
+<p>現在のPHPは詳しくないので知りませんが<br />
+無理なら「無理な言語だ」と諦めた方が幸せになると思われます</p>
+<p>まだ、多少アクセスがあるようなので責任を感じて追記しました
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

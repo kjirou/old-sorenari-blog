@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>vimgrepが便利 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>vimgrepが便利</h1>
+        <p>2007年12月26日</p>
+      </section>
+      <section>
+        <div>
+Railsのメソッド詳細は、ググるよりソースのコメントを見た方が楽なので、ひたすらgrepを打って探してた。</p>
+<p>んでgrepがだるくなったので、あんまり使ってなかったvimgrepを少しだけ調べたら非常に便利に使えるようになった。</p>
+<p>・・・なぁぜ、もっと早くやらんのかと！
+</p></div>
+<div>
+ということで、コマンドのテンプレ↓</p>
+<pre>
+:vimgrep /pattern/j path/to/**/*.txt | cwin
+</pre>
+<p>※j修飾子・・・最初にマッチしたファイルを自動で開かない<br />
+※ファイル指定・・・ &#8220;**&#8221;で再帰的に探す、&#8221;*&#8221;は普通と同じ<br />
+※| cwin ・・・別ウィンドウでファイル一覧が出て、選択でファイルが開けるようになる</p>
+<p>参考：<a href="http://bitmap.dyndns.org/blog/archives/001346.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://bitmap.dyndns.org/blog/archives/001346.html', 'http://bitmap.dyndns.org/blog/archives/001346.html']);" >http://bitmap.dyndns.org/blog/archives/001346.html</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

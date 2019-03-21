@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>unserializeのバグ？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>unserializeのバグ？</h1>
+        <p>2007年11月25日</p>
+      </section>
+      <section>
+        <div>
+PHP5のserialize～unserializeでオブジェクトをシリアル化するときに不振な挙動が、という話。
+</div>
+<div>
+Fooインスタンスをシリアル化した時の文字列を覚えておく</p>
+<pre>
+&lt;?php
+class Foo {}
+$foo = new Foo;
+echo serialize($foo) . "\n"; // -> 'O:3:"Foo":0:{}'
+</pre>
+</div>
+<div>
+で、これからが本番</p>
+<pre>
+// さっきのクラスをメンバ変数付きにする
+class Foo {
+public $a = 1;
+}
+$foo = new Foo;
+// さっきのクラスのシリアルをunserialize化する
+var_dump(unserialize('O:3:"Foo":0:{}'));
+</pre>
+<p>で、var_dumpの出力</p>
+<pre>
+object(Foo)#2 (1) {
+["a"]=>
+int(1)
+}
+</pre>
+<p>unserializeしたのは中身が空のFooクラスのはずなのに、メンバ変数を設定したクラスの内容が反映されている。
+</p></div>
+<div>
+うーん、わからん。<br />
+__sleepと__wakeupを調べ中に発見したんだけど<br />
+どうせ使わないものをすぐ終わるだろ調査してハマって時間を浪費する・・・ってのに憤りを隠せない、無念。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

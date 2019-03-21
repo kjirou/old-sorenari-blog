@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>AS3でのFlashとJSの連携サンプル | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>AS3でのFlashとJSの連携サンプル</h1>
+        <p>2007年12月20日</p>
+      </section>
+      <section>
+        <div>
+GoogleMapsAPIとFlashの連携をやりたいということで、<br />
+ActionScript3でFlashとJavaScriptの連携について調べました。</p>
+<p><a href="http://kjirou.net/main/sample/flash/test/connect_to_js/index.html">サンプルの実行</a> [<a href="http://kjirou.net/main/sample/flash/test/connect_to_js/">ソース</a>]<br />
+（※Flashの埋め込みはSWFObjectを使っています。）<br />
+参考：<a href="http://livedocs.adobe.com/flex/2_jp/langref/flash/external/ExternalInterface.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://livedocs.adobe.com/flex/2_jp/langref/flash/external/ExternalInterface.html', 'マニュアル &#8211; Class ExternalInterface']);" >マニュアル &#8211; Class ExternalInterface</a>
+</div>
+<div>
+Flash-JS間のデータの受け渡しですが・・・</p>
+<pre>
+[引用]
+ActionScript から、HTML ページに対して次のことを実行できます。
+* 任意の JavaScript 関数を呼び出す
+* 引数の数を名前と共に渡す
+* ブール (Boolean)、数値 (Number)、ストリング (String) などのさまざまなデータ型を渡す
+* JavaScript 関数からの戻り値を受け取る
+HTML ページの JavaScript から、次のことを実行できます。
+* ActionScript 関数を呼び出す
+* 標準の関数呼び出しの表記法を使用して、引数を渡す
+* JavaScript 関数に値を戻す
+</pre>
+<p>
+つまり</p>
+<p>FlashがJS関数を実行するときには、<br />
+1) Flash側からJS側に引数データを渡せるし、<br />
+2) JS側の実行結果データをFlash側が受け取れる。</p>
+<p>また、JS側からFlash関数を実行するときにも、<br />
+1) JS側からFlash側に引数データを渡せるし、<br />
+2) Flash側の実行結果データをJS側が受け取れる。</p>
+<p>・・・と、非常に便利な作りになっています。<br />
+渡す・渡されるデータの型もStringだけじゃなくて、Objectも可能っぽいです。
+</div>
+<div>
+あざーした ＞ be氏
+</div>
+<div>
+<b>【追記】</b><br />
+function型の受け渡しは、JS→Flash と Flash→JS 双方で無理でした。<br />
+まぁ、クロージャになってたらお手上げだから当然か。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

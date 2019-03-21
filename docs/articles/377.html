@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Linux] パーミッションに関するクイズ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Linux] パーミッションに関するクイズ</h1>
+        <p>2008年12月4日</p>
+      </section>
+      <section>
+        <div>
+Linuxのファイル／ディレクトリの権限に関するクイズです、ヘイヘーイ!!<br />
+動作環境はCentOSです。
+</div>
+<p></p>
+<div>
+<b>第1問</b><br />
+a.txt に対する権限が -w- なユーザが cat a.txt で読み出せるか?
+</div>
+<p></p>
+<div>
+<b>第2問</b><br />
+a.txt に対する権限が -w- なユーザが echo &#8216;123&#8217; &gt;&gt; a.txt で書き込めるか?
+</div>
+<p></p>
+<div>
+<b>第3問</b><br />
+foo/bar/a.txt が存在し、それらに対するあるユーザの権限が以下である場合</p>
+<pre>
+foo   r-x
+bar   --x
+a.txt r-x
+</pre>
+<p>cat foo/bar/a.txt で読み出せるか?
+</p></div>
+<p></p>
+<div>
+<b>第4問</b><br />
+foo/a.txt が存在し、それらに対するあるユーザの権限が以下である場合</p>
+<pre>
+foo   r--
+a.txt ---
+</pre>
+<p>ls foo の結果はどうなるか?
+</p></div>
+<p></p>
+<div>
+<b>第5問</b><br />
+foo/a.txt が存在し、それらに対するあるユーザの権限が以下である場合</p>
+<pre>
+foo   rwx
+a.txt ---
+</pre>
+<p>rm foo/a.txt で削除は可能か?
+</p></div>
+<p></p>
+<div>
+<b>第5.5問</b><br />
+foo/a.txt が存在し、それらに対するあるユーザの権限が以下である場合</p>
+<pre>
+foo   rw-
+a.txt ---
+</pre>
+<p>rm foo/a.txt で削除は可能か?
+</p></div>
+<p></p>
+<div>
+<b>第5.9問</b><br />
+foo/a.txt が存在し、それらに対するあるユーザの権限が以下である場合</p>
+<pre>
+foo   rw-
+a.txt ---
+</pre>
+<p>rm -r foo で削除は可能か
+</p></div>
+<p></p>
+<div>
+<b>第6問</b><br />
+a.sh に対する権限が &#8211;x なユーザが ./a.sh でシェルを実行可能か?<br />
+a.shの1行目には #!/bin/sh 等の正しい参照先が設定されているものとする。
+</div>
+<p></p>
+<div>
+<b>第7問</b><br />
+foo/a.txt が存在し、それらに対するあるユーザの権限が以下である場合</p>
+<pre>
+foo   r-x
+a.txt rw-
+</pre>
+<p>rm foo/a.txt で削除は可能か?
+</p></div>
+<p></p>
+<div>
+<b>第8問</b><br />
+foo/a.txt が存在し、それらに対するあるユーザの権限が以下である場合</p>
+<pre>
+foo   drwx---rwt (ownerはuser1)
+a.txt -rwx------ (ownerはuser1)
+</pre>
+<p>user2 は rm foo/a.txt で削除は可能か?
+</p></div>
+<p></p>
+<div>
+<b>【答え】（反転で表示）</b></p>
+<pre style="color:#000000;">
+1 = 読み出せない
+2 = 書き込める
+3 = 読み出せる
+4 = a.txtが出力される
+5 = 削除できる
+5.5 = 削除できない
+5.9 = 削除できない
+6 = 実行できない
+7 = 削除できない
+8 = 削除できない、スティッキービットが設定されているため
+</pre>
+<p>参考リンク) <a href="http://oshiete1.goo.ne.jp/qa1682818.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://oshiete1.goo.ne.jp/qa1682818.html', 'http://oshiete1.goo.ne.jp/qa1682818.html']);" >http://oshiete1.goo.ne.jp/qa1682818.html</a>
+</div>
+<p></p>
+<div>
+無論、Geekな皆様は間違えようがないですよね!!<br />
+俺はGeekじゃないんで、半分位は間違えた／わからなかった です。
+</div>
+<p></p>
+<div>
+<b>【追記】</b><br />
+<a href="http://d.hatena.ne.jp/pasela/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/pasela/', 'pasela']);" >pasela</a>氏の突っ込みで問題と回答を変えました。<br />
+ぁりがしゃーす。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

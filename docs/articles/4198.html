@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CoffeeLintのわかりにくいオプション | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CoffeeLintのわかりにくいオプション</h1>
+        <p>2014年9月10日</p>
+      </section>
+      <section>
+        <div>
+CoffeeLint で、<a href="http://www.coffeelint.org/#options" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.coffeelint.org/#options', '公式の Options']);" target="_blank">公式の Options</a> を眺めても動作がわからなかったものについて、サンプルコードを書いて確認しました。<br />
+以下、一言コメントとサンプルコードへのリンクです。</p>
+<dl>
+<dt>
+cyclomatic_complexity <a href="https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/cyclomatic_complexity/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/cyclomatic_complexity/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+if 文などで分岐した数を数えて、一定数以上の関数には警告します。<br />
+<a href="http://ja.wikipedia.org/wiki/%E5%BE%AA%E7%92%B0%E7%9A%84%E8%A4%87%E9%9B%91%E5%BA%A6" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E5%BE%AA%E7%92%B0%E7%9A%84%E8%A4%87%E9%9B%91%E5%BA%A6', 'Cyclomatic Complexity (循環的複雑度)']);" target="_blank">Cyclomatic Complexity (循環的複雑度)</a>という概念が元のようですが詳しいことは知りません。
+</dd>
+<dt>
+empty_constructor_needs_parens <a href="https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/empty_constructor_needs_parens/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/empty_constructor_needs_parens/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+new Class する際に () または引数のどちらかを記述しないと警告します。
+</dd>
+<dt>
+missing_fat_arrows <a href="https://github.com/kjirou/coffeescript_codes/tree/master/basis/coffeelint/options/missing_fat_arrows/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/tree/master/basis/coffeelint/options/missing_fat_arrows/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+内部で <tt>@</tt> を使っている関数を定義する際に <tt>=&gt;</tt> を使わないと警告します。
+</dd>
+<dt>
+no_empty_functions <a href="https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_empty_functions/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_empty_functions/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+処理がない空の関数定義に対して警告します。
+</dd>
+<dt>
+no_implicit_braces <a href="https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_implicit_braces/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_implicit_braces/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+<tt>{}</tt> の無いオブジェクトの宣言を警告します。<br />
+YAML みたいな改行の入った宣言方法でも禁止です。
+</dd>
+<dt>
+no_stand_alone_at <a href="https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_stand_alone_at/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_stand_alone_at/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+<tt>@</tt> 自体を評価すると警告します。
+</dd>
+<dt>
+no_unnecessary_fat_arrows <a href="https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_unnecessary_fat_arrows/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/no_unnecessary_fat_arrows/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+<tt>=&gt;</tt> で宣言した関数内で <tt>@</tt> が使われていないと警告します。
+</dd>
+<dt>
+non_empty_constructor_needs_parens <a href="https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/non_empty_constructor_needs_parens/index.coffee" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes/blob/master/basis/coffeelint/options/non_empty_constructor_needs_parens/index.coffee', '(code)']);" target="_blank">(code)</a>
+</dt>
+<dd>
+<tt>()</tt> を付けないで引数が渡されているコンストラクタの呼び出しに対して警告します。
+</dd>
+</dl>
+<p></p>
+<p>もしサンプルを手元で動かしたい場合は <a href="https://github.com/kjirou/coffeescript_codes" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/coffeescript_codes', 'https://github.com/kjirou/coffeescript_codes']);" target="_blank">https://github.com/kjirou/coffeescript_codes</a> を clone して下さい。</p>
+<p>ちなみに、日本語訳されたオプション一覧がどこかにあるある絶対あるあればあると思ってたのに見つけられませんでした。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

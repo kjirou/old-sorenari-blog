@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] Qdmailを使ってみた | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] Qdmailを使ってみた</h1>
+        <p>2009年12月1日</p>
+      </section>
+      <section>
+        <div>
+mb_send_mail がアホ過ぎるとぼやいてたら、<br />
+同僚が「Qdmailというのがいいよ」と教えてくれたのでテストしてみました。
+</div>
+<h3>Qdmail概要</h3>
+<div>
+1枚のPHPスクリプトで構成されるライブラリです。<br />
+例えば、こんな風に使います。</p>
+<pre><code>require_once '/path/to/qdmail.php';
+$mail =&amp; new Qdmail();
+$mail-&gt;to('to@example.com', '差出人名');
+$mail-&gt;subject('件名です');
+$mail-&gt;text('内容です');
+$mail-&gt;from('from@exmaple.com', '宛先名');
+$mail-&gt;send();</code></pre>
+<p>
+これで、件名が長くても、JISメールでも、ちゃんと送ることができます。</p>
+<p>それ以外にも、主要なPHPフレームワーク上で使う際の配慮や、<br />
+ログ対応、デコメ対応などがなされており、<br />
+本家マニュアルサイト↓もしっかりと書き込まれています。</p>
+<p>Qdmail本家サイト:<br />
+<a href="http://hal456.net/qdmail" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://hal456.net/qdmail', 'http://hal456.net/qdmail']);" target="_blank">http://hal456.net/qdmail</a>/
+</div>
+<h3>不便な点</h3>
+<div>
+とはいえ、いくつか個人的には使いにくい部分もありました。</p>
+<p>
+<b>1. 入力文字コードの明示指定が出来ない</b></p>
+<p>正確には、出来ない訳ではなく、Qdmail#qd_detect_order で、<br />
+PHPのmb_detect_orderのルールに則る形で緩やかな指定は可能です。<br />
+ただ、mb_detect_order が false を返すような状況でも、<br />
+文字コード変換無しでそのまま処理を継続するので、ちょっと気持ち悪さが残りました。<br />
+まー、ほとんどの状況で大丈夫なはずなので、実際は影響は無いと思います。</p>
+<p>
+<b>2. 基本的に例外を返さない</b></p>
+<p>PHP4対応のため仕方ありませんが、上記のように<br />
+「文字コード判別に失敗したら、普通は例外を投げて処理を止めるだろう」<br />
+・・・という造りにはなっていません。<br />
+exit(&#8220;status&#8221;); のような擬似的な例外システムも無く、概ね処理を継続します。</p>
+<p>
+<b>3. 環境によっては、標準エラー出力が常に出る</b></p>
+<p>バッチモードで叩くと良くわかりますが、環境によっては以下のようになります。</p>
+<pre>
+$php qdmail_test.php
+sendmail: invalid option -- d
+sendmail: invalid option -- 0
+sendmail: invalid option -- .
+sendmail: invalid option -- 1
+sendmail: invalid option -- d
+sendmail: fatal: usage: sendmail [options]
+</pre>
+<p>これは、Qdmail#isQmail 内で、OSコマンドを直接叩いているためです。</p>
+<p>対処は、phpオプションでどうにかなるのかは不明ですが、<br />
+ダメなら、「Linux 標準エラー出力 抑止」 とかでググって解決したりとか、<br />
+isQmailを通さないように変更とか、諦めて気にしないとか、でしょうか。
+</div>
+<h3>ていうか</h3>
+<div>
+mb_&quot;real&quot;_send_mail が欲しいっす・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

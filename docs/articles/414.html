@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] selfの型は持ち越す | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] selfの型は持ち越す</h1>
+        <p>2009年4月13日</p>
+      </section>
+      <section>
+        <div>
+Python-2.5.2で以下を実行したら</p>
+<pre>
+class KlassA(object):
+def __init__(self, *args, **kwargs):
+print "At KlassA"
+class KlassB(KlassA):
+def __init__(self, *args, **kwargs):
+print "At KlassB"
+super(self.__class__, self).__init__(*args, **kwargs)
+class KlassC(KlassB):
+def __init__(self, *args, **kwargs):
+print "At KlassC"
+super(self.__class__, self).__init__(*args, **kwargs)
+if __name__ == "__main__":
+c = KlassC()
+</pre>
+<p>無限ループ状態になりました・・・。</p>
+<p>調べると、selfの型は呼び出したクラスの型を持ち越すようで、<br />
+この例だと、KlassB.__init__ 内での super(self.__class__, self) も、<br />
+また KlassB を示すことになり、<br />
+延々、KlassBのコンストラクタを実行し続けてしまうということでした。</p>
+<p>参考) <a href="http://d.hatena.ne.jp/ousttrue/20071127" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/ousttrue/20071127', 'http://d.hatena.ne.jp/ousttrue/20071127']);" >http://d.hatena.ne.jp/ousttrue/20071127</a>
+</div>
+<p></p>
+<div>
+super(self.__class__, self) の使用は、その辺を調べるまでは控えよう・・・。<br />
+同じクラス名を複数書かないといけないのは、ちょっと面倒ですが。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

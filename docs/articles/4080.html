@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Mongo Scripts でカレントに依存せず load したい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Mongo Scripts でカレントに依存せず load したい</h1>
+        <p>2014年7月18日</p>
+      </section>
+      <section>
+        <div>
+Mongo Shell には <tt>load()</tt> という関数があるので、それで外部JSファイルの実行が可能です。</p>
+<p>ただ、<tt>load()</tt> は node の <tt>require</tt> ほど便利ではなく、</p>
+<p>1. シェル実行時のカレントディレクトリからの相対パス<br />
+2. 絶対パス</p>
+<p>でしか対象を指定できません。</p>
+<p>そして、Mongo Shell には、与えられたファイルのパスを得る方法はありません。</p>
+<p>例えば、以下のように実行した場合：</p>
+<pre>
+mongo db_name path/to/mongo_script_name.js
+</pre>
+<p></p>
+<p>上記の <tt>mongo_script_name.js</tt> の場所は取れません。</p>
+<p>つまり、<tt>load()</tt> を使う場合、実行者のカレントディレクトリに依存してしまいます。</p>
+<p>それいずれ困るからヤダ、どうにかしたい、という話です。
+</p></div>
+<h3>結論：無理</h3>
+<div>
+おそらくですが、無理っぽいです。</p>
+<p>根拠は、<a href="http://docs.mongodb.org/manual/reference/method/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.mongodb.org/manual/reference/method/', 'マニュアル']);" target="_blank">マニュアル</a>に無いというのと、</p>
+<p>ググって調べて見つからないというのと、</p>
+<p><a href="https://jira.mongodb.org/browse/SERVER-4895" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://jira.mongodb.org/browse/SERVER-4895', 'Expose environment variables in the shell']);" target="_blank">Expose environment variables in the shell</a> にて、環境変数を取るのに alias すればいいよという回答がされている点からです。
+</div>
+<h3>工夫した</h3>
+<div>
+なので、こんな風に２つ読み込むようにするといいのではと：</p>
+<pre>
+mongo db_name conf.js script.js
+</pre>
+<p></p>
+<p><a href="https://github.com/kjirou/mongo_tutorial" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/mongo_tutorial', '工夫してみました。']);" target="_blank">工夫してみました。</a></p>
+<p>シェルスクリプト や Node.js スクリプトでラップして頑張るのも、いいのではと思います。</p>
+<p>・・・というか、そっちの方が全然良さそうですが、Mongo Scripts の範囲でやってみたかったんです。</p>
+<p>（追記）不便すぎたので、結局シェルスクリプトでラップしました。
+</p></div>
+<h3>以上</h3>
+<div>
+いい方法ないっすかねー！！！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>zusa- | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>zusa-</h1>
+        <p>2007年8月28日</p>
+      </section>
+      <section>
+        <div>
+JQueryのslideDownみたいな挙動をする関数が欲しくて書いてみました。</p>
+<pre>
+/**
+* 要素をアニメーションで移動する
+*
+* @param obj   element HTML要素オブジェクト
+* @param array end     [0]=終点のtop座標, [1]=終点のleft座標
+* @param num   delay   アニメーションの間隔 msで指定
+* @param num   mod     移動距離算出用係数、残りの要移動距離にこの係数を掛けただけ移動する
+*/
+var moveElement = function(element, end, delay, mod){
+var currentY = parseInt(element.style.top);
+var currentX = parseInt(element.style.left);
+var remainsY = parseInt(end[0]) - parseInt(element.style.top);
+var remainsX = parseInt(end[1]) - parseInt(element.style.left);
+var calc = function(remains, mod){
+if (remains < 0) return Math.floor(remains * mod);
+return Math.ceil(remains * mod);
+};
+var timerId = setInterval(function(){
+var deltaY = calc(remainsY, mod);
+currentY = currentY + deltaY;
+remainsY = remainsY - deltaY;
+element.style.top = currentY + "px";
+var deltaX = calc(remainsX, mod);
+currentX = currentX + deltaX;
+remainsX = remainsX - deltaX;
+element.style.left = currentX + "px";
+if (remainsY === 0 &#038;&#038; remainsX === 0) clearInterval(timerId);
+}, delay);
+};
+</pre>
+<p>全然洗練されてませんけど</p>
+<ul>
+<b>【修正】</b></p>
+<li>「if (remains < 0) return Math.floor(remains * mod);」を追加しました。<br />
+Math.ceil(1.1) は 2 だけど、Math.ceil(-1.1) は -1 になるんですなと。
+</li>
+</ul>
+</div>
+<div>
+それを使った<a href="http://kjirou.sakura.ne.jp/samples/js9005/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/samples/js9005/', 'ｽﾞｻｰするサンプル']);" >ｽﾞｻｰするサンプル</a>です。<br />
+XP-IE6とXP-FireFox2で動作確認しています。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>さくらでRoRを動かす | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>さくらでRoRを動かす</h1>
+        <p>2007年4月19日</p>
+      </section>
+      <section>
+        <div>
+～ さくらインターネット共有サーバでRoR計画 &#8211; 第3章 ～</p>
+<p><a href="http://kjirou.sakura.ne.jp/mt/2007/04/rails.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/04/rails.html', 'RoR本体は入った']);" >RoR本体は入った</a>ので、実際にアプリを出すっ！
+</div>
+<div>
+さくらインターネット上でRoRをやる場合はCGI版以外に無いらしい。<br />
+というのも、以下の<a href="http://www.sakura.ne.jp/rs/04.shtml" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.sakura.ne.jp/rs/04.shtml', 'さくらの規約']);" >さくらの規約</a>があるので</p>
+<blockquote><p>
+daemonとしてサーバに常駐するプログラムの実行<br />
+発見した場合、予告無くプロセスを強制終了する場合があります。
+</p></blockquote>
+<p>FastCGIを動かすと違反になるよ、と、さくら先輩の<a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'SaikyoLine']);" >SaikyoLine</a>の中の人に教えてもらった。
+</div>
+<div>
+ということでアプリ生成開始<br />
+<a href="http://wiki.fdiary.net/rails/?TodoListTutorial" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://wiki.fdiary.net/rails/?TodoListTutorial', 'Rails&#8217; Wiki']);" >Rails&#8217; Wiki</a>の通りにやってみる</p>
+<p>さくらはDBがひとつしか持てないので</p>
+<pre>
+CREATE TABLE `todos` (
+`id` INT NOT NULL AUTO_INCREMENT ,
+`description` VARCHAR( 100 ) NOT NULL ,
+`done` TINYINT DEFAULT '0' NOT NULL ,
+PRIMARY KEY ( `id` )
+);
+</pre>
+<p>上記のテーブルだけを作る。
+</div>
+<div>
+お次はRailsソースを生成する</p>
+<pre>
+cd ~/www/
+rails Todo
+</pre>
+<p>何やらずらずらと出力される、成功っぽい。<br />
+そして、Todo/config/database.yml をエディタで開き、</p>
+<pre>
+development:
+adapter: mysql
+database: rails_development
+host: localhost
+username: root
+password:
+</pre>
+<p>上記を</p>
+<pre>
+development:
+adapter: mysql
+database: kjirou
+username: kjirou
+password: password
+host: mysqlXX.db.sakura.ne.jp
+</pre>
+<p>このように自分環境に書き換える。
+</div>
+<div>
+んで<br />
+Todo/public/.htaccessを開いて<br />
+さくらはOptionsを許容していないので</p>
+<pre>
+# General Apache options
+AddHandler fastcgi-script .fcgi
+AddHandler cgi-script .cgi
+#Options +FollowSymLinks +ExecCGI
+</pre>
+<p>という風にコメントアウト。
+</div>
+<div>
+これで、Todo/public/ にアクセスすると・・・<a href="http://kjirou.sakura.ne.jp/Todo/public/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/Todo/public/', '何か画面っぽいの出てきた']);" >何か画面っぽいの出てきた</a>！</p>
+<p>まだまだ詰まったり、整理したりする部分は沢山ありそうですが<br />
+とりあえず今日はこれでヨシと。疲れた。<br />
+（本当は「CGIって何？」とか「CGIが動かない」とかで3時間近くハマってた。）</p>
+<p>続きます・・・。（多分）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

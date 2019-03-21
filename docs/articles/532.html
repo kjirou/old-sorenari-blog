@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>HTML内でGoogle Analyticsを環境別に無効にする方法 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>HTML内でGoogle Analyticsを環境別に無効にする方法</h1>
+        <p>2012年5月11日</p>
+      </section>
+      <section>
+        <div>
+例えば、開発環境ではタグを無効にしたいのに<br />
+「バージョン管理化に入っているHTMLを変えたくない」<br />
+「生HTMLなので動的な処理もできない」<br />
+というような制約があって、気持ち良く切り替えが出来ない場合の対応方法です
+</div>
+<h3>document.URLによる条件分岐を入れる</h3>
+<div>
+scriptタグの中身をちょろっと書き換えて<br />
+document.URL による条件分岐を入れます</p>
+<p>以下、kjirou.net をURLに含まないサイトでは無効にする設定例です</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+if (typeof document.URL === &#039;string&#039; &amp;&amp; /kjirou\.net/.test(document.URL)) {
+  // -- ↓ ここから ↓ は変えていない --
+  var _gaq = _gaq || [];
+  _gaq.push([&#039;_setAccount&#039;, &#039;UA-00000000-0&#039;]);
+  _gaq.push([&#039;_trackPageview&#039;]);
+  (function() {
+    var ga = document.createElement(&#039;script&#039;); ga.type = &#039;text/javascript&#039;; ga.async = true;
+    ga.src = (&#039;https:&#039; == document.location.protocol ? &#039;https://ssl&#039; : &#039;http://www&#039;) + &#039;.google-analytics.com/ga.js&#039;;
+    var s = document.getElementsByTagName(&#039;script&#039;)[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  // -- ↑ ここまで ↑ は変えていない --
+}
+&lt;/script&gt;</code></pre>
+<p>
+やっていいことなのかは調べていません<br />
+まぁ、被害を受けても自分だけだからいいだろう ということで！</p>
+<p>document.URL が改竄されてたらちゃんと動かなくなるけど<br />
+そんなことする人は居ないと思います
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

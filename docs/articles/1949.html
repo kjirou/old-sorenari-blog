@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MySQLdbをインストールで mysql_config: not found | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MySQLdbをインストールで mysql_config: not found</h1>
+        <p>2013年1月9日</p>
+      </section>
+      <section>
+        <div>
+DjangoをMySQLで使おうと思ったら<br />
+「MySQLdbが無いよ」と怒られたので入れようとした<br />
+そうしたら、また怒られた</p>
+<pre>
+$pip install mysql-python
+Downloading/unpacking mysql-python
+  Running setup.py egg_info for package mysql-python
+    sh: 1: mysql_config: not found
+    Traceback (most recent call last):
+      File &quot;&lt;string&gt;&quot;, line 16, in &lt;module&gt;
+      File &quot;/xxx/xxx/xxx/mysql-python/setup.py&quot;,
+line 18, in &lt;module&gt;
+        metadata, options = get_config()
+      File &quot;setup_posix.py&quot;, line 43, in get_config
+        libs = mysql_config(&quot;libs_r&quot;)
+      File &quot;setup_posix.py&quot;, line 25, in mysql_config
+        raise EnvironmentError(&quot;%s not found&quot; % (mysql_config.path,))
+    EnvironmentError: mysql_config not found
+    Complete output from command python setup.py egg_info:
+    sh: 1: mysql_config: not found
+</pre>
+<p></p>
+<p>MySQLの何かがサーバにインストールされていないらしく、<br />
+これをインストールしてリトライしたら成功しました。 OS は Ubuntu-12.10</p>
+<pre>
+sudo aptitude install libmysqlclient-dev
+</pre>
+</div>
+<h3>蛇足: libmysqlclient-devの15とか18とかは何？</h3>
+<div>
+上記で入れたものの他に、<br />
+libmysqlclient15とlibmysqlclient18が入っているんだけど、何なのでしょう？</p>
+<pre>
+$sudo aptitude search libmysqlclient
+[sudo] password for xxx: 
+i   libmysqlclient-dev                                  - MySQL データベース開発用ファイル
+p   libmysqlclient-dev:i386                             - MySQL データベース開発用ファイル
+v   libmysqlclient15-dev                                -
+v   libmysqlclient15-dev:i386                           -
+i A libmysqlclient18                                    - MySQL database client library
+p   libmysqlclient18:i386                               - MySQL database client library
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

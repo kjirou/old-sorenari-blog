@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>今日のSubversion | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>今日のSubversion</h1>
+        <p>2007年9月4日</p>
+      </section>
+      <section>
+        <div>
+（自分的に）ハマると解決しないことで有名なSubversionで、2点解決してうれしいので書く。
+</div>
+<div>
+<b>【間違ってaddしたファイルを元に戻す】</b><br />
+誤ってaddしてしまい、まだ未commitのファイルのaddを解除する方法</p>
+<pre>
+svn revert /path/to/filename
+</pre>
+</div>
+<div>
+<b>【svn:ignoreに複数の個別ファイルを設定する】</b><br />
+svn:ignore の設定は、ディレクトリに対して、どのパターンのファイル名を持つファイルに対して掛けるか、という基準で設定する。</p>
+<pre>
+svn propset svn:ignore "*.js" /path/to/dir
+</pre>
+<p>↑上は /path/to/dir ディレクトリ内で、&#8221;*.js&#8221;にマッチするファイルをadd等のSVN操作対象外に指定する。<br />
+<br />
+じゃあ、a.js と b.js だけを無視したい場合はどうするのかというと</p>
+<pre>
+svn propset svn:ignore -F tmp.txt /path/to/dir
+</pre>
+<p>tmp.txt</p>
+<pre>
+a.js
+b.js
+</pre>
+<p>こういう風に外部のファイルを読み込んで、改行区切りで指定する。<br />
+（&#8221;a.js\nb.js&#8221;って指定したらダメだったんすけど、改行をシェル上で入れられれば、読み込む必要はないかも）
+</div>
+<div>
+以上、解決してよかった。
+</div>
+<div>
+<b>【追記】</b><br />
+「svn:ignoreに複数の個別ファイルを設定する」方は</p>
+<pre>
+svn propedit svn:ignore /path/to --editor-cmd=vim
+</pre>
+<p>で、エディタで編集できるって、こりゃ便利！</p>
+<p>あざーす &gt; hige x 2
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

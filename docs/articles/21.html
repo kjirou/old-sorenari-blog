@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>scriptタグを &#8220;/>&#8221; で閉じられないのは | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>scriptタグを &#8220;/>&#8221; で閉じられないのは</h1>
+        <p>2007年4月23日</p>
+      </section>
+      <section>
+        <div>
+scriptタグが、こういう風に</p>
+<pre>
+&lt;script type="text/javascript" src="http://path/to/foo.js" /&gt;
+</pre>
+<p>閉じることが出来ないのはなんでだろう？</p>
+<p>metaタグとかは出来るのに？
+</div>
+<div>
+わからん。
+</div>
+<p><span id="more-21"></span></p>
+<div>
+<pre>
+# kjirou
+# なんでscriptタグって、/&gt; に閉じられないんだろ
+</pre>
+<p>ってチャットで聞いたら<br />
+<a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'yoshuki']);" >yoshuki</a>さんが答えてくれた。</p>
+<pre>
+# yoshuki
+# そう決まっているんだよ。
+# http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd
+# たとえばXHTML1.0no transitional
+# &lt;!ELEMENTのところに、EMPTYがあるのは/&gt;で閉じられる。
+# なければダメ。
+# そう決まっているんだ、仕様なんだ、ぼくたちは受け入れなければならないんだ、dtd、かわいいよdtd。
+</pre>
+<p>決まってる、決まってるのか・・・かわいいィィィ！
+</div>
+<div>
+参考リンク</p>
+<ul>
+<li><a href="http://www.w3.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.w3.org/', 'W3C本家']);" >W3C本家</a></li>
+<li><a href="http://www.w3.org/TR/html401/sgml/dtd.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.w3.org/TR/html401/sgml/dtd.html', 'W3C内HTMLのDTD']);" >W3C内HTMLのDTD</a></li>
+<li>DTDってなんだよという残念な方（自分）は<a href="http://www.kanzaki.com/docs/html/read-dtd.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.kanzaki.com/docs/html/read-dtd.html', 'ココ']);" >ココ</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>マイクロテンプレートエンジン jQuery Tempura | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>マイクロテンプレートエンジン jQuery Tempura</h1>
+        <p>2013年8月4日</p>
+      </section>
+      <section>
+        <div>
+<a href="https://github.com/kjirou/jquery.tempura" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/jquery.tempura', 'jQuery Tempura']);" target="_blank">jQuery Tempura</a> は jQuery 依存の簡単な Templating Engine です。</p>
+<p><a href="http://www.infiniteloop.co.jp/blog/2013/02/js-template-engine/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.infiniteloop.co.jp/blog/2013/02/js-template-engine/', 'この記事']);" target="_blank">この記事</a>のものや <a href="http://plugins.jquery.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://plugins.jquery.com/', 'jQeury Plugin Registry']);" target="_blank">jQeury Plugin Registry</a> などを調べたのですが、<br />
+自分の要望を満たすものが無いので、オレオレにしちゃいました。
+</div>
+<h3>特徴</h3>
+<div>
+<dl>
+<dt>普通のHTMLファイルの上から、正しいHTMLを維持したまま使える</dt>
+<dd>
+<ul>
+<li>{{foo}} や &lt;%= foo %&gt; といったテンプレ変数を埋め込まなくて良い。AngularJS のようにHTML属性値でテンプレ変数とリンクする。</li>
+<li>これは一言で言えば「HTMLがまんま残るのは良いことだ」という利点であるが、「別のテンプレートエンジンと併用が可能」という側面もある。</li>
+</ul>
+</dd>
+<dt>必要な部分だけを更新する</dt>
+<dd>
+<ul>
+<li>更新の度に、テンプレ全体を再生成しない。</li>
+<li>テンプレ変数が足りなくても空白になったりしない、前の状態が残る。</li>
+<li>なので、イベントハンドラを生かし易い。大体のケースではテンプレ全上書きよりは高速。再描画時のチラ付きを抑える。という利点がある</li>
+</ul>
+</dd>
+<dt>使い方が簡単</dt>
+<dd>
+<ul>
+<li>レンダリング時に、Object でテンプレ変数群を渡すだけ。</li>
+<li>ありがちな処理の分岐は、型で挙動を変える。<br />
+        例えば、stringならテキスト更新、true/falseなら表示/非表示切り替え、objectならattr/style変更、という具合。</li>
+<li>リストを生成するなどの複雑な処理は諦めた。jQuery生操作するか、他のテンプレエンジンと併用してもらうことになる。</li>
+<li>良く使う処理は可能な限り簡単に、そうじゃないものは受け口は作るから頑張って、という思想です。</li>
+<li>本当は <a href="http://beebole.com/pure/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://beebole.com/pure/', 'PURE']);" target="_blank">PURE</a> を使いたかったんだけど、「使い方がパッと見てわからない、直感的じゃない」という一点で止めた。<br />
+        テンプレの記法は特に忘れやすいので、鉄板のもの以外は簡単さ重視にしたい。<br />
+        （どうせ１・２年すれば一回り便利なものが出てるし）</li>
+</ul>
+</dd>
+<dt>コード量が少ない</dt>
+<dd>
+<ul>
+<li>コメント抜くと 150 行くらい。</li>
+</ul>
+</dd>
+<dt>サポート範囲</dt>
+<dd>
+<ul>
+<li>IE10/9/8/7, Chrome, Firefox, Safari, Mobile Safari, PhantomJS</li>
+<li>jQuery 1.10.2, 1.9.1, 1.8.3, そして <strong>2.0.3</strong></li>
+</ul>
+</dd>
+</dl>
+</div>
+<h3>使い方</h3>
+<div>
+例えば、このHTMLは:</p>
+<pre><code>&lt;div class=&quot;welcome-page&quot;&gt;
+  &lt;h1 data-bind=&quot;title&quot;&gt;Title&lt;/h1&gt;
+  &lt;p data-bind=&quot;contents&quot;&gt;Contents&lt;/p&gt;
+  &lt;p data-bind=&quot;ero_contents&quot;&gt;Aha-n&lt;/p&gt;
+  &lt;p data-bind=&quot;footer&quot;&gt;Footer&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+$(&quot;.welcome-page&quot;).tempura({
+  title: &quot;Changed Title&quot;,
+  contents: &quot;Changed contents&quot;,
+  ero_contents: false
+});
+&lt;/script&gt;</code></pre>
+<p></p>
+<p>こんな風に表示されます:</p>
+<pre><code>&lt;div class=&quot;welcome-page&quot;&gt;
+  &lt;h1 data-bind=&quot;title&quot;&gt;Changed Title&lt;/h1&gt;
+  &lt;p data-bind=&quot;contents&quot;&gt;Changed contents&lt;/p&gt;
+  &lt;p data-bind=&quot;ero_contents&quot; style=&quot;display:none;&quot;&gt;Aha-n&lt;/p&gt;
+  &lt;p data-bind=&quot;footer&quot;&gt;Footer&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p></p>
+<p>詳細は <a href="https://github.com/kjirou/jquery.tempura#examples" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/jquery.tempura#examples', 'GitHubのREADME']);" target="_blank">GitHubのREADME</a> を参照願います。</p>
+<p>.. 英語変だったら指摘してくれるとうれしかったり。
+</p></div>
+<h3>ダウンロード</h3>
+<div>
+<ul>
+<li><a href="https://raw.github.com/kjirou/jquery.tempura/master/jquery.tempura.js" onclick="_gaq.push(['_trackEvent','download','https://raw.github.com/kjirou/jquery.tempura/master/jquery.tempura.js']);" target="_blank">jquery.tempura.js</a></li>
+<li><a href="https://raw.github.com/kjirou/jquery.tempura/master/jquery.tempura.min.js" onclick="_gaq.push(['_trackEvent','download','https://raw.github.com/kjirou/jquery.tempura/master/jquery.tempura.min.js']);" target="_blank">jquery.tempura.min.js</a></li>
+</ul>
+<p></p>
+<p>または:</p>
+<pre>$ bower install jquery.tempura</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

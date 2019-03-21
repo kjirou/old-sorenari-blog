@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 金額の自分風number format | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 金額の自分風number format</h1>
+        <p>2008年12月9日</p>
+      </section>
+      <section>
+        <div>
+Pythonで数値を3桁ずつにカンマで区切る関数を探したら、<br />
+ぴったしのモンが無かったのでこういう風に書いた。</p>
+<pre>
+import re
+target = '123456789'
+for i in range(0, 5):
+target = re.sub(r'(\d)(\d{3})(?:,|$)', r'\1,\2', target)
+print target # -> "123,456,789"
+</pre>
+<p>19桁の金額を扱うWebアプリなんて作らねーよ!! というスローランスなスクリプト。<br />
+<a href="http://d.hatena.ne.jp/ymorimoto/20070831/p1" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/ymorimoto/20070831/p1', 'こういうの']);" >こういうの</a>は見つけたんですが、ロケールとか出てきちゃうのは、好みじゃなかった。
+</div>
+<p></p>
+<div>
+ところで、Pythonに無いのはともかく、<br />
+Djangoの<a href="http://djangoproject.jp/doc/ja/1.0/ref/templates/builtins.html#ref-templates-builtins-filters" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://djangoproject.jp/doc/ja/1.0/ref/templates/builtins.html#ref-templates-builtins-filters', '組み込みフィルタ']);" >組み込みフィルタ</a>にも無い気がするんだけど、<br />
+俺が何か根本的に間違ってるんだろうか？？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

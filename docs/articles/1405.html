@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>旧VerでjQuery.Deferredが動かないケース | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>旧VerでjQuery.Deferredが動かないケース</h1>
+        <p>2012年11月28日</p>
+      </section>
+      <section>
+        <div>
+jQueryの旧バージョン(v1.7.2)でDeferredが正しく動かない場合があり<br />
+最新のv1.8.3にしたら直りました、という話</p>
+<p>まぁ、更新すりゃいいんだけなんですが<br />
+わかるまで時間が掛かる不具合なのでメモっときます
+</div>
+<h3>新旧で挙動に差がでるコード</h3>
+<div>
+例えば以下のコードを実行した場合..</p>
+<pre><code>$.Deferred().resolve().then(function(){
+    console.log(1);
+}).then(function(){
+    console.log(2);
+    var d = $.Deferred();
+    setTimeout(function(){ d.resolve(); }, 1000);
+    return d;
+}).then(function(){
+    console.log(3);
+    var d = $.Deferred();
+    setTimeout(function(){ d.resolve(); }, 1000);
+    return $.when(d.promise()).done(function(){
+        console.log(3.5);
+    });
+}).then(function(){
+    console.log(4);
+});</code></pre>
+<p>
+v1.8.3の正しい出力</p>
+<pre>
+1
+2
+3
+3.5
+4
+</pre>
+<p>
+v1.7.2の誤った出力</p>
+<pre>
+1
+2
+3
+4
+3.5
+</pre>
+<p>
+.. と、結果に差が出ます</p>
+<p>原因は詳しくは追っていませんが<br />
+$.when から繋げると発生するみたいです
+</div>
+<h3>補足</h3>
+<div>
+実行環境は Google Chrome でした</p>
+<p><a href="http://code.kjirou.net/js/test/jquery_deferred_questions/" target="_blank">v1.7.2のテストページ</a><br />
+　JSコードはHTMLソースから</p>
+<p><a href="http://jquery.com/download/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://jquery.com/download/', 'jQueryのリリースノート一覧']);" target="_blank">jQueryのリリースノート一覧</a><br />
+　多分どこかで直しているんですが、パッと見て見つからなかったので放置
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

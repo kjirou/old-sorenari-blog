@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CentOSのApacheで.phpをtext/plain表示する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CentOSのApacheで.phpをtext/plain表示する</h1>
+        <p>2012年10月8日</p>
+      </section>
+      <section>
+        <div>
+.htaccessへ以下を記述して制御する</p>
+<pre>
+# text/plain で見る場合
+AddHandler default-handler .php
+AddType text/plain .php
+</pre>
+<pre>
+# PHPファイルとして実行する場合
+AddHandler php5-script .php
+AddType text/html .php
+</pre>
+</div>
+<h3>わざわざ調べた理由</h3>
+<div>
+元々使っていた開発環境が↓で</p>
+<ul>
+<li>OS: CentOS5</li>
+<li>Apache/PHP: ソースからインストール</li>
+</ul>
+<p>それを↓に変えた時に起こりました</p>
+<ul>
+<li>OS: CentOS6</li>
+<li>Apache/PHP: yumからインストール</li>
+</ul>
+<p>
+んで、前環境が↓の様な AddType だけで制御する形だったので<br />
+今回の AddHandler を介した場合に動かなくなったということです</p>
+<pre>
+# text/plainで表示
+AddType text/plain .php
+# PHPとして実行
+AddType application/x-httpd-php .php
+</pre>
+<p>
+ん？、そもそも .php のままテキスト表示させるのがダメなんじゃね、って？<br />
+あーあー、キコエナーイ
+</div>
+<h3>参考</h3>
+<div>
+<a href="http://httpd.apache.org/docs/2.2/mod/mod_mime.html#addhandler" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://httpd.apache.org/docs/2.2/mod/mod_mime.html#addhandler', 'マニュアル &#8211; AddHandler']);" target="_blank">マニュアル &#8211; AddHandler</a><br />
+<a href="http://httpd.apache.org/docs/2.2/handler.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://httpd.apache.org/docs/2.2/handler.html', 'マニュアル &#8211; ハンドラ名']);" target="_blank">マニュアル &#8211; ハンドラ名</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

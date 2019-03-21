@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>オートタイリングのアルゴリズム | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>オートタイリングのアルゴリズム</h1>
+        <p>2012年12月5日</p>
+      </section>
+      <section>
+        <div>
+RPGツクールVX準拠のオートタイリング処理例をjsdo.itに上げてみました</p>
+<p>.. マイクラ作者さんの影響で、アクセスが急増しているみたいなので<br />
+見てくれる人が増えるカナーと ..（アサマシイ）
+</div>
+<h3>jsdo.it のブログパーツ</h3>
+<div>
+<script type="text/javascript" src="http://jsdo.it/blogparts/9gLB/js?width=600&#038;height=496&#038;view=readme"></script></p>
+<p>
+もし、上記に表示されなかったら、<a href="http://jsdo.it/kjirou/auto-tiling-for-rpg-maker-vx" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://jsdo.it/kjirou/auto-tiling-for-rpg-maker-vx', 'jsdo.it本家']);" target="_blank">jsdo.it本家</a> へどうぞ
+</div>
+<h3>処理についての補足</h3>
+<div>
+サンプルを動かそうと思うとゴチャゴチャしすぎてしまったので<br />
+伝えたかったアルゴリズムについての補足です</p>
+<p>
+VXだと1マップチップは32&#215;32の大きさですが、<br />
+実際は16&#215;16の4枚の画像を結合して構成されています。</p>
+<p>なぜかというと、<br />
+同じ種類のマスでも、周辺8マスに同じ種類のマスが有るか無いかで<br />
+境界線部分の表示が変わる仕様だからです。<br />
+全パターンを静的な画像で持つと、重すぎるんですね。</p>
+<p>VXでは、16&#215;16パーツの集合を 64&#215;96 画像にして管理しており、<br />
+これが1マップチップに対応するタイルセットとして規格化されています。<br />
+Ref) <a href="http://tkool.jp/products/rpgvx/material.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://tkool.jp/products/rpgvx/material.html', 'RPGツクールVX素材規格']);" target="_blank">RPGツクールVX素材規格</a></p>
+<p>
+というところで、結論としては<br />
+　「周辺8マスの状況によって算出される16&#215;16画像4枚が<br />
+ 　64&#215;96画像内で、それぞれどの座標に位置するかがわかれば良い」<br />
+ということになって、<br />
+それが今回のソースコードの AutoTiling.createPartsData() に該当します</p>
+<pre><code>// 渡す周囲8マスのデータ, 左側3マスが同じタイルならこう設定する
+var neighborhood = [
+    [1, 0, 0],
+    [1, 1, 0],
+    [1, 0, 0]
+];
+var data = AutoTiling.createPartsData(neighborhood);
+//
+// このdataに座標構成が含まれている、例えばこんな風
+//
+// data[0] = [[0, 0], [32, 32]]
+// data[1] = [[0, 16], [32, 48]]
+// data[2] = [[16, 16], [80, 48]]
+// data[3] = [[16, 0], [80, 32]]
+//
+// 16x16画像の4枚中 top=0,left=0 に位置する1枚目は
+//   64x96内の top=32,left=32 から 16x16サイズでクリップする
+// 2枚目は.. という感じ 
+//</code></pre>
+<p>
+オートタイリング処理の本体は、このAutoTilingクラスによる部分だけで<br />
+他のクラスや関数は、算出された座標リストに従ってHTML要素を吐いたり<br />
+サンプルの為にマップらしきものを作っているだけです
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Vimのコマンドラインモードで前方一致のコマンド検索 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Vimのコマンドラインモードで前方一致のコマンド検索</h1>
+        <p>2007年12月28日</p>
+      </section>
+      <section>
+        <div>
+vimのコマンドラインモード（exコマンドモード）で、カーソルの上下を押すとコマンドの前方一致補完になることに気付いた。
+</div>
+<div>
+例えば</p>
+<pre>
+:e p
+</pre>
+<p>って打ってカーソル上を押すと、/^e p/ にマッチするコマンド履歴を辿ってくれる。<br />
+Ctrl+PとCtrl+Nは単に前後のコマンドを出すだけなので、これの方がはるかに便利。
+</div>
+<div>
+とは言っても、カーソルだと使いにくいので</p>
+<pre>
+:cnoremap &lt;C-P&gt; &lt;UP&gt;
+:cnoremap &lt;C-N&gt; &lt;DOWN&gt;
+</pre>
+<p>試しにこれにしたら非常に良い！　おすすめ
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

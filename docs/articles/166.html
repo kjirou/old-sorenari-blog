@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>hitTestObjectだと矩形としてしか判定できない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>hitTestObjectだと矩形としてしか判定できない</h1>
+        <p>2007年10月25日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3でオブジェクト同士の重なりの判定を行う場合にhitTestObjectを用いると、オブジェクトを矩形としてしか判定してくれないようだ。<br />
+つまり、graphics.drawCircle等で矩形以外の見た目を設定した場合でも、重複判定自体は矩形として行われてしまう。
+</div>
+<div>
+どうやって対処しようかと考えたけど、これくらいしか思いつかない。</p>
+<ul>
+<li>重複判定を行うオブジェクトの形状が円形同士のみなら、円の中心座標から計算して重複判定を行える。</li>
+<li>円と矩形等の形状が混合している中での重複判定なら、hitTestPointなら見た目通りに判断してくれるので、適当に判定する点を複数取って（矩形なら四隅とか）それを全てhitTestPointにかけて判定する。</li>
+</ul>
+<p>両方とも対処としては気持ち悪いのですが、他人のソースを見ると、皆さんギリギリのところで工夫しているので仕方ないっぽいです。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

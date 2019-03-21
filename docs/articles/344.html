@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 関数のデフォルト値宣言時に何が行われているのか？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 関数のデフォルト値宣言時に何が行われているのか？</h1>
+        <p>2008年8月12日</p>
+      </section>
+      <section>
+        <div>
+Pythonはっじまっるよー！ ということで<br />
+まずは「みんなのPython」に沿って、<br />
+最初に作るものに関連する論点を、つらつら潰し中です。</p>
+<p>そんな中で、関数のデフォルト値周りで<br />
+未解決な点が残ったのでメモしときます。
+</div>
+<p></p>
+<div>
+まず、最初に「おや？」と思ったのは、<br />
+以下<a href="http://www.python.jp/doc/nightly/tut/node6.html#SECTION006710000000000000000" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/doc/nightly/tut/node6.html#SECTION006710000000000000000', 'Pythonチュートリアル']);" >Pythonチュートリアル</a>からの引用になりますが<br />
+関数のデフォルト値の設定が1回しか行われないという点</p>
+<pre>
+def f(a, L=[]):
+L.append(a)
+return L
+print f(1) # -> [1]
+print f(2) # -> [1, 2]
+print f(3) # -> [1, 2, 3]
+</pre>
+<p>
+これは、つまりは (a, L=[]) の中が<br />
+<b>関数定義時に定義した側のスコープで実行されるから</b>ということらしい。</p>
+<pre>
+# 同じくPythonチュートリアルからの例
+i = 5
+def f(arg=i):
+print arg
+i = 6
+f() # -> 5
+</pre>
+<p>（正確には、代入の処理の右辺だけが、外側のスコープになるのかもしれないが、その辺は不明。）</p>
+<p>なるほどなぁ<br />
+クロージャにしたかったら、この部分を使ってやれという訳っすな。</p>
+<p>で、ここまでは了解しました、と。
+</div>
+<p></p>
+<div>
+しかしながら、最初に定義した方のf関数について、<br />
+以下のように実行してみると</p>
+<pre>
+print f(1)       # -> [1]
+print f("a", []) # -> ["a"]
+print f(3)       # -> [1, 3]
+</pre>
+<p>あれ？初期値で入れた L の参照が生きてる？？<br />
+てっきり、こうなるもんだと思った</p>
+<pre>
+print f(1)       # -> [1]
+print f("a", []) # -> ["a"]
+print f(3)       # -> ["a", 3]
+</pre>
+<p>ということで、<br />
+関数定義時に格納したデフォルト値への参照は、<br />
+（多分、関数自体が）どこかに保持しているっぽいです。</p>
+<p>じゃあ、どこに保持しているのかな<br />
+と調べましたが、発見できませんでした、無念！</p>
+<p>・・・というよりは、関数定義時の () の中で何が行われているのかを<br />
+ちゃんと知っといた方がいいなぁ、と思いました。</p>
+<p>誰かご存知でしたら、教えてくださいまし。
+</div>
+<p></p>
+<div>
+ちなみに、上記のデフォルト値の仕様は<br />
+やはりみんなも使いにくいようで、<br />
+<a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'soundkitchen']);" >soundkitchen</a>氏に聞いたり、ネットの記事を確認したところ<br />
+概ねこういう風に書いているっぽいです。</p>
+<pre>
+def f(L=None):
+if L == None: L = []
+</pre>
+<p>参考) <a href="http://d.hatena.ne.jp/kwatch/20080415/1208274736" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/kwatch/20080415/1208274736', 'http://d.hatena.ne.jp/kwatch/20080415/1208274736']);" >http://d.hatena.ne.jp/kwatch/20080415/1208274736</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

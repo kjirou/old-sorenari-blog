@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] Decimal型とfloat型は比較出来ない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] Decimal型とfloat型は比較出来ない</h1>
+        <p>2011年7月10日</p>
+      </section>
+      <section>
+        <div>
+Decimalとint型の比較は成立しますが</p>
+<pre>
+&gt;&gt;&gt; from decimal import Decimal
+&gt;&gt;&gt; Decimal(&#039;1.0&#039;) &gt; 2
+False
+&gt;&gt;&gt; Decimal(&#039;1.0&#039;) &gt; 0
+True
+</pre>
+<p>Decimalと浮動小数点型の比較は成立しませんでした</p>
+<pre>
+&gt;&gt;&gt; from decimal import Decimal
+&gt;&gt;&gt; Decimal(&#039;1.0&#039;) &gt; 2.0
+True # ありゃりゃ
+&gt;&gt;&gt; Decimal(&#039;1.0&#039;) &gt; 0.0
+True
+&gt;&gt;&gt; float(Decimal(&#039;1.0&#039;)) &gt; 2.0
+False # キャストすれば比較可能
+</pre>
+<p>何でこうなのかは調べませんが<br />
+挙動はとりあえずこうでした</p>
+<p>マニュアル: 10.4. decimal — 10進固定及び浮動小数点数の算術演算<br />
+<a href="http://www.python.jp/doc/release/library/decimal.html#module-decimal" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/doc/release/library/decimal.html#module-decimal', 'http://www.python.jp/doc/release/library/decimal.html#module-decimal']);" target="_blank">http://www.python.jp/doc/release/library/decimal.html#module-decimal</a>
+</div>
+<h3>追記: 2.7と3.2では改善されているようです</h3>
+<div>
+<a href="http://docs.python.org/whatsnew/2.7.html#new-and-improved-modules" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.python.org/whatsnew/2.7.html#new-and-improved-modules', 'http://docs.python.org/whatsnew/2.7.html#new-and-improved-modules']);" target="_blank">http://docs.python.org/whatsnew/2.7.html#new-and-improved-modules</a><br />
+<a href="http://docs.python.org/py3k/whatsnew/3.2.html#decimal-and-fractions" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.python.org/py3k/whatsnew/3.2.html#decimal-and-fractions', 'http://docs.python.org/py3k/whatsnew/3.2.html#decimal-and-fractions']);" target="_blank">http://docs.python.org/py3k/whatsnew/3.2.html#decimal-and-fractions</a></p>
+<p>なお、自分の環境は Python-2.5.2 でした<br />
+コメント下さった方、ありがとうございました！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

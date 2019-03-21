@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 月の加減算処理ができない？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 月の加減算処理ができない？</h1>
+        <p>2008年12月15日</p>
+      </section>
+      <section>
+        <div>
+datetimeやdateオブジェクトに<br />
+月を加算／減算する処理が見当たらない。</p>
+<p>マニュアルを読んでもわからなかったので、あてずっぽうで書いてみると・・・(2.5.2)</p>
+<pre>
+datetime.datetime(2008, 12, 1) + datetime.timedelta(months=1)
+# -&gt; monthsという指定方法は無いのでエラー
+</pre>
+<pre>
+datetime.datetime(2008, 13, 1) # -&gt; 範囲外でエラー
+</pre>
+<p>で☆す☆よ☆ねー！！！
+</p></div>
+<p></p>
+<div>
+ググったら、<a href="http://d.hatena.ne.jp/ymorimoto/20080303/p1" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/ymorimoto/20080303/p1', 'こういう記事']);" >こういう記事</a>を発見したので、自分も諦めて終了。</p>
+<p>誰が教えてくだちい。
+</p></div>
+<p></p>
+<div>
+<b>【追記、上だけだとなんなんで】</b><br />
+本当にただのスクリプトだけど、自分でやった対処</p>
+<pre>
+def calculate_month_delta(year, month, delta):
+&quot;&quot;&quot;年月に月を加減算した結果を返す
+&gt;&gt;&gt; calculate_month_delta(2008, 1, 1)
+(2008, 2)
+&gt;&gt;&gt; calculate_month_delta(2008, 1, 12)
+(2009, 1)
+&gt;&gt;&gt; calculate_month_delta(2008, 6, 25)
+(2010, 7)
+&gt;&gt;&gt; calculate_month_delta(2008, 1, -1)
+(2007, 12)
+&gt;&gt;&gt; calculate_month_delta(2008, 1, -37)
+(2004, 12)
+&quot;&quot;&quot;
+month += delta
+while 1:
+if month &lt; 1:
+year -= 1
+month += 12
+continue
+elif month &gt; 12:
+year += 1
+month -= 12
+continue
+break
+return year, month
+</pre>
+</div>
+<p><br / ></p>
+<div>
+<b>【追記 &#8211; 結論】</b><br />
+<a href="http://kishi-r.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kishi-r.com/', 'kishir']);" >kishir</a>さんよりご教授いただいた</p>
+<pre>
+&gt;&gt;&gt; import time, datetime
+&gt;&gt;&gt; datetime.datetime.fromtimestamp(time.mktime((2008, 13, 1, 0, 0, 0, 0, 0, 0)))
+datetime.datetime(2009, 1, 1, 0, 0)
+&gt;&gt;&gt; datetime.datetime.fromtimestamp(time.mktime((2008, -1, 1, 0, 0, 0, 0, 0, 0)))
+datetime.datetime(2007, 11, 1, 0, 0)
+</pre>
+<p>イヤッッホォォォウ！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

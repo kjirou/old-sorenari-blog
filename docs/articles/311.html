@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JS] headタグ内のJSは外部JSファイルの読み込みを待つ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JS] headタグ内のJSは外部JSファイルの読み込みを待つ</h1>
+        <p>2008年4月30日</p>
+      </section>
+      <section>
+        <div>
+JavaScriptで<br />
+Hello Worldより前のレイヤの話の気がするんだけど、イマサラ知ったこと<br />
+件名の通りですが、以下サンプルコード
+</div>
+<p></p>
+<div>
+index.html</p>
+<pre>
+&lt;html&gt;
+&lt;head&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;./outerjs.php&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;&lt;!--
+// foo変数はouterjs.phpの出力内で定義されている
+alert(foo);
+// --&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>outerjs.php</p>
+<pre>
+&lt;?php
+sleep(20);
+echo 'var foo = "HELO!";';
+</pre>
+</div>
+<p></p>
+<div>
+上記のindex.htmlを叩くと<br />
+律儀に20秒待ってから（＝外部JSファイルの読み込みを待ってから）alertが上がる！<br />
+・・・今まで、なんとなくでしか知らなかったんだぜ？</p>
+<p>ちなみに、scriptタグの上下を逆にするとエラーになるので、上から順に読み込むよう。（詳細未確認）
+</p></div>
+<p></p>
+<div>
+逆に、Webサイトのパフォーマンスを上げるためには<br />
+可能な限りscriptタグは後に書くようにすれば、パフォーマンスは上がりますね、って<br />
+『<a href="http://www.oreilly.co.jp/editors/archives/000170.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.oreilly.co.jp/editors/archives/000170.html', 'ハイパフォーマンスWebサイト']);" >ハイパフォーマンスWebサイト</a>』に書いてあったって、<a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'yoshuki']);" >yoshuki</a>さんが言ってましたマル
+</div>
+<p></p>
+<div>
+<b>【追記】</b><br />
+別にhead内じゃなくてbody内でも同期処理になるんですね。<br />
+知らなかった・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

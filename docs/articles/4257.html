@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MongoDBのsparse indexについての雑なまとめ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MongoDBのsparse indexについての雑なまとめ</h1>
+        <p>2014年9月25日</p>
+      </section>
+      <section>
+        <div>
+たぶん理解してないので、検証済みの点や参考資料だけを雑に置いておきます。</p>
+<p>MongoDB のバージョンは 2.6.4 です。
+</p></div>
+<h3>unique と一緒に指定すると null を重複判定から除外できる？</h3>
+<div>
+ググって昔の日本語記事を読むとこういう解説が良く出てきますが、不正確です。<br />
+どちらかというと間違いです。</p>
+<p>例えば、このようにインデックスを張った時に：</p>
+<pre>
+&gt; db.foo.ensureIndex({x:1}, {unique:1, sparse:1})
+</pre>
+<p></p>
+<p><tt>{x:null}</tt> なドキュメントを連続で保存しようとすると、2 回目で重複エラーが発生します：</p>
+<pre>
+&gt; db.foo.save({x:null})
+&gt; db.foo.save({x:null})
+WriteResult({
+        &quot;nInserted&quot; : 0,
+        &quot;writeError&quot; : {
+                &quot;code&quot; : 11000,
+                &quot;errmsg&quot; : &quot;insertDocument :: caused by :: 11000 E11000 duplicate key error index: sos_test.sandbox.$x_1  dup key: { : null }&quot;
+        }
+})
+</pre>
+<p></p>
+<p>なぜなら、無視されるのは、<b>x が存在しない（キーごと無い）</b>ドキュメントだけだからです。</p>
+<p>例えば、以下なら同じドキュメントをいくつでも保存できます：</p>
+<pre>
+&gt; db.foo.save({y:2, z:3})  // x が無いから
+</pre>
+<p></p>
+<p>なお、もし unique 制約のみをつけている場合は、これも 2 回目で重複エラーになります。</p>
+<p>注意としては、複数キーに対するインデックスでは sprase 自体が無効になってしまうので、この方法は使えません。</p>
+<p>国内海外問わず、&#8221;null&#8221; という表現にキー自体が存在しないこと含めている場合があるので、調べる時は注意が必要です。
+</p></div>
+<h3>インデックスしないのが sparse</h3>
+<div>
+sparse オプションは別に unique のためにあるのではなく、本来は「指定フィールドが存在しない場合にインデックスをしない」というものらしいです。</p>
+<p>中身の仕組みを理解していないので、以下雑なメモです：</p>
+<p>・抽出判定には影響を与えないっぽい<br />
+・sort 順は変わるかもしれない<br />
+・速度に対しては多分に影響する
+</p></div>
+<h3>確認する際はインデックスが貼られていることを確認する</h3>
+<div>
+動作確認する際は、必ず想定したインデックスが貼られていることを確認してから行った方が良いです。</p>
+<p>例えば、貼りたいインデックスに反するデータが既に存在する場合、インデックスするのに失敗します：</p>
+<pre>
+&gt; db.sandbox.getIndexes()
+[
+        {
+                &quot;v&quot; : 1,
+                &quot;key&quot; : {
+                        &quot;_id&quot; : 1
+                },
+                &quot;name&quot; : &quot;_id_&quot;,
+                &quot;ns&quot; : &quot;my_db.sandbox&quot;
+        }
+]
+&gt; db.sandbox.save({x:null})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.sandbox.save({x:null})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.sandbox.find()
+{ &quot;_id&quot; : ObjectId(&quot;54238aaa69d90363b7f2787e&quot;), &quot;x&quot; : null }
+{ &quot;_id&quot; : ObjectId(&quot;54238aab69d90363b7f2787f&quot;), &quot;x&quot; : null }  // 重複データが既に存在
+&gt; db.sandbox.ensureIndex({x:1}, {unique:true, sparse:true})
+{
+        &quot;createdCollectionAutomatically&quot; : false,
+        &quot;numIndexesBefore&quot; : 1,
+        &quot;ok&quot; : 0,
+        &quot;errmsg&quot; : &quot;E11000 duplicate key error index: my_db.sandbox.$x_1  dup key: { : null }&quot;,
+        &quot;code&quot; : 11000
+}
+&gt; db.sandbox.getIndexes()
+[
+        {
+                &quot;v&quot; : 1,
+                &quot;key&quot; : {
+                        &quot;_id&quot; : 1
+                },
+                &quot;name&quot; : &quot;_id_&quot;,
+                &quot;ns&quot; : &quot;my_db.sandbox&quot;
+        }
+]
+</pre>
+<p></p>
+<p>また、<a href="http://blog.kjirou.net/p/4245" title="mongooseが自動でensureIndexするタイミング" target="_blank">当ブログの mongoose に関する記事</a>の最後にも書きましたが：</p>
+<blockquote><p>
+ensureIndexes は、Schema に整合しないデータ（例えば unique:true なのに重複データが入っているなど）がある場合、該当の設定を無視して Index を全く作らないようです。
+</p></blockquote>
+<p>少なくとも mongoose-3.8.15 ではこのインデックス失敗をランタイムエラーにはしないので、Schema 上で定義されているインデックスがない状態で動いてしまう可能性があります。
+</p></div>
+<h3>参考リンク</h3>
+<div>
+マニュアル: <a href="http://docs.mongodb.org/manual/core/index-sparse/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.mongodb.org/manual/core/index-sparse/', 'http://docs.mongodb.org/manual/core/index-sparse/']);" target="_blank">http://docs.mongodb.org/manual/core/index-sparse/</a><br />
+日本語なら何気にPHPのこれが良かった: <a href="http://php.net/manual/ja/mongocollection.ensureindex.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://php.net/manual/ja/mongocollection.ensureindex.php', 'http://php.net/manual/ja/mongocollection.ensureindex.php']);" target="_blank">http://php.net/manual/ja/mongocollection.ensureindex.php</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

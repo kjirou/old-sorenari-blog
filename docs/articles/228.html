@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>!&#8221;key&#8221; in object がJSとAS3で挙動が違う | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>!&#8221;key&#8221; in object がJSとAS3で挙動が違う</h1>
+        <p>2008年1月1日</p>
+      </section>
+      <section>
+        <div>
+<b>※良く調べたら、JSとASの挙動はAS方向に一緒でした！</b><br />
+<b>というわけで以下その点に注意して読んで下さい、最後にちょっと追記があります。</b></p>
+<p><s>in演算子に!演算子を付けた場合の挙動がJavaScriptとActionScript3で違うという話です。</s>
+</div>
+<div>
+JavaScriptの場合</p>
+<pre>
+!"key1" in {"key1": 123}
+</pre>
+<p>は</p>
+<pre>
+!("key1" in {"key1": 123})
+</pre>
+<p>という解釈に<s>なり、</s>なりません、この式の評価は false になる。</p>
+<p>ところがActionScript3の場合、以下の解釈になり</p>
+<pre>
+(!"key1") in {"key1": 123}
+</pre>
+<p>「!&#8221;key1&#8243;」 → 「false」 → 「falseをString型に自動型変換」 を経て</p>
+<pre>
+"false" in {"key1": 123}
+</pre>
+<p>となり、この式の評価は同じく false になる。
+</p></div>
+<div>
+<s>この挙動の差は、「!演算子の対象が式なのか値なのか」という差だと思いますが、どっちが正しい挙動なのかはわかりません。</s></p>
+<p><s>ただ、対象に式を取ってくれないと（つまりJSの方じゃないと）、!演算子の時だけ対象が式じゃないという風に暗記になるのでいきなり不便になる。<br />
+・・・うーむ、また、AS3のｷﾓｶﾜｲｲところを発見しちまった。</s>
+</div>
+<div>
+ありゃりゃ、書いてる内に年を越しちゃったぜ！<br />
+ってことで、初詣でも行ってきまーす。</p>
+<p><b>今年もよろしくお願いします！</b>
+</div>
+<div>
+<b>【追記】</b><br />
+ゆーきさんから「!演算子の方in演算子より優先順位が高いから、ASの挙動の方が正しいと思う」って突っ込みがあり、調べたらJSもその挙動でした。<br />
+優先順位と結合性という概念もありましたねー・・・。</p>
+<p>ちなみに以下の式は</p>
+<pre>
+"key" in {"key":123} === true
+</pre>
+<p>こういう順位で、意図した通りに動きます。</p>
+<pre>
+("key" in {"key":123}) === true
+</pre>
+<p>これは、in演算子の優先順位の方が、===演算子の優先順位より高いからですね！
+</p></div>
+<div>
+<b>・・・</b></p>
+<p>
+<b>こ、今年も本当によろしくお願いします！</b>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

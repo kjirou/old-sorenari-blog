@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Vim] 開いているファイルを実行して標準出力を記述 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Vim] 開いているファイルを実行して標準出力を記述</h1>
+        <p>2009年3月8日</p>
+      </section>
+      <section>
+        <div>
+例えば.pyスクリプトを編集中だとすると</p>
+<pre>
+:r!python &lt;Ctrl-R&gt;%
+</pre>
+<p>こんな感じです。</p>
+<p>自分のバヤイは、後に残したいサンプルをテストしながら書くときは、<br />
+ファイルを開きつつ、マクロ化した上記のコマンドで動作確認してます。</p>
+<p>ただ、無限ループや大量の標準出力を吐くと、どうなるかわからんので<br />
+共用の環境だとしない方がいいかもね！
+</div>
+<p></p>
+<div>
+・・・と、なんでいきなりこれを書いたかというと、<br />
+q でマクロ化した↑が消えちゃって、また r! やら何やらを調べなおしたから・・・。</p>
+<p>勿体無いので記事にしたというわけさ r!!!!!!!
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

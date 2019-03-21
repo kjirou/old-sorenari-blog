@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CLI版PHP内でexecした場合の標準シェルは | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CLI版PHP内でexecした場合の標準シェルは</h1>
+        <p>2007年4月17日</p>
+      </section>
+      <section>
+        <div>
+CLI版PHP内で気軽にシェルをとか呼んだとき<br />
+それは実は環境に依存してるんだったんだという話。
+</div>
+<div>
+例えば以下のCLI版PHPを呼ぶと</p>
+<pre>
+&lt;?php
+echo shell_exec('echo $SHELL');
+?&gt;
+</pre>
+<p>ログイン中Linuxアカウントの標準シェルが出力される↓</p>
+<pre>
+/bin/zsh
+</pre>
+</div>
+<div>
+PHPで書いたバッチが<br />
+呼び出し時の環境に依存するのはキモいなーということで</p>
+<pre>
+shell_exec('sh');
+</pre>
+<p>とかやってみたら、そこでPHPが止まってしまう。</p>
+<pre>
+shell_exec('sh foo.sh');
+</pre>
+<p>こうすりゃ↑解決なんですけど、別ファイルを切りたくはないし。</p>
+<p>PHP内で標準シェルの切り替えを行うにはどうすればいいんだろう？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

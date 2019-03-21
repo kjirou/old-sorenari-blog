@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>さくら専用サーバにApache1.3+PHP4+MySQL4.1+Ethnaな開発環境を作る(2) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>さくら専用サーバにApache1.3+PHP4+MySQL4.1+Ethnaな開発環境を作る(2)</h1>
+        <p>2007年6月18日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/06/apache13php4mysql411.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/06/apache13php4mysql411.html', '前回']);" >前回</a>の続き<br />
+今回は、Apache1.3とPHP4のインストールと設定を行います。</p>
+<p>とゆうことで開始。
+</div>
+<div>
+<b>【Apache1.3のインストール】</b></p>
+<pre>
+cd /usr/local
+mkdir src
+wget http://ftp.kddilabs.jp/infosystems/apache/httpd/apache_1.3.37.tar.gz
+tar xvzf apache_1.3.37.tar.gz
+cd apache_1.3.37
+./configure --prefix=/usr/local/apache1_3 --enable-module=so
+make
+make install
+</pre>
+</div>
+<div>
+<b>【PHP4のインストール】</b></p>
+<pre>
+cd /usr/local/src
+wget http://www.php.net/get/php-4.4.7.tar.gz/from/fr.php.net/mirror
+tar xvzf php-4.4.7.tar.gz
+cd php-4.4.7
+./configure \
+--prefix=/usr/local/php4_4 \
+--enable-cli \
+--with-mysql=/usr/local/mysql \
+--enable-mbstring \
+--enable-mbstr-enc-trans \
+--enable-mbregex \
+--with-apxs=/usr/local/apache1_3/bin/apxs \
+--with-config-file-path=/usr/local/php4_4/etc \
+--with-zlib-dir
+make
+make install
+</pre>
+<p>※ &#8220;&#8211;enable-cli&#8221;はデフォルト有効かもしれないので不要かもしれません。<br />
+※ &#8220;&#8211;with-mysql&#8221;について、今はMySQLはありませんが、先読みで設定してます。<br />
+※ &#8220;&#8211;with-zlib-dir&#8221;がEthnaインストール時に必要でした。2007/06/25追加<br />
+※ &#8220;&#8211;enable-mbstr-enc-trans&#8221;と&#8221;&#8211;enable-mbregex&#8221;が必要そうなので入れました。2007/07/02追加<br />
+※&#8221;&#8211;with-config-file-path=/usr/local/php4_4/etc/php.ini&#8221;だったのを変更しました。ファイル名を含めるとダメなようです。2007/07/02修正<br />
+※ その他のオプションは、おそらく最低限知っておいた方がいいものです。<br />
+軽く解説をつけます<br />
+&#8211;prefix → PHPのインストール先ディレクトリのパス<br />
+&#8211;with-mysql → 使用するMySQLディレクトリのパス<br />
+&#8211;enable-mbstring → マルチバイト文字関連の関数を使用可能にする<br />
+&#8211;with-apxs → Apache apxsツールのディレクトリのパス<br />
+&#8211;with-config-file-path →php.iniの設置先ディレクトリのパス<br />
+&#8211;with-zlib-dir →zlib(zipファイルを操作するために必要)設置先のパス
+</div>
+<div>
+<b>【Apache2.2のポートを変えて再起動する】</b><br />
+さくら専用サーバは、初期設定でApache2.2がインストールされています。<br />
+今回は、Apache1.3をメインで使用するので、Apache2.2に割り当てられている標準の80番ポートを変更します。<br />
+ということで、httpd.confを開き</p>
+<pre>
+vi /usr/local/etc/apache22/httpd.conf
+</pre>
+<p>以下のように、80番ポートを8081番に書き換えます</p>
+<pre>
+#Listen 80
+Listen 8081
+</pre>
+<p>※ちなみに、8080番は駄目でした。理由はわかりません :-)<br />
+で、以下のコマンドで</p>
+<pre>
+/usr/local/sbin/httpd
+</pre>
+<p>再起動します。</p>
+<p><b>動作確認</b><br />
+次のパスに</p>
+<pre>
+vi /home/htdocs/info.php
+</pre>
+<p>以下の内容のファイルを作成し</p>
+<pre>
+&lt;?php phpinfo();
+</pre>
+<p>ブラウザで http://xxx.xxx.xxx.xxx:8081/info.php を叩いて動けばOKです。
+</p></div>
+<div>
+<b>【Apache1.3の設定を行い起動させる】</b><br />
+httpd.confファイルを開いて</p>
+<pre>
+vi /usr/local/apache1_3/conf/httpd.conf
+</pre>
+<p>ユーザとグループを以下のように変更</p>
+<pre>
+#User nobody
+#Group nobody
+User www
+Group www
+</pre>
+<p>拡張子にPHP4を関連付ける</p>
+<pre>
+LoadModule php4_module        libexec/libphp4.so
+AddType application/x-httpd-php .php .phtml
+</pre>
+<p>※LoadModuleの行は既にあるはず</p>
+<p>httpd.confの変更が終わったので</p>
+<pre>
+/usr/local/apache1_3/bin/apachectl restart
+</pre>
+<p>上記のコマンドで再起動します。</p>
+<p><b>動作確認</b></p>
+<pre>
+vi /usr/local/apache1_3/htdocs/test/info.php
+</pre>
+<p>に</p>
+<pre>
+&lt;?php phpinfo();
+</pre>
+<p>の内容のファイルを作成し、<br />
+ブラウザで http://xxx.xxx.xxx.xxx/info.php を叩いて動けばOKです。
+</div>
+<div>
+参考サイト</p>
+<ul>
+<li><a href="http://www.randynetwork.com/blog/199" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.randynetwork.com/blog/199', 'Apache1.3 と php4.3.11 環境を構築']);" >Apache1.3 と php4.3.11 環境を構築</a></li>
+</ul>
+</div>
+<div>
+残りはMySQLとEthnaだーっと。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

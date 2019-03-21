@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>各言語での標準入力処理方法 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>各言語での標準入力処理方法</h1>
+        <p>2009年4月10日</p>
+      </section>
+      <section>
+        <div>
+<b>1. bash</b></p>
+<pre>
+while read line
+do
+    echo 'input='$line
+done
+</pre>
+<p>
+<b>2. py</b></p>
+<pre>
+while True:
+    line = raw_input()
+    print "input=" + line
+</pre>
+<p>
+<b>3. rb</b></p>
+<pre>
+while (line = gets) do
+    puts 'input=' + line
+end
+</pre>
+<p>
+<b>4. php</b></p>
+<pre>
+&lt;?php
+while (true) {
+    $line = fgets(STDIN, 4096);
+    echo "input=" . $line;
+}
+?&gt;
+</pre>
+</div>
+<p></p>
+<div>
+bashのreadや、<br />
+pythonのsys.stdin.read() や、<br />
+phpのfile_get_contents(&#8216;php://stdin&#8217;);<br />
+<s>・・・に相当するような、Rubyの「一回で標準入力全てを取得する」メソッドが発見できなかった。</s><br />
+rubyだとSTDIN.readでした。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

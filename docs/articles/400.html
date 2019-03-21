@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] Backendを使ってパスワード無しでログイン | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] Backendを使ってパスワード無しでログイン</h1>
+        <p>2009年2月16日</p>
+      </section>
+      <section>
+        <div>
+Django-1.0.2-final です。</p>
+<p>「サイト管理者が指定したユーザとしてログインできる機能」<br />
+・・・を作ろうとした時ですが、<br />
+authenticate無しではlogin出来ず、<br />
+かつ、authenticateは必ず平文のパスワードを要求するので困りました。</p>
+<p>変な箇所とかを山程見てたのですが、<br />
+DjangoのBackend機能を使ってサックリ実装できることを、<br />
+泥棒髭の人に教えてもらいました。 ひゃっほーい！</p>
+<p>以下改修した内容です。
+</p></div>
+<p></p>
+<div>
+<b>1. backends.pyを設置</b><br />
+自分はcommonアプリを作ってたので、site/common/backends.py に配置しました。<br />
+記述してあるの2メソッドは必ず作る必要があります。</p>
+<pre>
+# -*- encoding: utf8 -*-
+from django.contrib.auth.models import User
+class MyBackend(object):
+def authenticate(self, username=None, password=None, force=False):
+"""force=Trueでパスワード無しでログイン"""
+try:
+user = User.objects.get(username=username)
+if force == True or user.check_password(password):
+return user
+except User.DoesNotExist:
+return None
+def get_user(self, user_id):
+try:
+return User.objects.get(pk=user_id)
+except User.DoesNotExist:
+return None
+</pre>
+<p>
+<b>2. settings.pyに追記</b></p>
+<pre>
+AUTHENTICATION_BACKENDS = [
+'site.common.backends.MyBackend',
+]
+</pre>
+<p>
+これでこんな風にパス無しログインが可能になりました。</p>
+<pre>
+authenticate(username='username', password=None, force=True)
+</pre>
+<p>
+参考)  <a href="http://d.hatena.ne.jp/perezvon/20071128/1196256178" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/perezvon/20071128/1196256178', 'http://d.hatena.ne.jp/perezvon/20071128/1196256178']);" >http://d.hatena.ne.jp/perezvon/20071128/1196256178</a>
+</div>
+<p></p>
+<div>
+これを知らなかったら、<br />
+あるアクセスだけメソッドを上書きするとか、<br />
+そういう力技な対応になってました。</p>
+<p>十四区号を制す！　（IMEがんばれよ）
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

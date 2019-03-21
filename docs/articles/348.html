@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>GoogleMapsAPIのジオコーディングが失敗する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>GoogleMapsAPIのジオコーディングが失敗する</h1>
+        <p>2008年8月26日</p>
+      </section>
+      <section>
+        <div>
+久し振りにHTTP版のGoogle Maps API によるジオコーディングをしてみたら<br />
+（参考 <a href="http://code.google.com/intl/ja/apis/maps/documentation/services.html#Geocoding_Direct" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://code.google.com/intl/ja/apis/maps/documentation/services.html#Geocoding_Direct', '該当部分のGoogleのマニュアル']);" >該当部分のGoogleのマニュアル</a>）<br />
+住所文字列の解析が以前と違って失敗する。</p>
+<p>どんな風に失敗するかというと<br />
+以前は、&#8221;渋谷区渋谷1-2-5&#8243; 住所文字列を投げると、<br />
+&#8220;1丁目2番地5号&#8221;である、または&#8221;1丁目2番地&#8221;である、という解析をしてくれたのだが<br />
+今は、&#8221;日本東京都渋谷区２&#8221; という意味不明の解析をされてしまう。</p>
+<p>※例えば、<a href="http://maps.google.com/maps/geo?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E6%B8%8B%E8%B0%B71-2-5&#038;output=xml&#038;key=ABQIAAAAZOlyLyDe18RyB1iSNq6E_xQ-opQx7k7Itge3hfkWsuIaGj0jThQ9ap2hldWJB6APa4LLJJQGkVEabw" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://maps.google.com/maps/geo?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E6%B8%8B%E8%B0%B71-2-5&#038;output=xml&#038;key=ABQIAAAAZOlyLyDe18RyB1iSNq6E_xQ-opQx7k7Itge3hfkWsuIaGj0jThQ9ap2hldWJB6APa4LLJJQGkVEabw', 'こんなリクエスト']);" >こんなリクエスト</a>を投げた場合<br />
+※以前ならどんなXMLが返って来たかというのは、<a href="http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FGoogleMapsAPI" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FGoogleMapsAPI', 'このWikiページを参照']);" >このWikiページを参照</a>
+</div>
+<p></p>
+<div>
+Ajax API の方のGoogle Mapsや、<br />
+マッシュアップサービスの<a href="http://www.geocoding.jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.geocoding.jp/', 'Geocoding']);" >Geocoding</a>も以前と変わらず動いているので<br />
+方法はあるはずなのだが、時間が無いので取り合えず保留。</p>
+<p>その内直ってるかもしれないし・・・<br />
+でも、他に同じ点でハマってる人の記事を見ないんすよね・・・。
+</div>
+<p></p>
+<div>
+<b>【追記】</b><br />
+&#8220;&#038;oe=UTF-8&#8243;というパラメータを指定しないと、<br />
+Shift_JISで返って来ているようです。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

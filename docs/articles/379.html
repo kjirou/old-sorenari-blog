@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 用意するまで待っていろ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 用意するまで待っていろ</h1>
+        <p>2008年12月10日</p>
+      </section>
+      <section>
+        <div>
+パッケージ周りを適当に理解してたのでハマった点。</p>
+<p>以下のような構成で python ./test.py をすると、<br />
+&#8220;cannot import name deadlocked_a&#8221; というエラーになる。</p>
+<pre>
+.(カレントディレクトリ)
+|-- test.py
+|-- testmodules
+|   |-- __init__.py
+|   |-- deadlocked_a.py
+|   `-- deadlocked_b.py
+</pre>
+<p><b>test.py</b></p>
+<pre>
+from testmodules import deadlocked_a
+</pre>
+<p><b>deadlocked_a.py</b></p>
+<pre>
+from testmodules import deadlocked_b
+</pre>
+<p><b>deadlocked_b.py</b></p>
+<pre>
+from testmodules import deadlocked_a # -> そんなモジュールねーよエラー
+</pre>
+<p>
+deadlocked_a の初期化中に import deadlocked_a をされると<br />
+無限に初期化が終わらなくなるので<br />
+そうならないように、初期化中のモジュールは読み込めないようになってるんですね。</p>
+<p>今まで、超適当にimportしてた。
+</div>
+<p></p>
+<div>
+30分位ピヨった。
+</div>
+<p></p>
+<div>
+<b>【追記】</b><br />
+上記のように from パッケージ import モジュール<br />
+の呼び出し方だと書いたようになるんですが、<br />
+例えば、import パッケージ.モジュール とか<br />
+from パッケージ.モジュール import * とかだと、挙動が全然違いますねー。<br />
+って、同僚に指摘されました。<br />
+この辺大事だから、まとめて動きを知りたいなと。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

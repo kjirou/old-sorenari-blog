@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>本番へのソース適用手順 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>本番へのソース適用手順</h1>
+        <p>2008年6月4日</p>
+      </section>
+      <section>
+        <div>
+自分の場合のバージョン管理下に無い本番ソースの修正手順</p>
+<p>1. 作業ディレクトリにUPするファイルを置く</p>
+<p>2. 差分を見る</p>
+<pre>
+diff -w -c new.txt /path/to/old.txt
+</pre>
+<p>-w ・・・タブとか空白を無視する <br />
+-c ・・・わかり易い出力になる<br />
+※diffコマンド的には &#8220;diff 旧ファイル 新ファイル&#8221; なんだけど、下記の理由により逆にしている</p>
+<p>3. &#8220;diff -w -c&#8221;部分をそのままcpに書き換えてUP</p>
+<pre>
+cp new.txt /path/to/old.txt
+</pre>
+<p>
+svn up とかで出来ればいいんだけど、既に稼動中でしかもroot権限が無い・・・。<br />
+他にいい方法はないかしらん。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

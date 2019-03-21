@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Elona無印派に贈るoomExの解説 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Elona無印派に贈るoomExの解説</h1>
+        <p>2016年12月22日</p>
+      </section>
+      <section>
+        <div>
+Elona を無印以外でプレイしたことが無い方に向けて、omake 系列バリアントの究極系である oomEx（= omake_overhaul_modify ex）を紹介する内容です。</p>
+<p>（<a href="http://www.adventar.org/calendars/1853" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.adventar.org/calendars/1853', 'Roguelike Advent Calendar 2016']);" target="_blank">Roguelike Advent Calendar 2016</a> の 22 日目の記事です。）
+</div>
+<h3>Elona とは</h3>
+<div>
+もしかすると Elona 自体をご存じない方が読むかもしれないので、一応書いときます。</p>
+<p>Elona とは、<a href="http://ylvania.org/jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ylvania.org/jp/', 'noa猫']);" >noa猫</a> 氏が開発した、フリーのローグライクRPGです。<br />
+対応 OS は Windows 、言語は HSP です。</p>
+<p>実はそれほどローグライクではなくて、ターン制の行動・自動生成ダンジョン・プレイに適切な状況判断が求められる、というローグライク要素はありつつも、全体的なゲーム感としては「自由度が高く、何でも出来る中でハック＆スラッシュ要素が高い MMO」といった趣です。<br />
+個人的には、Ultima Online（例えが古い）のプレイ感覚に似てるなぁって思ってます。</p>
+<p>なお、詳細が気になった場合は、<a href="https://www.youtube.com/results?search_query=elona" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.youtube.com/results?search_query=elona', 'YouTube']);" target="_blank">YouTube</a> や ニコ動 などの動画サイトを検索してプレイ動画を観ると良いと思います。
+</div>
+<h3>バリアント とは</h3>
+<div>
+そんな Elona ですが、開発は数年前に終了しています。</p>
+<p>安定版である <a href="http://elona.wikiwiki.jp/?cmd=read&#038;page=%B9%B9%BF%B7%BE%F0%CA%F3%2F1.16final" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://elona.wikiwiki.jp/?cmd=read&#038;page=%B9%B9%BF%B7%BE%F0%CA%F3%2F1.16final', '1.16final']);" target="_blank">1.16final</a> のリリースが 2009/05/17、開発版と呼ばれる非安定版である <a href="http://elona.wikiwiki.jp/?cmd=read&#038;page=%B9%B9%BF%B7%BE%F0%CA%F3%2F1.22%28%B3%AB%C8%AF%C8%C7%29" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://elona.wikiwiki.jp/?cmd=read&#038;page=%B9%B9%BF%B7%BE%F0%CA%F3%2F1.22%28%B3%AB%C8%AF%C8%C7%29', '1.22']);" target="_blank">1.22</a> のリリースが 2010/05/08 のようです。いずれにせよ、大昔です。</p>
+<p>そんな状況で、細かい経緯はわかりませんが、noa猫氏本人の意志でソースコードが開示され、オープンソースのように有志の方による開発が今でも進んでいます。</p>
+<p>バリアントとは、その有志の方それぞれが独自に拡張した Elona それぞれのことです。
+</p></div>
+<h3>oomEx とは</h3>
+<div>
+<a href="http://wikiwiki.jp/elonaval/?omake" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://wikiwiki.jp/elonaval/?omake', 'Elona omake']);" target="_blank">Elona omake</a> バリアントの拡張である、<br />
+<a href="http://wikiwiki.jp/elonaval/?overhaul" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://wikiwiki.jp/elonaval/?overhaul', 'Elona omake overhaul']);" target="_blank">Elona omake overhaul</a> バリアントの拡張である、<br />
+Elona omake overhaul modify バリアントの拡張である、<br />
+<a href="http://zeffi.web.fc2.com/oom_readme.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://zeffi.web.fc2.com/oom_readme.html', 'Elona omake overhaul modify ex']);" target="_blank">Elona omake overhaul modify ex</a> バリアントのことです。</p>
+<p>有志の方の拡張を別の有志の方が独自に引き継ぐ、まるでロマサガ２の継承法のような体です。<br />
+この中で oomEx だけは、今でもゆるやかにですが開発が継続されています。</p>
+<p>特徴として、この omake から派生したバリアント全般に言えることなのですが、</p>
+<p>・操作のストレスを減らす（多少簡単になっても）<br />
+・煩雑な作業を減らす（多少簡単になっても）<br />
+・Elona 本体のゲーム感は、なるべく損なわないようにする</p>
+<p>このような趣旨で開発されていることです。oomEx はその究極形です。
+</p></div>
+<h3>機能紹介: ダメージポップアップ</h3>
+<div>
+omake から oomEx に至るまで、数多くの改善が行われてきましたが、自分がその中で特に嬉しかったのはこの<a href="http://zeffi.web.fc2.com/oom_readme.html#N0006" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://zeffi.web.fc2.com/oom_readme.html#N0006', 'ダメージポップアップ機能']);" target="_blank">ダメージポップアップ機能</a>です。</p>
+<p>どういう機能かというと、YouTubeから拝借してきた動画の 14:12 頃から御覧ください。</p>
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/NCIYOs4vSzM" frameborder="0" allowfullscreen></iframe></p>
+<p>「ハクスラなのに、ダメージ値や特殊効果が出なくて強くなった感覚が味わいにくい」</p>
+<p>・・・という、Elona 最大の矛盾を解決してくれました！</p>
+<p>例えばこれで、序盤で調達できる、黄金の騎士＆★大地の大槌 が如何に頼りになるかが、すごくわかり易くなりました。</p>
+<p>今までは、何か強そうな武器を取っても、どれだけ強いのかわからなかったんですよね・・・。<br />
+（毎回サンドバックを叩きに行けば別ですが）
+</p></div>
+<h3>バリアントのススメ</h3>
+<div>
+とても紹介しきれないので諦めてますが、それはもうたくさんの改修がなされています。</p>
+<p>本家こそ至高という考えは個人的にはとても良くわかるのですが、一度でいいのでバリアントを試してみると、きっと楽しいと思います。</p>
+<p>oomEx まではちょっと・・・という方は、overhaul 以外にも色々なバリアントの元になっていて、準公式的な扱いを受けている omake をとりあえず入れてみるのがオススメです。
+</p></div>
+<h3>次回 23 日は</h3>
+<div>
+goldarn_ring さんの「変愚の★の名前のエルフ語を解説してみる」です！（面白そう）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

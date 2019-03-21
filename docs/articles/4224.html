@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Deprecation warning: moment construction falls back to js Date. | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Deprecation warning: moment construction falls back to js Date.</h1>
+        <p>2014年9月18日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://momentjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://momentjs.com/', 'Moment.js']);" target="_blank">Moment.js</a> を 2.4.0 から 2.8.3 にアップデートしたら、<a href="http://blog.kjirou.net/p/3973" title="Moment.jsで不自然に感じる挙動" target="_blank">2.4.0 での以下の不便な挙動</a>が..：</p>
+<pre>
+moment('') === null;
+</pre>
+<p></p>
+<p>良くなっていた！：</p>
+<pre>
+// 不正な moment オブジェクトを返す
+moment('').isValid() === false;
+</pre>
+<p></p>
+<p>ただ、Node.js だと以下の警告がでるようになってしまっていた..：</p>
+<pre>
+Deprecation warning: moment construction falls back to js Date.
+This is discouraged and will be removed in upcoming major release.
+Please refer to https://github.com/moment/moment/issues/1407 for more info.
+</pre>
+<p></p>
+<p>それはわかったので、その js Date と同じように使うために警告消してくれよー。</p>
+<p>警告を出さないためには、こう対応する：</p>
+<pre>
+moment(new Date('文字列か空文字列かnullかわからないデータ'));
+</pre>
+<p></p>
+<p>ということで、リクエストパラメータから雑に moment オブジェクトを生成したいときなどは、<tt>new Date</tt> で包むと良いという話でした。</p>
+<p><a href="https://github.com/kjirou/nodejs_codes/blob/master/basis/moment/moment_function/index.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/kjirou/nodejs_codes/blob/master/basis/moment/moment_function/index.js']);" target="_blank">→ 検証コード</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP,ZF] アクション名を&#8221;camelCased&#8221;で指定できなくなってる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP,ZF] アクション名を&#8221;camelCased&#8221;で指定できなくなってる</h1>
+        <p>2008年5月10日</p>
+      </section>
+      <section>
+        <div>
+PHPのZendFramework-1.0.4を1.5.1にアップデートした時に微ハマりした点</p>
+<p>こういうcamelCasedなアクション名を指定するとき</p>
+<pre>
+&lt;?php
+class SomeController extends Zend_Controller_Action {
+public function camelCasedAction() {
+}
+}
+</pre>
+<p>今までは<br />
+http://mydomain.com/some/camelCased<br />
+という大文字を使用したアクション名でURLを指定しても動きましたが<br />
+その辺が厳しくなって、デフォルトだと認識しなくなっていました。</p>
+<p>代わりにどう書くかというと<br />
+http://mydomain.com/some/camel-cased<br />
+または<br />
+http://mydomain.com/some/camel.cased<br />
+とのことです。</p>
+<p>この点、非推奨のオプションを設定すれば、前者で指定可能なようにできるらしいです。<br />
+参考) <a href="http://framework.zend.com/manual/ja/zend.controller.migration.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://framework.zend.com/manual/ja/zend.controller.migration.html', 'http://framework.zend.com/manual/ja/zend.controller.migration.html']);" >http://framework.zend.com/manual/ja/zend.controller.migration.html</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

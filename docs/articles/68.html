@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascriptのURIエンコードをRubyでデコードする | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascriptのURIエンコードをRubyでデコードする</h1>
+        <p>2007年6月20日</p>
+      </section>
+      <section>
+        <div>
+PHPの時に苦労した記憶があるので<br />
+勇んで記事を書こうと思ったら、サクっと出来てしまった。
+</div>
+<div>
+javascript側はencodeURIComponentでエンコードする。<br />
+こんなコードをHTMLに埋め込んで、適当な文字列をURIエンコードした出力をコピペでゲットする</p>
+<pre>
+&lt;script type="text/javascript"&gt;&lt;!--
+document.write(encodeURIComponent("おお、kjirouよ! 死んでしまうとはなさけな% &?い!!"));
+// --&gt;&lt;/script&gt;
+</pre>
+<p>※HTMLのcharsetはUTF-8にすること
+</p></div>
+<div>
+Ruby側はURI.unescapeでデコードする<br />
+例えばこんな感じで動作確認する</p>
+<pre>
+require "uri"
+$KCODE = "UTF"
+p URI.unescape('ここに先程のjavascriptでURIエンコードした文字列をコピペ');
+</pre>
+<p>※ブラウザやターミナルの文字コードの設定は正しく行うこと</p>
+<p>これで無事エンコード＋デコードできました。
+</p></div>
+<div>
+参考リンク</p>
+<ul>
+<li><a href="http://d.hatena.ne.jp/mzp/20060104/1136356482" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/mzp/20060104/1136356482', 'URLエンコード']);" >URLエンコード</a></li>
+<li><a href="http://diaspar.jp/node/148" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://diaspar.jp/node/148', 'URIエンコード（URLエンコード）']);" >URIエンコード（URLエンコード）</a>（URIエンコードの仕様がどのRFCに準拠しているかのまとめ）</li>
+</ul>
+</div>
+<div>
+PHPでも簡単に出来ました。<br />
+どうやら、文字コードがUTF-8じゃなかった場合の記憶と、ごっちゃになってたようです。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

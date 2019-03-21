@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>サイ本を読んでいる(1) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>サイ本を読んでいる(1)</h1>
+        <p>2007年9月9日</p>
+      </section>
+      <section>
+        <div>
+javascriptのサイ本を</p>
+<table>
+<tr>
+<td><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113296/saikyoline-22/ref=nosim" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/exec/obidos/ASIN/4873113296/saikyoline-22/ref=nosim', '']);" ><img src="http://ec1.images-amazon.com/images/I/21gL6elGqTL.jpg" width="123" height="160" alt="JavaScript 第5版" title="JavaScript 第5版" border="0"/></a></td>
+<td>
+<ul>
+<li><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4873113296/saikyoline-22/ref=nosim" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/exec/obidos/ASIN/4873113296/saikyoline-22/ref=nosim', 'JavaScript 第5版']);" >JavaScript 第5版</a></li>
+<li>オライリー・ジャパン(2007-08-14)</li>
+<li>オライリー・ジャパン</li>
+<li>(著)David Flanagan</li>
+<li>(翻訳)村上 列</li>
+<li>定価：￥ 4,410</li>
+<li>新品価格：￥ 4,410</li>
+<li>中古価格：￥ 5,980</li>
+<li>ASIN：4873113296</li>
+</ul>
+</td>
+</tr>
+</table>
+<p>買いました。</p>
+<p><a href="http://ja.wikipedia.org/wiki/%E9%AD%81!!%E3%82%AF%E3%83%AD%E3%83%9E%E3%83%86%E3%82%A3%E9%AB%98%E6%A0%A1" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E9%AD%81!!%E3%82%AF%E3%83%AD%E3%83%9E%E3%83%86%E3%82%A3%E9%AB%98%E6%A0%A1', '魁!!クロマティ高校']);" >魁!!クロマティ高校</a>を買いに行くつもりだったのに、何故にこんなことに。
+</div>
+<div>
+で、適当に読み進めてますが、オッと思うことが多々ありますので、復習がてらにメモって行きます。<br />
+逆に「こいつこんなことも知らなかったのか」という内容もあると思いますが、そこは触れないでやってください。</p>
+<p>今回の範囲は、23章中6章までです。<br />
+サンプルコードについては、XP-FireFox2 と XP-IE6 のみで動作確認をしています。
+</div>
+<div>
+<b>【全角文字の変数名】</b><br />
+文字コードがUTF-8なら、全角文字で変数名を書ける。</p>
+<pre>
+var 数量 = 1;
+alert(数量); // -> 1
+</pre>
+</div>
+<div>
+<b>【リテラル】</b><br />
+一般的なプログラム用語として、ソース内に直接記述されるデータ値のことをリテラルと呼ぶ。</p>
+<pre>
+1;
+"Ask him!";
+</pre>
+</div>
+<div>
+<b>【型の自動変換】</b><br />
+例えば「論理型を期待している箇所に文字列型の変数を入れた場合」等の自動変換処理について、.valueOf を通るとか .toString を通るとかその辺が詳しく書いてある。<br />
+内容は長いので省略。<br />
+ちなみに、上記の例は、「文字列が論理値コンテキストで使われた場合の変換」という風に表現している。
+</div>
+<div>
+<b>【&#8221;str&#8221; と new String(&#8220;str&#8221;) の違い】</b><br />
+文字列リテラルに対するStringオブジェクトは、基本データ型のラッパーオブジェクトというらしい。<br />
+そのことについての説明がある。内容はこれも省略。
+</div>
+<div>
+<b>【代入】</b><br />
+JavaScriptの代入は全部参照渡しかと思っていたが、数値と論理値は値渡しであったこと。<br />
+文字列は、正確には不明だが、参照渡しと考えてよい。<br />
+（職場のグループの皆様、嘘ついてすみません。）
+</div>
+<div>
+<b>【Callオブジェクト】</b><br />
+ローカル変数は、実は新しいスコープが生成されるたびに、Callオブジェクトのインスタンスが生成されて管理されていたということ。<br />
+例えば</p>
+<pre>
+var foo = function(x, y){var z;};
+</pre>
+<p>は、Callインスタンス.x と Callインスタンス.y と Callインスタンス.z というスコープで管理されている。<br />
+argumentsも、Callインスタンス.arguments として内部的には存在している。<br />
+Callを関数の実行以外で操作する術は無いので、概念のみの話になりますが。
+</div>
+<div>
+<b>【オペランド】</b><br />
+演算子(operator) と オペランド(被演算子・operand) は違う用語だということ・・・。<br />
+オペランド=演算子かと思ってた。良く今まで困らなかったなぁ。
+</div>
+<div>
+<b>【単項演算子・二項演算子・三項演算子という区分】</b></p>
+<pre>
+-1;        // -は単項演算子
+typeof 1;  // typeofは単項演算子
+1 + 1;     // +は二項演算子
+a ? b : c; // ?:は三項演算子
+</pre>
+</div>
+<div>
+<b>【「等しい」と「同一である」】</b><br />
+== は「等しい」、=== は「同一である」という呼び方の区別。<br />
+これで、「イコールがみっつあるほうの等しい」と言わなくて済む。
+</div>
+<div>
+<b>【=演算子】</b><br />
+=も（少々特殊ではあるが）演算子で、式の評価は代入された値（もしくは値への参照）を返す演算子だということ。</p>
+<pre>
+var a = 0;
+var b = (a = 5) + 3;
+alert(b); // -> 8
+</pre>
+</div>
+<div>
+<b>【,演算子】</b><br />
+,（カンマ）も演算子で、1行で連続して式や文の実行を行う演算子。
+</div>
+<div>
+<b>【複合文とif(){}】</b><br />
+このような {} で括られた文を複合文と呼ぶが</p>
+<pre>
+{
+var a = 10;
+var s = a * a;
+alert(s);
+};
+</pre>
+<p>if(){} の文法は、if() の文法、と、複合文の文法、という別の文法が連携しているコードであったこと。
+</p></div>
+<div>
+<b>【() も [] も演算子】</b><br />
+両方とも、左側のオペランドを評価し、括弧内に引数を取れる、演算子である。</p>
+<pre>
+var a = function(n){return n*n}(10);
+alert(a); // -> 100
+</pre>
+</div>
+<div>
+<b>【else if という文法は無い】</b></p>
+<pre>
+if (a === 1) {
+} else if (a === 2) {
+} else {
+};
+</pre>
+<p>これは</p>
+<pre>
+if (a === 1) {
+} else {
+if (b === 2) {
+} else {
+};
+};
+</pre>
+<p>こう書いているんだったということ。<br />
+PHPのelseifや、Rubyのelsifのように、if と else if と else が別に定義されている訳ではない。
+</div>
+<div>
+<b>【for文に何でも書ける】</b><br />
+セミコロン区切りで、初期化・試験・変更部分に分かれているが<br />
+それぞれ好きな式を書けるし、カンマ演算子を使っての式の連続実行も可能。</p>
+<pre>
+for (var i = 0, j = 0; j < 5; i = (new Date).getTime(), j++) {
+alert(i);
+};
+</pre>
+</div>
+<div>
+と、いうところが役立った。</p>
+<p>値段も 0.88オライリーと安めで（※1オライリー = 5,000円）<br />
+6章/23章といっても、ページ数にすると1/6冊分（105ページ/600ページ以上）の範囲でこれだけ出てきたので、非常に満足しております。
+</div>
+<div>
+ああああ、使えるネットが放置状態になってる・・・。
+</div>
+<div>
+<b>【追記】</b><br />
+()演算子について<br />
+でも、こう書くと動かないすよね？って髭の人に言われて試したら</p>
+<pre>
+function(n){
+alert(n*n);
+}(9);
+</pre>
+<p>あれ？本当に動かないし、エラーにもなんない？なんで？？<br />
+と、調べると</p>
+<pre>
+function(n){
+alert(n*n);
+};
+(9);
+</pre>
+<p>どうやら、上記の様に、無名関数と数値リテラル別々のものだと解析されるようだ。<br />
+以下のコードで確認してみる</p>
+<pre>
+Number.prototype.alertMe = function(){
+return alert(this.valueOf());
+};
+function(n){
+alert(n*n);
+}(9).alertMe(); // -> 9
+</pre>
+<p>
+なるほどなぁ<br />
+やっぱり、無名関数の実行は()で括ろう。
+</div>
+<div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/09/2_1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/09/2_1.html', '続きます→']);" >続きます→</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

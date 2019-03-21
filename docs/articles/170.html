@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>AS3で for &#8230;in の取り出し順が不明 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>AS3で for &#8230;in の取り出し順が不明</h1>
+        <p>2007年10月29日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3で、for &#8230; in 文でのプロパティ取り出し順が素直じゃないなという話。
+</div>
+<div>
+<b>例1</b></p>
+<pre>
+var foo:Object = {v:1, w:2, x:3, y:4, z:5};
+for (var i:String in foo) trace(i);
+</pre>
+<p>trace出力</p>
+<pre>
+w
+x
+y
+z
+v
+</pre>
+<p>
+<b>例2</b></p>
+<pre>
+var foo:Object = {w:2, x:3, y:4, z:5};
+for (var i:String in foo) trace(i);
+</pre>
+<p>trace出力</p>
+<pre>
+w
+x
+y
+z
+</pre>
+<p>
+<b>例3</b></p>
+<pre>
+var foo:Object = {x:3, y:4, z:5};
+for (var i:String in foo) trace(i);
+</pre>
+<p>trace出力</p>
+<pre>
+z
+x
+y
+</pre>
+<p>
+どういう理由で順番が変わってるんだろうか？
+</div>
+<div>
+とりあえず、for &#8230; in （そしておそらくは for each &#8230; in）文では、プロパティを取り出す順番に期待しちゃいけないというのは良くわかった。<br />
+本来、そういうものだからいいんですけど・・・理由が知りたいです。
+</div>
+<div>
+<b>【追記】</b><br />
+「それは仕様です」というコメントを戴いたので、それで良しとした。<br />
+適当ですみません。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

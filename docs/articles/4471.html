@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Amazon SimpleDBがオワコンっぽいので止めたメモ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Amazon SimpleDBがオワコンっぽいので止めたメモ</h1>
+        <p>2015年2月18日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://aws.amazon.com/jp/simpledb/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://aws.amazon.com/jp/simpledb/', 'Amazon SimpleDB']);" target="_blank">Amazon SimpleDB</a> を使ってみようとしたけど止めた、という経緯のメモです。
+</div>
+<h3>1. 管理画面が見つからない</h3>
+<div>
+AWS ログイン後に表示される Amazon Web Services のサービス一覧に、該当の項目が無い。</p>
+<p>フォーラムを漁ると <a href="https://forums.aws.amazon.com/thread.jspa?messageID=325666" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://forums.aws.amazon.com/thread.jspa?messageID=325666', 'Where is SimpleDB?']);" target="_blank">Where is SimpleDB?</a> という記事が見つかり、どうも無いみたい。
+</div>
+<h3>2. zipを展開してサンプルを動かす</h3>
+<div>
+管理画面が無いので、とりあえず<a href="http://docs.aws.amazon.com/AmazonSimpleDB/latest/GettingStartedGuide/Welcome.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.aws.amazon.com/AmazonSimpleDB/latest/GettingStartedGuide/Welcome.html', '開発者用のチュートリアル']);" target="_blank">開発者用のチュートリアル</a>から進めてみた。</p>
+<p><a href="http://docs.aws.amazon.com/AmazonSimpleDB/latest/GettingStartedGuide/GetSetUp.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.aws.amazon.com/AmazonSimpleDB/latest/GettingStartedGuide/GetSetUp.html', '途中']);" target="_blank">途中</a>で、「Amazon SimpleDB Scratchpad」という動作確認用のHTMLのzipを落としてと言われる。</p>
+<p>んで、それを Chrome で開いて実行すると Uncaught SecurityError とクライアントJSのエラーが出て動かない。<br />
+<a href="https://forums.aws.amazon.com/thread.jspa?messageID=384145" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://forums.aws.amazon.com/thread.jspa?messageID=384145', 'タブブラウザだとダメ']);" target="_blank">タブブラウザだとダメ</a>らしい？<br />
+（iframe間で参照してるから？ Firefoxだと動いたので、未調査放置です）</p>
+<p>zipでDLする意味って、なんだろうなぁ・・・。
+</p></div>
+<h3>以上、オワコンっぽい</h3>
+<div>
+色々放置されてそうだったので、止めた。<br />
+新規で使うなら、おとなしく DynamoDB 使っといた方が良さそう。</p>
+<p>自分は、ミニゲーム用の簡単なスコアボードを置ける場所が欲しかっただけなので、parse.com とか別手段を探すことにしました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

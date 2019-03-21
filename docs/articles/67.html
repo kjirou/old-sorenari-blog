@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascriptでSingletonパターン | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascriptでSingletonパターン</h1>
+        <p>2007年6月19日</p>
+      </section>
+      <section>
+        <div>
+javascriptでSingletonパターンを試してみる</p>
+<pre>
+var Foo = function(){
+this._a = 1;
+};
+Foo.singleton = function(){
+var self = arguments.callee;
+if ("_instance" in self === false) self._instance = new Foo;
+return self._instance;
+};
+var foo1 = Foo.singleton();
+alert(foo1._a); // -> 1
+foo1._a = 2;
+var foo2 = Foo.singleton();
+alert(foo2._a); // -> 2
+alert(foo1._a); // -> 2
+var bar = new Foo;
+alert(bar._a); // -> 1
+</pre>
+<p>できたっぽい・・・けど、これでいいのか？
+</p></div>
+<div>
+と、調べたら<br />
+<a href="http://la.ma.la/blog/diary_200508141140.htm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://la.ma.la/blog/diary_200508141140.htm', '最速インターフェース研究会に記事が']);" >最速インターフェース研究会に記事が</a>あった。<br />
+大枠は外して無さそうだなー。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

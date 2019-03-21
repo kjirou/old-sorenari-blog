@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python][PHP] W3C-DTFやRFC822形式のdatetimeを変換 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python][PHP] W3C-DTFやRFC822形式のdatetimeを変換</h1>
+        <p>2009年11月20日</p>
+      </section>
+      <section>
+        <h3>W3C-DTFとRFC822について</h3>
+<div>
+説明不要な気もしますが、一応↓<br />
+<a href="http://www2.airnet.ne.jp/sardine/docs/NOTE-datetime-19980827.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www2.airnet.ne.jp/sardine/docs/NOTE-datetime-19980827.html', 'W3C-DTF(W3C Date Time Format)']);" target="_blank">W3C-DTF(W3C Date Time Format)</a><br />
+<a href="http://www2.airnet.ne.jp/sardine/docs/NOTE-datetime-19980827.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www2.airnet.ne.jp/sardine/docs/NOTE-datetime-19980827.html', 'RFC 822']);" target="_blank">RFC 822</a><br />
+どちらも、日時を文字列表記する際の規格を定めています。</p>
+<p>例えば、W3C-DTF なら</p>
+<pre>
+1997-07-16T19:20:30.45+01:00
+</pre>
+<p>RSS 822 なら</p>
+<pre>
+Thu, 04 Oct 2007 23:59:45 +0000
+</pre>
+<p>と、このような表記で日時が記述されます。
+</p></div>
+<h3>Pythonでデコード</h3>
+<div>
+dateutil という非標準ライブラリを使用します。<br />
+<a href="http://labix.org/python-dateutil" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://labix.org/python-dateutil', 'http://labix.org/python-dateutil']);" target="_blank">http://labix.org/python-dateutil</a></p>
+<p>このライブラリは非標準ではありますが、<br />
+Pythonクックブックにも紹介があるような、強力で由緒正しいものです。<br />
+ってか、これを使わないと、カレンダー的な処理は不便なので、<br />
+標準ライブラリにこだわりたい方でも、常に使うような感じで利用しても良いと思います。</p>
+<p>このようにデコードします。</p>
+<pre>
+&gt;&gt;&gt; from dateutil.parser import parse
+&gt;&gt;&gt; parse(&quot;2009-11-04T16:01:07.762876+09:00&quot;)
+datetime.datetime(2009, 11, 4, 16, 1, 7, 762876, tzinfo=tzoffset(None, 32400))
+&gt;&gt;&gt; parse(&quot;2009-11-04 16:01:07.762876&quot;)
+datetime.datetime(2009, 11, 4, 16, 1, 7, 762876)
+&gt;&gt;&gt; parse(&quot;Thu, 04 Oct 2007 23:59:45 +0000&quot;)
+datetime.datetime(2007, 10, 4, 23, 59, 45, tzinfo=tzutc())
+</pre>
+<p>全く持って充分な機能です。</p>
+<p>・・・が、一点だけ重箱の隅的に気になったのが</p>
+<pre>
+&gt;&gt;&gt; parse(&quot;Thu, 04 Oct 2007 23:59:45 +0000&quot;)
+datetime.datetime(2007, 10, 4, 23, 59, 45, tzinfo=tzutc())
+&gt;&gt;&gt; parse(&quot;Foo, 04 Oct 2007 23:59:45 +0000&quot;)
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+File &quot;dateutil/parser.py&quot;, line 697, in parse
+return DEFAULTPARSER.parse(timestr, **kwargs)
+File &quot;dateutil/parser.py&quot;, line 303, in parse
+raise ValueError, &quot;unknown string format&quot;
+ValueError: unknown string format
+&gt;&gt;&gt; parse(&quot;Sun, 04 Oct 2007 23:59:45 +0000&quot;)
+datetime.datetime(2007, 10, 4, 23, 59, 45, tzinfo=tzutc())
+</pre>
+<p>不正な曜日 &#8220;Foo&#8221; でエラーになってくれるのは流石として、<br />
+一方で、2007/10/4 は Ｔｈｕ の木曜が正しいのですが、<br />
+Sun で試してみても、デコードが通ります。</p>
+<p>Pythonの datetime.date.weekday の仕様からすると、<br />
+日付から一意で曜日を取得できるはずなので、<br />
+Pythonの考え方と、余裕を持たせたdateutilの考え方の、この差は何だろう？と思いました。
+</div>
+<h3>PHPでデコード</h3>
+<div>
+strtotimeとdateの合わせ技で可能です、<br />
+同僚に聞いた話をまんまなんですけども。</p>
+<pre>
+&lt;?php
+$w3c_dtf_format = &quot;2009-11-04T16:01:07.762876+09:00&quot;;
+$datetime = date('Y-m-d H:i:s', strtotime($w3c_dtf_format));
+var_dump($datetime); // -&gt; &quot;2009-11-04 16:01:07&quot;
+$rfc_822_format = &quot;Thu, 4 Oct 2007 00:59:36 +0900&quot;;
+$datetime = date('Y-m-d H:i:s', strtotime($rfc_822_format));
+var_dump($datetime); // -&gt; &quot;2007-10-04 00:59:36&quot;
+</pre>
+<p>※不正なパターンはあまり調査していませんが、適当に解析をしてしまうようです。</p>
+<p><a href="http://www.php.net/manual/ja/function.date-parse-from-format.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.php.net/manual/ja/function.date-parse-from-format.php', 'date_parse_from_format']);" target="_blank">date_parse_from_format</a>という専用の関数もあるのですが、<br />
+こちらは PHP-5.3以降から使用可能なものなので、今は控えた方が良さそうです。<br />
+・・・ってか、要らなくね？この関数。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

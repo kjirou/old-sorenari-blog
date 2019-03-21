@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>【AS3】nullは指定した型に無関係に変数に入るんだ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>【AS3】nullは指定した型に無関係に変数に入るんだ</h1>
+        <p>2008年1月1日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3で<br />
+以下のようにnullはどんな変数にも入るんですね</p>
+<pre>
+var str:String = null;
+var func:Function = null;
+</pre>
+<p>undefinedも入るけどnullに変換されるよう</p>
+<pre>
+var str:String = undefined;
+trace(str); // -> null
+</pre>
+</div>
+<div>
+知らなかった！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

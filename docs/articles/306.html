@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] 循環参照をvar_dump | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] 循環参照をvar_dump</h1>
+        <p>2008年4月14日</p>
+      </section>
+      <section>
+        <div>
+クラスインスタンスをvar_dumpする際に<br />
+インスタンスが循環参照になってたらどうなるのかをチェックしてみた。</p>
+<p>(Ethna on) PHP-4.3.11の時にはフリーズした記憶がある！<br />
+いや、記憶じゃなくて、確実にしてた・・・。
+</div>
+<div>
+<pre>
+&lt;?php
+class ClassA {
+public $b;
+}
+class ClassB {
+public $a;
+}
+$a = new ClassA;
+$b = new ClassB;
+$a-&gt;b = $b;
+$b-&gt;a = $a;
+var_dump($a);
+</pre>
+<p>さー、どうなるかな</p>
+<pre>
+object(ClassA)#1 (1) {
+[&quot;b&quot;]=&gt;
+object(ClassB)#2 (1) {
+[&quot;a&quot;]=&gt;
+object(ClassA)#1 (1) {
+[&quot;b&quot;]=&gt;
+object(ClassB)#2 (1) {
+[&quot;a&quot;]=&gt;
+*RECURSION*
+}
+}
+}
+}
+</pre>
+<p>おー、落ちない、OK
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

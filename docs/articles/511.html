@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] varによる変数定義は右辺実行より先 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] varによる変数定義は右辺実行より先</h1>
+        <p>2012年2月3日</p>
+      </section>
+      <section>
+        <h3>何のこと？</h3>
+<div>
+var で変数宣言すると右側から参照できるということで<br />
+つまりはこーゆーことです</p>
+<pre><code>window.iExisted = (&#039;iExisted&#039; in window); //-&gt; window.iExisted は false
+var iExisted = (&#039;iExisted&#039; in window); //-&gt; iExisted は true
+var isU = ('isU' in window && window.isU === undefined); //-&gt; isU は true</code></pre>
+<p>
+だから、良く見かける以下のコードが有効なんすね</p>
+<pre><code>var timerId = setInterval(function(){
+    clearInterval(timerId);
+}, 1000);</code></pre>
+<p>
+これで気づきました</p>
+<pre><code>var MyClass = (function(){
+    // 自分が既に読み込まれていたらアラートする意図
+    // これは毎回アラートされちゃうダメな例
+    if (&#039;MyClass&#039; in window) {
+        alert(&#039;MyClass is already defined&#039;);
+        return;
+    }
+    var cls = function(){};
+    // ... some processing ...
+    retrun cls;
+    // returnで返すのはやめて↓の方が良い
+    //window['MyClass'] = cls;
+})();</code></pre>
+<p>
+という、イマサラ話
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

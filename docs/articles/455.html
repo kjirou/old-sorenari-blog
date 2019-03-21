@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>「PHPサイバーテロの技法―攻撃と防御の実際」の書評？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>「PHPサイバーテロの技法―攻撃と防御の実際」の書評？</h1>
+        <p>2010年1月4日</p>
+      </section>
+      <section>
+        <div>
+この本が</p>
+<table>
+<tr>
+<td><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4883374718/saikyoline-22" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/exec/obidos/ASIN/4883374718/saikyoline-22', '']);" ><img src="http://ecx.images-amazon.com/images/I/51DZTFZACCL._SL160_.jpg" width="126" height="160" alt="PHPサイバーテロの技法―攻撃と防御の実際" title="PHPサイバーテロの技法―攻撃と防御の実際" border="0"/></a></td>
+<td>
+<ul>
+<li><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4883374718/saikyoline-22" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.amazon.co.jp/exec/obidos/ASIN/4883374718/saikyoline-22', 'PHPサイバーテロの技法―攻撃と防御の実際']);" >PHPサイバーテロの技法―攻撃と防御の実際</a></li>
+<li>ソシム(2005-11)</li>
+<li>ソシム</li>
+<li>定価：￥ 1,890</li>
+<li>新品価格：￥ 1,890</li>
+<li>中古価格：￥ 1,257</li>
+<li>ASIN：4883374718</li>
+</ul>
+</td>
+</tr>
+</table>
+<p>　「どおーせ<b>暇</b>でやることねーんだろ？<br />
+　　じゃあ、読みやがれ！」</p>
+<p>という会社の思惑<span style="font-size:9px;">（やや誇張）</span>で、年末に自宅に強制送付されてきたので、<br />
+<b>今更々々</b>もいいとこですが（2005末の本！）読みました。　暇だし。
+</div>
+<h3>ざっくり感想・所感</h3>
+<div>
+とても良い本でした。</p>
+<p>PHPで受託の仕事をしてて、<br />
+「俺ハッカーだぜ！」という自信の無い人は、読むと良いです。<br />
+（ぼくは無い）</p>
+<p>セキュリティホールの解説と一般的な対応だけに終始せず、<br />
+PHPとしてはどう解決するのか？という点に踏み込んでやってくれるので、<br />
+他言語メインの人には、特にオススメです。<br />
+（PHPソース修正で解決 or .htaccessで解決 or httpd.confで解決 など<br />
+　状況を考慮して複数案出してくれるのが、さらに現実的で良い）</p>
+<p>ネタの構成も良くて、<br />
+最初は上記のような各論から入り、<br />
+最後の方では、「そもそも何でWebだとこんな面倒なのか、考えてみようよ」<br />
+ということで、総論的なソフトウェア設計の話にも踏み込んでいます。</p>
+<p>各論で頭の材料が溜まってる状態の人なら、<br />
+これで設計の肝となる部分が、すんなり頭に入る可能性も高そうです。
+</div>
+<h3>というところで</h3>
+<div>
+以下は本書を読んで、<br />
+トピック的に直接勉強になった点を、記憶の限り記述します。</p>
+<p>XSSとかSQLインジェクションとかの本書の最も大事な点からは外れてますが、<br />
+その辺は、全部書いても仕方ないので、ご勘弁をということで。
+</div>
+<h3>(1) CSRF対策でのリファラチェックは有効</h3>
+<div>
+「リファラは偽装可能なので、無意味じゃん！」<br />
+・・・そう思ってた時期が、俺にもありました。</p>
+<p>CSRF場合は、実際にリクエストを送るのは<br />
+被害者当人（リファラの偽装はする訳ない）なので、<br />
+「正しいリファラか？」のチェックは有効に機能するとのこと。　確かに！</p>
+<p>ただし、事前に<br />
+「リファラ送信無し設定のユーザ数の調査」やら、<br />
+その方達をどう扱うのかという点については、要検討ですけど。
+</div>
+<h3>(2) XSSはリンクに仕込むことも出来る</h3>
+<div>
+&#8220;javascript:&#8221;があるので、アンカータグのhref属性にも仕込み可能。<br />
+そりゃそうだよね って、ある程度の技術者なら思うだろうけど、<br />
+いざという時に考えから漏れそうな気がする。改めて認識。
+</div>
+<h3>(3) $_SERVER[&#8216;HTTP_*&#8217;]</h3>
+<div>
+・・・は、クライアントのHTTPリクエストのヘッダ情報らしい。<br />
+（すみません、詳しくは未確認）</p>
+<p>$_SERVER[&#8216;REMOTE_ADDR&#8217;] があるのに、<br />
+なんで $_SERVER[&#8216;HTTP_CLIENT_IP&#8217;] もあるのかと思ったことがあった。</p>
+<p>本書では、だから改竄可能だよね、という文脈で。
+</div>
+<h3>(4) preg_replaceのe修飾子</h3>
+<div>
+下記のように、$replacement 引数を eval として評価する<br />
+っていう、修飾子があるみたい。</p>
+<pre><code>&lt;?php
+$pattern = '/([def]+)/e';
+$replacement = 'strtoupper($1)'; // ※&quot;$1&quot;は正規表現の後方参照の変数
+$subject = &quot;abcdefghi&quot;;
+var_dump(preg_replace($pattern, $replacement, $subject)); // -&gt; &quot;abcDEFghi&quot;</code></pre>
+<p>
+本書では、「要はevalなんでセキュリティホールになることもある」<br />
+という話でした。</p>
+<p>・・・確かにその通りなんすけど、<br />
+後方参照をスクリプトで加工できるのは、結構便利かもとも思った。<br />
+（にしたってなので、公的な場所では使わないけど）</p>
+<p>マニュアル: <a href="http://www.php.net/manual/ja/function.preg-replace.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.php.net/manual/ja/function.preg-replace.php', 'preg_replace']);" target="_blank">preg_replace</a>
+</div>
+<h3>(5) IEで画像ファイルをhtmlとして実行するバグ</h3>
+<div>
+例えば、IE6またはIE7 と FireFox それぞれで<br />
+以下のgifリンクを踏んでみてください。</p>
+<p><a href="http://kjirou.net/main/public/ml/html-others/ie_bug_gif_as_html.gif" target="_blank">http://kjirou.net/main/public/ml/html-others/ie_bug_gif_as_html.gif</a></p>
+<p>IE6とIE7の場合は、これを text/html として実行しちゃいます。<br />
+（内容とapplicationの指定が合わない場合のデフォルトがこれらしい。<br />
+なお、IE8の場合は、 text/plain として解釈される）</p>
+<p>これが何を意味するかというと、<br />
+拡張子チェックだけの「画像アップローダー」は、<br />
+つまりは任意のhtmlをアップしまくれる、ということになります<br />
+・・・ひでー仕様だ・・・。</p>
+<p>
+・・・ん？ そこの君！<br />
+悪いことを考えてないですよね！？
+</div>
+<h3>(6) 任意のFlash＝任意のJavaScript</h3>
+<div>
+「任意のFlashがアップできてしまう」環境は、<br />
+「任意のJavaScriptが実行されてしまう」という環境と<br />
+ほぼ等価だと考えた方がいいとのこと。<br />
+as/flaは初心者もいいところなので、こう書いてくれると助かる。
+</div>
+<h3>(7) GET値でユーザへのレスポンスヘッダを改ざん</h3>
+<div>
+どうセキュリティホールになるのかは置いておきます。</p>
+<p>例えば、リクエストのGET値に書いたセッションIDが、<br />
+そのままSet-Cookieでレスポンスとして返るような場合があるとします。<br />
+（一言で言うと、Session Fixation攻撃の的になるような）</p>
+<p>その場合、</p>
+<p>任意のリンクを踏ませることで<br />
+　↓<br />
+ユーザのレスポンスヘッダをSet-Cookieを介して改竄できる</p>
+<p>ということにもなるということです。<br />
+この経路は十津川警部じゃないと気付かない。
+</div>
+<h3>蛇足</h3>
+<div>
+おー、この辺を見ると、<br />
+<a href="http://takagi-hiromitsu.jp/diary/20060121.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://takagi-hiromitsu.jp/diary/20060121.html', '過去、かの有名SSLerとバトルってる']);" target="_blank">過去、かの有名SSLerとバトルってる</a>のか・・・。</p>
+<p>筆者は、SEとして問題解決をする目線で、<br />
+もう片方は研究者・権威者としての目線での発言なので、<br />
+そもそも戦ってる点がズレてるけども。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

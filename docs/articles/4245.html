@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>mongooseが自動でensureIndexするタイミング | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>mongooseが自動でensureIndexするタイミング</h1>
+        <p>2014年9月24日</p>
+      </section>
+      <section>
+        <div>
+mongoose には、自動で Schema に同期して MongoDB のインデックスを貼り直す機能があります。</p>
+<p>しかし、それがいつのタイミングで行われるのかは、そのことについて言及している <a href="http://mongoosejs.com/docs/guide.html#indexes" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mongoosejs.com/docs/guide.html#indexes', 'Indexes']);" target="_blank">Indexes</a> や <a href="http://mongoosejs.com/docs/guide.html#autoIndex" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mongoosejs.com/docs/guide.html#autoIndex', 'autoIndex']);" target="_blank">autoIndex</a>、そして <a href="http://mongoosejs.com/docs/api.html#model_Model.ensureIndexes" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mongoosejs.com/docs/api.html#model_Model.ensureIndexes', 'Model.ensureIndexes']);" target="_blank">Model.ensureIndexes</a> を確認しても、start up 時としか記述がありません。
+</div>
+<h3>mongoose.model で Model を生成した時に ensureIndexes される</h3>
+<div>
+ということで、<a href="https://github.com/LearnBoost/mongoose/blob/0a597591e1ada0737e6969bdc29897e3b0451f77/lib/model.js#L758-L764" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/LearnBoost/mongoose/blob/0a597591e1ada0737e6969bdc29897e3b0451f77/lib/model.js#L758-L764', '中身を見て確認した']);" target="_blank">中身を見て確認した</a>ところ、Model を生成した時点で実行されていることがわかりました。（<a href="https://github.com/kjirou/nodejs_codes/blob/master/basis/mongoose/timing_of_auto_ensureIndexes/index.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/kjirou/nodejs_codes/blob/master/basis/mongoose/timing_of_auto_ensureIndexes/index.js']);" target="_blank">→検証コード</a>）</p>
+<p>なお、その時点で接続できない場合については未調査です。</p>
+<p>なおなお、ensureIndexes は、Schema に整合しないデータ（例えば unique:true なのに重複データが入っているなど）がある場合、該当の設定を無視して Index を全く作らないようです。</p>
+<p>・・・と、最後にサラッと書いたやつ、ぼくは<b>凄く</b>怖い挙動だと思いました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Node.js] コマンド引数パーサーの比較 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Node.js] コマンド引数パーサーの比較</h1>
+        <p>2014年9月27日</p>
+      </section>
+      <section>
+        <div>
+いわゆる getopts、argparse 的なことをしてくれる以下のモジュールたちをざっと使ってみて：</p>
+<p><a href="https://www.npmjs.org/package/commander" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/commander', 'commander']);" target="_blank">commander</a><br />
+<a href="https://www.npmjs.org/package/nopt" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/nopt', 'nopt']);" target="_blank">nopt</a><br />
+<a href="https://www.npmjs.org/package/nomnom" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/nomnom', 'nomnom']);" target="_blank">nomnom</a><br />
+<a href="https://www.npmjs.org/package/minimist" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/minimist', 'minimist']);" target="_blank">minimist</a></p>
+<p>比較というか、雑な感想を述べてみます。
+</p></div>
+<h3>commander</h3>
+<div>
+&#8211; help のドキュメントを自動生成してくれる<br />
+&#8211; サブコマンドの設定ができる<br />
+　- 中で子プロセスで起動するようになっている<br />
+　- original_command-sub_command.js のファイル名で別に設置する必要がある<br />
+　　- ぶっちゃけ、余計なお世話としか思えない<br />
+&#8211; 設定は commander のモジュールに対して行うので、副作用がある<br />
+　- それどころか展開した結果も何故かモジュール以下に展開する。ウワァァン、キモイヨー！<br />
+&#8211; 要件がシンプルなら便利</p>
+<p>追記、ブコメから：</p>
+<p>&#8211; teppeis さん「commanderはnew Commandすればグローバルではなくインスタンスに設定できるので副作用無いですよ」
+</p></div>
+<h3>nopt</h3>
+<div>
+&#8211; 複雑なオプション設定に対応できる<br />
+　- 特定書式で値を解釈し、Array や Date として展開できたり<br />
+　- 同じオプションを複数回指定して配列で取得したり<br />
+&#8211; しかし、デフォルト値の設定ができないっぽい？<br />
+&#8211; 不要に複雑でオレオレな感じがあるので、自分は好きじゃない
+</div>
+<h3>nomnom</h3>
+<div>
+&#8211; サブコマンドの設定ができる、commander より素直で断然良い<br />
+&#8211; モジュールに対して副作用がある<br />
+&#8211; commander に近い、そしてそれより良さそうな気がする<br />
+&#8211; 他の 3 者と比べると、全然マイナー
+</div>
+<h3>minimist</h3>
+<div>
+&#8211; 疎結合で単機能、引数/オプションの解析だけを行ってくれる<br />
+&#8211; ショートハンドへの別名設定、デフォルト値の設定、<tt>--</tt> の設定、など基本的な点は抑えてくれている<br />
+&#8211; getopts の強化が欲しいなら、これが最も良いと思う<br />
+&#8211; 一番好き<br />
+&#8211; <a href="https://github.com/kjirou/nodejs_codes/blob/master/basis/minimist/index.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/kjirou/nodejs_codes/blob/master/basis/minimist/index.js']);" target="_blank">検証コード</a>
+</div>
+<h3>オマケ: optimist</h3>
+<div>
+もう非推奨なので、minimist を使ってくださいとのこと
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

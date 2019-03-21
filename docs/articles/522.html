@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[jQuery] Firefoxのkeydown/keyup時エラーを抑止 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[jQuery] Firefoxのkeydown/keyup時エラーを抑止</h1>
+        <p>2012年2月24日</p>
+      </section>
+      <section>
+        <h3>なんのこと？</h3>
+<div>
+jQueryでこう書いて、Firefox&#038;Firebug環境で実行すると・・・</p>
+<pre><code>$(document).bind(&#039;keydown&#039;, function(evt){});
+$(document).bind(&#039;keyup&#039;, function(evt){});</code></pre>
+<p>キーを押すたびに、以下のようなエラー（というか注意？）が<br />
+コンソール上へ表示されると思います<br />
+<span style="color:green;">keydown イベントでは charCode プロパティの値には意味がないため使用すべきではありません。</span><br />
+<span style="color:green;">The &#8216;charCode&#8217; property of a keydown event should not be used. The value is meaningless</span>
+</div>
+<h3>実害はないけど出したくない</h3>
+<div>
+Firebugを使っていると常に出続けて邪魔なので<br />
+以下のコードをjQeury読み込み直後に書いて出ないようにしてみた</p>
+<pre><code>$.event.keyHooks.props = &quot;char key keyCode&quot;.split(&quot; &quot;);
+$.event.keyHooks.filter = function(event, original){
+    // &quot;keypress&quot;
+    if (event.type === &#039;keypress&#039;) {
+    // jQuery original filter
+        if (event.which == null) {
+            event.which = original.charCode != null ? original.charCode : original.keyCode;
+        }
+    // &quot;keydown&quot;, &quot;keyup&quot;
+    } else {
+        if (event.which == null) {
+            // クロスブラウザ対応はここで頑張る
+            event.which = event.keyCode;
+        }
+    }
+    return event;
+}</code></pre>
+<p>onkeydownまたはonkeyup内で<b>event.charCodeを参照されると先のエラーが出る</b>ので<br />
+条件分岐して、それらのイベント内では参照しないようにしている</p>
+<p>なお、jQuery-1.7使用です
+</p></div>
+<h3>補足</h3>
+<div>
+コードみりゃわかると思いますが、挙動は若干変わります<br />
+keydownとkeyup時はevent.whichに代替でcharCodeを入れなくするし<br />
+また、propsから除外しているのでキーイベント全般のevent.charCodeが消えています</p>
+<p>動作確認としては、keydown/keyup時に<br />
+制御文字以外のkeyCodeがevent.whichへ格納される点は大丈夫でした</p>
+<p>制御文字は、クロスブラウザが凄まじく絡んでくるので追ってません<br />
+ShiftとかShift+キーとかCtrlとかを正確にとりたければ<br />
+私めは心より応援させていただきます
+</div>
+<h3>参考リンク</h3>
+<div>
+<a href="http://d.hatena.ne.jp/teramako/20070215/firefox_event_keyCode_and_charCode" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/teramako/20070215/firefox_event_keyCode_and_charCode', 'イベントのkeyCodeとcharCode']);" target="_blank">イベントのkeyCodeとcharCode</a><br />
+jQuery関係無しにkeypressとkeydown/keyupとcharCodeとkeyCodeの関係について<br />
+ガチで制御文字対応をするのなら参考になる</p>
+<p><a href="http://www.programming-magic.com/file/20080205232140/keycode_table.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.programming-magic.com/file/20080205232140/keycode_table.html', '各ブラウザでキーコードを取得してみた']);" target="_blank">各ブラウザでキーコードを取得してみた</a><br />
+タイトルの通りだけどkeyCode一覧</p>
+<p><a href="http://stackoverflow.com/questions/2639055/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://stackoverflow.com/questions/2639055/', 'Getting “The &#8216;charCode&#8217; property of a keydown event should not be used. The value is meaningless” error in jQuery']);" target="_blank">Getting “The &#8216;charCode&#8217; property of a keydown event should not be used. The value is meaningless” error in jQuery</a><br />
+同じ問題への解決コードがあるんだけど<br />
+charCodeやkeyCodeに0が入るのを知ってないと解読不可能なのと<br />
+条件分岐の書き方がマジプリティなので使わなかった
+</div>
+<h3>蛇足</h3>
+<div>
+この一連を解決してて、どこに問題があるのかをふと考えてみた</p>
+<p>jQuery = which/charCode/keyCodeを意図的に混ぜてるのがわかり難くね？<br />
+　エラー出力はともかく、別変数にした方が良かったんじゃないかなぁ</p>
+<p>Firebug = エラーレベルで出力を選べないのが不便</p>
+<p>俺 = さっさと開発環境をChromeにすべき<br />
+　(・・・この件に全然関係ないけど、Firebugはメモリリークがひどくて、<br />
+　　同じページをF5更新してくとどんどんメモリが溜まってマジプリティ)
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

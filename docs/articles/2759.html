@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CoffeeScript 事始 その2 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CoffeeScript 事始 その2</h1>
+        <p>2013年6月9日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://blog.kjirou.net/p/2715" title="CoffeeScript 事始 その1">前回</a>は、主に環境構築周りをまとめました。</p>
+<p>今回は、個人的にハマったり記憶に残ってることを、つらつらと書いていこうと思います。
+</p></div>
+<h3>不一致判定には isnt</h3>
+<div>
+Python のノリで is not と書くと期待通りに動きません。</p>
+<p>例えば、こんな結果になる</p>
+<pre>coffee&gt; 0 is not 1
+false</pre>
+<p>なぜならば、JSへ変換するとこうなるためです</p>
+<pre><code>0 === !1;</code></pre>
+<p>この場合は isnt (JSでは !== へ変換) を使います</p>
+<pre>coffee&gt; 0 isnt 1
+true</pre>
+<p></p>
+<p>この辺の演算子の対応の話は、<a href="http://coffeescript.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://coffeescript.org/', '本家マニュアル']);" target="_blank">本家マニュアル</a>の &quot;Operators and Aliases&quot; のセクションに<br />
+表でまとまっているので、軽く見ておくと良いです。
+</div>
+<h3>三項演算子は if then else</h3>
+<div>
+何も調べずにこれ書いたらコンパイルが通ったので</p>
+<pre>a ? 1 : 2</pre>
+<p>これでいいのかな？と思ってたら、<strong>全然</strong>違いました。</p>
+<p>正しくはこう書きます</p>
+<pre>if a then 1 else 2</pre>
+<p></p>
+<p>間違ってた方は、本当に全然違うので、興味が合ったら確認してください。<br />
+とりあえず、1 : 2 の部分は { 1 : 2 } という解釈になってます。
+</div>
+<h3>in と of</h3>
+<div>
+配列に対する値の存否判定には in を、<br />
+オブジェクトに対するキーの存否判定には of を使います。</p>
+<pre>coffee&gt; 10 in [10]
+true
+coffee&gt; 'x' of {x:1}
+true</pre>
+<p>何はともあれ、<strong>JS での in が Coffee では of になっている</strong>のが間違え易い！</p>
+<p>じゃあ、配列に対するキーの存否判定に of が使えるかというと..</p>
+<pre>coffee&gt; 1 of [0,0]
+true
+</pre>
+<p>.. 使える！</p>
+<p>んじゃ、オブジェクトに対する値の存否判定に in が使えるかというと..</p>
+<pre>coffee&gt; 1 in {x:1}
+false</pre>
+<p>もちろんこれも使え..<strong>ない</strong>！？ あれれっ！！？</p>
+<p>JSへの変換結果を見ると、確かに使えないんだけど、なんでこうなんだろう？</p>
+<p>ちなみに、of は 単純に JS の in にマッピングしているだけなので</p>
+<pre>coffee&gt; 'push' of []
+true</pre>
+<p>こうなるし..</p>
+<pre>coffee&gt; 'hasOwnProperty' of {}
+true</pre>
+<p>こうにもなる。hasOwnProperty は通してくれません。</p>
+<p>これでコンパイルしちゃうと、JSLint には通らなくなると思うんだけど、<br />
+コンパイルオプションとかで回避する方法あるんでしょうか？<br />
+・・・ JSLint 自体が要らないってことでいいのか。
+</div>
+<h3>無名関数を代入するには -&gt;</h3>
+<div>
+空の無名関数を代入する場合は、これが一番短い書き方です</p>
+<pre>func = -&gt;</pre>
+<p></p>
+<p>別に何てことはない書き方ですが、<br />
+個人的に、見た目が変だと感じるコードなので、特に書いてみました。</p>
+<p>矢印の先..大丈夫かな？ 刺さりそうで危なくないですか？
+</p></div>
+<h3>-&gt; と =&gt; の違い</h3>
+<div>
+-&gt; は、普通の無名関数の代入です。<br />
+=&gt; も同じく無名関数を表しますが、内部の this を定義場所のスコープに静的に束縛します。<br />
+つまり、var self = this とか var that = this を書かないで良いってことです。</p>
+<p>-&gt; の場合：<br />
+Coffee</p>
+<pre><code>f = -&gt; @</code></pre>
+<p>JavaScript</p>
+<pre><code>var f;
+
+f = function() {
+  return this;
+};</code></pre>
+<p></p>
+<p>=&gt; の場合：<br />
+Coffee</p>
+<pre><code>f = =&gt; @</code></pre>
+<p>JavaScript</p>
+<pre><code>var f,
+  _this = this;
+
+f = function() {
+  return _this;
+};</code></pre>
+<p></p>
+<p>イチイチ、自前でクロージャにしなくていいので楽だし、<br />
+特に class の記法と合わせると、適切に =&gt; を使えば、<br />
+「クラスインスタンスが @ 」という最も期待する動作を簡潔に書けるので、とても良いです。</p>
+<p>なお蛇足ですが、-&gt; は アロー (or シングルアロー) という名前で、<br />
+=&gt; は <strong>ファットアロ</strong>ー というらしいです。<br />
+・・・ぼくは、心の中で 烈風拳 と ダブル烈風拳 って呼んでました。
+</div>
+<h3>文字列への変数埋め込み</h3>
+<div>
+&quot;#{変数名}&quot; で埋め込めます</p>
+<pre>coffee&gt; age = 35; &quot;I am #{age} years old.&quot;
+'I am 35 years old.'
+</pre>
+<p>文字列の定義をシングルクォートで行った場合は、これは無効になります
+</p></div>
+<h3>ヒア・ドキュメント</h3>
+<div>
+以下の Coffee の例は、両方共に &#8216;aaa\niii\nuuu&#8217; という文字列を定義しています。</p>
+<pre><code>text = &quot;aaa\n
+iii\n
+uuu&quot;
+
+text = &quot;&quot;&quot;aaa
+        iii
+        uuu&quot;&quot;&quot;</code></pre>
+<p></p>
+<p>改行含めて文字列を定義できるってだけで、JavaScript的にはうれしいのに、<br />
+更に &quot;&quot;&quot; の方は、行頭のインデントをデフォルトで無視してくれるのが良い！
+</div>
+<h3>prototype は :: を使う</h3>
+<div>
+例えば、Array.prototype は Array:: と書きます</p>
+<pre>
+coffee&gt; func = -&gt; Array::slice.call(arguments, 1, 2)
+[Function]
+coffee&gt; func(11, 22, 33)
+[ 22 ]
+</pre>
+<p>.. と、良く有るケースで使ってみました。</p>
+<p>ただ、Coffee としては、prototype 自体をあんまり意識させたくなさそうなので、<br />
+そもそも使わないようにした方がいいのかもしれません。
+</div>
+<h3>以上</h3>
+<div>
+次回はクラス周りをまとめようと思います
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

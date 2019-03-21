@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Linux] wgetで保存先ファイル名を指定 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Linux] wgetで保存先ファイル名を指定</h1>
+        <p>2010年6月10日</p>
+      </section>
+      <section>
+        <h3>構文</h3>
+<div>
+<pre>
+wget -O ファイル名 URL
+</pre>
+<p>ググっても出てこなかったので、メモ替わりに書いておく。
+</p></div>
+<h3>応用: 実行時間をファイル名に入れて記録</h3>
+<div>
+YYYYMMDD_HHMMSS.html のファイル名で保存します</p>
+<pre>
+wget -O &quot;`date +%Y%m%d_%H%M%S`.html&quot; http://google.co.jp/
+</pre>
+</div>
+<h3>もうひと手間: 日別にディレクトリ分けして保存</h3>
+<div>
+日別にディレクトリ分け<br />
+cronで1時間置きとかに実行すると、ファイル数が多くなり過ぎるので</p>
+<pre><code>#!/bin/sh
+# ------------------
+# Environments
+BASE_DIR=&#039;/path/to/basedir&#039;
+URL=&#039;http://targetsite.com/&#039;
+FILENAME_PREFIX=&#039;yourfilename&#039;
+# ------------------
+TODAY=`date +%Y%m%d`
+NOW=`date +%Y%m%d_%H%M%S`
+SAVE_DIR=$BASE_DIR/$TODAY
+mkdir -p $SAVE_DIR
+wget -O &quot;$SAVE_DIR/$FILENAME_PREFIX-$NOW.html&quot; $URL</code></pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>mysqlコマンドにパイプでSQLを渡す | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>mysqlコマンドにパイプでSQLを渡す</h1>
+        <p>2007年4月17日</p>
+      </section>
+      <section>
+        <div>
+これも何故か勝手に出来ないと思い込んでいた件</p>
+<pre>
+echo "show tables;" | /usr/local/mysql/bin/mysql -uusername -ppassword -Ddbname
+</pre>
+<p>普通にできた。
+</div>
+<div>
+多分、mysqlコマンドを絶対パスで書かないと動かないということで（理由はわかりません）<br />
+勝手に諦めてたっぽいす
+</div>
+<div>
+本当に初心者だったころのイメージってあんまりアテにならないなー<br />
+色々見直していこう。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 半角ASCII文字かを判定する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 半角ASCII文字かを判定する</h1>
+        <p>2010年3月10日</p>
+      </section>
+      <section>
+        <div>
+Pythonで、<br />
+　「ある文字列が、半角文字列(*1)だけで構成されているか？」<br />
+の一般的なチェック方法を調べました。</p>
+<p><b>(*1)</b><br />
+半角文字 = 通常そのまま表示する範囲のアスキーコードの文字<br />
+と、ここでは定義。
+</div>
+<h3>Googleソースコードを &#8220;python is_ascii&#8221; で検索</h3>
+<div>
+じゃあ、どうやって調べようというところで、<br />
+同僚から &#8220;is_asciiとか無いの？&#8221; の一言ヒントを得て<br />
+Googleソースコード検索で検索してみましたら、出てきた！出てきた！</p>
+<p>最初にヒットした2件は以下</p>
+<p><b><a href="http://www.google.co.jp/codesearch/p?hl=ja#A7oIwSk3gNM/chandler/milestones/0.7alpha2/Chandler_linux_0.7alpha2.tar.gz|Q9FsBKQX0-w/Chandler_linux_0.7alpha2/release/lib/python2.4/site-packages/pylint/checkers/misc.py&#038;q=is_ascii%20python" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.google.co.jp/codesearch/p?hl=ja#A7oIwSk3gNM/chandler/milestones/0.7alpha2/Chandler_linux_0.7alpha2.tar.gz|Q9FsBKQX0-w/Chandler_linux_0.7alpha2/release/lib/python2.4/site-packages/pylint/checkers/misc.py&#038;q=is_ascii%20python', 'chandler（？ ごめん、詳細知らず）のis_ascii関数']);" target="_blank">chandler（？ ごめん、詳細知らず）のis_ascii関数</a></b></p>
+<pre><code>def is_ascii(string):
+    &quot;&quot;&quot;return true if non ascii characters are detected in the given string
+    &quot;&quot;&quot;
+    if string:
+        return max([ord(char) for char in string]) &lt; 128
+    return True</code></pre>
+<p>
+<b><a href="http://www.google.co.jp/codesearch/p?hl=ja#FieViU4U_1I/trunk/easybench-client/mako/filters.py&#038;q=is_ascii%20python&#038;sa=N&#038;cd=2&#038;ct=rc&#038;l=57" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.google.co.jp/codesearch/p?hl=ja#FieViU4U_1I/trunk/easybench-client/mako/filters.py&#038;q=is_ascii%20python&#038;sa=N&#038;cd=2&#038;ct=rc&#038;l=57', 'makoのis_ascii_str関数']);" target="_blank">makoのis_ascii_str関数</a></b></p>
+<pre><code>_ASCII_re = re.compile(r'\A[\x00-\x7f]*\Z')
+def is_ascii_str(text):
+    return isinstance(text, str) and _ASCII_re.match(text)</code></pre>
+</div>
+<h3>シンプルに128未満＝半角文字みたい</h3>
+<div>
+どうやら、<br />
+　「<a href="http://www9.plala.or.jp/sgwr-t/c_sub/ascii.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www9.plala.or.jp/sgwr-t/c_sub/ascii.html', 'ASCIIコード']);" target="_blank">ASCIIコード</a>で 0-127 のものだけで構成されてたら、半角文字」<br />
+という判定のようです。</p>
+<p>じゃあ、俺もそうしようということで完了。
+</div>
+<h3>ちなみに、Googleソースコード検索についてメモ</h3>
+<div>
+・コードの一部分への直リンクもサポートしてるのが便利<br />
+・svnリポジトリへの直リンクはどこにあるんだろう？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

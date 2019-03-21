@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>大体のクロスブラウザ対応漏れ度 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>大体のクロスブラウザ対応漏れ度</h1>
+        <p>2007年8月30日</p>
+      </section>
+      <section>
+        <div>
+javascriptの実装のみで大体200時間程度のアプリを仕事で作ってて、<br />
+それの開発者試験をやりました。
+</div>
+<div>
+開発中はXP-IE6とXP-FireFox2のみで動作確認をしていただけで、<br />
+他にもVista-IE7とMac-Safari2に対応する必要があったんですが、<br />
+その詳細なチェックは開発者試験に回してました。
+</div>
+<div>
+で、結果。</p>
+<p>IE7は、バグなし。</p>
+<p>Safari2は、3箇所でバグ。<br />
+常にブラウザ表示区域中央に出るはずのものがずれてたり、<br />
+overflowスタイルが効いてなかったりとか、<br />
+全部DOMやスタイルの解釈の違いによるものでした。
+</div>
+<div>
+prototype.jsを使っているとは言え、<br />
+IEと非IEだけ気をつければ、<br />
+クロスブラウザ関係のバグは大したことないみたいだ。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

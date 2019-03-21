@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>DjangoでTwitterのOAuth認証をする | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>DjangoでTwitterのOAuth認証をする</h1>
+        <p>2013年1月30日</p>
+      </section>
+      <section>
+        <div>
+DjangoでTwitterアカウントによるOAuth認証をするための方法まとめと実装例です<br />
+あまりまとまっても理解してもいないので、走り書き程度の駄文でスマソ</p>
+<p>環境は、Django-1.4.3、Python-2.7.3、tweepy-1.13
+</p></div>
+<h3>もしかして: django-allauth</h3>
+<div>
+<a href="https://github.com/pennersr/django-allauth" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/pennersr/django-allauth', 'django-allauth']);" target="_blank">django-allauth</a> という、<br />
+各種ソーシャルアカウントによる認証モジュールがあるそうです<br />
+詳細不明ですが、おそらくTwitter認証もあるんじゃないでしょうか？<br />
+実装しちまった後に<a href="http://connpass.com/event/1566/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://connpass.com/event/1566/', 'Django勉強会']);" target="_blank">Django勉強会</a>で知りました。くそがぁ<br />
+そっちから調べた方が、あなたのキャリアに将来的に貢献することは間違いありません
+</div>
+<h3>TwitterのDevelopersサイトでアプリ登録</h3>
+<div>
+<ul>
+<li><a href="https://dev.twitter.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://dev.twitter.com/', 'https://dev.twitter.com/']);" target="_blank">https://dev.twitter.com/</a>を開いてログイン</li>
+<li>右上のアイコンから「My applications」をクリック</li>
+<li>「Create a new application」をクリック</li>
+<li>ローカル開発用に使いたいなら、事前に 127.0.0.1 に適当なドメインを hosts で割り振る。<br />
+URLを入れる各所で、http://localhost/ は許容されていないため</li>
+<li>Name, Description, Website, Callback 全部を入れる。後で書く自分の例で言うと Name=[てきとう], Description=[てきとう], Website=[http://localhost.kjirou.net/], Callback=[http://localhost.kjirou.net/auth_callback/]</li>
+<li>後で編集したり入力エラーで値を変えた場合に、<strong>更新成功したはずなのに値が変わってない様に見えることがある</strong>、単にサイトのバグだと思う、その場合はページ再表示</li>
+<li>作成し終わったら「OAuth tools」タブを開いておく、今回使うのはここの「Consumer key」と「Consumer secret」だけ</li>
+</ul>
+</div>
+<h3>tweepyのインストール</h3>
+<div>
+<pre>
+pip install tweepy
+</pre>
+</div>
+<h3>実装例</h3>
+<div>
+<a href="https://github.com/kjirou/game_stopper/blob/master/apps/twauthorizer/views.py" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/game_stopper/blob/master/apps/twauthorizer/views.py', 'とりあえずは、サンプルコードとしてここを開いて下さい']);" target="_blank">とりあえずは、サンプルコードとしてここを開いて下さい</a></p>
+<p>以下、補足：</p>
+<ul>
+<li>先の Consumer key と Consumer secret が、TWAUTHORIZER_CONSUMER_KEY と SECRET に入っているとする</li>
+<li>認証は auth ビューを叩かせると自動でTwitter側へリダイレクトして開始</li>
+<li>先の http://localhost.kjirou.net/auth_callback/ に auth_callback ビューがマッピングされているものとする、<br />
+Twitter側で認証が完了するとここにリダイレクトする</li>
+<li>api.me() の辺りまでが OAuth としての処理サンプル、後はこのアプリ独自の処理</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

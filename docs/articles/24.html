@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>create_functionなんてあったのか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>create_functionなんてあったのか</h1>
+        <p>2007年4月25日</p>
+      </section>
+      <section>
+        <div>
+PHP4で</p>
+<pre>
+&lt;?php
+$count = 0;
+$adder = create_function("", 'global $count; return ++$count;');
+echo call_user_func($adder);
+echo call_user_func($adder);
+echo call_user_func($adder); // "123"を出力
+?&gt;
+</pre>
+<p>こんなん書けるのかよー。マジカヨー
+</div>
+<p><span id="more-24"></span><br />
+そういや、eval と変わらんな って、<a href="http://p0t.jp/mt/archives/2007/04/1byte.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://p0t.jp/mt/archives/2007/04/1byte.html', 'ココ']);" >ココ</a>のコメントを読んで気づきました。</p>
+
+      </section>
+    </article>
+  </body>
+</html>

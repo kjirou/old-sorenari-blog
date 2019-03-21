@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>innerHTMLをいじると | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>innerHTMLをいじると</h1>
+        <p>2007年5月10日</p>
+      </section>
+      <section>
+        <div>
+javascriptで</p>
+<pre>
+// elementはbody所属のHTML要素
+element.onclick = function(){alert(1);};
+document.body.innerHTML += "a";
+</pre>
+<p>要素を含む要素のinnerHTMLを変更すると<br />
+中の要素のイベント(上記例だとelement.onclick)が起動しなくなる。</p>
+<p>再構成？されるから？
+</div>
+<div>
+1時間ハマtter
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

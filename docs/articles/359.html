@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] QuerySetのcacheの動きを確認 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] QuerySetのcacheの動きを確認</h1>
+        <p>2008年10月1日</p>
+      </section>
+      <section>
+        <div>
+Djangoアプリ用のバッチ処理で、10万件前後のデータをアレコレするため、<br />
+若干性能的に配慮が必要かなと、クエリセットのキャッシュの動きを軽く追ってみた。</p>
+<p>総論的な部分は下記のドキュメントを読んでもらうとして、動作確認した部分だけをつらつらと。<br />
+なお、Django-0.96.2でDBはMySQL-5.0です。
+</div>
+<p></p>
+<div>
+<b>1. リレーションしたフィールドについてはsave時にもクエリを発行する</b><br />
+例えば、以下の例</p>
+<pre>
+sm = SomeModel()
+# SomeModel#some_masterはForeignKeyField
+sm.some_master = SomeMasterModel.objects.get(pk=1)
+sm.save()
+</pre>
+<p>この場合のSomeMasterModelについてクエリが発行されるタイミングは<br />
+&#8220;SomeMasterModel.objects.get(pk=1)&#8221;の抽出時に1回と<br />
+&#8220;sm.save()&#8221;をした際に1回の、合計2回となりました。</p>
+<p>
+<b>2. QuerySetへのインデックス直指定時も毎回クエリを発行する</b><br />
+ModelManager#getは毎回クエリを発行するというのはドキュメントに書いて有りますが<br />
+インデックスの直指定時にも毎回発行してました。</p>
+<pre>
+SomeModel.objects.all()[0]
+</pre>
+<p>（というかインデックスの直指定自体が、getのラッパなのか？）</p>
+<p>
+<b>3. ModelManager#getはキャッシュさせられない？</b><br />
+というのも、<br />
+これ↓はo変数を評価時にqsに紐付くキャッシュを使ってくれるため<br />
+クエリ発行は最初の1回で済むのに対して・・・</p>
+<pre>
+qs = SomeModel.objects.all()
+for o as qs:
+print o
+</pre>
+<p>・・・これら↓は毎度クエリを発行してしまいます。<br />
+多分、</p>
+<pre>
+qs = SomeModel.objects.all()
+print qs.get(pk=1)
+print qs.get(pk=2)
+print qs.get(pk=3)
+# ... 以下略 ...
+print qs[0]
+print qs[1]
+print qs[2]
+# ... 以下略 ...
+</pre>
+<p>
+クエリセットをfor文で回した場合は<br />
+「クエリセットのリファインを行わずに」<br />
+「（通常getで行うように）個別のModelオブジェクトにアクセス可能」<br />
+・・・ということなので、キャッシュが使用されるということでしょうか？</p>
+<p>まぁ、インデックスを張ればほぼ問題ない部分だろうと思われるので、<br />
+あんまり気にしても仕方ないんすけど。
+</div>
+<p></p>
+<div>
+うーむ、Django初心者もいいところなので、本当に正しいのかが我ながら疑わしい!!<br />
+・・・まぁいいや、以上。</p>
+<p><b>参考リンク</b></p>
+<ul>
+<li><a href="http://michilu.com/django/doc-ja/db-api/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://michilu.com/django/doc-ja/db-api/', 'データベース API リファレンス']);" >データベース API リファレンス</a><br />
+&#8220;キャッシュ&#8221;でページ内検索するといい感じです</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

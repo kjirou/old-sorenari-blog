@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Hello, クロージャ! | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Hello, クロージャ!</h1>
+        <p>2007年4月24日</p>
+      </section>
+      <section>
+        <div>
+各所でその名を聞くクロージャですが<br />
+今までは他人に熱弁されてもイマイチささりませんでした。</p>
+<p>でも、今日のあるタイミングで、言葉ではなく心で理解できた。
+</div>
+<div>
+その説明 from チャット</p>
+<pre>
+# kawadu
+Box.prototype.start = function() {
+var self = this;
+this.id = setInterval(function() { self.move() }, 20);
+};
+# var self = this ってなんで代入する必要があるのだろう。
+</pre>
+<pre>
+# komagata
+# いい質問だ
+（中略）
+# 関数の中から外の変数（this以外）を使うと
+# どこもってっても　その変数つかえるんだよね
+# そういう関数をクロージャっていうらしい。
+# setIntervalにクロージャをわたしてんだね
+</pre>
+<p>という、見た目より親切なkmgtの説明を聞いたときに<br />
+prototype.jsのAjax.Requestを使って、<br />
+こんな感じのロジックを書いたことがあるのを思い出した。</p>
+<pre>
+var setAjax = function() {
+var outside = $("id");// いくつかのHTML要素を見る必要があった
+var url = "hoge.php";
+var opts = {};
+opts.method = "get";
+opts.onComplete = function(http) {
+outside.innerHTML = http.responseText;
+}
+new Ajax.Request(url, opts);
+};
+</pre>
+<p>このonCompleteはクロージャだったんじゃないか！！</p>
+<p>当時は動くけど間違っている気がしたので、<br />
+考えた末に、結局outsideをグローバル変数にしてしまったよ・・・。<br />
+やっていいことだったのかぁ。
+</div>
+<div>
+理解できる下地があっても<br />
+それが概念と結びつくには、何度もくじを買って当てる必要があるんだなぁ。</p>
+<p>そのくじは仕事とか勉強とか読書とか読エントリとか休憩だったりしますが、<br />
+人の話ってのもくじの一種なので、話を聞くとこういうイイコトもありますね。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

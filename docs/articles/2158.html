@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>JSの無名関数実行内でVimのインデント置換がおかしい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>JSの無名関数実行内でVimのインデント置換がおかしい</h1>
+        <p>2013年1月18日</p>
+      </section>
+      <section>
+        <div>
+すっげー細かくてどうでもいい話ですが<br />
+インデントが2つの設定をしているVimのJavaScriptコード内で<br />
+gg=G を打ってインデントの置換をした時に..</p>
+<p>Before: </p>
+<pre><code>function () {
+    if (1) {
+        // Do something ..
+    } else {
+        // Do something ..
+    }
+}
+
+(function(){
+    if (1) {
+        // Do something ..
+    } else {
+        // Do something ..
+    }
+}());</code></pre>
+<p></p>
+<p>After:</p>
+<pre><code>function () {
+  if (1) {
+    // Do something ..
+  } else {
+    // Do something ..
+  }
+}
+
+(function(){
+ if (1) {
+ // Do something ..
+ } else {
+ // Do something ..
+ }
+ }());</code></pre>
+<p></p>
+<p>.. と、このように無名関数内の置換処理がおかしくなるという話</p>
+<p>直す方法はございませんか？
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

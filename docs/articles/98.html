@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>補数とかコンピュータの2進数計算とか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>補数とかコンピュータの2進数計算とか</h1>
+        <p>2007年8月14日</p>
+      </section>
+      <section>
+        <div>
+前に何かのエントリで補数の意味がわからなくて損した気分になったことがあったので<br />
+<a href="http://d.hatena.ne.jp/amachang/20070813/1186980089" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/amachang/20070813/1186980089', 'IT戦記']);" >IT戦記</a>のエントリをトリガーに補数が何たるかを調べてみた。</p>
+<p>したら、予測はしてましたが、疑問が連鎖してして収拾がつかなくなったので、途中でセーブします。
+</p></div>
+<div>
+参考リンク</p>
+<ul>
+<li><a href="http://www.hokuriku.ne.jp/fukiyo/math.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.hokuriku.ne.jp/fukiyo/math.html', '12 さんすう 34 数学 5 Go!']);" >12 さんすう 34 数学 5 Go!</a>（「お勉強」→「補数」へ移動）</li>
+<li><a href="http://ja.wikipedia.org/wiki/2%E3%81%AE%E8%A3%9C%E6%95%B0" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/2%E3%81%AE%E8%A3%9C%E6%95%B0', 'Wikipedia &#8211; 2の補数']);" >Wikipedia &#8211; 2の補数</a></li>
+<li><a href="http://www2.cc.niigata-u.ac.jp/~takeuchi/tbasic/BackGround/Integer.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www2.cc.niigata-u.ac.jp/~takeuchi/tbasic/BackGround/Integer.html', 'コンピュータでの整数の計算']);" >コンピュータでの整数の計算</a>（むずいっす）</li>
+</ul>
+</div>
+<div>
+<b>メモ</b></p>
+<ul>
+<li>補数→2の補数→コンピュータ2進数計算→符号有りのコンピュータ2進数計算、の順で調べると良い。</li>
+<li>最後の<a href="http://www2.cc.niigata-u.ac.jp/~takeuchi/tbasic/BackGround/Integer.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www2.cc.niigata-u.ac.jp/~takeuchi/tbasic/BackGround/Integer.html', 'コンピュータでの整数の計算']);" >コンピュータでの整数の計算</a>の内容がわかれば、いろんなことがわかるのかもしれないけど、理解するのに1日とかじゃ無理そう。</li>
+<li>
+7の補数が-8になるのは</p>
+<pre>
+alert(~7); // -> -8
+</pre>
+<p>例えば、8ビット符号付整数（127～-128）の場合</p>
+<pre>
+0000 0111 （10進数の7に相当）
+1111 1001 （その補数）
+-111 1001 （1ビット目は符号ビット）
+-(000 1000)
+（負の数の場合の符号ビットを除く絶対値部分は補数として表現されている。
+　ので、それを戻してやる。つまり、1引いた後にビットを反転させる）
+</pre>
+<p>ということで-8になるらしい。</p>
+<p>ちなみに、負の数の場合に何故補数で表現されているかというのは、計算するときに便利であり、そもそも数学的に自然であり当然のようなんですが・・・よくわかりませんでした、無念。
+</p></div>
+<div>
+まぁ、この理解度じゃ ~~(Math.random()*10) は使えないよねってことで、おとなしくMath.floorを使ってようと、そういう結論になりました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

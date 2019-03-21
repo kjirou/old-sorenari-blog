@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CoffeeScript 事始 その1 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CoffeeScript 事始 その1</h1>
+        <p>2013年6月3日</p>
+      </section>
+      <section>
+        <div>
+最近立て続けに案件で必要になっているので、自然と覚えつつあります。</p>
+<p>ということで、初心者に役立ちそうなことや<br />
+ハマったこと、記憶に残ったことなどを列挙してみます。
+</div>
+<h3>正式名称は CoffeeScript</h3>
+<div>
+coffeescript でも Coffee Script でもなく、<strong>&quot;CoffeeScript&quot;</strong> です。<br />
+&quot;JavaScript&quot; と同じですね！　名前は大事。
+</div>
+<h3>とりあえずすぐに試したい！ 3秒以内に触らせろ！！</h3>
+<div>
+口からクソ垂れる前に <a href="http://js2coffee.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://js2coffee.org/', 'Js2coffee']);" target="_blank">Js2coffee</a> を開け！！！<br />
+自分は、今でもバリバリお世話になっています。
+</div>
+<h3>ふぅ.. 満足したから落ち着いてインストールしたいお？</h3>
+<div>
+<a href="http://nodejs.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://nodejs.org/', 'node.js']);" target="_blank">node.js</a> の coffee-script という <a href="https://npmjs.org/package/coffee-script" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://npmjs.org/package/coffee-script', 'npm']);" target="_blank">npm</a> パッケージを使うのが一般的なようです。</p>
+<p>ただ、node.js や npm パッケージのインストールや管理方法には、<br />
+本家の手段よりも便利なものが色々あり、それらを介した方が良いでしょう。</p>
+<p>詳細は割愛しますが、自分が知っている方法だと以下のものがあります：</p>
+<ul>
+<li><a href="https://github.com/hokaccha/nodebrew" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/hokaccha/nodebrew', 'nodebrew']);" target="_blank">nodebrew</a> = rbenv みたいにグローバルな場所に複数バージョンの node.js を入れて管理出来るというもの</li>
+<li><a href="https://github.com/ekalinin/nodeenv" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/ekalinin/nodeenv', 'nodeenv']);" target="_blank">nodeenv</a> = virtualenv みたいにプロジェクト単位で node.js 以下の一式を管理できるというもの。 . bin/env/activate を実行する感じ。現時点で npm が素直に入らないバグがある</li>
+<li><a href="http://gruntjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://gruntjs.com/', 'Grunt']);" target="_blank">Grunt</a> = JS/CSSの結合・圧縮・テストなどを外部コマンドと連携して柔軟にタスクを構築できる。<a href="http://blog.kjirou.net/p/2605" title="Grunt-0.4用のシンプルなGruntfile.jsの例" target="_blank">当ブログではこちらで記事にしています。</a></li>
+</ul>
+<p></p>
+<p>自分の場合は、主には nodebrew + Grunt で管理しています。
+</p></div>
+<h3>文法を学ぶ前に構文チェック体勢を整えたい</h3>
+<div>
+Vim なら構文解析用プラグインはコレ <a href="https://github.com/kchmck/vim-coffee-script" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kchmck/vim-coffee-script', 'vim-coffee-script']);" target="_blank">vim-coffee-script</a> です。</p>
+<p>コンパイラを通した構文チェックまでを Vim でやるには、<a href="http://d.hatena.ne.jp/yogit/20110710/1310269515" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/yogit/20110710/1310269515', 'quickrun.vim などを使うよう']);" target="_blank">quickrun.vim などを使うよう</a>ですが、自分はやってません。</p>
+<p>自分の場合は、上記の Js2coffee サイトや以下のコマンドで確認しています：</p>
+<pre>
+$ coffee -p /path/to/file.coffee
+</pre>
+<p>なお -p は標準出力するというオプションで、これを付けないとファイルを作成し、また定義されてない変数をエラーにしてしまいます。<br />
+「単体ファイルの構文チェックだけをする」コマンドがわからないので代用として使っている感じです。
+</div>
+<h3>最初に何をやろうかなぁー？</h3>
+<div>
+動画でわかるドットインストールの <a href="http://dotinstall.com/lessons/basic_coffeescript" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://dotinstall.com/lessons/basic_coffeescript', 'CoffeeScript入門']);" target="_blank">CoffeeScript入門</a> が、概要の把握には楽で良いです。<br />
+ビール片手に流し見してれば、何となく出来るような気持ちになります。</p>
+<p>なお、苦にならない方やビールが嫌いな方は <a href="http://coffeescript.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://coffeescript.org/', '本家のマニュアル']);" target="_blank">本家のマニュアル</a>の方が手っ取り早いです。
+</div>
+<h3>その２に続く..</h3>
+<div>
+初学者編で長くなってしまったので、実際にハマった点や、興味深い書き方などは次回にします。
+</div>
+<h3>蛇足: そういえば..</h3>
+<div>
+2つの案件で必要になったのですが、両方とも Rails 無関係な案件でした。<br />
+Rails の付属物かと思ってたら、もっと多くの人に使われているみたいですね。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

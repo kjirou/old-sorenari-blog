@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScriptのDateで気をつけるべき2点 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>JavaScriptのDateで気をつけるべき2点</h1>
+        <p>2011年5月26日</p>
+      </section>
+      <section>
+        <h3>1. date.getDayは曜日を返す</h3>
+<div>
+getDay は曜日を 0(日曜)-6(土曜) の数値で返します。<br />
+日付を取得したい場合は <b>getDate</b> を使います。</p>
+<pre><code>new Date(2011, 4, 26).getDay(); // -&gt; 4 (木曜)
+new Date(2011, 4, 26).getDate(); // -&gt; 26 (26日)</code></pre>
+</div>
+<h3>2. 月は 0(1月)-11(12月) で表現</h3>
+<div>
+new Date(year, month, day) の時や getMonth で取得できる値ですが<br />
+1スタートではなく、0スタートです。</p>
+<pre><code>new Date(2011, 1, 1); // -&gt; 2011/02/01 です</code></pre>
+</div>
+<h3>以上</h3>
+<div>
+お気をつけを！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

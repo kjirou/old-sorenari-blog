@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Gateway.swf &#8211; sample &#8211; | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Gateway.swf &#8211; sample &#8211;</h1>
+        <p>2007年12月31日</p>
+      </section>
+      <section>
+        <div>
+JavaScriptのための通信用モジュールをswfで作ってみました。</p>
+<p>Flashのクロスブラウザ対応・クロスドメイン対応・通信手段の多用さ等が<br />
+JSと比べて遥かに優れているので、それを使っちゃえば楽になるかもなー という発想です。
+</p></div>
+<div>
+とりあえずはGETメソッドによるリクエストだけを実装しました。</p>
+<p>[<a href="http://kjirou.net/main/sample/flash/gateway/releases/0.1/index.html">動作確認</a>]<br />
+[<a href="http://kjirou.net/main/sample/flash/gateway/releases/0.1/">ソース</a>]<br />
+※*.srcのソースは単にブラウザからソースを見るためのものです
+</div>
+<div>
+大体の使い方は</p>
+<p>1. Gateway.swfを右クリでDLして自分の環境のHTML上に設置し</p>
+<p>2. 以下のようにして設置したGateway.swfにリクエストを送らせて</p>
+<pre>
+// objectタグのHTML要素.request で使用できる
+document.getElementById("object_tag_id").request("http://foo.com/data.txt", {
+method: "get"
+,params: {
+key1: "val1"
+,key2: "val2"
+}
+,completeHandler: "onComplete"
+});
+</pre>
+<p>
+3. イベントハンドラを設置してレスポンス返却時のイベントを受け取ります</p>
+<pre>
+var onComplete = function(isCompleted, data){
+alert(data);
+};
+</pre>
+<p>詳細は、Gateway.as と index.html のソースを参照下さい。
+</p></div>
+<div>
+ソケット通信とかローカルストレージとかにも対応すれば<br />
+少し面白くなるんじゃないかなーと思ってます。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

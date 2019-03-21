@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>web-environmentsというnpmパッケージを作った | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>web-environmentsというnpmパッケージを作った</h1>
+        <p>2013年7月19日</p>
+      </section>
+      <section>
+        <div>
+任意の設定値や環境変数を定義するためのライブラリです。<br />
+例えば、Base URL や API Key などの、<br />
+環境により変わる値をまとめて定義するためのものです。</p>
+<p>正直、<tt>var envs = {};</tt> の中に入れるのと大差ないですが、<br />
+ちょっとひねって、こういうアクセスを可能にしてみたりしています。</p>
+<pre><code>var baz = webenv.get(&quot;foo.bar.baz&quot;);</code></pre>
+<p></p>
+<p>ダウンロードや使い方などは <a href="https://github.com/kjirou/npm-web-environments" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-web-environments', 'GitHub リポジトリ']);" target="_blank">GitHub リポジトリ</a> を参照いただければ幸いです。
+</div>
+<h3>探したんですが</h3>
+<div>
+何かないかなーと思って結構時間を掛けて探したのですが、<br />
+似たようなライブラリがありませんでした。<br />
+Node.js 用のものは、わりとあったんですが・・・。</p>
+<p>こういう設定値を定義するものって、RequireJS の main.js みたいに<br />
+最初に、単体で読み込む必要が有ると思うんですが、皆様どうしているんでしょうか？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

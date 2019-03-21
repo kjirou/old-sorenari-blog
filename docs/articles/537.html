@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] It is not safe to rely on the system&#8217;s timezone settings | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] It is not safe to rely on the system&#8217;s timezone settings</h1>
+        <p>2012年10月5日</p>
+      </section>
+      <section>
+        <div>
+PHP 5.3.3 にて、こんな感じのエラーが出たら</p>
+<pre><code>Warning (2): strtotime() [http://php.net/function.strtotime]: It is not safe to rely on the system's timezone settings.
+You are *required* to use the date.timezone setting or the date_default_timezone_set() function.
+In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier.
+We selected 'Asia/Tokyo' for 'JST/9.0/no DST' instead [****, line ***]</code></pre>
+<p>php.ini のタイムゾーン設定をしてやる</p>
+<pre><code>;date.timezone =
+date.timezone = "Asia/Tokyo"</code></pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

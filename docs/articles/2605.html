@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Grunt-0.4用のシンプルなGruntfile.jsの例 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Grunt-0.4用のシンプルなGruntfile.jsの例</h1>
+        <p>2013年3月3日</p>
+      </section>
+      <section>
+        <div>
+誰かの役に立つかもしれないので、<br />
+さっき個人サービス用に作ったシンプルなGruntfile.jsを晒しておきます。</p>
+<p><a href="https://github.com/kjirou/hitorion/blob/master/Gruntfile.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/kjirou/hitorion/blob/master/Gruntfile.js']);" target="_blank">Gruntfile.js</a></p>
+<p>やっていることは、</p>
+<pre>
+grunt watch
+</pre>
+<p>で関連ファイルの変更を検知して、以下を自動で実行する。</p>
+<ul>
+<li>JSファイル群は、JSHint に掛けた後に全ファイル結合して all.js として保存する。</li>
+<li>CSSファイル群は 圧縮・結合(今は元も１ファイルだけですが)して all.min.js として保存する。</li>
+</ul>
+<p></p>
+<p>watch でプロセスが立ち上がるのが嫌なら、</p>
+<pre>
+grunt
+</pre>
+<p>で、上記と同じことを明示的に実行する。</p>
+<p>JSファイルの圧縮まで行う場合は、</p>
+<pre>
+grunt release
+</pre>
+<p>を、実行する。
+</p></div>
+<h3>補足</h3>
+<div>
+<ul>
+<li>0.4から構成がガラッと変わったらしく、ググり記事を参考にする場合はその点を注意する必要がある</li>
+<li>設定ファイル名は Gruntfile.js にする。grunt.js や gruntfile.js は古い設定</li>
+<li>CSSを結合・圧縮するには、 <a href="https://github.com/gruntjs/grunt-contrib-cssmin" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/gruntjs/grunt-contrib-cssmin', 'grunt-contrib-cssmin']);" target="_blank">grunt-contrib-cssmin</a> を grunt-contrib とは別にインストールする必要がある。grunt-contrib に一緒に含まれていたのは以前のバージョン</li>
+<li>上記は grunt-contrib-cssmin であり grunt-contrib-mincss は古いバージョンのもの、タスク名も mincss ではなく <strong>cssmin</strong> でないと動かなくなっているので注意</li>
+<li>grunt release は、オレオレ設定です。圧縮するタスク(uglify)は割と重く、開発中は邪魔になるので別にしたかった</li>
+</ul>
+</div>
+<h3>参考サイト</h3>
+<div>
+最初は日本語記事を探したのですが、旧バージョンだったり、<br />
+「本当に使ってんの？」的な内容の記事だったりが多かったので、途中で諦めました。<br />
+今は、各種公式マニュアルや、GitHubのREADMEを読んだ方が手っ取り早いと思います。</p>
+<ul>
+<li><a href="http://gruntjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://gruntjs.com/', 'Grunt公式']);" target="_blank">Grunt公式</a></li>
+<li><a href="https://github.com/gruntjs" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/gruntjs', 'GitHub/gruntjs']);" target="_blank">GitHub/gruntjs</a>(各モジュールの使い方はここのREADMEから辿ると良い)</li>
+<li><a href="http://www.jshint.com/docs/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.jshint.com/docs/', 'JSHintドキュメント']);" target="_blank">JSHintドキュメント</a></li>
+<li><a href="http://package.json.nodejitsu.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://package.json.nodejitsu.com/', 'package.json簡易リファレンス']);" target="_blank">package.json簡易リファレンス</a>(自分は全然わかってない！)</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

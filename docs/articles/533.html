@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[bat] 日付を付けてファイル複製をするバッチスクリプト | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[bat] 日付を付けてファイル複製をするバッチスクリプト</h1>
+        <p>2012年5月12日</p>
+      </section>
+      <section>
+        <div>
+皆で触っているエクセルファイルを更新前にバックアップを取る<br />
+・・・そんな時に使うバッチファイルです
+</div>
+<h3>ソースコード</h3>
+<p><a href="http://code.kjirou.net/bat/snippet/backupfile/backupfile.bat">ダウンロード</a> (右クリで保存)</p>
+<div>
+<pre><code>::
+:: backupfile.bat
+::
+:: `target.txt` copy to `bak\target.txt-YYYYMMDD_HHMMSS`
+::
+setlocal
+:: Environments
+set BACKUP_FILE_NAME=target.txt
+set OUTPUT_DIR_NAME=bak
+:: Start
+set d=%date%
+set t=%time%
+set formattedDate=%d:~0,4%%d:~5,2%%d:~8,2%
+set formattedTime=%t:~0,2%%t:~3,2%%t:~6,2%
+set outputFilename=%BACKUP_FILE_NAME%-%formattedDate%_%formattedTime%
+type %BACKUP_FILE_NAME% &gt; %OUTPUT_DIR_NAME%\%outputFilename%
+endlocal</code></pre>
+</div>
+<h3>使い方</h3>
+<div>
+1. 保存したいファイルがあるフォルダへこのバッチファイルを置きます<br />
+2. BACKUP_FILE_NAME へ保存する対象のファイル名を拡張子込みで書きます<br />
+3. 保存ファイル格納先のディレクトリを同じフォルダへ作ります<br />
+4. OUTPUT_DIR_NAME へそのフォルダ名を書きます<br />
+5. 後は backupfile.bat をクリックすればファイルがコピー保存されます</p>
+<p>※ファイル名やフォルダ名が日本語でもとりあえず動いてるみたいです
+</div>
+<h3>疑問点</h3>
+<div>
+&#8216;target.txt&#8217; を置換して &#8216;target&#8217; と &#8216;.txt&#8217; へ分割する方法<br />
+正規表現で言う /\.[^.]+$/ がやりたい、または /\..+?$/ でも良い</p>
+<p><a href="http://www.atmarkit.co.jp/fwin2k/win2ktips/877robomir/robomir.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.atmarkit.co.jp/fwin2k/win2ktips/877robomir/robomir.html', 'robocopyコマンド']);" target="_blank">robocopyコマンド</a>を使うともっと良いらしいけど未調査</p>
+<p>良い本があれば教えて下さい！
+</p></div>
+<h3>参考リンク</h3>
+<div>
+たくさんあるので、URLだけベタ貼り</p>
+<p><a href="http://ykr414.com/dos/dos05.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ykr414.com/dos/dos05.html', 'http://ykr414.com/dos/dos05.html']);" >http://ykr414.com/dos/dos05.html</a><br />
+<a href="http://d.hatena.ne.jp/soyana/20080204/1202155342" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/soyana/20080204/1202155342', 'http://d.hatena.ne.jp/soyana/20080204/1202155342']);" >http://d.hatena.ne.jp/soyana/20080204/1202155342</a><br />
+<a href="http://www.atmarkit.co.jp/fwin2k/win2ktips/419batchdate/batchdate.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.atmarkit.co.jp/fwin2k/win2ktips/419batchdate/batchdate.html', 'http://www.atmarkit.co.jp/fwin2k/win2ktips/419batchdate/batchdate.html']);" >http://www.atmarkit.co.jp/fwin2k/win2ktips/419batchdate/batchdate.html</a><br />
+<a href="http://sgry.jp/pgarticles/batch.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://sgry.jp/pgarticles/batch.html', 'http://sgry.jp/pgarticles/batch.html']);" >http://sgry.jp/pgarticles/batch.html</a><br />
+<a href="http://www.adminweb.jp/command/bat/index1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.adminweb.jp/command/bat/index1.html', 'http://www.adminweb.jp/command/bat/index1.html']);" >http://www.adminweb.jp/command/bat/index1.html</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

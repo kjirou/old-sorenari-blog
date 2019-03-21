@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>jQueryのanimateがFireFox3で遅い | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>jQueryのanimateがFireFox3で遅い</h1>
+        <p>2010年11月18日</p>
+      </section>
+      <section>
+        <div>
+jQueryの<a href="http://semooh.jp/jquery/api/effects/animate/params%2C+%5Bduration%5D%2C+%5Beasing%5D%2C+%5Bcallback%5D/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://semooh.jp/jquery/api/effects/animate/params%2C+%5Bduration%5D%2C+%5Beasing%5D%2C+%5Bcallback%5D/', 'animateメソッド']);" target="_blank">animateメソッド</a>が、FireFox3だけで特に重く粗い動きになる気がしたので、<br />
+調査しました。
+</div>
+<h3>未解決</h3>
+<div>
+で、未解決です。</p>
+<p>というか、元々仕事のコードでそういう状況になったので、<br />
+シンプルなコードで再現しようとしたら、しませんでした。</p>
+<p>じゃあ、記事にすんなよって感じもしますけど、参考リンクだけ置いておきます。</p>
+<p>
+<b><a href="http://code.kjirou.net/js/test/jquery_on_ff3_animation_is_too_heavy/">自作の確認用ページ</a></b></p>
+<p><a href="http://blog.webcreativepark.net/2010/09/17-183446.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.webcreativepark.net/2010/09/17-183446.html', 'http://blog.webcreativepark.net/2010/09/17-183446.html']);" target="_blank">http://blog.webcreativepark.net/2010/09/17-183446.html</a><br />
+iPhone/iPadでも重いの？</p>
+<p><a href="http://stacktrace.jp/jquery/api/effects/jquery.fx.interval.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://stacktrace.jp/jquery/api/effects/jquery.fx.interval.html', 'http://stacktrace.jp/jquery/api/effects/jquery.fx.interval.html']);" target="_blank">http://stacktrace.jp/jquery/api/effects/jquery.fx.interval.html</a><br />
+インターバルを調整すれば解決するのかなぁ？と思ったので、その設定方法。<br />
+1.4.3からは jQuery.fx.interval で設定できる。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>使えるネットが糞重い件について | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>使えるネットが糞重い件について</h1>
+        <p>2007年12月12日</p>
+      </section>
+      <section>
+        <div>
+新しく借りた使えるネットVPSが糞重いんだよ！<br />
+MySQL5.0のインスコに2.5時間掛かるなんて、喧嘩売ってるんじゃないかと。
+</div>
+<div>
+freeしてみる</p>
+<pre>
+$free -m
+total       used       free     shared    buffers     cached
+Mem:           256         74        181          0          0          0
+-/+ buffers/cache:         74        181
+Swap:            0          0          0
+</pre>
+<p>な・・・なんでSwapが0なんだ・・・？</p>
+<p>ちなみに、前に借りた自分用の環境や他2名の環境を聞いたら、もちろんこんなのじゃなかった。
+</p></div>
+<div>
+んー、確かに以前の環境は表示されている性能より良かった気がするけど、これはちょっと困る。<br />
+CPUがx86_64とやらに変わってたことも含めて、使えるネットさんで方針の転換でもあったのかしらん。
+</div>
+<div>
+<b>【追記】</b><br />
+サポートに問い合わせたら、「メモリはSwapを含めて一括管理していて、その中でメモリだけこちらから見れる状態になっていて、Swap領域は見れないけど存在はしている」というような返事を貰った。</p>
+<p>なるほど、まぁでも、これで打つ手が見当たらなくなっちまった。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

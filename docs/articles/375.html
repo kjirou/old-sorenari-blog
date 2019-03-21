@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django, MySQLdb] connection.cursorがメモリを掴む | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django, MySQLdb] connection.cursorがメモリを掴む</h1>
+        <p>2008年11月30日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2008/11/django_modelobjectsget.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/11/django_modelobjectsget.html', 'Model.objects.getが何かをキャッシュ']);" >Model.objects.getが何かをキャッシュ</a>して<br />
+メモリを消費しているのかと思っていましたが<br />
+ちゃんと調べると、MySQLdb.connection.cursorを使ってSQLを発行すると<br />
+メモリを消費していくよう。</p>
+<p>何にメモリを使ってるのかな？というと<br />
+<a href="http://paison.hp.infoseek.co.jp/paison/database/mysqldb.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://paison.hp.infoseek.co.jp/paison/database/mysqldb.html', 'コチラ']);" >コチラ</a>のサイトに回答があった。</p>
+<pre>
+execute()は、複数回実行するとそのたびにSQL文を構文解析しているように見えますが、
+このexecute()は一般的な実装では一度解析されたSQL文をキャッシュしていて、
+繰り返し同じSQL文が実行されるときには解析の手間を省いて高速化が図られているそうです。
+</pre>
+</div>
+<p></p>
+<div>
+解決方法として、<br />
+できれば cursor.executeによって消費されたメモリを開放する手段を<br />
+探したかったのですが<br />
+MySQLdbのソースまでひっくり返して読んでも、<br />
+そういうインターフェースが見つかりませんでした。</p>
+<p>もう、しゃーーーないので、<br />
+MySQLdb.connection.queryを使ってクエリを発行したところ<br />
+メモリを消費しないクエリを発行することができました! ﾋｬｯﾌｰ!!</p>
+<p>以下、Djangoで書く時の例</p>
+<pre>
+from django.db import connection
+connection.connection.query("BEGIN")
+connection.connection.query("UPDATE some_table SET some_column = 1 WHERE id = 1")
+connection.connection.query("COMMIT")
+</pre>
+</div>
+<p></p>
+<div>
+くっそー、こんなんに半日も掛かりやがった・・・。<br />
+カ、カカロット・・・。
+</div>
+<p></p>
+<div>
+<b>【追記】</b><br />
+connection.connection.query をいきなり呼ぶと、<br />
+DBとの接続が無く、これは自動で繋げてくれないので、queryを呼べない模様。<br />
+よって、接続してない状態だったら<br />
+connection.cursor() を空で呼ぶ等の対応で、無理矢理繋げる必要がある（・・・模様、あんまり調べてない）。</p>
+<p>つまり、前の状況により接続をしてないということが考えられるので、<br />
+特に理由が無い場合は、上記の呼び方は止めた方がいいってことすな。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

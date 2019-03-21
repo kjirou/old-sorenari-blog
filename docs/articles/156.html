@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>ブラウザでFlashのデバッグを行うための環境構築 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>ブラウザでFlashのデバッグを行うための環境構築</h1>
+        <p>2007年10月18日</p>
+      </section>
+      <section>
+        <div>
+ブラウザによるswfファイルの実行時に、runtime error や traceの内容を表示させるための環境構築手順です。<br />
+サーバ側にASソースを置いてmxmlcでコンパイルをするような方向けの環境です。<br />
+vimがいいんだよ、svnで管理したいんだよ、IDEなんか大嫌いだ！</p>
+<p>最初は、&#8221;IEでJSの開発をやってた&#8221;俺様（FireFox&#038;FireBugを知らなかった大バカ）なら、そんなの必要ねぇ！ と思ってましたけど、やっぱり必要でした。無理でした。ごめんなさい。</p>
+<p>ということで、開始（はじ）めます。
+</p></div>
+<div>
+<b>【Flash開発環境】</b></p>
+<ul>
+<li>swfのコンパイラ → Flex2 SDKのmxmlcをLinux上で使用、つまり、ASは3になる。</li>
+<li>ブラウザを起動させるOS → WindowsXP</li>
+<li>Flash Playerバージョン → Flash Player 9</li>
+<li>Flashデバッグ用ブラウザ → FireFox 2</li>
+</ul>
+<p>この環境を前提としての手順になります。
+</p></div>
+<div>
+<b>【Flash Player 9 のdebug版をインストール】</b><br />
+Flash Player 9 は debug版が必要になるので再インストールする。（Flash Playerはdebug版とそうじゃない版というのがあるようです）<br />
+<a href="http://www.adobe.com/support/flashplayer/downloads.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.adobe.com/support/flashplayer/downloads.html', 'AdobeのFlash PlayerDLページ']);" >AdobeのFlash PlayerDLページ</a>から &#8220;Download the Windows Flash Player 9 Plugin content debugger (for Netscape-compatible browsers)&#8221; をDLしてインストールする。</p>
+<p>これで runtime error をFlash Playerが表示してくれるようになる。</p>
+<p>詳細は、<a href="http://livedocs.adobe.com/flex/2_jp/docs/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&#038;file=00001527.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://livedocs.adobe.com/flex/2_jp/docs/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&#038;file=00001527.html', 'デバッガ版の Flash Player の使用']);" >デバッガ版の Flash Player の使用</a>を参照してください。
+</div>
+<div>
+<b>【Flash Tracerのインストール】</b><br />
+<a href="https://addons.mozilla.org/ja/firefox/addon/3469" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://addons.mozilla.org/ja/firefox/addon/3469', 'https://addons.mozilla.org/ja/firefox/addon/3469']);" >https://addons.mozilla.org/ja/firefox/addon/3469</a> から、FireFoxアドオンであるFlash Tracerをインストールします。<br />
+これで、FireFoxの「表示」→「サイドバー」→「Flash Tracer」から起動して、traceの内容を表示させることができるようになります。
+</div>
+<div>
+<b>【traceの内容が表示されない場合】</b><br />
+traceの内容は、(1)PCのどこかにあるログファイルに書き込まれ、(2)それをFlash Tracerが参照して、表示される仕組みになっていいます。<br />
+そのログファイルが、Flash Playerのバージョンによっては、Flash Tracerがデフォルトで参照しているパスとは違う場所にあるため、表示されなくなる場合があります。</p>
+<p>自分の場合は、ログファイルの出力先はここだったので</p>
+<pre>
+C:\Documents and Settings\ユーザー名\Application Data\Macromedia\Flash Player\Logs\flashlog.txt
+</pre>
+<p>Flash Tracerの「Options」→「Select output file」のパスを上記に書き換えると表示されるようになった。</p>
+<p>参考: <a href="http://www.5ive.info/blog/archives/19" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.5ive.info/blog/archives/19', 'http://www.5ive.info/blog/archives/19']);" >http://www.5ive.info/blog/archives/19</a>
+</div>
+<div>
+P.S. <a href="http://blog.mj-site.net/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.mj-site.net/', 't-matsuda']);" >t-matsuda</a>先生と<a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'nobu']);" >nobu</a>氏へ<br />
+<a href="http://photozou.jp/photo/show/135065/5525281" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/5525281', '']);" ><img src="http://art6.photozou.jp/pub/65/135065/photo/5525281.jpg" alt="gomen_nyasai" width="320" height="240" style="border:0" /></a><br /><a href="http://photozou.jp/photo/show/135065/5525281" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/photo/show/135065/5525281', 'gomen_nyasai']);" >gomen_nyasai</a> posted by <a href="http://photozou.jp/mypage/top/135065" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://photozou.jp/mypage/top/135065', '(C)kjirou']);" >(C)kjirou</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

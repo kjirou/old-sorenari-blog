@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] PHPでSoftbankの絵文字コードをソースに書く | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] PHPでSoftbankの絵文字コードをソースに書く</h1>
+        <p>2008年2月29日</p>
+      </section>
+      <section>
+        <div>
+その道の人には常識なんだろうけど、割とハマった。</p>
+<p>ソフトバンク用の絵文字は<br />
+普段使わないような文字を含む5バイトのコードで<br />
+テキストエディタとかから入力は普通できないような文字を使っているため<br />
+<a href="http://developers.softbankmobile.co.jp/dp/tool_dl/web/picword_top.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://developers.softbankmobile.co.jp/dp/tool_dl/web/picword_top.php', '絵文字一覧ページ']);" >絵文字一覧ページ</a>等からコピーして張り付けるのが一般的な配置方法らしい。</p>
+<p>ただ、PHPソースにコピペすると、<br />
+PHPが解釈できない文字が含まれているようで<b>エラー</b>になってしまった。
+</div>
+<div>
+なので、16進表記の記法を使って書く</p>
+<pre>
+// 「家」の絵文字
+$emoji_ie = "\x1B\x24GV\x0F";
+// 「電話」の絵文字
+$emoji_denwa = "\x1B\x24G)\x0F";
+</pre>
+<p>&#8220;\x1B&#8221; と &#8220;\x24&#8221; と &#8220;\x0F&#8221; は固定なので、<br />
+後は絵文字一覧のページから残り2文字の部分を確認して、書き換えて文字を変えられる。</p>
+<p>参考: <a href="http://oshiete.nikkeibp.co.jp/kotaeru.php3?qid=1834407" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://oshiete.nikkeibp.co.jp/kotaeru.php3?qid=1834407', 'おしえてBP！ PHPのソース内でのVodafone絵文字の扱い方']);" >おしえてBP！ PHPのソース内でのVodafone絵文字の扱い方</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

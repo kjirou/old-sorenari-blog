@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>&#8220;str&#8221; と new String(&#8220;str&#8221;) の違い | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>&#8220;str&#8221; と new String(&#8220;str&#8221;) の違い</h1>
+        <p>2007年6月11日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/06/jsstring.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/06/jsstring.html', '文字列リテラルを使って宣言した文字列にプロパティを足せないのは何故？']);" >文字列リテラルを使って宣言した文字列にプロパティを足せないのは何故？</a>の続き。</p>
+<p>回答らしきものに一歩近づいたので、途中経過を忘れない内にまとめ。
+</div>
+<div>
+まずは、<br />
+(new String(&#8220;str&#8221;)).valueOf() が &#8220;str&#8221; と等しかったということを知った。</p>
+<pre>
+var s = new String("foo");
+ss = s.valueOf();
+alert(s);          // -> "foo"
+alert(typeof(s));  // -> "object"
+alert(ss);         // -> "foo"
+alert(typeof(ss)); // -> "string"
+</pre>
+<p>ぬぁるほどね</p>
+<p>で、くどいですけど、メソッドを呼べないことも確認</p>
+<pre>
+var s = new String("foo");
+s._a = function(){return "bar"};
+ss = s.valueOf();
+alert(s._a());     // -> "bar"
+alert(ss._a());    // -> エラー
+</pre>
+</div>
+<div>
+「じゃあ、なんで二つの&#8221;文字列&#8221;を持つ必要があるんだろう？」<br />
+という疑問が出たので調べると</p>
+<p>どうやら、一般的なプログラムの概念として<br />
+データの型には、基本型（プリミティブ型 原始型 単純型 組み込み型 とも呼ばれる） と 複合型 というものがあるようで、<br />
+&#8220;str&#8221;は前者、new String(&#8220;str&#8221;) は後者、の概念に基づいているようだ。</p>
+<p>まぁ、javascriptの基本型は、一般的な基本型とは違うらしく<br />
+それについては、<a href="http://d.hatena.ne.jp/m-hiyama/20050810" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/m-hiyama/20050810', '檜山正幸のキマイラ飼育記-プログラマのためのJavaScript (3)：参照について考えてみる']);" >檜山正幸のキマイラ飼育記-プログラマのためのJavaScript (3)：参照について考えてみる</a> に重要なことが書いてあるっぽいけど、正直ほとんど理解できない。
+</div>
+<div>
+また、上記だけでは説明が付かないこともある</p>
+<pre>
+String.prototype._a = function(){return "foo"};
+alert("dummy"._a()); // -> "foo"を出力
+</pre>
+<p>prototypeを拡張すると使えるんだって、<a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'この人']);" >この人</a>に教えてもらった。
+</div>
+<div>
+・・・ということで、途中経過のまとめ終わり。</p>
+<p>残りの疑問は、自分の手に余りそうなのでしばらく放置しよう。<br />
+そうすると小人が解決してくれるらしいよ！
+</div>
+<div>
+参考リンク</p>
+<ul>
+<li><a href="http://1106.suac.net/johoB/JavaScript/jscripto.html#objectvalueof" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://1106.suac.net/johoB/JavaScript/jscripto.html#objectvalueof', 'Object.valueOf()メソッドの説明']);" >Object.valueOf()メソッドの説明</a></li>
+<li><a href="http://d.hatena.ne.jp/m-hiyama/20050809/1123549217" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/m-hiyama/20050809/1123549217', 'プログラマのためのJavaScript (2)：融通無碍な型システム']);" >プログラマのためのJavaScript (2)：融通無碍な型システム</a></li>
+<li><a href="http://ja.wikipedia.org/wiki/%E3%83%97%E3%83%AA%E3%83%9F%E3%83%86%E3%82%A3%E3%83%96%E5%9E%8B" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E3%83%97%E3%83%AA%E3%83%9F%E3%83%86%E3%82%A3%E3%83%96%E5%9E%8B', 'プリミティブ型']);" >プリミティブ型</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

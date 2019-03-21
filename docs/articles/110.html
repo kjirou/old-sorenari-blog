@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>IEの場合、iframeはクロスドメインで呼べないのか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>IEの場合、iframeはクロスドメインで呼べないのか</h1>
+        <p>2007年8月31日</p>
+      </section>
+      <section>
+        <div>
+IEだと、これ呼べないのかっ（基本だったらしい）</p>
+<pre>
+&lt;iframe src="http://外部ドメイン/iframe.html"&gt;&lt;/iframe&gt;
+</pre>
+<p>js とか css とか img とかは呼べるのにィィィィィ！<br />
+なんでiframeだけ・・・。
+</div>
+<div>
+<b>【追記】</b><br />
+<a href="http://www.deckkr.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.deckkr.com/', 'Deckkr']);" >Deckkr</a>のブックマークレットはクロスドメインでiframeを読んでるよな？とソースを調べると、&#8221;.html&#8221;以外なら text/html でも呼ぶことができるっぽい。（&#8221;.php&#8221;と&#8221;.cgi&#8221;で確認）<br />
+んだよそれ！</p>
+<p>・・・まぁ、助かったけど・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

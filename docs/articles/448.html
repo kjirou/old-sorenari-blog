@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] /基本(中の基本)+/ を復習 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] /基本(中の基本)+/ を復習</h1>
+        <p>2009年11月5日</p>
+      </section>
+      <section>
+        <div>
+今のお仕事なんですが、<br />
+ZendFrameworkを使って、ちょっとしたCMSを作成中です。</p>
+<p>・・・なんですが</p>
+<p>以下のような基本中の基本の挙動が本当にわからなくて、<br />
+動作確認してから作業に入った。 ので、メモしときます。
+</div>
+<p></p>
+<div>
+<b>layout.php</b></p>
+<pre>
+&lt;html&gt;
+&lt;body&gt;
+&lt;?php $part_text = &quot;Kore ga deru no?&quot;; ?&gt;
+&lt;h1&gt;Layout&lt;/h1&gt;
+&lt;div&gt;
+&lt;?php require_once './part.php'; ?&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>
+<b>part.php</b></p>
+<pre>
+&lt;h2&gt;Part&lt;/h2&gt;
+&lt;p&gt;&lt;?php echo $part_text; ?&gt;&lt;/p&gt;
+</pre>
+<p>
+<b>layout.php を叩いた結果</b></p>
+<pre>
+&lt;html&gt;
+&lt;body&gt;
+&lt;h1&gt;Layout&lt;/h1&gt;
+&lt;div&gt;
+&lt;h2&gt;Part&lt;/h2&gt;
+&lt;p&gt;Kore ga deru no?&lt;/p&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>
+おおっ、<b>$part_text</b> が出たよ！</p>
+<p>改めて見ると、ホントーに妙な言語だなぁ ・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

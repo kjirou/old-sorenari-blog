@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[HTML,CSS,jQuery] 中々直らないイージーミス達 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[HTML,CSS,jQuery] 中々直らないイージーミス達</h1>
+        <p>2012年3月30日</p>
+      </section>
+      <section>
+        <h3>魂に刻み込まれたイージーミス達</h3>
+<div>
+1プロジェクトに1回はやって、今後もまたやるであろうイージーミスを書いてみる<br />
+少しでも直ればいいと願って。
+</div>
+<h3>(1) id=&quot;#foo&quot;とclass=&quot;.bar&quot;</h3>
+<div>
+HTMLのidやclass属性に &quot;#&quot; や &quot;.&quot; を含めて書いてしまい<br />
+CSSやjQueryの結果が反映されなくなるミス</p>
+<p>誤ったHTML例:</p>
+<pre><code>&lt;!-- id=&quot;foo&quot; と書くべき --&gt;
+&lt;div id=&quot;#foo&quot;&gt;&lt;/div&gt;</code></pre>
+<p>この状態で、CSSで #foo {} と書いたり<br />
+jQuery で $(&#039;#foo&#039;) と書いたりして、ハマること過去多数
+</div>
+<h3>(2) セレクタ定義の末尾にセミコロン</h3>
+<div>
+誤ったCSS例:</p>
+<pre><code>.foo {
+    font-size: 12px;
+};
+.bar {
+    font-size: 15px;
+}</code></pre>
+<p>末尾に ; (セミコロン) を付けて定義してしまい、次のスタイルが反映されなくなるミス</p>
+<p>見つけにくいのは、上記の場合 .foo は有効で .bar だけが反映されなくなる点<br />
+また、もし後に新たなセレクタを書いたなら、それは有効になる</p>
+<p>試しに .foo と .bar の順番を入れ替えてみて<br />
+「あれ？今度は.barが有効になった、なんだ優先順位の問題か」と<br />
+勘違いコンポへ派生する可能性もある
+</div>
+<h3>(3) line-height に px などの単位を忘れて倍率指定する</h3>
+<div>
+誤ったHTML例:</p>
+<pre><code>&lt;!-- 本当は &quot;10px&quot; にしたかった --&gt;
+&lt;div style=&quot;line-height:10;&quot;&gt;
+    &lt;div&gt;1行目&lt;/div&gt;
+    &lt;div&gt;2行目&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>んで↓のようになってしまう</p>
+<div style="line-height:10;">
+<div>1行目</div>
+<div>2行目</div>
+</div>
+<p>もし、各行の親ブロックが height指定をしている時は<br />
+overflow してしまい表示が消えているように見えることがある<br />
+display:none;  とか visibility:hidden; とかを疑い始めると長くなるコース</p>
+<p>これの厄介な点は2点有って<br />
+ひとつは、間違った指定ではないこと<br />
+そしてもうひとつは、jQueryを使った場合のこのパターン</p>
+<pre><code>$(&#039;&lt;div /&gt;&#039;).css({
+    fontSize: 12,
+    lineHeight: 12 // &#039;12px&#039; と書く必要がある
+});</code></pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Flex] Flex2でmxmlで書かないで画像を埋め込む | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Flex] Flex2でmxmlで書かないで画像を埋め込む</h1>
+        <p>2008年2月26日</p>
+      </section>
+      <section>
+        <div>
+ソースだけ</p>
+<pre>
+[Embed(source='./some_image.jpg')]
+var SomeImage:Class; // クラス名はなんでもいい
+// ASのBitmapクラスにあたる、FlexのImageクラス
+var img:Image = new Image;
+img.load(new SomeImage);
+addChild(img);
+</pre>
+<p>これだけで30分ぐらい掛かった・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>func(opts, cb)のoptsを省略したい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>func(opts, cb)のoptsを省略したい</h1>
+        <p>2014年10月4日</p>
+      </section>
+      <section>
+        <div>
+JavaScript で</p>
+<pre>
+var foo = function(arg1, arg2, options, callback){};
+</pre>
+<p></p>
+<p>という関数を</p>
+<pre>
+foo(arg1, arg2, callback);
+</pre>
+<p></p>
+<p>こういう風に options を省略して呼べるようにしたいことが多々有ります。</p>
+<p>この問題の解決に際して、</p>
+<pre>
+if (typeof options === 'function') {
+  callback = options;
+  options = {};
+}
+</pre>
+<p></p>
+<p>という感じに都度書いてもいいのですが、面倒だしテストも大変になるので、ちょっと便利になるものを作ってみました。
+</p></div>
+<h3>callback-end モジュール</h3>
+<div>
+&#8211; <a href="https://github.com/kjirou/npm-callback-end" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-callback-end', 'GitHub']);" target="_blank">GitHub</a><br />
+&#8211; <a href="https://www.npmjs.org/package/callback-end" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/callback-end', 'npm']);" target="_blank">npm</a></p>
+<pre>
+var callbackEnd = require(&#039;callback-end&#039;);
+
+
+var func = function(foo, bar, cb){
+  return Array.prototype.slice.apply(arguments);
+};
+
+var wrapped = callbackEnd(func);
+
+console.log(
+  wrapped(1, 2, function(){})  // -&gt; [1, 2, function(){}]
+);
+
+// 引数を省略すると、コールバックを除いた後ろの引数は省略扱いになる
+// bar を省略して呼び出ししています
+// 省略された引数には undefined が入る
+console.log(
+  wrapped(1, function(){})  // -&gt; [1, undefined, function(){}]
+);
+
+// foo と bar 両方省略して呼び出し
+console.log(
+  wrapped(function(){})  // -&gt; [undefined, undefined, function(){}]
+);
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

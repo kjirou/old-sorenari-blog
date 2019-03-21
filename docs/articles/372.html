@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] Model.objects.get はメモリを掴む | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] Model.objects.get はメモリを掴む</h1>
+        <p>2008年11月25日</p>
+      </section>
+      <section>
+        <div>
+Django-0.96.2 です。</p>
+<p>以下のようなスクリプトを起動させると、メモリ使用量がどんどん増えていきます。</p>
+<pre>
+# ループ回数は適当
+for i in range(200000):
+    # SomeModel は 他テーブルとのリレーション無し
+    models.SomeModel.objects.get(id=1)
+</pre>
+<p>
+解決方法がわからず（バグ？）、生クエリ発行で対処しました。<br />
+長いバッチを書くときは気をつけよう・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

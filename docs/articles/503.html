@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>findコマンドの論理演算子を復習 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>findコマンドの論理演算子を復習</h1>
+        <p>2011年6月19日</p>
+      </section>
+      <section>
+        <div>
+<b>find</b>コマンドは、-type f や -name &#8216;hoge&#8217; などの様々な条件を使うことが出来ますが<br />
+加えて AND や OR や NOT の論理演算子も使うことができます</p>
+<p>今までテキトーに使ってたので復習しました
+</p></div>
+<h3>AND文</h3>
+<div>
+AND文は評価式を -and または -a で結合します</p>
+<p>まず、動作確認用に以下のようにファイルを配置します</p>
+<pre>
+$ tree
+.
+|-- dark-chaos
+|-- dark-neutral
+|-- dark-row
+|-- light-chaos
+|-- light-neutral
+|-- light-row
+|-- neutral-chaos
+|-- neutral-neutral
+`-- neutral-row
+</pre>
+<p>
+動作確認してみましょう</p>
+<pre>
+$ find . -name '*light*' -and -name '*row*'
+./light-row
+</pre>
+<p>ファイル名に &#8216;light&#8217; が含まれており、かつ、&#8217;row&#8217; が含まれている &#8216;lignt-row&#8217; ファイルがヒットしました</p>
+<p>書式は以下のように</p>
+<pre>
+$ find ＜検索基底ディレクトリパス＞ ＜評価式1＞ ＜論理演算子1＞ ＜評価式2＞ [＜論理演算子2＞ ＜評価式3＞ ... ]
+</pre>
+<p>いわゆるプログラミング言語のif文と同じような書き方です</p>
+<p>ただし</p>
+<pre>
+$find . -name '*light*' -name '*row*'
+./light-row
+</pre>
+<p>上記のように、ANDの場合は論理演算子を省略して書くことも出来ます<br />
+ググって出てくるサンプルなどは大抵こちらの記法で書いてあるので注意が必要です
+</div>
+<h3>OR文</h3>
+<div>
+OR文は -or または -o で評価式を結合します</p>
+<pre>
+$find . -name '*light*' -or -name '*row*'
+./dark-row
+./light-row
+./neutral-row
+./light-chaos
+</pre>
+<p>&#8216;lignt&#8217; または &#8216;row&#8217; を含むファイルがヒットします
+</p></div>
+<h3>NOT文</h3>
+<div>
+NOT文は -not または ! (半角エクスクラメーション) を評価式の前に挿入します</p>
+<pre>
+$find . -not -name '*light*'
+.
+./neutral-chaos
+./dark-row
+./dark-chaos
+./neutral-neutral
+./neutral-row
+./dark-neutral
+</pre>
+<p>&#8216;light&#8217; を含まないファイルがヒットします
+</p></div>
+<h3>細かい動作確認</h3>
+<div>
+NOT文をつなげる場合を一応書いてみます<br />
+まぁ「評価式の前に置く」という基本ルール通りでした</p>
+<pre>
+$find . -name '*row*' -and -not -name '*neutral*'
+./dark-row
+./light-row
+</pre>
+<p>
+今度は、ANDとORの優先順位の確認をしてみます</p>
+<pre>
+$find . -name '*light*' -or -name '*dark*' -and -name '*neutral*'
+./light-row
+./light-neutral
+./light-chaos
+./dark-neutral
+</pre>
+<p>&#8216;a OR b AND c&#8217; と OR を AND の前に書きましたが、<br />
+ちゃんとAND文が優先されて &#8216;a OR (b AND c)&#8217; という評価順序になっています
+</div>
+<h3>.svnを除くディレクトリ全てを権限変更するサンプル</h3>
+<div>
+ということで、実践編<br />
+.svnディレクトリ以外の権限を変更するコマンドです</p>
+<pre>
+$ find /path/to/dir -type d -and -not -path '*.svn*' | xargs chmod 0777
+</pre>
+<p>※評価式 -type d は、ディレクトリのみをマッチします<br />
+※評価式 -path &#8216;*.svn*&#8217; は、&#8217;.svn&#8217; 文字列を含むパスを持つファイルのみをマッチします<br />
+　なお、-name の場合はファイル*名*のみ検索対象にします
+</div>
+<h3>&#8216;*&#8217; はzshの補完のそれと違う意味</h3>
+<div>
+find の場合は &#8216;*abc*&#8217; は「&#8217;abc&#8217; が含まれていること」を意味します<br />
+zsh の補完は &#8216;*abc*&#8217; は「&#8217;abc&#8217; とその前後に1文字以上の何かが含まれていること」を意味します<br />
+例えば、zshで</p>
+<pre>
+$ ls row*
+</pre>
+<p>で先のディレクトリを補完しても何もでませんが、以下なら出ます</p>
+<pre>
+$ls *row
+dark-row  light-row  neutral-row
+</pre>
+<p>これは * が「1文字以上」を意味するもので「0文字以上」ではないためです
+</p></div>
+<h3>参考リンク</h3>
+<div>
+UNIXの部屋 コマンド検索: find ファイルを検索する。<br />
+<a href="http://x68000.q-e-d.net/~68user/unix/pickup?find" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://x68000.q-e-d.net/~68user/unix/pickup?find', 'http://x68000.q-e-d.net/~68user/unix/pickup?find']);" target="_blank">http://x68000.q-e-d.net/~68user/unix/pickup?find</a></p>
+<p>指定DIR以下の&#8217;.svn&#8217;以下を全部削除するコマンド<br />
+<a href="http://kjirou.sakura.ne.jp/mt/2008/01/dirsvn.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/01/dirsvn.html', 'http://kjirou.sakura.ne.jp/mt/2008/01/dirsvn.html']);" target="_blank">http://kjirou.sakura.ne.jp/mt/2008/01/dirsvn.html</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

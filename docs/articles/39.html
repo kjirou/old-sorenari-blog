@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>連想配列をキーごと削除したい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>連想配列をキーごと削除したい</h1>
+        <p>2007年5月10日</p>
+      </section>
+      <section>
+        <div>
+javascriptで連想配列をキーごと削除しようと思った。
+</div>
+<div>
+なんてことはない<br />
+なんてことはないはずなんだけど・・・やり方がわからない？</p>
+<p>ググっても出てこない。<br />
+あんれまあ
+</div>
+<div>
+<b>【追記】</b><br />
+delete演算子でできるのか</p>
+<pre>
+var foo = {a:1, b:2};
+for (var i in foo) {
+alert(i + "=" + foo[i]); // -> "a=1" と "b=2" を出力
+};
+delete foo.a;
+for (var i in foo) {
+alert(i + "=" + foo[i]); // -> "b=2"のみ出力
+};
+</pre>
+<p>なんで見つからなかったんだろ・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

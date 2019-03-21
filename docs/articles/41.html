@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>IE6で親ノード以下をまとめてremoveChildするとバグる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>IE6で親ノード以下をまとめてremoveChildするとバグる</h1>
+        <p>2007年5月10日</p>
+      </section>
+      <section>
+        <div>
+IE6のjavascriptで<br />
+とある処理でバグったという話です。
+</div>
+<div>
+こういうHTMLを書いて</p>
+<pre>&lt;table id="tbl"&gt;&lt;/table&gt;</pre>
+<p>適当なイベントハンドラへ以下を記述し</p>
+<pre>
+var table = document.getElementById("tbl");
+// table要素にtbody要素が所属していれば削除
+// tbodyに所属しているtrも一緒に削除する
+var tbody = table.getElementsByTagName("tbody");
+if (tbody.length > 0) table.removeChild(tbody[0]);
+// table要素にtbody要素とtr要素を所属させる
+var newTbody = document.createElement("tbody");
+table.appendChild(newTbody);
+for (var i = 0; i < 100; i++) {
+var tr = document.createElement("tr");
+newTbody.appendChild(tr);
+};
+</pre>
+<p>ひたすらイベントを連打連打！</p>
+<p>すると<br />
+「問題が発生したため、IEXPLORE.EXE を終了します。うんぬん」<br />
+が出て、IEが不正終了します。
+</div>
+<div>
+対策として、末端のtr要素から削除してゆくと不正終了は起こらなくなりました。<br />
+また、FireFoxはこの現象は起こりませんでした。<br />
+本来やっちゃいけないのかなんでこうなるのか等、詳細はよくわかりません。</p>
+<p>解決において、<a href="http://zeromemory.sblo.jp/article/437081.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://zeromemory.sblo.jp/article/437081.html', 'Ajaxにおけるメモリリークの注意点']);" >Ajaxにおけるメモリリークの注意点</a>というエントリの<br />
+「3. 動的なDOMノードの作成後に親ノードに紐付ける順番」がヒントになりました。多謝。
+</div>
+<div>
+2.0hハマり・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

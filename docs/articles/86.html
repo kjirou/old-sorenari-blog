@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Rubyをパクろう【timesの巻】 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Rubyをパクろう【timesの巻】</h1>
+        <p>2007年7月20日</p>
+      </section>
+      <section>
+        <div>
+「いいところはパクる」<br />
+あのマッハ突きで有名な愚地克己も言ってました。</p>
+<p>そんな訳で<br />
+よくRubyの素敵メソッドの例で挙げられるtimesメソッドを<br />
+javascriptでパクろうかなとそういう話です。
+</div>
+<div>
+<b>パクれ！　コピれ！　Make Method！</b></p>
+<p>ということで、Numberオブジェクトを拡張してtimesメソッドを作り</p>
+<pre>
+Number.prototype.times = function(block){
+for (var i = 1; i < this.valueOf() + 1; i++) {
+block(i);
+};
+};
+</pre>
+<p>動作確認</p>
+<pre>
+(3).times(function(t){
+alert(t + "!");
+if (t === 3) alert("ダーーーッ！");
+});
+</pre>
+<p>動く（XP-IE6とXP-FF2で）、OKKK！
+</p></div>
+<div>
+まぁ、数値に括弧をつけないとダメだってのは、どうしょうもないすけど<br />
+その分JSの方が覚えることが少ないですよね。</p>
+<p>同じやり方で upto とかも出来ますねっ！
+</p></div>
+<div>
+後は、こんなのとか</p>
+<pre>
+String.prototype.toElement = function(){
+return document.getElementById(this.valueOf());
+};
+</pre>
+<p>こんな風に</p>
+<pre>
+var elem = "element_id".toElement();
+</pre>
+<p>HTML要素のオブジェクトを取れたりして。</p>
+<p>なんて面白いんだ、このやろう！
+</p></div>
+<div>
+"javascript ruby times"とかでググっても<br />
+このネタが見つからなかったので書いてみました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

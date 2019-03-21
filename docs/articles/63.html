@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>JSONはセキュリティ上危険？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>JSONはセキュリティ上危険？</h1>
+        <p>2007年6月12日</p>
+      </section>
+      <section>
+        <div>
+「サーバ側がJSONデータとして出力したテキストを<br />
+クライアント側のjavascriptが非同期通信で取り込み、evalを使ってパースする。」<br />
+という手順がセキュリティホールになるらしいと、エントリ上でみました。</p>
+<p>しかしながら、<br />
+ググって調べても具体的に危険な点を示しているエントリが見つからない。<br />
+どこが危険といわれているんだろ？
+</div>
+<div>
+確かに、eval内に自由な情報が入りうると困るけど<br />
+そのためには<br />
+1. 悪意ある者の意図通りのリクエストをクライアントに投げさせる<br />
+2. 利用者としてサーバ側のデータにjsスクリプトを挿入して、他の利用者にjsを実行させる<br />
+の必要がある。</p>
+<p>1については、あくまで「意図的に投げさせる」までがセキュリティホールなので<br />
+JSONもevalも関係ないし</p>
+<p>2については、どちらかといえばXSSのようなサーバ側の問題なので<br />
+気をつければ簡単に対処可能なはず。</p>
+<p>やられたときのダメージの大きさなのかなとも思ったんですが<br />
+そもそも、javascriptなんて、HTML上でいくらでも書くことができるので<br />
+そう考えるとXSSの方が痛いよなぁ。<br />
+HTMLソースとしてjavascriptを書ける時点で、常時evalみたいなもんだし。
+</div>
+<div>
+よくわからないですけど、<br />
+とりあえずは、2に気をつければいいのかしらん。
+</div>
+<div>
+↓追記
+</div>
+<p><span id="more-63"></span></p>
+<div>
+<a href="http://pages.citebite.com/i1n8e5x0n1kuv" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pages.citebite.com/i1n8e5x0n1kuv', 'ココ']);" >ココ</a>読むといいよと<a href="http://saikyoline.jp/weblog/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://saikyoline.jp/weblog/', 'yoshuki']);" >yoshuki</a>さんに言われました。</p>
+<p>・・・なるほど<br />
+外部サービスのAPIからJSONデータを取得するときは、<br />
+javascript側でチェックしないと駄目だよね、ってことか。<br />
+確かにその通りスね。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

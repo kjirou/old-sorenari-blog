@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>AS3用に変数をダンプする関数 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>AS3用に変数をダンプする関数</h1>
+        <p>2007年10月26日</p>
+      </section>
+      <section>
+        <div>
+traceが素Objectのプロパティ一覧を出してくれない！
+</div>
+<div>
+ので、ActionScript3用に変数を再帰的にダンプする関数（を持ったクラス）を書いた。<br />
+PHPで言うvar_dumpみたいなのをイメージ。</p>
+<p>[<a href="http://code.kjirou.net/flash/gun_battery/D.as">ソース</a>]<br />
+（後日場所が変わるかもしれないので、その場合は<a href="http://kjirou.net/main/sample/flash/">この辺</a>から探して下さい）</p>
+<p>使用例、こういう風に使うと</p>
+<pre>
+var obj:Object = {x:1, y: "aaa", z: {foo: [1,2,3], bar: {a: 11, b: null, c: true}}};
+D.dump(obj);
+</pre>
+<p>traceにより以下のような出力がなされます</p>
+<pre>
+(object)`[object Object]`
+"z"=(object)`[object Object]`
+"bar"=(object)`[object Object]`
+"b"=(object)`null`
+"c"=(boolean)`true`
+"a"=(number)`11`
+"foo"=(object)`[object Array]`
+[0]=(number)`1`
+[1]=(number)`2`
+[2]=(number)`3`
+"x"=(number)`1`
+"y"=(string)`aaa`
+</pre>
+<p>なんで &#8220;z&#8221; -> &#8220;x&#8221; -> &#8220;y&#8221; とか &#8220;b&#8221; -> &#8220;c&#8221; -> &#8220;a&#8221; の順なのかはわかりませぬ。今度調べます。
+</p></div>
+<div>
+ちなみに、for &#8230; in がインスタンスに対して動的に設定されたプロパティのみを拾ってきて、クラスに定義されているものは拾わないというのが、JSよりもわかり易くて良いと思いました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Shell] $(cd $(dirname $0) &#038;&#038; pwd) を理解する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Shell] $(cd $(dirname $0) &#038;&#038; pwd) を理解する</h1>
+        <p>2011年8月14日</p>
+      </section>
+      <section>
+        <h3>CURRENT=$(cd $(dirname $0) &amp;&amp; pwd) とは</h3>
+<div>
+これは CURRENT変数へスクリプトファイルのカレントディレクトリを格納する<br />
+シェルスクリプトのお便利ワンライナーです</p>
+<pre><code>#!/bin/sh
+CURRENT=$(cd $(dirname $0) &amp;&amp; pwd)
+echo $CURRENT # -> どこから実行してもファイルの場所を返す</code></pre>
+</div>
+<h3>しかし、意味不明</h3>
+<div>
+最近これを知って便利に使っているんですが、自分のShellScrpit力の低さから理解不能でした<br />
+ということで、勉強することにしました
+</div>
+<h3>各要素の解説</h3>
+<p>特殊変数や記法などの整理です</p>
+<pre>
+$0 = スクリプトファイル名が入る
+dirname 引数 = 引数文字列のディレクトリ部分だけを返す
+&amp;&amp; = 左辺のコマンドがステータス0の正常終了なら右辺も実行する
+$() = プログラミングの (式) と同じように式の分離や実行順序を明示するものみたい
+pwd = カレントディレクトリを返す、説明不要だと思いますが
+</pre>
+<h3>実行順序</h3>
+<div>
+こうみたいです<br />
+「cd でスクリプト設置場所へ移動した後に pwd でその場所を返している」というロジック</p>
+<pre>
+dirname $0
+　↓
+cd $(dirname $0)
+　↓
+cd $(dirname $0) &amp;&amp; pwd
+　↓
+CURRENT=$(cd $(dirname $0) &amp;&amp; pwd)
+</pre>
+</div>
+<h3>疑問点</h3>
+<div>
+なんで cd をしているのにディレクトリが移動しないのでしょうか？</p>
+<p>$( ～ ) 書式によるものっぽいのですが、これがわからないです。<br />
+解説サイトを絶賛募集中！
+</div>
+<h3>追記：$() は `（バッククォート）と同じでした</h3>
+<div>
+<a href="http://twitter.com/pasela" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://twitter.com/pasela', '@pasela']);" target="_blank">@pasela</a>さんにご教授賜りました<br />
+以下、コメントの抜粋、詳細は<a href="#comment-338">コメント欄</a>を参照願います</p>
+<pre>
+$(〜)はコマンド置換の構文。`〜`(バッククォート)と同じ。
+バッククォートはエスケープとか入れ子がややこしくなるので普通は使わない。
+コマンド置換はサブシェルで実行されるので、元の環境には影響を与えない。
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>javascriptの代入について | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>javascriptの代入について</h1>
+        <p>2007年7月25日</p>
+      </section>
+      <section>
+        <div>
+javascriptの代入について、<br />
+いまさら不安に思ったことがあるのでまとめる
+</div>
+<div>
+まずこのコード</p>
+<pre>
+var foo = {a:1, b:2};
+var tmp = foo;
+tmp.a = 256;
+alert(foo.a); // -> 256
+</pre>
+<p>fooをtmpに参照渡しして、参照渡しされたtmp.aを更新するとfoo.aも更新されているという趣旨
+</p></div>
+<div>
+一方このコード<br />
+別段なんでもないコードですが・・・</p>
+<pre>
+var bar = {c:3, d:4};
+var baz = {e:5, f:6};
+var tmp = bar;
+tmp = baz;
+alert(bar.e); // -> undefined つまりbaz で書き換えられてない
+</pre>
+<p>・・・「tmpとbarが等しいなら、tmp = baz は bar = baz と同じ意味になり<br />
+その結果、bar.e は baz.e と等しくなってもおかしくは無いんじゃないかな」と一瞬思いました。<br />
+（普段そうならないので、ならないのはわかってましたが）
+</div>
+<div>
+なんでかなーと考えると<br />
+「代入による左辺の更新というのは、常に（実体データへの）参照のみを更新しているだけ」というのが理由じゃないかと。</p>
+<p>例えば<br />
+tmp = &#8220;str&#8221; という値渡しの際には<br />
+(1) &#8220;str&#8221;がメモリ上に実体データを作成し、<br />
+(2) tmp には今作成されたてホヤホヤの実体データの参照が入る。</p>
+<p>先ほどの後者の例では<br />
+(1) var tmp = bar で、tmpへbarの実体データへの参照が入り<br />
+(2) tmp = baz で、tmpへbazの実体データへの参照が入るだけでbarの実体データは無関係。</p>
+<p>という感じに。
+</p></div>
+<div>
+代入では、実体データは全く無関係なので、<br />
+そのために、参照が切れていることをトリガーに、ガーベッジコレクションが実体データの開放を行わないといけない訳か。</p>
+<p>（実体データの上書きってのも、実は新たなデータを作ってその参照を渡してやってるだけなのかも・・・この辺は気分が乗ったら調べよう）</p>
+<p>いつものことですが、間違えてたらすみません。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

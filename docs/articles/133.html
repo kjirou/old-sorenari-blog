@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>使えるネットVPSとの戦い【基本編】(2) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>使えるネットVPSとの戦い【基本編】(2)</h1>
+        <p>2007年9月16日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/09/vps.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/09/vps.html', '【基本編】(1)']);" >【基本編】(1)</a>からの続き
+</div>
+<div>
+<b>【iptablesの設定】</b></p>
+<ul>
+<li><a href="http://penguin.nakayosi.jp/linux/iptables.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://penguin.nakayosi.jp/linux/iptables.html', 'http://penguin.nakayosi.jp/linux/iptables.html']);" >http://penguin.nakayosi.jp/linux/iptables.html</a> の手順を丸々パクった</li>
+<li>わからない点は <a href="http://www.linux.or.jp/JM/html/iptables/man8/iptables.8.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.linux.or.jp/JM/html/iptables/man8/iptables.8.html', 'http://www.linux.or.jp/JM/html/iptables/man8/iptables.8.html']);" >http://www.linux.or.jp/JM/html/iptables/man8/iptables.8.html</a> で調べた</li>
+</ul>
+<pre>
+iptables -P INPUT ACCEPT
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+iptables -F
+iptables -A INPUT -p icmp -j ACCEPT
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+iptables -A INPUT -p tcp --dport 110 -j ACCEPT
+iptables -A INPUT -p tcp --dport 25 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -s 192.168.0.0/24 -p tcp --dport 10000 -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -P INPUT DROP
+/etc/init.d/iptables save
+service iptables restart
+</pre>
+<p>最後2行は、行った設定を保存し、再起動して適用している。</p>
+<p>注意として、<b>sshの設定を解除するようなことは絶対やっちゃだめ</b>。<br />
+例えば、iptables -F 等を設定したら、もうターミナルで入れなくなる。
+</div>
+<div>
+<b>【作業用ユーザ作成 と rootでのログイン禁止】</b></p>
+<ul>
+<li><a href="http://centos.it-cafe.jp/lsys02.html#40" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://centos.it-cafe.jp/lsys02.html#40', 'http://centos.it-cafe.jp/lsys02.html#40']);" >http://centos.it-cafe.jp/lsys02.html#40</a> ・・・ユーザ管理についての参考</li>
+<li><a href="http://kazmax.zpp.jp/linux/lin_ssh.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kazmax.zpp.jp/linux/lin_ssh.html', 'http://kazmax.zpp.jp/linux/lin_ssh.html']);" >http://kazmax.zpp.jp/linux/lin_ssh.html</a> ・・・rootによるログイン禁止についての参考</li>
+</ul>
+<p>
+まず、作業用ユーザ作成。<br />
+rootへの変身を可能にする予定のユーザ</p>
+<pre>
+useradd -g wheel -d /home/username -s /bin/zsh -m username
+passwd username
+</pre>
+<p>rootによるログインを禁止する</p>
+<pre>
+vim /etc/ssh/sshd_config
+</pre>
+<p>にて、sshの設定ファイルを開き</p>
+<pre>
+#PermitRootLogin yes
+</pre>
+<p>の部分を</p>
+<pre>
+PermitRootLogin no
+</pre>
+<p>に変更して保存する。</p>
+<pre>
+/etc/init.d/sshd restart
+</pre>
+<p>で、sshを再起動。</p>
+<p>確認作業に移るが、<b>rootのターミナルは落とさないで、</b>先ほど作成したユーザでログインし、suコマンドでrootに変われるかを確認する。<br />
+変われるなら完了。変われないなら、一旦rootによるログイン禁止設定は戻して、見直す。
+</div>
+<div>
+基本的な設定は、とりあえずこれでいいかなぁと思います・・・ということにします。<br />
+後日、Ruby On Rails と PHP5+ZendFramework 環境についてもまとめてUPするつもりです。</p>
+<p>使えるネットの使い方・サーバの設定、等を聞きまくった方々、まことにありがとうございました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

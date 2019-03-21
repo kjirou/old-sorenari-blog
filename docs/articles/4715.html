@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>npm mocha-automatic-coffeemaker | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>npm mocha-automatic-coffeemaker</h1>
+        <p>2015年10月4日</p>
+      </section>
+      <section>
+        <div>
+<a href="https://github.com/kjirou/mocha-automatic-coffeemaker" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/mocha-automatic-coffeemaker', 'mocha-automatic-coffeemaker']);" target="_blank">mocha-automatic-coffeemaker</a> を npm publish しました。</p>
+<p>テスト対象ファイルと同じパスの構造で、<tt>./test</tt> 以下にテストコードの雛形を生成するコマンドです。</p>
+<p>こんな風に使う：</p>
+<pre>
+$ tree ./lib 
+lib
+└── utils.js
+$ npm install -g mocha-automatic-coffeemaker
+$ genmochatest lib/utils.js
+Generated successfully!
+root: /home/username/your-project
+src : lib/utils.js
+test: test/lib/utils.js
+$ cat test/lib/utils.js
+describe('lib/utils', function() {
+});
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

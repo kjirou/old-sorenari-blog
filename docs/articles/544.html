@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[VBA,Excel] セル内文字列の一部を検索して着色 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[VBA,Excel] セル内文字列の一部を検索して着色</h1>
+        <p>2012年11月18日</p>
+      </section>
+      <section>
+        <div>
+非エンジニアの知り合いから<br />
+「エクセルで、セル内のあるパターンの文字列だけを検索して<br />
+　色を変えたいんだけど、どうすりゃいいの？」<br />
+ということを聞かれたので、<br />
+「『置換』から余裕っしょ、情弱乙 m9(^Д^)」<br />
+と返そうとしたら、無理だったのでVBAを触ってみることにしました</p>
+<p>というところで、成果物<br />
+正規表現で文字列パターンを指定し、色を選び、セルの範囲を指定して実行、という感じ</p>
+<p>　<a href="https://github.com/kjirou/cellwalker/blob/master/CellWalker.xlam?raw=true" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/cellwalker/blob/master/CellWalker.xlam?raw=true', 'CellWalker.xlam']);" target="_blank">CellWalker.xlam</a> (アドイン)<br />
+　<a href="https://raw.github.com/kjirou/cellwalker/master/CellWalker.bas" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://raw.github.com/kjirou/cellwalker/master/CellWalker.bas', 'CellWalker.bas']);" target="_blank">CellWalker.bas</a> (スクリプト)<br />
+　(<a href="https://github.com/kjirou/cellwalker" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/cellwalker', 'GitHub &#8211; kjrou/cellwalker']);" target="_blank">GitHub &#8211; kjrou/cellwalker</a>)</p>
+<p>※アドインはUI無しなので、「マクロの確認」から &#8220;CellWalker&#8221; を入力して下さい<br />
+※主に参考にしたサイト<br />
+<a href="http://itpro.nikkeibp.co.jp/article/COLUMN/20110405/359098/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://itpro.nikkeibp.co.jp/article/COLUMN/20110405/359098/', '１']);" target="_blank">１</a><br />
+<a href="http://www.excel7.com/personal/personal1-4.htm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.excel7.com/personal/personal1-4.htm', '２']);" target="_blank">２</a><br />
+<a href="http://www.vba-world.com/immediate1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.vba-world.com/immediate1.html', '３']);" target="_blank">３</a><br />
+<a href="http://www.geocities.co.jp/SiliconValley-Bay/1992/excel/moji/vbreg01.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.geocities.co.jp/SiliconValley-Bay/1992/excel/moji/vbreg01.html', '４']);" target="_blank">４</a><br />
+<a href="http://miyahorinn.fc2web.com/vb/vb001.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://miyahorinn.fc2web.com/vb/vb001.html', '５']);" target="_blank">５</a></p>
+<p>ちなみに、Ctrl+F の『置換』 だと以下がNGでした<br />
+1. 正規表現が使えない (この点は<a href="http://srcedit.pekori.jp/tool/excelre.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://srcedit.pekori.jp/tool/excelre.html', 'アドイン']);" target="_blank">アドイン</a>を入れることで解決する)<br />
+2. 書式の一部分だけを変えることができない、セル全体が変わってしまう
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

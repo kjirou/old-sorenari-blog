@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>VIrtualBoxで仮想ネットワークを構築 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>VIrtualBoxで仮想ネットワークを構築</h1>
+        <p>2013年1月19日</p>
+      </section>
+      <section>
+        <div>
+複数台のサーバが連携した環境を作る必要があったので、<br />
+VirtualBoxを使ってMac内にそれを再現しました</p>
+<p>以下、その構築手順のまとめです
+</p></div>
+<h3>ゴール</h3>
+<div>
+<ul>
+<li>Mac内に 192.168.56.* のネットワークを構築</li>
+<li>ホストOS(Mac)のIPは 192.168.56.1</li>
+<li>ゲストOSは2台を上記ネットワーク内に所属させる、IPは固定IPで 192.168.56.101 と 102 を割り当てる</li>
+<li>ゲストOSそれぞれは、外部とも通信可能</li>
+</ul>
+</div>
+<h3>前提</h3>
+<div>
+<ul>
+<li><a href="https://www.virtualbox.org/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.virtualbox.org/', 'VirtualBox']);" target="_blank">VirtualBox</a>がインストール済み</li>
+<li>VirtualBoxの仮想OSがある、または作れる、または作ったことは無いけど出来る自信がある</li>
+<li>ゲストOSには CentOS-5.8(final) を使用する、が、別に何でも良いので適宜読み替えて下さい</li>
+</ul>
+</div>
+<h3>ホストOSにネットワークを作成</h3>
+<div>
+1. VirtualBoxを起動<br />
+2. メニューバー「VirtualBox」＞「環境構築」<br />
+3. 「ネットワーク」タブを選択<br />
+4. 右側にある、黄緑色の小さい「＋」ボタンを押す<br />
+5. 作成された行を選択したまま、右側の小さいスパナマークのボタンを押す<br />
+6. 「IPv4 アドレス」を「192.168.56.1」にする、多分デフォルトでそうなってる<br />
+7. 「DHCPサーバー」のタブを選択し、「サーバーの有効化」のチェックを外す<br />
+8. 「OK」を押して保存して終了、念のため一式閉じた後に再度開いて、正しく保存されているかを確認</p>
+<p>これでホストOS内に、192.168.56.* のネットワークが作成されました
+</p></div>
+<h3>仮想OSを作成</h3>
+<div>
+手順については省略します</p>
+<p>一応、メモ書き程度の<a href="http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FVirtualBox#g7fea665" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/wiki_mirror/index.php?a%2FVirtualBox#g7fea665', 'まとめページ']);" target="_blank">まとめページ</a>はありますので、よろしければ参考どうぞ<br />
+.. ただ、「ホストオンリーアダプタ」の手順について、この後の説明と食い違うので<br />
+その辺が混乱するなら別記事をググって探して下さい</p>
+<p>2台目については「クローン」を使って作る方法を後ほど説明しますので、<br />
+無いならまだいいです
+</div>
+<h3>ホストオンリーアダプタを取り付ける</h3>
+<div>
+「ホストオンリーアダプタ」という、ホストOSとの通信専用の仮想NICを<br />
+仮想OSに取り付ける設定をします</p>
+<p>手順:<br />
+1) 右側の一覧から、作成した仮想マシンを選択<br />
+2) 上部「設定」ボタンを押す<br />
+3)「ネットワーク」タブを選択<br />
+4)「アダプター2」を選択<br />
+5)「ネットワークアダプターを有効化」をチェックし「ホストオンリーアダプタ」を選択</p>
+<p>これでVirtualBox上の設定は完了ですが、まだ動きません<br />
+OS内の設定をする必要があります
+</div>
+<h3>固定IPを割り振り、ホストオンリーアダプタを有効にする</h3>
+<div>
+VirtualBoxのターミナルから root 権限でログインして、設定ファイルを作成します</p>
+<pre>
+touch /etc/sysconfig/network-scripts/ifcfg-eth1
+vim /etc/sysconfig/network-scripts/ifcfg-eth1
+========================
+DEVICE=eth1
+BOOTPROTO=static
+BROADCAST=192.168.56.255
+HWADDR=XX:XX:XX:XX:XX:XX
+IPADDR=192.168.56.101
+NETMASK=255.255.255.0
+NETWORK=192.168.56.0
+ONBOOT=yes
+========================
+</pre>
+<p>HWADDRは、先のホストオンリーアダプタの設定画面から、<br />
+「高度」ボタンを押すと出てくる「MACアドレス」の値を設定して下さい</p>
+<p>上記が保存できたら、再起動し、以下を確認して下さい<br />
+1) ゲストOSから、外部に ping が届くか<br />
+2) ゲストOSから、192.168.56.1 に ping が届くか<br />
+3) ホストOSから、192.168.56.101 に ping が届くか</p>
+<p>なお、OSインストール前にホストオンリーアダプタの設定をした場合は<br />
+この手順は必要なく、既に設定が完了していると思います<br />
+普通にやるならこっちの方が早いですが、今回は後付けの場合にも対処したかったので<br />
+このような説明になりました
+</div>
+<h3>2台目の仮想OSをクローンで作成</h3>
+<div>
+2台目の仮想OSをVirtualBoxのクローン機能で作成します</p>
+<p>手順:<br />
+1) VirtualBoxで先に作成した仮想OSを選択<br />
+2) 右クリ ＞ 「クローン」<br />
+3) 新しいマシン名を入力し、「すべてのネットワークカードに..」のチェックを<strong>付ける</strong><br />
+4) 後は道なりで進む<br />
+5) 完了したらrootでログイン<br />
+6) 先の設定ファイルが同じ場所にあるので開く<br />
+7) 先の設定ファイルに.bakを付けたファイル(おそらくは ifcfg-eth1.bak) があるので開く<br />
+8) .bakの方に、先に行った設定が書いてあるので、それを参考に設定ファイルを編集<br />
+9) IPADDR は 102 にすること<br />
+10) 終わったら再起動して、通信の確認</p>
+<p>以上で完了です
+</div>
+<h3>補足</h3>
+<div>
+必須ではありませんが、仮想OSをクローンしたらホスト名も変えておいた方がいいです<br />
+手順を簡単に書いておきます</p>
+<pre>
+sudo vim /etc/sysconfig/network
+========================
+HOSTNAME=yournewhost.com
+========================
+sudo vim /etc/hosts
+========================
+127.0.0.1 yournewhost.com localhost.localdomain localhost
+========================
+sudo /etc/init.d/network restart
+hostname  # 確認
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

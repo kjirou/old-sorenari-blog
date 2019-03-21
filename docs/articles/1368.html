@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Unicode strings with encoding declaration are not supported | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Unicode strings with encoding declaration are not supported</h1>
+        <p>2012年11月21日</p>
+      </section>
+      <section>
+        <div>
+Pythonのlxmlライブラリの以下のエラーについてです<br />
+検索しても日本語記事が無かったので書いておきます</p>
+<pre>
+ValueError: Unicode strings with encoding declaration are not supported.
+</pre>
+</div>
+<h3>解析対象をUnicode型ではなく文字列型で渡す</h3>
+<div>
+<a href="http://lxml.de/parsing.html#python-unicode-strings" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://lxml.de/parsing.html#python-unicode-strings', 'lxmlドキュメントの該当部分']);" target="_blank">lxmlドキュメントの該当部分</a>に解答があります</p>
+<blockquote><p>
+Similarly, you will get errors when you try the same with HTML data in a unicode string that specifies a charset in a meta tag of the header. You should generally avoid converting XML/HTML data to unicode before passing it into the parsers. It is both slower and error prone.</p>
+<p>metaタグにcharset設定があるHTMLデータをユニコードで渡した場合はエラーになるよ。<br />
+XML/HTMLデータをパーサに投げる前にユニコードに変換することは普通避けた方がいいよ。<br />
+それは遅いしエラーになり易いよ。
+</p></blockquote>
+<p>
+「charsetの文字コードを使うからUnicode型ではなくて文字列で渡して下さい」<br />
+ということのようです</p>
+<p>もしcharsetが誤ってるなら、多分オプションとかがあるんじゃないかなぁ？
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

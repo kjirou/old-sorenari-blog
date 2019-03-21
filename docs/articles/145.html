@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>使えるネットVPSとの戦い【マイリポジトリ作成編】(2) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>使えるネットVPSとの戦い【マイリポジトリ作成編】(2)</h1>
+        <p>2007年10月2日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/10/vps1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/10/vps1.html', '(1)からの続き']);" >(1)からの続き</a>です。
+</div>
+<div>
+<b>【Subversionのインストール】</b><br />
+yumで前準備</p>
+<pre>
+yum install pkgconfig
+yum install openssl-devel
+</pre>
+<p>・・・！　yumでOpenSSL入るのか！（今気づいた。）<br />
+てか、入れてたらしい・・・。<br />
+とりあえず、オペレーションとしてはやってしまっていますが、多分不要です。</p>
+<p>インストール<br />
+Apacheのプロセスを落としてから行うこと。</p>
+<pre>
+cd /usr/local/src
+wget http://subversion.tigris.org/downloads/subversion-1.4.5.tar.bz2
+wget http://subversion.tigris.org/downloads/subversion-deps-1.4.5.tar.bz2
+tar jxf subversion-1.4.5.tar.bz2
+tar jxf subversion-deps-1.4.5.tar.bz2
+cd subversion-1.4.5
+./configure \
+--prefix=/usr/local/subversion-1.4.5 \
+--with-apxs=/usr/local/apache-2.2.6/bin/apxs \
+--with-apr=/usr/local/apr \
+--with-apr-util=/usr/local/apr \
+--with-ssl \
+--with-editor=/usr/local/bin/vim
+make
+make install
+</pre>
+<p>※aprとapr-utilは、Apacheと同じものを見ている。</p>
+<p>シンボリックリンクを張る</p>
+<pre>
+cd /usr/local
+ln -s subversion-1.4.5 subversion
+</pre>
+<p>最後に /usr/local/subversion/bin にパスを通す。
+</p></div>
+<div>
+<b>【WebDAV経由でSVNリポジトリを操作可能にする設定】</b><br />
+/usr/local/apache-2.2.6/conf/httpd.conf を開いて追記する</p>
+<pre>
+&lt;Location "/repos/"&gt;
+DAV                 svn
+SVNParentPath       /home/webadmin/var/repos
+SVNListParentPath   On
+AuthType            Digest
+AuthName            "Realm String"
+AuthDigestProvider  file
+AuthUserFile        /home/webadmin/path/to/users
+Require             valid-user
+BrowserMatch "MSIE" AuthDigestEnableQueryStringHack = On
+&lt;/Location&gt;
+</pre>
+<p>各設定の説明</p>
+<ul>
+<li>LocationとSVNParentPathとAuthUserFileの場所は、使ってる環境により変わる。<br />
+便宜上、以下の説明はこのパスにあわせて説明する。</li>
+<li>リポジトリのルートにアクセスする場合は、この設定だと http://mydomain.com/repos/ のように、最後が&#8221;/&#8221;で終わらないとアクセスできない。</li>
+<li>BrowserMatchの設定は、IEでもWeb経由でリポジトリを見れるようにする設定。ダイジェスト認証の処理についてのIEのバグで、見れない場合があるため。</li>
+<li>LocationMatchとSVNParentPathの相性が悪く、一緒に使うとSVNアクセス時に動かなくなる可能性がある。</li>
+</ul>
+<p>上記と同様の設定を /usr/local/apache-2.2.6/conf/extra/httpd-ssl.conf にも行う。</p>
+<p>続けて、ダイジェスト認証用のAuthUserFileを作成する。</p>
+<pre>
+touch /home/webadmin/path/to/users
+htdigest /home/webadmin/path/to/users "Realm String" username
+</pre>
+<p>※対話的にパスの入力を求められるので設定すること。<br />
+※&#8221;Realm String&#8221;は、httpd.confのAuthNameとあわせること。<br />
+※特にLinuxのユーザ名等とあわせる必要は無く、任意で良い。</p>
+<p>なお、参考として、SVNPathを使う場合の設定は以下のように書く</p>
+<pre>
+&lt;Location "/repos/project_name"&gt;
+DAV                 svn
+SVNPath             /home/webadmin/var/repos/project_name
+AuthType            Digest
+AuthName            "Realm String"
+AuthDigestProvider  file
+AuthUserFile        /home/webadmin/path/to/users
+Require             valid-user
+BrowserMatch "MSIE" AuthDigestEnableQueryStringHack = On
+&lt;/Location&gt;
+</pre>
+<p>こちらだと、細かい設定が出来る替わりに、リポジトリがひとつ増えるたびに設定を追加する必要がある。<br />
+今回は自分用なので、楽さを追及して上記の方の設定にした。
+</div>
+<div>
+<b>【動作確認】</b><br />
+SVNリポジトリを作成して、ブラウザによる閲覧・外部からのチェックアウト・内部からのチェックアウト、が動くかを確認する。</p>
+<p>まず、SVNルートリポジトリの作成をする。<br />
+Apache実行用ユーザ(今回はwebadmin)に変わって</p>
+<pre>
+mkdir -p ~/var/repos
+</pre>
+<p>と、普通にディレクトリを作成する。</p>
+<p>動作確認用のtestprojectリポジトリを作成する。</p>
+<pre>
+svnadmin create ~/var/repos/testproject
+</pre>
+<p>
+それでは動作確認の開始！</p>
+<p>まず、Webブラウザにて、http://mydomain/repos と https://mydomain/repos にアクセスしてリポジトリが閲覧可能かをチェックする。可能ならばIEでも調べる。</p>
+<p>続けて、外部サーバと内部から</p>
+<pre>
+svn checkout http://mydomain/repos/testproject
+svn checkout https://mydomain/reops/testproject
+</pre>
+<p>これが動くかを調べて、動けばOK!
+</p></div>
+<div>
+<b>うわー、楽しいわぁ</b><br />
+ドットファイルとか管理できていいなー。</p>
+<p>・・・なお、自分用のメモをブログに起こしたので、途中で抜けとかがあるかもしれません。<br />
+何か気づいたら、突っ込みお願いします！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

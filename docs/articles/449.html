@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] 最近の解決ネタ (2009-11-11) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] 最近の解決ネタ (2009-11-11)</h1>
+        <p>2009年11月11日</p>
+      </section>
+      <section>
+        <div>
+解決というか思い出しというか。</p>
+<p>普段はPythonで仕事しているので、<br />
+そんな人が触った時に「あれっ？」と思うようなネタが多い。（と思う）
+</div>
+<h3>&#8220;\n&#8221; と &#8216;\n&#8217;</h3>
+<div>
+前者は、「1バイトの 改行コード」 として、<br />
+後者は、「2バイトの 半角エスケープ＋半角n の文字列」 として、評価される。</p>
+<p>シングルクォートを使用した場合は、</p>
+<p>1. シングルクォート自身をエスケープしたい時<br />
+2. その関係で、半角エスケープ文字自体をエスケープしたい</p>
+<p>・・・上記を除き、記述したまんまの文字列になる。（Pythonでいう r&#8221; のような）</p>
+<p>参考) <a href="http://www.php.net/manual/ja/language.types.string.php#language.types.string.syntax.single" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.php.net/manual/ja/language.types.string.php#language.types.string.syntax.single', 'マニュアル &#8211; 文字列・引用符']);" target="_blank">マニュアル &#8211; 文字列・引用符</a>
+</div>
+<h3>foreach で 配列はインデックス順に回るか</h3>
+<div>
+<pre>
+&lt;?php
+$lines = array(
+3 =&gt; 444,
+0 =&gt; 111,
+4 =&gt; 555,
+1 =&gt; 222,
+2 =&gt; 333,
+);
+foreach ($lines as $line) {
+echo $line . "\n";
+}
+</pre>
+<p>と、上記はインデックス順ではなく、定義順に回るので、されない。<br />
+まぁ、PHPは全て連想配列なので、仮に回ってもキモいすね。</p>
+<p>おとなしく for を使うべし！
+</p></div>
+<h3>マルチバイト文字を chr や ord したい</h3>
+<div>
+Pythonで言う、u&#8221;\u3000&#8243; みたいなことをしたかった。<br />
+結論としてはネイティブでは無理なので、以下の参考リンクのような関数を作る必要がある。</p>
+<p><a href="http://ml.php.gr.jp/pipermail/php-dev/2005-September/001168.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ml.php.gr.jp/pipermail/php-dev/2005-September/001168.html', '[PHP-dev 1167] ord と chr のマルチバイト文字バージョン']);" target="_blank">[PHP-dev 1167] ord と chr のマルチバイト文字バージョン</a>
+</div>
+<h3>以上です</h3>
+<div>
+初心に帰りまくりで、<br />
+コードが教科書のように丁寧です。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

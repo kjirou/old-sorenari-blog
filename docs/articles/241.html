@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Ruby] gets関数の行区切り文字を指定する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Ruby] gets関数の行区切り文字を指定する</h1>
+        <p>2008年1月14日</p>
+      </section>
+      <section>
+        <div>
+Rubyのgets組み込み関数について</p>
+<p>通常は &#8220;\n&#8221; を行の区切り文字として認識しますが、<br />
+以下のように書くことで区切り文字を変更できます</p>
+<pre>
+# null文字に変更する
+$/ = "\000"
+</pre>
+<p>こうすることで　String#chomp 等も変更した改行文字を落とすようになるようです。</p>
+<p>参考: <a href="http://osdir.com/ml/lang.ruby.japanese/2005-09/msg00010.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://osdir.com/ml/lang.ruby.japanese/2005-09/msg00010.html', 'http://osdir.com/ml/lang.ruby.japanese/2005-09/msg00010.html']);" >http://osdir.com/ml/lang.ruby.japanese/2005-09/msg00010.html</a>
+</div>
+<div>
+ちなみにこれを調べたのは、<br />
+ActionScript3のXMLSocket用のソケットサーバをRubyで設置しようとしたときに<br />
+XMLSocket#sendがメッセージの区切りをヌル文字で指定しているという理由からでした。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

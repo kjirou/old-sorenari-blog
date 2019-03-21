@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>CentOS6へJasmineによるCI環境を作る(1) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>CentOS6へJasmineによるCI環境を作る(1)</h1>
+        <p>2012年12月8日</p>
+      </section>
+      <section>
+        <div>
+さくらVPSのCentOS6へ、<br />
+<a href="http://pivotal.github.com/jasmine/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pivotal.github.com/jasmine/', 'Jasmine']);" target="_blank">Jasmine</a>によるJavaScriptのCI環境を構築する手順です<br />
+可能な限り yum を使う方針で構築しました
+</div>
+<h3>yum install</h3>
+<div>
+<pre>
+yum install ruby
+yum install ruby-libs
+yum install ruby-devel
+yum install ruby-rdoc
+yum install ruby-ri
+yum install rubygems
+yum install java-1.7.0-openjdk
+yum install java-1.7.0-openjdk-devel
+yum install xorg-x11-server-Xvfb
+yum install firefox
+yum groupupdate 'X Window System'
+</pre>
+<p>
+RubyはJasmineをGem版で入れるために必要<br />
+JavaはSeleniumサーバのために必要<br />
+Xvfb / firefox / X Window System は、仮想バッファを介してFirefoxでアクセスするために必要</p>
+<p>※ いくつかインストール済みだったり、不要だったりすると思います。特にRuby関係<br />
+※ X Window System は、結局全部入れないと動かなかった・・・
+</div>
+<h3>Bundlerのインストール</h3>
+<div>
+BundlerというRubyGemsの便利版みたいなのをインストールします</p>
+<pre>
+gem install bundler
+</pre>
+</div>
+<h3>Seleniumのダウンロードと起動スクリプトの設定</h3>
+<div>
+jarファイルは<a href="http://seleniumhq.org/download/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://seleniumhq.org/download/', 'ダウンロードページ']);" target="_blank">ダウンロードページ</a>から最新版を探してください</p>
+<pre>
+# mkdir /var/lib/selenium # 場所はテキトウ
+# cd /var/lib/selenium
+# wget http://selenium.googlecode.com/files/selenium-server-standalone-2.25.0.jar 
+# mkdir -m 0777 /var/log/selenium # ログ用
+</pre>
+<p>
+起動スクリプトの設定をします、コードは<a href="http://www.hironoki.com/blog/?p=583" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.hironoki.com/blog/?p=583', 'コチラの記事']);" target="_blank">コチラの記事</a>をそのままいただきました<br />
+<a href="http://code.kjirou.net/sh/init.d/selenium.sh" target="_blank">wgetで取れる位置に置いています</a>が、もし無くなってたら上記サイトを参照して作成して下さい</p>
+<pre>
+# cd /etc/init.d
+# wget http://code.kjirou.net/sh/init.d/selenium.sh
+# mv selenium.sh selenium
+# chmod 0755 selenium
+# chkconfig --add selenium
+# chkconfig selenium on
+</pre>
+</div>
+<h3>Xvfbの起動スクリプトの設定</h3>
+<div>
+シェルスクリプトは<a href="http://docs.komagata.org/4987" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.komagata.org/4987', 'コチラの記事']);" target="_blank">コチラの記事</a>をそのままいただきました<br />
+こちらも<a href="http://code.kjirou.net/sh/init.d/xvfb.sh" target="_blank">wgetで取れる位置に置いて</a>います</p>
+<pre>
+# cd /etc/init.d
+# wget http://code.kjirou.net/sh/init.d/xvfb.sh
+# mv xvfb.sh xvfb
+# chmod 0755 xvfb
+# chkconfig --add xvfb
+# chkconfig xvfb on
+</pre>
+</div>
+<h3>start-stop-daemonのインストール</h3>
+<div>
+上記のXvfb起動スクリプト内で使っているためインストールします<br />
+<a href="http://blog.kjirou.net/p/1576" title="CentOS6へstart-stop-daemonをインストール" target="_blank">CentOS6へstart-stop-daemonをインストール</a>を参照して下さい
+</div>
+<h3>$DISPLAY環境変数の設定</h3>
+<div>
+テストを行いたいユーザの.bashrcや.zshrcへ、以下の環境変数を設定する</p>
+<pre><code>export DISPLAY=:99</code></pre>
+</div>
+<h3>dbus-uuidgen</h3>
+<div>
+これを実行しとかないと「machine-idが無いよ」と怒られます<br />
+何かのIDを生成しているようですが、詳細は不明</p>
+<pre>
+# dbus-uuidgen &gt; /var/lib/dbus/machine-id
+</pre>
+</div>
+<h3>ここまでの動作確認</h3>
+<div>
+最初に忘れずに、rebootもしくは起動スクリプトを手動で叩いて、<br />
+SeleniumとXvfbを動かしてください<br />
+Gemfileの内容は何度かエラーで怒られることを繰り返して自分が作成したものです、正確ではない可能性大</p>
+<pre>
+mkdir jasmine_test # 何処でもいい場所に任意の名前でディレクトリを作る
+cd jasmine_test
+wget https://raw.github.com/kjirou/beginning_jasmine/master/Gemfile
+bundle install --path vendor/bundle
+bundle exec jasmine init # テスト用ファイル含む一式が生成
+bundle exec rake jasmine:ci
+</pre>
+<p>
+こんな出力が出たら成功です</p>
+<pre>
+[2012-12-08 01:45:01] INFO  WEBrick 1.3.1
+[2012-12-08 01:45:01] INFO  ruby 1.8.7 (2011-06-30) [x86_64-linux]
+[2012-12-08 01:45:01] WARN  TCPServer Error: Address already in use - bind(2)
+[2012-12-08 01:45:01] INFO  WEBrick::HTTPServer#start: pid=15742 port=33630
+Waiting for jasmine server on 33630...
+jasmine server started.
+Waiting for suite to finish in browser ...
+.....
+
+Finished in 0.00409 seconds
+5 examples, 0 failures
+</pre>
+</div>
+<h3>補足</h3>
+<div>
+<ul>
+<li>何でgem install jasmineじゃなくてBundlerを使うの？<br />
+  → 最初それでやったら色々な場所で素直に進まず、最終的には諦めたという経緯があります</li>
+<li>Firefoxを使うのはどこで指定しているの？<br />
+　→ Seleniumはデフォルトでfirefoxを使うようになっています</li>
+<li>$DISPLAYって何？:99って何？<br />
+　→ 自分も良くわかっていません、:99はXvfb起動スクリプト内の定義値と一致する必要があります</li>
+<li>&#8211;path vendor/bundle って何？<br />
+　→ Railsやcapistranoだとそうなってるみたいなので合わせただけです、何でも良いです</li>
+<li>テストを実行したらGemfile.lockってのが出来たんだけど？<br />
+　→ なんでしょうね？ とりあえず、バージョン管理外にしとけとのことです<br />
+　　もちろん&#8211;pathで指定した場所や.bundle もバージョン管理の対象外に</li>
+</ul>
+</div>
+<h3>蛇足</h3>
+<div>
+全般的に良くわかってないで構築しているので、<br />
+「これ間違ってないか？」 という点があれば、おそらくはそれは間違っています<br />
+ご指摘いただけると助かります</p>
+<p>後日、(2)でJasmine本体を使っていろいろとテストを書くことを<br />
+(3)でJenkinsなどに連携することを行います</p>
+<p>TASみたいなことが出来ないと、CI環境で作った意味が薄くなるので<br />
+そういうのが出来ればいいなぁ、と思っています</p>
+<p>・・・もし、HTMLを操作する動作を事細かに出来たなら<br />
+外部のブラウザゲームの寝マクロにも使えるかもなー<br />
+とか元UO廃人だと思わざるを得ませんが、もういい歳なのでダメ、ゼッタイ
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

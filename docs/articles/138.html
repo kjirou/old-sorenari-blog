@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>タグクラウドのアルゴリズム | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>タグクラウドのアルゴリズム</h1>
+        <p>2007年9月21日</p>
+      </section>
+      <section>
+        <div>
+タグクラウドの大きさを決めているアルゴリズムはどうなってるのかなと、PHPのTagCloud.phpと、Rubyの<a href="http://yatsu.info/articles/2005/08/05/ruby%E3%81%A7tagcloud-tagcloud-ruby" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://yatsu.info/articles/2005/08/05/ruby%E3%81%A7tagcloud-tagcloud-ruby', 'tagcloud-ruby']);" >tagcloud-ruby</a>を読んみました。</p>
+<p>両方ともCSSセレクタ生成等が処理の中に入ってしまっており、ライブラリとしてはやや微妙な感じ。（元のPerlの実装に合わせているからだと思いますが）<br />
+なので、アルゴリズムだけ貰おうかと。
+</div>
+<div>
+<b>【最も基本的なアルゴリズム】</b></p>
+<ul>
+<li>最終的に、各タグの大きさは25段階の範囲で区分される。<br />
+ソース内ではこれを level と読んでおり、0-24の範囲で指定している。</li>
+<li>level算出方法は以下の通り<br />
+1. 最もタグ付けされている回数が多いタグの回数を取得し、それの平方根を求める。以後この値を max と呼ぶ。<br />
+2. 最もタグ付けされている回数が少ないタグの回数を取得し、それの平方根を求める。以後この値を min と呼ぶ。<br />
+3. max &#8211; min の間を均等に 25段階に分け、各タグのタグ付け回数の平方根の値が、その範囲のどこに位置するのかを求め、それが level となる。
+</li>
+</ul>
+<p>
+こんだけ！単純明快！<br />
+（・・・なはずなんだけど、文章がまずくてよくわからなくなってる。下の例を見つつの方がわかりやすいかも）
+</div>
+<div>
+もうちょい、具体的な実装はどうなってんのか話をしますと</p>
+<ul>
+<li>各タグのfont-sizeは、level + 12 px</li>
+<li>全てのタグのタグ付け回数が同じ場合、つまり、max &#8211; min が 0 に等しい場合については特殊な処理をしている。</li>
+<li>max &#8211; min を25段階に分けて、そこのどこに振り分けるかの処理は<br />
+24 / (max &#8211; min) という式により係数を作り<br />
+それを (各タグのタグ紐付け回数の平方根 &#8211; min) に乗じていた。</li>
+<li>levelごとにCSSのセレクタを設定していた。</li>
+</ul>
+<p>
+こんな感じです。
+</div>
+<div>
+<b>【level算出例】</b></p>
+<pre>
+"js"タグ 10件
+"ruby"タグ 5件
+"php"タグ 3件
+"html"タグ 1件
+</pre>
+<p>の場合</p>
+<pre>
+max = 10の平方根 = 約3.16
+min = 1の平方根 = 1
+係数 = 24 / (3.16 - 1) = 約11.11
+</pre>
+<p>という処理のベースとなる値が取得され</p>
+<pre>
+"js"level = (3.16 - 1) * 11.11 = 23.99
+"ruby"level = (2.23 - 1) * 11.11 = 12.55
+"php"level = (1.73 - 1) * 11.11 = 8.11
+"html"level = (1 - 1) * 11.11 = 0
+※計算中の端数の処理は適当にやってください
+</pre>
+<p>と、概ねこのような結果になります。<br />
+へー
+</div>
+<div>
+ちなみに、Rubyで書かれた方が256倍読みやすかったことで、やっぱRubyはいいなと思いました。<br />
+1行に処理を詰めることが出来たり、コード量が少ないと、読む方も相当楽です。<br />
+（Rubyが良いというよりは、PHPが良くないという方が真実かもしれないけど）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

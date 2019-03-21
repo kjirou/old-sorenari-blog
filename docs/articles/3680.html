@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[CS/JS] クラスを返す関数でハマった | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[CS/JS] クラスを返す関数でハマった</h1>
+        <p>2013年9月8日</p>
+      </section>
+      <section>
+        <div>
+CoffeeScript/JavaScript の子ネタです。</p>
+<p>以下は、クラスを返す createClass 関数を定義して、<br />
+それで返した class を直接 new するという意味の CoffeeScript コードです。</p>
+<pre><code>createClass = -> class
+instance = new createClass()</code></pre>
+<p></p>
+<p>が、これは誤ってます。<br />
+二行目はこう書かないとダメです。</p>
+<pre><code>instance = new(createClass())</code></pre>
+<p></p>
+<p>最初の例だと、createClass を new することになり、<br />
+結果、 class そのものが instance に入ることになります。</p>
+<p>結構ハマりました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

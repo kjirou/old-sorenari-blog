@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JS] LingrでAAを正しく表示するbookmarklet | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JS] LingrでAAを正しく表示するbookmarklet</h1>
+        <p>2008年8月20日</p>
+      </section>
+      <section>
+        <div>
+アスキーアートをLingrで正しく表示するためのブックマークレット↓</p>
+<p>[<a href="javascript: void(document.getElementsByClassName('pretty').each(function(e){e.style.cssText = 'font-family: ＭＳ Ｐゴシック;'}))">LingrでAA</a>]</p>
+<p>※WindowsXP＋IE6とWindowsXP＋FireFox2 で動作確認済み<br />
+※最近やる夫さんには（学んだりロマサガったり家康ったりで）お世話になっている
+</div>
+<p></p>
+<div>
+ということで<br />
+いきなりJavaScriptのDOMの話になりますが</p>
+<p>これはOKですが↓</p>
+<pre>
+htmlElement.style.cssText = 'font-family: ＭＳ Ｐゴシック;'
+</pre>
+<p>これは認識してくれないんすね↓<br />
+（&#8221;serif&#8221;とか認識してくれるものもある）</p>
+<pre>
+htmlElement.style.fontFamily = 'ＭＳ Ｐゴシック;'
+</pre>
+<p>
+意外にも勉強になった、そして時間が掛かった。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

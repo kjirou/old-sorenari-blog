@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Ember.js 雑多メモ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Ember.js 雑多メモ</h1>
+        <p>2012年11月25日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://emberjs.com" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://emberjs.com', 'Ember.js']);" target="_blank">Ember.js</a> を使い始めてみているので<br />
+その過程で調べたりハマったことなどの雑多メモ
+</div>
+<h3>サポート対象ブラウザは？</h3>
+<div>
+本家を探しても発見できなかった、のでググったら<br />
+<a href="http://stackoverflow.com/questions/9873744/ember-js-browser-support" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://stackoverflow.com/questions/9873744/ember-js-browser-support', 'stackoverflowで開発者が回答']);" target="_blank">stackoverflowで開発者が回答</a>していた<br />
+「パフォーマンスの問題を抜きにすれば、ほとんど対応している」とのこと
+</div>
+<h3>アプリ初期化処理は Application#ready</h3>
+<div>
+<pre><code>MyApp.ready = function(){
+    /* あなたのアプリの初期化処理 */
+}</code></pre>
+<p>ready(callback)でない点に注意、<br />
+詳しくは<a href="http://emberjs.com/api/classes/Ember.Application.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://emberjs.com/api/classes/Ember.Application.html', 'マニュアル']);" target="_blank">マニュアル</a>参照
+</div>
+<h3>forEachをbreakしたい場合は替わりにsome</h3>
+<div>
+ES5の仕様から、forEach には途中でbreakする機能が無いので<br />
+替わりに <a href="https://developer.mozilla.org/ja/docs/JavaScript/Reference/Global_Objects/Array/some" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://developer.mozilla.org/ja/docs/JavaScript/Reference/Global_Objects/Array/some', 'some']);" target="_blank">some</a> を使う<br />
+callback 内で true を返すと止まる<br />
+breakではなくcontinueしたい場合は不明</p>
+<p>ちなみに、map, filter, every 等のその他のES5準拠のメソッドについても<br />
+配列的な動きをするオブジェクトでは、一通り使えるよう
+</div>
+<h3>CollectionにはArrayController</h3>
+<div>
+オブジェクトのコレクションを作りたい場合は Ember.ArrayControllerを使う<br />
+こちらの<a href="https://github.com/emberjs/todos/blob/master/app/lib/app.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/emberjs/todos/blob/master/app/lib/app.js']);" target="_blank">サンプルコード</a>を参照
+</div>
+<h3>参考リンク</h3>
+<div>
+自分が情報を探す時に、確認するところ。上ほど優先順位が高い</p>
+<ul>
+<li><a href="https://github.com/studiomohawk/emberjs-doc-translation/blob/master/ember.js-docs-translation.md" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/studiomohawk/emberjs-doc-translation/blob/master/ember.js-docs-translation.md', 'Ember.js Docs 日本語訳']);" target="_blank">Ember.js Docs 日本語訳</a> (超助かっています、多謝)</li>
+<li><a href="http://emberjs.com/examples/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://emberjs.com/examples/', 'Ember.js &#8211; Examples']);" target="_blank">Ember.js &#8211; Examples</a></li>
+<li><a href="http://emberjs.com/guides/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://emberjs.com/guides/', 'Ember.js &#8211; GUIDES']);" target="_blank">Ember.js &#8211; GUIDES</a></li>
+<li><a href="http://emberjs.com/api/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://emberjs.com/api/', 'Ember.js &#8211; API']);" target="_blank">Ember.js &#8211; API</a></li>
+<li><a href="https://github.com/emberjs/ember.js/blob/master/lib/ember.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/emberjs/ember.js/blob/master/lib/ember.js']);" target="_blank">ember.js ソースコード</a></li>
+</ul>
+<p>日本語記事が乏しいので、英語力の問題からググるのは最後の最後
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

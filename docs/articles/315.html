@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] 入力フォームのname属性に&#8221;.&#8221;を入れると&#8221;_&#8221;に置換されている | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] 入力フォームのname属性に&#8221;.&#8221;を入れると&#8221;_&#8221;に置換されている</h1>
+        <p>2008年5月16日</p>
+      </section>
+      <section>
+        <div>
+タイトルの通りなんですが<br />
+以下のようなtest.phpの出力する決定ボタンを押した場合のvar_dumpの出力が</p>
+<pre>
+&lt;html&gt;
+&lt;body&gt;
+&lt;form action=&quot;./test.php&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;text&quot; name=&quot;A.B...-C&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Submit!&quot; /&gt;
+&lt;/form&gt;
+&lt;?php
+var_dump($_POST);
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>こうなるっちゅー話です</p>
+<pre>
+// "."が"_"へ置換されている
+array(1) {
+["A_B___-C"]=>
+string(0) ""
+}
+</pre>
+</div>
+<p></p>
+<div>
+今まで知らなかったです。</p>
+<p>なお、PHPは5.2.5で、自分でソースから入れた奴です。<br />
+・・・どこの仕様なんだろう？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

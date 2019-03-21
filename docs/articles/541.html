@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>パズドラをHTML5/JavaScriptでクローン | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>パズドラをHTML5/JavaScriptでクローン</h1>
+        <p>2012年11月15日</p>
+      </section>
+      <section>
+        <div>
+パズドラ（パズル＆ドラゴンズ）のパズル部分がとても面白いので<br />
+自作ゲームに使えないかと、とりあえずJavaScriptでクローンしてみました</p>
+<p>　<a href="https://github.com/kjirou/mugen_pazdora" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/mugen_pazdora', 'Github &#8211; kjirou/mugen_pazdora']);" target="_blank">Github &#8211; kjirou/mugen_pazdora</a><br />
+　デモ環境は<a href="http://pub.kjirou.net/mugen_pazdora/" target="_blank">コチラ</a></p>
+<ul>
+<li>色々と未完成ですが、パズル本体部分は再現出来てるつもり</li>
+<li>Google Chrome と iPhone4 の Safari でしか動作確認していません</li>
+<li>iPhoneでは残念な速度になっております</li>
+<li>今後開発を続けるかは考え中</li>
+</ul>
+</div>
+<h3>利用したJavaScriptライブラリの所感</h3>
+<div>
+<ul>
+<li><a href="http://sugarjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://sugarjs.com/', 'Sugar.js v1.3.6']);" target="_blank">Sugar.js v1.3.6</a></li>
+<li><a href="http://cho45.stfuawsc.com/jsdeferred/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://cho45.stfuawsc.com/jsdeferred/', 'JSDeferred v0.4']);" target="_blank">JSDeferred v0.4</a></li>
+<li><a href="http://jquery.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://jquery.com/', 'jQuery v1.8.2']);" target="_blank">jQuery v1.8.2</a></li>
+<li><a href="http://jqueryui.com/download/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://jqueryui.com/download/', 'jQuery UI v1.9.1']);" target="_blank">jQuery UI v1.9.1</a></li>
+<li><a href="http://touchpunch.furf.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://touchpunch.furf.com/', 'jQuery UI Touch Punch v0.2.2']);" target="_blank">jQuery UI Touch Punch v0.2.2</a></li>
+</ul>
+<p>
+Sugar.js はかつてのprototype.jsのように<br />
+プロトタイプを上書きして便利な汎用関数を追加してくれるライブラリです<br />
+<a href="https://twitter.com/komagata" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/komagata', '@komagata']);" target="_blank">@komagata</a> から聞いて初めて使ってみた</p>
+<p>起こりがちな他ライブラリとの衝突問題にも出来る限り配慮してくれていて<br />
+（Object.prototypeは更新しないで、Objectのメソッドとして静的に持たせたりとか）<br />
+今のところは、便利に使っていて特に不満な点もありません<br />
+わかっちゃいたけど、Arrayのプロパティとしてeachやmapやらを持たせられると<br />
+楽で楽で楽で楽で楽で！</p>
+<p>他のプロトタイプ更新系ライブラリとは、否応なく衝突しちゃいますが<br />
+空いてるなら試しに入れても良いと思う</p>
+<p>jQuery UI Touch Punch は jQuery UI を iPhone で有効にするためのライブラリ<br />
+読み込むだけで良い<br />
+これも今のところはちゃんと動いている、便利な世の中だー</p>
+<p>JSDeferredは超好きなんだけど、なんでこれ流行らないんだろう？<br />
+「とりあえず、Deferredオブジェクトを返しとく」だけで<br />
+非同期処理をキレイに分離できるのが、一番良い点
+</div>
+<h3>アルゴリズム的な話</h3>
+<div>
+3-Match の判定部分が、泥臭くなって時間も掛かってしまったので<br />
+アルゴリズムを解説しているサイトをご存じでしたら<br />
+是非コメントを頂きたく</p>
+<p>パズドラは、まだ縦横３つ以上の「コラムス」形式だから<br />
+力技でもどうにかなったんですが<br />
+もしこれが「ぷよぷよ」形式だと<br />
+思いつく方法だと重すぎて影響が出そう</p>
+<p>どうやってんでしょうなー
+</p></div>
+<h3>以上</h3>
+<div>
+パズドラは遊びじゃない</p>
+<p>
+プレゼントください
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

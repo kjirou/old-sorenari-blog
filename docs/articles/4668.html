@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MacでDwarf Fortressを遊ぶ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MacでDwarf Fortressを遊ぶ</h1>
+        <p>2015年9月12日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://www.bay12games.com/dwarves/index.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.bay12games.com/dwarves/index.html', 'Dwarf Fortress']);" target="_blank">Dwarf Fortress</a> という CUI のゲームを <a href="http://www.nicovideo.jp/watch/sm26505022" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.nicovideo.jp/watch/sm26505022', 'ニコ動で知り']);" target="_blank">ニコ動で知り</a>、面白そうなので開発用の Mac Book Air (Yosemite) にインストールしてみました。</p>
+<p>そのインストール手順のメモです。
+</p></div>
+<h3>本体を Homebrew でインストール</h3>
+<div>
+本家からダウンロードしてもいいと思いますが、Homebrew に登録があったので今回はそちらからインストールしました。</p>
+<pre>
+$ brew install homebrew/games/dwarf-fortress
+</pre>
+</div>
+<h3>libfreetype.6.dylib が無い</h3>
+<div>
+これで既に <tt>dwarffortress</tt> の起動コマンドが使えるようになるのですが、実行すると以下の様なエラーになります。</p>
+<pre>
+$ dwarffortress 
+dyld: Library not loaded: /usr/X11R6/lib/libfreetype.6.dylib                                                            
+  Referenced from: /usr/local/Cellar/dwarf-fortress/0.40.24/libexec/libs/SDL_ttf.framework/Versions/A/SDL_ttf
+  Reason: no suitable image found.  Did find:
+        /usr/local/lib/libfreetype.6.dylib: mach-o, but wrong architecture
+</pre>
+<p></p>
+<p>詳細は良くわからんのですが、多分「<tt>libfreetype.6.dylib</tt> が無い、既にあるやつは悪い」のような内容に見えます。</p>
+<p>と思って調べると、本家のバグトラッカーにもそのような内容の<a href="http://www.bay12games.com/dwarves/mantisbt/view.php?id=5648" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.bay12games.com/dwarves/mantisbt/view.php?id=5648', 'チケット']);" target="_blank">チケット</a>がありました。
+</div>
+<h3>XQuartz.app をインストール</h3>
+<div>
+色々とググると、その <tt>libfreetype.6.dylib</tt> は <a href="https://ja.wikipedia.org/wiki/X11.app" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://ja.wikipedia.org/wiki/X11.app', 'XQuartz.app']);" target="_blank">XQuartz.app</a> をインストールするとその中に含まれているようです。<br />
+自分はそういえば過去にインストール済みであり、既に最新版の <tt>2.7.7</tt> が入っていました。</p>
+<p>まだの場合でも、特に難しい作業ではないと思うので、「<a href="https://www.google.co.jp/search?q=mac+xquarz+%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB&#038;oq=mac+xquarz+%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB&#038;ie=UTF-8" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.google.co.jp/search?q=mac+xquarz+%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB&#038;oq=mac+xquarz+%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB&#038;ie=UTF-8', 'mac xquarz インストール']);" target="_blank">mac xquarz インストール</a>」などから完了できると思います。
+</div>
+<h3>libfreetype.6.dylib をコピー</h3>
+<div>
+先ほどのエラーと同じ位置になるようにディレクトリを生成し、ファイルをコピーします。</p>
+<pre>
+ls /usr/  # 既に /usr/X11R6 がないか確認します、あったら各人対応願います
+sudo mkdir -p /usr/X11R6/lib/
+sudo cp /opt/X11/lib/libfreetype.6.dylib /usr/X11R6/lib/
+</pre>
+<p></p>
+<p>これで設定は完了のはずです。
+</p></div>
+<h3>起動確認</h3>
+<div>
+改めて起動してみましょう。</p>
+<pre>
+$ dwarffortress
+</pre>
+<p></p>
+<p>以下の様なウィンドウが起動し、音楽が鳴り始めました！</p>
+<p><img src="https://i.gyazo.com/41755670501e750e34fc99dd4c31da34.png" /></p>
+<p>ちょっと操作した感じ、大丈夫そうです。</p>
+<p>なお、終了する場合、ウィンドウの閉じるボタンは反応しないみたいで、ゲーム内で正規の手順で <tt>Quit</tt> するか、プロセスを強制的に kill するかしか方法がありませんでした。
+</div>
+<h3>以上</h3>
+<div>
+このゲーム、あの Minecraft がインスピレーションを得た作品らしいです<br />
+って、ニコ動コメントに書いてありました。</p>
+<p>Losing is fun! :)
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

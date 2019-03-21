@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Jade で複数行のJavaScriptコードを埋め込む | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Jade で複数行のJavaScriptコードを埋め込む</h1>
+        <p>2014年2月20日</p>
+      </section>
+      <section>
+        <div>
+<a href="https://github.com/visionmedia/jade/issues/502" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/visionmedia/jade/issues/502', 'GitHub Issue &#8211; Multi-Line Array Literal']);" target="_blank">GitHub Issue &#8211; Multi-Line Array Literal</a> に書いてあった。</p>
+<p>こんな風に書く、または mixin を使うともう少し綺麗に書けるよ、という回答だった。</p>
+<pre>
+- var array = [
+-   'foo',
+-   'bar',
+-   'baz'
+- ]
+</pre>
+<p></p>
+<p>script. は、HTMLとして出力されてしまうので、ほとんどのケースで上記より悪いと思われます。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

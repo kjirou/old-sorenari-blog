@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] requireやinclude周りを復習 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] requireやinclude周りを復習</h1>
+        <p>2010年7月17日</p>
+      </section>
+      <section>
+        <div>
+PHPのファイルインクルード周りが気になったので復習したという話です。<br />
+ブログ更新コストを抑えるために超雑更新モードで！
+</div>
+<h3>requireとincludeの違い</h3>
+<div>
+読み込み失敗時に処理が止まる ＝ require<br />
+読み込み失敗時に処理を継続 ＝ include</p>
+<p>もう少し詳しく説明すると<br />
+読み込み失敗時に Fatal Error (E_ERROR) を発生 ＝ require<br />
+読み込み失敗時に Warning (E_WARNING) を発生 ＝ include</p>
+<p>参考) <a href="http://www.php.net/manual/ja/function.include.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.php.net/manual/ja/function.include.php', 'PHPマニュアル &#8211; include()']);" target="_blank">PHPマニュアル &#8211; include()</a>
+</div>
+<h3>require_onceの同一ファイル判定</h3>
+<div>
+説明はいらんと思うので、以下が確認した点</p>
+<ul>
+<li>途中のファイルパスの記述方法が異なっても、同じファイルを指していたら、同じファイルと判定（当たり前だけど）</li>
+<li><b>ファイル名の違うシンボリックリンクも、同じファイルと判定</b></li>
+</ul>
+<p>後者は知らなかった。Linuxに詳しい人なら当然のことなのかもだけど。
+</p></div>
+<h3>include path</h3>
+<div>
+一点だけ↓</p>
+<p><b>「パス (絶対パスあるいは相対パスのいずれでも) <br />
+を指定した場合は include_path は無視されます。」</b></p>
+<p>引用) <a href="http://www.php.net/manual/ja/function.include.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.php.net/manual/ja/function.include.php', 'PHPマニュアル &#8211; include()']);" target="_blank">PHPマニュアル &#8211; include()</a></p>
+<p>何となく知ってたけど、ちゃんと意識したことは無かったので、<br />
+近い将来にハマってた気がする。
+</div>
+<h3>__autoload</h3>
+<div>
+クラス未定義エラーの直前をフックできる関数が __autoload です。<br />
+賢明なる諸君には詳しい説明も要らないと思うので、所感だけ↓</p>
+<ul>
+<li>一応 function でもやってみたけど無理</li>
+<li>個人的感想としては、使えるし黒魔法にもなりにくいので、割とオススメ</li>
+<li>詳しく知りたい人は<a href="http://www.google.co.jp/search?q=php+__autoload&#038;ie=utf-8&#038;oe=utf-8&#038;aq=t&#038;hl=ja" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.google.co.jp/search?q=php+__autoload&#038;ie=utf-8&#038;oe=utf-8&#038;aq=t&#038;hl=ja', '「PHP __autoload」とかでググるといい']);" target="_blank">「PHP __autoload」とかでググるといい</a>んだぜ</li>
+</ul>
+</div>
+<h3>以上</h3>
+<div>
+「置くだけで使えるよ！」というPHPの長所を活かすためには、<br />
+とても大事な点なので復習しました。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

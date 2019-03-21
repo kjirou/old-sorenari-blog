@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>連想配列・配列の末尾に , がある場合の | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>連想配列・配列の末尾に , がある場合の</h1>
+        <p>2007年5月25日</p>
+      </section>
+      <section>
+        <div>
+また、javascriptのクロスブラウザネタ。</p>
+<p>（対IEに限った話じゃなくて）クロスブラウザ対応が<br />
+どれだけ開発効率を下げているかがよくわかります。
+</div>
+<div>
+逆に言えば、その足かせがあっても使われている、いい言語だとも言えますね！<br />
+成人男子の8割が「休日にはjavascriptを書きます」というアンケート結果にも納得です。
+</div>
+<div>
+ということで本題</p>
+<pre>
+var foo = {
+a: 111,
+b: 222,
+c: 333, // 末尾がカンマで終わっている
+};
+</pre>
+<p>これはXP-FireFox1.5で正常動作、XP-IE6でエラー。
+</p></div>
+<div>
+<pre>
+var bar = [
+444,
+555,
+666, // 末尾がカンマで終わっている
+];
+</pre>
+<p>これはXP-FireFox1.5・XP-IE6両方で正常動作する。<br />
+IEで動いてるのは、たまたまって感じがしますけど。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

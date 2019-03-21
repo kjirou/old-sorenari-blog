@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>シェルでヒアドキュメントを使う | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>シェルでヒアドキュメントを使う</h1>
+        <p>2013年1月24日</p>
+      </section>
+      <section>
+        <div>
+シェルやシェルスクリプトでヒア・ドキュメントを使う方法<br />
+インストールスクリプトとか手順を書く時に使えそう</p>
+<pre>
+cat &gt; /path/to/some.txt &lt;&lt; EOF
+1234567890
+abcdefghij
+EOF
+</pre>
+<p></p>
+<p>&lt;&lt; が &lt; でないのは何故なんだろう？
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

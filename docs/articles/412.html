@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Django] AUTHENTICATION_BACKENDSはsession_dataに保持 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Django] AUTHENTICATION_BACKENDSはsession_dataに保持</h1>
+        <p>2009年4月6日</p>
+      </section>
+      <section>
+        <div>
+1.0.2-finalです。</p>
+<p>Session.session_dataをデコードすると、</p>
+<pre>
+{'_auth_user_id': 410L, '_auth_user_backend': 'site.app.backends.MyBackend'}
+</pre>
+<p>・・・と、auth_user_idの他に、auth_user_backendも保持している。</p>
+<p>もし、site.app.backends.MyBackendのパスを app.backends.MyBackend等に変えたときは、<br />
+ログイン中のユーザに関しては、django_sessionのデータを全部削除してログアウトさせないと、サイトへアクセスしてもシステムエラーになってしまう。</p>
+<p>後付けでsitesフレームワーク対応を入れるときにそこを変更して、微ハマりしました・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

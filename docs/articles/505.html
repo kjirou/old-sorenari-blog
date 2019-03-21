@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] 再帰的にdictをwalkする関数 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] 再帰的にdictをwalkする関数</h1>
+        <p>2011年8月7日</p>
+      </section>
+      <section>
+        <h3>「自分の子リストを持つdictデータ」を再帰的に評価したかった</h3>
+<div>
+例えば以下のようなデータを</p>
+<pre><code>adict = {
+    &#039;name&#039;: u&#039;波平&#039;,
+    &#039;children&#039;: [
+        {
+            &#039;name&#039;: u&#039;サザエ&#039;,
+            &#039;children&#039;:[{&#039;name&#039;:u&#039;タラオ&#039;, &#039;children&#039;:[]}],
+        },
+        {&#039;name&#039;: u&#039;カツオ&#039;, &#039;children&#039;:[]},
+        {&#039;name&#039;: u&#039;ワカメ&#039;, &#039;children&#039;:[]},
+    ]
+}</code></pre>
+<p>こんな風に操作したいなと思いました</p>
+<pre><code>for child in 関数(adict):
+print child['name'] # -> u'波平' から順次表示</code></pre>
+</div>
+<h3>walk_dict関数を作ったけど</h3>
+<div>
+というわけで、<a href="http://code.kjirou.net/py/snippet/walk_dict.py" target="_blank">walk_dict(adict, children_key) という関数を作りました</a></p>
+<p>・・・と、要件は満たせたんですが、何か変</p>
+<pre><code>for i in walk_dict(child, children_key):
+    yield i</code></pre>
+<p>のところを、generatorを解除するのに1回しか回らんループをしてるのが特に変？
+</p></div>
+<h3>ということで</h3>
+<div>
+「○○モジュール使えばいいんじゃないの？お馬鹿なの？」<br />
+という、身も蓋もない意見を絶賛募集中です！</p>
+<p>後、ついでにも程がありますが、JavaScriptでも同じような関数を募集中です！！
+</p></div>
+<h3>別解を貰った</h3>
+<div>
+@kenji4569 さんから別解を貰ったので、元解答と両方さらしておきます</p>
+<pre><code># 自分
+def walk_dict(adict, children_key):
+    yield adict
+    for child in adict[children_key]:
+        for i in walk_dict(child, children_key):
+            yield i
+
+# @kenji4569 さん
+def walk_dict(adict, children_key):
+    from itertools import chain
+        return chain([adict], *[walk_dict(child, children_key) for child in adict[children_key]])</code></pre>
+</div>
+<h3>JavaScript版</h3>
+<div>
+アルゴリズムは一緒です、JSに書き起こしただけ<br />
+イテレーターにはなってません</p>
+<pre><code>function walkObject(obj, childrenKey) {
+    var sequence = [];
+    sequence.push(obj);
+    var children = obj[childrenKey];
+    for (var i = 0; i &lt; children.length; i++) {
+        var child = children[i];
+        sequence = sequence.concat(arguments.callee(child, childrenKey));
+    }
+    return sequence;
+}</code></pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

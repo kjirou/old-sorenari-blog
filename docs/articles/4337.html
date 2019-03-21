@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>mongoose-id-extractor-pluginで常に_idを取得 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>mongoose-id-extractor-pluginで常に_idを取得</h1>
+        <p>2014年10月28日</p>
+      </section>
+      <section>
+        <div>
+mongoose で ObjectId 型のフィールドを定義した場合、population が実行済みか否で取得できる値が変わります。</p>
+<p>例えば、<a href="http://blog.kjirou.net/p/3989" title="[mongoose] populate関係なく_idを取得したい">過去に書いた</a>ことでもありますが、以下の問題です：  </p>
+<pre>
+// foo に対して populate 未実行の場合は foo が ObjectId インスタンス
+doc.foo;
+
+// foo に対して populate を実行済みの場合は foo はドキュメントなので
+// foo._id が ObjectId インスタンス
+doc.foo._id;
+
+// 両方の状況に対応するためには、このような分岐を書く必要がある
+var fooId = doc.populated('foo') || doc.foo;
+</pre>
+</div>
+<h3>npm パッケージを作った</h3>
+<div>
+なので、<a href="https://github.com/kjirou/mongoose-id-extractor-plugin" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/mongoose-id-extractor-plugin', 'mongoose-id-extractor-plugin']);" target="_blank">mongoose-id-extractor-plugin</a> という npm パッケージを作りました。<br />
+<a href="http://mongoosejs.com/docs/plugins.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mongoosejs.com/docs/plugins.html', 'mongoose-plugins']);" target="_blank">mongoose-plugins</a> の仕組みを使い、<tt>foo</tt> に対して、常に _id を抽出できる <tt>foo_id</tt> を <tt>schema.virtual</tt> で定義します。</p>
+<p>大体こんな風に使う：</p>
+<pre>
+var mongoose = require(&#039;mongoose&#039;);
+var idExtractor = require(&#039;mongoose-id-extractor-plugin&#039;);
+
+var commentSchema = new mongoose.Schema({
+  article: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: &#039;Article&#039;
+  }
+});
+
+// plugin として使う
+commentSchema.plugin(idExtractor, { refs:[&#039;article&#039;] });
+
+var Comment = mongoose.model(&#039;Comment&#039;, commentSchema);
+var comment = new Comment();
+// 常に _id を返す article_id が生えている
+comment.article_id;
+</pre>
+<p></p>
+<p>詳しくは、<a href="https://github.com/kjirou/mongoose-id-extractor-plugin" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/mongoose-id-extractor-plugin', 'GitHub']);" target="_blank">GitHub</a> をご確認下さい。</p>
+<p>ご査収のほど、よろしくお願い申し上げます。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

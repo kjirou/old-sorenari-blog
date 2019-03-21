@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>JSでStringオブジェクトにプロパティを追加できない？ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>JSでStringオブジェクトにプロパティを追加できない？</h1>
+        <p>2007年6月7日</p>
+      </section>
+      <section>
+        <div>
+javascriptで<br />
+文字列リテラルを使って宣言したStringオブジェクトにプロパティを追加しようと思いました。</p>
+<pre>
+var str = "oops";
+str._a = 12345; // _aプロパティを追加
+</pre>
+<p>で、参照する</p>
+<pre>
+alert(str._a); // ---> undefined
+</pre>
+<p>・・・おやー？
+</div>
+<div>
+ちなみに、この宣言方法だと可能です</p>
+<pre>
+var str = new String("sorry");
+str._a = 1;
+alert(str);    // ---> "sorry"
+alert(str._a); // ---> 1
+</pre>
+<p>なぜだろう？
+</p></div>
+<div>
+「何故駄目なのか」「できる方法があるのか」等など、正直全くわかりません。<br />
+誰か「ここ読めばいいよ」だけでも教えていただけると、飛び跳ねて喜びます。
+</div>
+<div>
+<a href="http://kjirou.sakura.ne.jp/mt/2007/06/str_new_stringstr.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/06/str_new_stringstr.html', '続く・・・']);" >続く・・・</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

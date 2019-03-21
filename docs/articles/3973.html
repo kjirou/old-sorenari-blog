@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Moment.jsで不自然に感じる挙動 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Moment.jsで不自然に感じる挙動</h1>
+        <p>2014年4月17日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://momentjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://momentjs.com/', 'Moment.js']);" target="_blank">Moment.js</a> を使っていて不自然に感じる挙動のメモ。<br />
+バージョンは 2.4.0 です。
+</div>
+<h3>moment(何か値) の挙動</h3>
+<div>
+これは自然：</p>
+<pre>
+moment();  // ローカル時間の有効な Moment オブジェクトを返す
+</pre>
+<p></p>
+<p>これもJSだから当然：</p>
+<pre>
+moment(undefined);  // 上記と同じ有効なオブジェクトを返す
+</pre>
+<p></p>
+<p>これもいいですね：</p>
+<pre>
+moment('不正な文字列').isValid() === false;  // 不正なオブジェクトを返す
+</pre>
+<p></p>
+<p>えっ？：</p>
+<pre>
+moment(null) === null;  // これは真
+moment('') === null;  // これも真
+</pre>
+<p></p>
+<p>こうやって雑に調べたいときに不便：</p>
+<pre>
+moment(不明な値 || null).isValid();  // null だからNG
+moment(不明な値 || '').isValid();  // null だからNG
+moment(不明な値 || '不正な文字列').isValid();  // こういう風にしないといけない
+</pre>
+</div>
+<h3>add, subtract は破壊的に更新する</h3>
+<div>
+このように破壊的に更新されてしまう：</p>
+<pre>
+var m = moment('2014-04-01');
+m.add('days', 1);
+m.toDate();  // 加算されている
+</pre>
+<p></p>
+<p>破壊したくなかったら clone するしかない？：</p>
+<pre>
+var m = moment('2014-04-01');
+m.clone().add('days', 1);
+</pre>
+<p></p>
+<p>他の方法あんのかな・・・。
+</p></div>
+<h3>追記：2014-06-19</h3>
+<div>
+ファッ！？：</p>
+<pre>
+moment('2014-06-14 00:00:00', 'YYYY-MM-DD').isValid();  // -&gt; true
+</pre>
+<p></p>
+<p>お、おう・・・：</p>
+<pre>
+moment('2014-06-14 00:00:00', 'YYYY-MM-DD', true).isValid();  // -&gt; false
+</pre>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

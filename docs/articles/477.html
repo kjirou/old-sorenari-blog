@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Mercurial] Couldn&#8217;t import standard bz2 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Mercurial] Couldn&#8217;t import standard bz2</h1>
+        <p>2010年9月9日</p>
+      </section>
+      <section>
+        <div>
+超イマサラですが Mercurial でも使ってみようと</p>
+<pre>
+easy_install mercurial
+</pre>
+<p>をやったら</p>
+<pre>
+error: Setup script exited with Couldn't import standard bz2 (incomplete Python install).
+</pre>
+<p>というエラーが出て失敗しました。
+</p></div>
+<h3>bz2モジュールが無いからエラー</h3>
+<div>
+エラーの原因は、Pythonのbz2モジュールが無いよということでした。</p>
+<p>なんで無いかというと、<br />
+Pythonはソースから入れた2.5.2でOSはCentOSなんですが、<br />
+Pythonインストール前に</p>
+<pre>
+yum install bzip2-devel
+</pre>
+<p>をしておかないとbz2モジュールが生成されないためでした。
+</p></div>
+<h3>なので</h3>
+<div>
+上記の yum install を行ってから、Pythonを上書き再コンパイルしたら、<br />
+bz2モジュールも、mercurial も無事入りましたとさ。</p>
+<p>めでたし、めでたし。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

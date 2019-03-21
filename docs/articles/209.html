@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>最近の使えるネットにyumコマンドを入れるまで | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>最近の使えるネットにyumコマンドを入れるまで</h1>
+        <p>2007年12月11日</p>
+      </section>
+      <section>
+        <div>
+前に<a href="http://www.tsukaeru.net/plans/vps/detail.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.tsukaeru.net/plans/vps/detail.php', '使えるネットのLinuxVPS・シルバーコース']);" >使えるネットのLinuxVPS・シルバーコース</a>を借りた時はCentOS4.5だったんだけど、<br />
+最近同じコースを借りたらこんな風になってた。</p>
+<pre>
+# cat /etc/issue
+CentOS release 5 (Final)
+Kernel \r on an \m
+</pre>
+<p>ちなみにCPUもi686から以下に変わってた</p>
+<pre>
+# uname -m
+x86_64
+</pre>
+<p>まぁ、<a href="http://kjirou.sakura.ne.jp/mt/2007/12/yum.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/12/yum.html', 'これが原因でハマった']);" >これが原因でハマった</a>んですけど・・・<br />
+・・・それは置いといて、yumコマンドインスコまでに自分のやったオペレーションの履歴を載せます。
+</div>
+<div>
+<b>【yumコマンドインストールまで】</b><br />
+まず、パッケージ群のダウンロード。<br />
+<a href="http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/', 'コチラ']);" >コチラ</a>から落としました、x86_64用なのに注意。</p>
+<pre>
+cd /usr/local/src
+wget http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/yum-3.0.5-1.el5.centos.2.noarch.rpm
+wget http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/python-elementtree-1.2.6-5.x86_64.rpm
+wget http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/python-sqlite-1.1.7-1.2.1.x86_64.rpm
+wget http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/rpm-python-4.4.2-37.el5.x86_64.rpm
+wget http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/python-urlgrabber-3.1.0-2.noarch.rpm
+wget http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/m2crypto-0.16-6.el5.1.x86_64.rpm
+</pre>
+<p>落としたら、ひたすら rpm -Uhv</p>
+<pre>
+rpm -Uhv python-elementtree-1.2.6-5.x86_64.rpm
+rpm -Uhv python-sqlite-1.1.7-1.2.1.x86_64.rpm
+rpm -Uhv rpm-python-4.4.2-37.el5.x86_64.rpm
+rpm -Uhv m2crypto-0.16-6.el5.1.x86_64.rpm
+rpm -Uhv python-urlgrabber-3.1.0-2.noarch.rpm
+rpm -Uhv yum-3.0.5-1.el5.centos.2.noarch.rpm
+</pre>
+<p>yumコマンドが入ったら</p>
+<pre>
+yum update
+</pre>
+<p>途中で[y/N]が聞かれるので、放置するならそれを叩いてからの方が良い。<br />
+30分～1時間ぐらいで完了します。
+</div>
+<div>
+どこでハマるんだ？って感じですね。<br />
+特にまとめる必要も無かったかもしれん。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

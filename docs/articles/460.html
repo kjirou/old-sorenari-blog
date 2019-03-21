@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] re.subや文字列周りの小ネタx3 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] re.subや文字列周りの小ネタx3</h1>
+        <p>2010年2月20日</p>
+      </section>
+      <section>
+        <div>
+正規表現やstring周りで微妙にハマったネタを少々。
+</div>
+<h3>re.subの第2引数は単なる文字列じゃない</h3>
+<div>
+以下は「1つの半角エスケープ文字を2つに置換」という意図のコードですが</p>
+<pre>
+&gt;&gt;&gt; import re
+&gt;&gt;&gt; re.sub(u&quot;\\\\&quot;, u&quot;\\\\&quot;, u&quot;\\&quot;)
+u'\\'
+</pre>
+<p>期待通りに動いてくれませんでした。</p>
+<p>で、結論としては、こう書く必要がありました↓</p>
+<pre>
+&gt;&gt;&gt; import re
+&gt;&gt;&gt; re.sub(u&quot;\\\\&quot;, u&quot;\\\\\\\\&quot;, u&quot;\\&quot;)
+u'\\\\'
+</pre>
+<p>理由は、第2引数も特殊な記法で解釈される文字列で、<br />
+2文字のエスケープ文字を1文字に解釈していたためでした。<br />
+（第1引数が、正規表現を表す特殊記法の文字列であるように）</p>
+<p>・・・と、とにかく &#8220;\&#8221; がややこしいので<br />
+伝わってなかったらすみません。</p>
+<p>マニュアル： <a href="http://www.python.jp/doc/release/lib/node46.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/doc/release/lib/node46.html', 'reモジュール &#8211; 4.2.3 モジュール コンテンツ']);" target="_blank">reモジュール &#8211; 4.2.3 モジュール コンテンツ</a><br />
+のsubメソッドの部分
+</div>
+<h3>raw宣言でも末尾 \ はダメ</h3>
+<div>
+<pre>
+&gt;&gt;&gt; r'\a' # OKの例
+'\a'
+&gt;&gt;&gt; r'a\' # NGの例
+File &quot;&lt;stdin&gt;&quot;, line 1
+r'a\'
+^
+SyntaxError: EOL while scanning single-quoted string
+</pre>
+<p>なんでこうなってるのかは不明ですけど、<br />
+rawでもそうじゃなくても、末尾に\を入れるとその後改行できるので、<br />
+その関係かな？と思っている。</p>
+<p>マニュアル： <a href="http://www.python.jp/doc/release/tut/node5.html#SECTION005120000000000000000" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/doc/release/tut/node5.html#SECTION005120000000000000000', 'チュートリアル &#8211; 3.1.2 文字列']);" target="_blank">チュートリアル &#8211; 3.1.2 文字列</a>
+</div>
+<h3>リテラル同士だと + 無しで連結可能</h3>
+<div>
+<pre>
+&gt;&gt;&gt; &quot;str&quot; &quot;ing&quot;
+'string'
+&gt;&gt;&gt; &quot;str&quot;.upper() &quot;ing&quot;
+File &quot;&lt;stdin&gt;&quot;, line 1
+&quot;str&quot;.upper() &quot;ing&quot;
+^
+SyntaxError: invalid syntax
+</pre>
+<p>リテラル同士じゃないと無理なので、使いどころは不明</p>
+<p>マニュアル： <a href="http://www.python.jp/doc/release/tut/node5.html#SECTION005120000000000000000" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.python.jp/doc/release/tut/node5.html#SECTION005120000000000000000', 'チュートリアル &#8211; 3.1.2 文字列']);" target="_blank">チュートリアル &#8211; 3.1.2 文字列</a>
+</div>
+<h3>以上</h3>
+<div>
+今月はコーディング量が多いから、細かいネタが増えてブログが書き易い！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

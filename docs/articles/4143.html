@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>ページの一部を後でJS化する場合どうするか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>ページの一部を後でJS化する場合どうするか</h1>
+        <p>2014年8月29日</p>
+      </section>
+      <section>
+        <div>
+例えば、元々はサーバサイドでHTMLを生成して返していただけのページで：</p>
+<ul>
+<li>「次に進む」リンクでのページネーションを「もっと読む」へ変更したい。</li>
+<li>初期表示で数列表示されているテキストフィールドを「＋」ボタンで増やせるようにしたい。</li>
+</ul>
+<p></p>
+<p>このような要望が後で発生し、<br />
+一部を JavaScript で書き直さざるを得ないケースは良くあることだと思います。</p>
+<p>これ、どういう設計で対応するのが一番いいのかなー、と結論は出ていないのですが、とりあえずまとめてみます。<br />
+（アドバイス貰えるかもしれないし）
+</p></div>
+<h3>描画はJSでのみ行う</h3>
+<div>
+正攻法です。</p>
+<p>動的に変更する可能性があるHTMLは、クライアントサイドのJSのみで描画します。<br />
+もしサーバサイドのデータが必要な場合は、別途 Web-API を作成します。</p>
+<p>例えば、「もっと読む」なら、現在サーバサイドのテンプレートで描画しているリスト部分を削除し、対応する Web-API を作り、それを Ajax で呼ぶことで DOM を生成する JS を書き、サーバ側によるHTML描画が終了した時点でその JS を呼ぶようにする、という対応です。</p>
+<p>問題は特に無いと思いますが、手間が掛かります。
+</p></div>
+<h3>部分的なHTMLを返すWeb-APIを作成する</h3>
+<div>
+Web-API で「部分的なHTML文字列」そのものを返すようにし、Ajax で取得します。</p>
+<p>メリットは、サーバサイドのテンプレートシステムをそのまま使えること、クライアントJSをあまり知らなくても大丈夫なこと、などです。</p>
+<p>デメリットは、汎用性の低いWeb-APIを作る必要があるということ、部分的に呼び出した部分に対し更にJSで加工する必要が発生するとカオスになること、などです。
+</p></div>
+<h3>以上だった。</h3>
+<div>
+2 パターンしか思いつきませんでした。</p>
+<p>もっと他の（悪い）パターンがあった気がするんだが..
+</p></div>
+<h3>追記: ページ全体をAjaxで取得してJSでスクレイピングする</h3>
+<div>
+<blockquote class="twitter-tweet" data-conversation="none" lang="ja">
+<p><a href="https://twitter.com/kjirou" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/kjirou', '@kjirou']);" >@kjirou</a> 最適化っていう観点から言えばダメなんだけど、ふつうにページネーションのリンク先を非同期で取得して、必要な部分だけ id なり class なりで抜き出して、今のページに継ぎ足すみたいなことすればサーバーサイドの変更不要ですね</p>
+<p>&mdash; Qurage (@Qurage) <a href="https://twitter.com/Qurage/statuses/505029392293056513" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/Qurage/statuses/505029392293056513', '2014, 8月 28']);" >2014, 8月 28</a></p></blockquote>
+<p><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote class="twitter-tweet" data-conversation="none" lang="ja">
+<p><a href="https://twitter.com/kjirou" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/kjirou', '@kjirou']);" >@kjirou</a> たしか AutoPagarize 系の拡張がやってることも同じだった記憶あるんですが、ちゃんと実装みたわけじゃないのでわかんないです</p>
+<p>&mdash; Qurage (@Qurage) <a href="https://twitter.com/Qurage/statuses/505031678469742592" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/Qurage/statuses/505031678469742592', '2014, 8月 28']);" >2014, 8月 28</a></p></blockquote>
+<p><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote class="twitter-tweet" data-conversation="none" lang="ja">
+<p><a href="https://twitter.com/kjirou" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/kjirou', '@kjirou']);" >@kjirou</a> 全部 js でレンダリングすると実装かっこいいかわりに現状はまだSEOが大変ていうデメリット発生するし、検索インデックス考慮する条件付きなら、スクレイピング方式でも部分API方式でも、1ページ目はサーバーサイド、次ページはjsで継ぎ足す方式、妥当な気はしてます</p>
+<p>&mdash; Qurage (@Qurage) <a href="https://twitter.com/Qurage/statuses/505033046551035905" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/Qurage/statuses/505033046551035905', '2014, 8月 28']);" >2014, 8月 28</a></p></blockquote>
+<p><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>ごアドバイスをいただいた。</p>
+<p>一時しのぎ的ではありますが、非常に手軽で、また後の設計に影響を与えずに動かすことができるので、使える機会は多いと思いました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

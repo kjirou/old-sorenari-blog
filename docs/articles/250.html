@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[AS] HashXMLConverter.as | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[AS] HashXMLConverter.as</h1>
+        <p>2008年1月21日</p>
+      </section>
+      <section>
+        <div>
+以前アップした<br />
+ActionScript3用のハッシュをXMLオブジェクトに変換する<a href="http://kjirou.sakura.ne.jp/mt/2008/01/hashtoxmlas.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/01/hashtoxmlas.html', 'HashToXML.as']);" >HashToXML.as</a>へ<br />
+逆にXMLをハッシュに変換するメソッドを付けてクラス名を変えました。</p>
+<p>[<a href="http://kjirou.net/main/public/flash/hash_xml_converter/releases/1.0/HashXMLConverter.as">ソース</a>]<br />
+※JSONチックな単純なXMLの変換を想定しており、属性等の情報は完全無視です<br />
+※toHashメソッドのソースがｵﾜｯﾃる・・・
+</div>
+<div>
+<b>使い方</b><br />
+こんな感じで変換します。</p>
+<pre>
+var xml:XML = &lt;root&gt; ... &lt;/root&gt;;
+var hash:Object = HashXMLConverter.toHash(xml);
+</pre>
+<p>変換例1</p>
+<pre>
+&lt;root&gt;
+&lt;one&gt;ONE&lt;/one&gt;
+&lt;two&gt;2&lt;/two&gt;
+&lt;/root&gt;
+// -> {root: {one: "ONE", two: "2"}}
+</pre>
+<p>変換例2</p>
+<pre>
+&lt;root&gt;
+&lt;nested&gt;
+&lt;x&gt;sorenari&lt;/x&gt;
+&lt;y&gt;blog&lt;/y&gt;
+&lt;/nested&gt;
+&lt;/root&gt;
+// -> {root: {nested: {x: "sorenari", y: "blog"}}}
+</pre>
+<p>変換例3</p>
+<pre>
+&lt;root&gt;
+&lt;nested&gt;
+&lt;x&gt;x1&lt;/x&gt;
+&lt;x&gt;x2&lt;/x&gt;
+&lt;y&gt;y1&lt;/y&gt;
+&lt;y&gt;y2&lt;/y&gt;
+&lt;/nested&gt;
+&lt;/root&gt;
+// -> {root: {nested: {x: ["x1", "x2"], y: ["y1", "y2"]}}}
+</pre>
+<p>
+ハッシュをXMLに変換するメソッドの使用例は<a href="http://kjirou.sakura.ne.jp/mt/2008/01/hashtoxmlas.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/01/hashtoxmlas.html', 'コチラ']);" >コチラ</a>を参照ください。
+</div>
+<div>
+さー、これで心残りが無くなったところでソケ通（ソケット通信）アプリだっ！！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

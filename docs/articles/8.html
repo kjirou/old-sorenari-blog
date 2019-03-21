@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>for文へのリストに&#8221;/*&#8221;とかが入ってしまうとき | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>for文へのリストに&#8221;/*&#8221;とかが入ってしまうとき</h1>
+        <p>2007年4月13日</p>
+      </section>
+      <section>
+        <div>
+shのシェルスクリプトの話です。<br />
+for文に渡すリストの各要素にシェルの特殊文字が入った場合の<br />
+エスケープの方法がわからないっす。
+</div>
+<div>
+例えば以下のファイルがあったとして</p>
+<pre><code>--- cat.txt ---
+/**
+ * COMMENTS
+ */
+src;</code></pre>
+<pre><code>--- for.sh ---
+#!/bin/sh
+for i in `cat cat.txt`
+do
+    echo "$i"
+done</code></pre>
+</div>
+<div>
+それで foo.sh を実行すると<br />
+for文に渡される最初の /** がシェルの特殊文字として動作するので<br />
+ルート以下のディレクトリ一覧が $i に入ってfor文でループしたりします。</p>
+<p>かといって、&#8221;`cat cat.txt`&#8221;と全体をエスケープすると<br />
+今度は改行等がリストの切れ目として認識されずに、ループが1回しか行われません。<br />
+（これはこれで理由が良くわからないんだが）</p>
+<p>$i に分解したタイミングでエスケープするのはどうすりゃいいんだろう？</p>
+<p>畜生、2時間ぐらいはまってる、別言語を使えばよかった・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

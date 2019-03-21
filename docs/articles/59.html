@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>連想配列のキーにStringオブジェクトそのものを使えるのか | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>連想配列のキーにStringオブジェクトそのものを使えるのか</h1>
+        <p>2007年6月7日</p>
+      </section>
+      <section>
+        <div>
+Rubyの本を読んでいて<br />
+「ハッシュのキーに、オブジェクトを使うことができます」と書いてあったので<br />
+javascriptでできるのかなとやってみた。</p>
+<pre>
+var foo = new String("foo");
+var bar = new String("bar");
+foo._toUpper = function(){return "FOO"};
+bar._toUpper = function(){return "BAR"};
+var hash = {};
+hash[foo] = 1;
+hash[bar] = 2;
+for (var i in hash) {
+alert(i._toUpper()); // ---> "_toUpper is not a function" のエラー
+};
+</pre>
+<p>できなかった。
+</p></div>
+<div>
+javascriptは基本文法に近づく程特殊ルールが多くなってきて、それが少々気持ち悪いような。<br />
+それとも、それが特殊に見えちゃうのは、自分の理解不足なのかなぁ。
+</div>
+<div>
+後、Ruby本を読んでると、「javascriptとかPHPでどうなんだろ」という確認点が沢山出てきて、面白いです。<br />
+「言語は色々やった方がいいよ」ってのが、段々と身にしみてきたような気がします。<br />
+（程度や重要性の検討は必要だと思いますが）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

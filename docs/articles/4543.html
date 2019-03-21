@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>log-filterでサーバ出力を勝手フィルタリング | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>log-filterでサーバ出力を勝手フィルタリング</h1>
+        <p>2015年2月23日</p>
+      </section>
+      <section>
+        <div>
+Webサーバのログ出力が激し過ぎて静かさせたい時に、勝手にフィルタリングできるものを作りました。</p>
+<p>例えば、npm start でサーバを起動するとして、こんな風に使います：</p>
+<p><b>（！API変わりました、追記確認願います）</b></p>
+<pre>
+$ npm install -g log-filter
+$ export=NODE_LOG_FILTER_NOT='^(debug|info|log): '
+$ npm start | log-filter
+</pre>
+<p></p>
+<p>フィルタリングルールは、NODE_LOG_FILTER_NOT または NODE_LOG_FILTER 環境変数へ正規表現を格納する形で指定します。<br />
+上記の例だと、先頭が &#8216;debug: &#8216; or &#8216;info: &#8216; or &#8216;log: &#8216; のログ以外が出力対象になります。</p>
+<p>リポジトリ: <a href="https://github.com/kjirou/log-filter" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/log-filter', 'https://github.com/kjirou/log-filter']);" target="_blank">https://github.com/kjirou/log-filter</a>
+</div>
+<h3>追記</h3>
+<div>
+2.0へアップデートし、環境変数を使うのを止めてコマンドオプションにしました。</p>
+<p>Usage:</p>
+<pre>
+log-filter [--contain -c KEYWORD] [--match -m REG_EXP] [--not -n]
+</pre>
+<p></p>
+<p>Examples:</p>
+<pre>
+echo 'warn: It is warning' | log-filter --contain warn
+warn: It is warning
+echo 'warn: It is warning' | log-filter --match '(warn|error)'
+warn: It is warning
+echo 'warn: It is warning' | log-filter --contain error --not
+warn: It is warning
+</pre>
+<p></p>
+<p>詳細は <a href="https://github.com/kjirou/log-filter" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/log-filter', 'README']);" target="_blank">README</a> へ。
+</div>
+<h3>以上</h3>
+<div>
+そもそもログ減らせ、って点については、お察し下さい。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

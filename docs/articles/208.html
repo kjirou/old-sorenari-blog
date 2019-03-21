@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>最近の使えるネットにyumが入らない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>最近の使えるネットにyumが入らない</h1>
+        <p>2007年12月9日</p>
+      </section>
+      <section>
+        <div>
+<b>解決しました</b>・・・全面的に俺が悪かったです。
+</div>
+<div>
+仕事でサーバを借りるってんで、「使えるネットならすぐ設定できますよ」とLinuxVPSのシルバーを借りたら、CentOSのバージョンが5のFinalになってた。（俺が借りたときは4.5だった）
+</div>
+<div>
+とりあえずは、yumコマンドを入れないとどうしようもないので、<br />
+rpmパッケージを<a href="http://mirror.centos.org/centos/5/os/i386/CentOS/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mirror.centos.org/centos/5/os/i386/CentOS/', '5の最新版']);" >5の最新版</a>から落として入れてたら、パッケージの依存状態がいつまで経っても解消しない。<br />
+一番ひどいのが、rpm-pythonを入れてくれってんで入れようとしたら、rpmの更新が必要で、それがまた大量にパッケージのインストールを要求される。</p>
+<p>ここで、ちょっと日和って、そもそもCentOS5.0にあわせたrpmパッケージはいくつか入っているので、rpm-pythonとyumもそのバージョンに合わせて入れたら・・・rpmの更新無しで入った！やっほう！</p>
+<p>で、天にも昇らんばかりの気分で &#8220;yum update&#8221; したら</p>
+<pre>
+There was a problem importing one of the Python modules
+required to run yum. The error leading to this problem was:
+/usr/lib/python2.4/site-packages/rpm/_rpmmodule.so: wrong ELF class: ELFCLASS32
+Please install a package which provides this module, or
+verify that the module is installed correctly.
+It's possible that the above module doesn't match the
+current version of Python, which is:
+2.4.3 (#1, Mar 14 2007, 19:01:42)
+[GCC 4.1.1 20070105 (Red Hat 4.1.1-52)]
+If you cannot solve this problem yourself, please go to
+the yum faq at:
+http://wiki.linux.duke.edu/YumFaq
+</pre>
+<p>ぇぇぇぇぇぇ・・・。<br />
+エラー文言でググってみたけど解決しねぇ・・・。
+</div>
+<div>
+あー、最初に最新版で色々入れてたからかなぁと、VPSを再インストールしたら</p>
+<pre>
+×　再インストールは失敗しました。
+</pre>
+<p>ぇぇぇぇ・・・・・・・・・・・・・・・・・、何度やっても失敗だよ。<br />
+エラーですよとサポートにチケットを切ったけど、半日経っても音沙汰無いし。（休日は休みなのかな）</p>
+<p>気づいたら夜っすよ、買い物行くの忘れてたっすよ、ばかやろう。
+</p></div>
+<div>
+明日、周りが引くぐらいサポートにすべてをぶつけようと思います。<br />
+寝て起きたら忘れてないといいと思います。
+</div>
+<div>
+<b>【追記】</b><br />
+<a href="http://www.tsukaeru.net/support/index.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.tsukaeru.net/support/index.php', 'ココ']);" >ココ</a>によるとサポートは平日だけすね、この値段なら当たり前か
+</div>
+<div>
+<b>【追記その２】</b><br />
+rpmパッケージがてっきりi386の方かと思ってたら</p>
+<pre>
+uname -m
+x86_64
+</pre>
+<p>omg&#8230; </p>
+<p>・・・ので、<a href="http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://mirror.centos.org/centos/5.0/os/x86_64/CentOS/', 'X86_64側のココ']);" >X86_64側のココ</a>から色々落としたら<a href="http://encafe.jp/wiki/index.php/%E4%BD%BF%E3%81%88%E3%82%8B%E3%81%AD%E3%81%A3%E3%81%A8CentOS5%E3%81%A7Yum%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://encafe.jp/wiki/index.php/%E4%BD%BF%E3%81%88%E3%82%8B%E3%81%AD%E3%81%A3%E3%81%A8CentOS5%E3%81%A7Yum%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB', '参考サイト']);" >参考サイト</a>の如く完了しました。<br />
+一応、自分がオペった手順は、<a href="http://kjirou.sakura.ne.jp/mt/2007/12/yum_1.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/12/yum_1.html', 'もうちょいまとまったら別の記事で書きます']);" >もうちょいまとまったら別の記事で書きます</a>・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

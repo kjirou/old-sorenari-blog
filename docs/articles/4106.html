@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>再帰的にObject.keysする recursive-keys モジュール | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>再帰的にObject.keysする recursive-keys モジュール</h1>
+        <p>2014年7月31日</p>
+      </section>
+      <section>
+        <div>
+件名の通りの npm モジュールを作りました。</p>
+<p><a href="https://www.npmjs.org/package/recursive-keys" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/recursive-keys', 'https://www.npmjs.org/package/recursive-keys']);" target="_blank">https://www.npmjs.org/package/recursive-keys</a><br />
+<a href="https://github.com/kjirou/npm-recursive-keys" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-recursive-keys', 'https://github.com/kjirou/npm-recursive-keys']);" target="_blank">https://github.com/kjirou/npm-recursive-keys</a>
+</div>
+<h3>使用例</h3>
+<div>
+一つ下の階層は、ドット &#8216;.&#8217; で表現されます。</p>
+<pre>
+var dumpKeysRecursively = require(&#039;recursive-keys&#039;).dumpKeysRecursively;
+
+console.log(dumpKeysRecursively({
+  x: 1,
+  y: [1, 2],
+  z: {a: 1}
+}));
+
+// Output:
+// [
+//   &quot;x&quot;,
+//   &quot;y.0&quot;,
+//   &quot;y.1&quot;,
+//   &quot;z&quot;,
+//   &quot;z.a&quot;
+// ]
+</pre>
+</div>
+<h3>インストール方法</h3>
+<div>
+Node.js なら：</p>
+<pre>
+npm install recursive-keys
+</pre>
+<p></p>
+<p>ブラウザなら：</p>
+<p><a href="https://github.com/kjirou/npm-recursive-keys#browsers" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-recursive-keys#browsers', 'GitHub の README']);" target="_blank">GitHub の README</a> を御覧ください。
+</div>
+<h3>使い道</h3>
+<div>
+<img src="http://i.gyazo.com/d8a67d693795230f701489b268ebe7cf.png" /></p>
+<p>な　い。</p>
+<p>元々は、すっげー複雑な構造の MongoDB ドキュメントを update するために、ドットつなぎのフィード名のパス一覧が欲しく、雑なコードを書きました。</p>
+<p>しかし、そのタスクは終わってしまいました。</p>
+<p>ロジックがもったいなかったので npm で包んでポイした感じです。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

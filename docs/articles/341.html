@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] /usr/bin/easy_install がある状態で別の場所にインストールした際の微ハマり | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] /usr/bin/easy_install がある状態で別の場所にインストールした際の微ハマり</h1>
+        <p>2008年8月10日</p>
+      </section>
+      <section>
+        <div>
+やっと、8月から触れる予定だったPython案件になった。<br />
+んで、インストールしたときに微ハマったので書く。
+</div>
+<p></p>
+<div>
+<a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'soundkitchen']);" >soundkitchen</a>氏に相談して、<br />
+「/usr/bin下に2.4系が入ってるなら、最初はそれ使ってもいいんじゃね？」<br />
+ってことで環境を作ろうとして、/usr/bin 下に easy_install を入れた。</p>
+<p>・・・が、諸事情でやっぱソースから入れることにして、<br />
+無事、Pythonとeasy_installまでは入ったんだけど</p>
+<pre>
+easy_install -UZ yolk
+</pre>
+<p>で、入る先が /usr/bin/yolk になってしまっている。<br />
+which easy_install でパスも確認したけど、<br />
+ちゃんと後からソースで入れた方を見るようになってた。</p>
+<p>んー、良くわからないけど、<br />
+環境変数がどこか残っちゃってるのかなぁ、と<br />
+一旦、ログアウト→ログインをして再度試したら、ビンゴで<br />
+ちゃんとソースで入れた方にインスコしてくれるようになった。</p>
+<p>あー、良かった。
+</p></div>
+<p></p>
+<div>
+ちなみに、<br />
+/usr/bin下のeasy_installとyolkが残ってるのが嫌なので削除したいんだが<br />
+どうにも方法がわからない<br />
+まぁいいか・・・。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

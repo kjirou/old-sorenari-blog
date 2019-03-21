@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>クラスタリング法で迷路生成するnpmモジュール | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>クラスタリング法で迷路生成するnpmモジュール</h1>
+        <p>2015年5月1日</p>
+      </section>
+      <section>
+        <div>
+「クラスタリング法」という手法で迷路生成をする npm モジュールを作成しました。</p>
+<p>→ <a href="https://github.com/kjirou/generate-maze-by-clustering" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/generate-maze-by-clustering', 'generate-maze-by-clustering']);" target="_blank">generate-maze-by-clustering</a></p>
+<p>使用例：</p>
+<pre>
+$npm install -g generate-maze-by-clustering
+$generate-maze-by-clustering 20 10
+#########################################
+#       #   # # #   #     # # #   #     #
+##### ### # # # # ### ##### # ### ### ###
+#   # #   # #   #   #     #         #   #
+# # # # # ##### ### # ### # # ##### ### #
+# #     #   # #   #     #   #     #     #
+# ####### ### # ### ### # ### # ### ### #
+#   #     # #     # # # # #   #   # #   #
+# # # ### # # ##### # ##### ######### # #
+# # # # #   #     #   #   # #   #   # # #
+##### # # ##### ### ### # # # ### ### ###
+#     #     #         # # #   # #       #
+### ### ####### ######### # ### ##### ###
+#     #   #   #   #     #     #     # # #
+# ### # ### ### # # ############### ### #
+# #   #     # # #       # # #   #   #   #
+# ### ##### # # ##### # # # # ### ##### #
+#   #   #   #   #     #                 #
+# ######### # ##### # # ### # ### ### ###
+#       #     #     # #   # # #   #     #
+#########################################
+</pre>
+<p></p>
+<p>JavaScript コード内で使うための API もあります。というかそっちが欲しかったです。<br />
+そちらは GitHub の README を参照願います。</p>
+<p>コードの出来はともかく、テストコード内で走査して検証しているので動作は正しいと思います。<br />
+既存の動くnpmがなくもなかったんですが、その辺の保障が甘かったのでいっそ自作してみました。
+</p></div>
+<h3>クラスタリング法について</h3>
+<div>
+アルゴリズムは、<a href="http://apollon.issp.u-tokyo.ac.jp/~watanabe/tips/maze.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://apollon.issp.u-tokyo.ac.jp/~watanabe/tips/maze.html', 'クラスタリングによる迷路作成アルゴリズム']);" target="_blank">クラスタリングによる迷路作成アルゴリズム</a> というサイトを参照させていただきました。</p>
+<p>古来より、迷路生成アルゴリズムには色々な方法があるのですが、その中でこの手法にしたのは、実装しやすかったのと、生成後の迷路が程よい感じだったためです。</p>
+<p>その他の参考にしたサイトたちは以下です。</p>
+<p>&#8211; <a href="http://www5d.biglobe.ne.jp/stssk/maze/make.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www5d.biglobe.ne.jp/stssk/maze/make.html', '迷路自動生成アルゴリズム']);" target="_blank">迷路自動生成アルゴリズム</a><br />
+&#8211; <a href="http://en.wikipedia.org/wiki/Maze_generation_algorithm" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://en.wikipedia.org/wiki/Maze_generation_algorithm', 'Maze generation algorithm &#8211; Wikipedia']);" target="_blank">Maze generation algorithm &#8211; Wikipedia</a><br />
+</p>
+<p>ちなみに、この「クラスタリング法」という名称、該当する英語が見つからなく正式名称が不明でした。<br />
+たぶん、全然別の、より汎用的なアルゴリズムの一派とかな気がしているんですが、そこまでいくと追跡困難なので諦めました。</p>
+<p>何なのかなぁ　知りたいなぁ (ﾁﾗｯ ﾁﾗｯ
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Mac] Time Capsuleを使っての移行メモ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Mac] Time Capsuleを使っての移行メモ</h1>
+        <p>2012年12月25日</p>
+      </section>
+      <section>
+        <div>
+タイムカプセルを使って、旧MacBookPro から 新MacAir に環境を丸ごと移行しました<br />
+その際に一手間掛かったことなどのメモです</p>
+<p>OSは Mountain Lion
+</p></div>
+<h3>Time Capsuleによる移行</h3>
+<div>
+以下の手順通りに行いました<br />
+<a href="http://support.apple.com/kb/HT4500?viewlocale=ja_JP&#038;locale=ja_JP" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://support.apple.com/kb/HT4500?viewlocale=ja_JP&#038;locale=ja_JP', 'Mac OS X v10.6：移行アシスタントを使って Time Machine バックアップからファイルを転送する方法']);" target="_blank">Mac OS X v10.6：移行アシスタントを使って Time Machine バックアップからファイルを転送する方法</a></p>
+<p>注意として、新しい移行先のPCのアカウント名は<br />
+移行前のアカウント名と同じにしては<strong>いけません</strong><br />
+移行対象のアカウントは移行先に新規作成されるのですが、その際に名前が衝突すると邪魔になります
+</div>
+<h3>VirtualBoxが動かなかった</h3>
+<div>
+GUIで起動して、仮想OSを立ち上げようとしたら以下のエラーが出て失敗した</p>
+<pre>
+Kernel driver not installed (rc=-1908)
+</pre>
+<p>この点は、それとは別に「アップデートしろ！」という表示が出てたので<br />
+dmgを落として更新したら動くようになった。
+</div>
+<h3>brew doctor で動作確認</h3>
+<div>
+brew doctor を実行したら、「X code のコマンドラインツールが無いよ！」というwarningが出たので<br />
+以下を参照してインストール<br />
+<a href="https://github.com/fjordllc/tutorial/wiki/Xcode-command-line-tools%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/fjordllc/tutorial/wiki/Xcode-command-line-tools%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB', 'Xcode command line toolsのインストール']);" target="_blank">Xcode command line toolsのインストール</a>
+</div>
+<h3>以上</h3>
+<div>
+これだけで、開発環境も含めて丸っと移行が完了、チョー楽でした<br />
+Time Capsule (＆ Homebrew) いいわー</p>
+<p>.. まぁ、前のMacBook Proをちゃんと使ったのが二週間だけだった、というのもあると思います<br />
+というか、ちょっと使ったくらいで壊れるなよ..
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

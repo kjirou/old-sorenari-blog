@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MacからpushしたらGitHubに本名が出た | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MacからpushしたらGitHubに本名が出た</h1>
+        <p>2012年12月15日</p>
+      </section>
+      <section>
+        <div>
+最近、周りの目が怖くなって、開発用PCをWindowsからMacに変えたんですが、<br />
+ふとGitHubのコミッター名を見ると、自分の名前が本名で表示されていました</p>
+<p>正しくは、本名というか「フルネーム」で、<br />
+システム環境設定 ＞ ユーザとグループ で設定できる項目です</p>
+<p>対処としては、.gitconfigでname属性を指定したら、<br />
+コミッター名もその表記になりました</p>
+<pre>
+[user]
+name = kjirou
+</pre>
+<p>Ref) <a href="http://blog.asial.co.jp/845" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.asial.co.jp/845', 'Gitを使い始めたらやっておきたい便利な設定いろいろ']);" target="_blank">Gitを使い始めたらやっておきたい便利な設定いろいろ</a></p>
+<p>あざす ＞ <a href="https://twitter.com/redsnow_" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/redsnow_', '@redsnow_']);" target="_blank">@redsnow_</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

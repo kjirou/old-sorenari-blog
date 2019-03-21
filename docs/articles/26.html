@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>スーパークラスの同名メソッドを使いたい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>スーパークラスの同名メソッドを使いたい</h1>
+        <p>2007年4月27日</p>
+      </section>
+      <section>
+        <div>
+javascriptで</p>
+<pre>
+var Super = function(){};
+Super.prototype.say = function(){alert("Super!");};
+var Sub = function(){};
+Sub.prototype = new Super;
+Sub.prototype.say = function(){alert("Sub!");};
+(new Sub).say();// "Sub!" を出力
+</pre>
+<p>こんな感じに、メソッドをオーバーライドしたときに<br />
+どうやってスーパークラスのメソッドを呼ぶのかなと思って調べたり聞いたりした。
+</div>
+<div>
+で、FireFoxの場合は</p>
+<pre>
+(new Sub).__proto__.__proto__.say();
+</pre>
+<p>こんな感じで呼べるし、opera等の大体のブラウザも書式は違えど呼べる<a href="http://d.hatena.ne.jp/amachang/20060919" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://d.hatena.ne.jp/amachang/20060919', 'らしい']);" >らしい</a>けど、<br />
+例によってIE様だけないようだ。
+</div>
+<div>
+んー、どうやってスーパークラスの関数を呼ぶんだろう。<br />
+サブクラスのメソッド名を変えれば、って言われると、その通りなんですけど。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

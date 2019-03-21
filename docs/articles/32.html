@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>さくらはphp_flagとphp_valueの設定が出来ないんだ | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>さくらはphp_flagとphp_valueの設定が出来ないんだ</h1>
+        <p>2007年4月30日</p>
+      </section>
+      <section>
+        <div>
+さくらインターネットは<br />
+.htaccessで php_flag とか php_value の設定ができないのか。<br />
+やってみて出来なくてググって知った。規約にあったっけかなぁ。
+</div>
+<div>
+そうなると<a href="http://fr.php.net/manual/ja/ini.php#ini.list" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://fr.php.net/manual/ja/ini.php#ini.list', 'PHP_INI_PERDIR']);" >PHP_INI_PERDIR</a> な設定値<br />
+（register_globals とか magic_quotes_gpc とか mbstring系のいくつかとか）は<br />
+php.iniで設定する他無いので</p>
+<p>例えば、register_globalsがonな osCommerce と、<br />
+他のそうじゃないパッケージを共存する場合は、どうすればいいのだろうか？
+</div>
+<div>
+まぁ、osCommerceに用は無いのですけど。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

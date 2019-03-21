@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>シェル変数に\nの改行文字が入らない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>シェル変数に\nの改行文字が入らない</h1>
+        <p>2007年11月8日</p>
+      </section>
+      <section>
+        <div>
+シェル変数に特定の方法で改行文字を入れようとすると入らないというネタ、未解決</p>
+<p>以下、ボーンシェルについての話です。<br />
+odコマンドは、PHPのord関数のような、文字をアスキー番号に変換できるようなコマンドです。
+</div>
+<div>
+調査1</p>
+<pre>
+A="
+"
+echo `echo -n "$A" | od`
+</pre>
+<p>出力</p>
+<pre>
+0000000 000012 0000001
+</pre>
+<p>&#8220;000012&#8221;ってのがLFのアスキー番号。ちゃんと入っている。
+</p></div>
+<div>
+調査2</p>
+<pre>
+A=`echo -e "\n"`
+echo `echo -n "$A" | od`
+</pre>
+<p>出力</p>
+<pre>
+0000000
+</pre>
+<p>何故か空文字。
+</p></div>
+<div>
+調査3</p>
+<pre>
+A=`echo -e "\r"`
+echo `echo -n "$A" | od`
+</pre>
+<p>出力</p>
+<pre>
+0000000 000015 0000001
+</pre>
+<p>ちゃんと入っている。\tも入ってた。
+</p></div>
+<div>
+ということで、何故に \n だけ入らないのかがわかりません。<br />
+誰か教えてください！
+</div>
+<h3>2012/11/21追記</h3>
+<div>
+echoによる出力時に &#8221; で括ると改行されるようです</p>
+<pre><code>echo "$VAR"</code></pre>
+<p>
+こちらに回答がありました、多謝<br />
+<a href="http://jehupc.exblog.jp/15728862/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://jehupc.exblog.jp/15728862/', '(Linux)シェルスクリプトで変数に改行を含めたい']);" target="_blank">(Linux)シェルスクリプトで変数に改行を含めたい</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Apache,Python] mod_*で起動されるPythonインタプリタの参照先がおかしい | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Apache,Python] mod_*で起動されるPythonインタプリタの参照先がおかしい</h1>
+        <p>2008年9月25日</p>
+      </section>
+      <section>
+        <div>
+mod_wsgiやmod_pythonをインスコして動かしたところ、<br />
+自分でインスコした /usr/local/python/bin/python をApacheが見るようにしたつもりが、<br />
+/usr/bin/python (yumを入れるときに使っている) を参照してしまっていた。</p>
+<p>色々調査して毎度の如く<a href="http://humming.via-kitchen.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://humming.via-kitchen.com/', 'soundki(長いから略)']);" >soundki(長いから略)</a> 氏にも聞いたが、<br />
+どうもmod_*のインストールは正しいっぽい。</p>
+<p>結局、原因の解明は出来ず、<br />
+とりあえず動かすために /etc/init.d/httpd の起動スクリプトに<br />
+以下を追記するという対処で間に合わせた。</p>
+<pre>
+export PATH='/usr/local/python/bin:'$PATH
+</pre>
+</div>
+<p></p>
+<div>
+うー、対処に8時間も掛かった、しかも未解決。<br />
+請求と賠償を損害するだッ!!
+</div>
+<p></p>
+<div>
+<b>【後日追記】</b><br />
+pythonを&#8211;enable-shared付きでコンパイルした場合は、上記のような問題は起きませんでした。<br />
+ただし、インストール直後は、libpython.so が /usr/lib 下のものを見ているので、ライブラリのパスを適切に設定してやることが必要になります。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

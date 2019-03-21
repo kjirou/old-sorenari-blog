@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>rewireで強引にプライベートな関数を取得 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>rewireで強引にプライベートな関数を取得</h1>
+        <p>2015年2月3日</p>
+      </section>
+      <section>
+        <div>
+<a href="https://github.com/jhnns/rewire" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/jhnns/rewire', 'rewire']);" target="_blank">rewire</a> という npm パッケージを使うと、モジュールの内部で定義されている変数を外側で抽出することができます。</p>
+<p>例えば、以下の get-full-name.js というモジュールがあるとして：</p>
+<pre>
+var SEPARATOR = ' ';
+
+module.exports = function(firstName, lastName){
+  return firstName + SEPARATOR + lastName;
+};
+</pre>
+<p></p>
+<p>上記の SEPARATOR 変数を抽出したい場合は、こう書きます：</p>
+<pre>
+var rewire = require('rewire');
+
+var rewiredGetFullName = rewire('./get-full-name.js');
+
+// モジュール直下に定義されている変数を取得できる
+var separator = rewiredGetFullName.__get__('SEPARATOR');
+</pre>
+<p></p>
+<p>付属機能として、</p>
+<p><tt>__set__</tt> で上書きしたり<br />
+revert してそれを戻したり<br />
+<tt>__with__</tt> で自動で戻したり</p>
+<p>できます（詳細は <a href="https://github.com/jhnns/rewire" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/jhnns/rewire', 'README']);" target="_blank">README</a> 参照）。</p>
+<p>どうやって実現しているかは、<a href="https://github.com/jhnns/rewire/blob/master/lib/rewire.js" onclick="_gaq.push(['_trackEvent','download','https://github.com/jhnns/rewire/blob/master/lib/rewire.js']);" target="_blank">このファイル</a>の <tt>internalRewire</tt> を見ると、<tt>require('module')</tt> を使っているようです。<br />
+自分は module モジュールの挙動を理解していないので、詳細は不明です。
+</div>
+<h3>以上</h3>
+<div>
+どうしても、ある npm パッケージ内のある変数が取りたーい！</p>
+<p>.. という時は使えるかも。</p>
+<p>ただし、</p>
+<p>1.「モジュール直下の変数が特別な意味を持つ」というローカルルールが出来る<br />
+2. それに伴いビルドツールや AltJS などとクッソ相性が悪くなる<br />
+3. Node.js の内部仕様に影響を受けてしまう</p>
+<p>これらの制約が生まれるので、使うには注意が必要だと感じました。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

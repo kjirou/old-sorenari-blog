@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Jadeでeachすると前後の改行文字が消える | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Jadeでeachすると前後の改行文字が消える</h1>
+        <p>2014年3月15日</p>
+      </section>
+      <section>
+        <div>
+例えば、このような Plain Text 用の foo.text.jade テンプレートがあるとする：</p>
+<pre>
+| line 1
+| line 2
+each v in [3, 4]
+  | line #{v}
+| line 5
+| line 6
+</pre>
+<p></p>
+<p>以下の様な出力を期待していたが：</p>
+<pre>
+$cat foo.text.jade | jade
+line 1
+line 2
+line 3
+line 4
+line 5
+line 6
+</pre>
+<p></p>
+<p>実際はこうである：</p>
+<pre>
+$cat foo.text.jade | jade
+line 1
+line 2line 3line 4line 5
+line 6
+</pre>
+<p></p>
+<p>解決策としては、以下のように手動でLFを挿入する：</p>
+<pre>
+| line 1
+| line 2#{'\n'}
+each v in [3, 4]
+  | line #{v}#{'\n'}
+| line 5
+| line 6
+</pre>
+<p></p>
+<p>期待通りに出力される：</p>
+<pre>
+$cat foo.text.jade | jade
+line 1
+line 2
+line 3
+line 4
+line 5
+line 6
+</pre>
+<p></p>
+<p>もし、途中の配列が空でも以下の通り：</p>
+<pre>
+$cat foo.text.jade | jade
+line 1
+line 2
+line 5
+line 6
+</pre>
+<p></p>
+<p>仕組みはわからないけど、とりあえず each ブロック前後の改行文字が消えてしまうよう。</p>
+<p>これで合っているのかなぁ・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>documentのURLを取得したいとき | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>documentのURLを取得したいとき</h1>
+        <p>2007年5月15日</p>
+      </section>
+      <section>
+        <div>
+javascriptでページのURLを取得したいときのクロスブラウザ的対応。<br />
+仕事中なので適当に。
+</div>
+<div>
+ページのURLを取得するだけなら<br />
+document.location.href より document.URLが良さそう。</p>
+<p>というのも、Win-IE6でURLを直接入力してページを表示した際に<br />
+document.locationオブジェクト（と以下のプロパティ）を参照するとエラーになるため。</p>
+<p>詳細は不明なので間違ってるかも。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

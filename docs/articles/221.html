@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>SWFObjectオブジェクトの名前を変える | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>SWFObjectオブジェクトの名前を変える</h1>
+        <p>2007年12月21日</p>
+      </section>
+      <section>
+        <div>
+Flash設置時にクロスブラウザ対応部分を吸収していただける、<a href="http://blog.deconcept.com/swfobject/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.deconcept.com/swfobject/', '素晴らしいSWFObjectライブラリ']);" >素晴らしいSWFObjectライブラリ</a>。<br />
+ライセンスもMITLicenseなので、小心物の俺でも安心です。
+</div>
+<div>
+ただ、素晴らしい過ぎてどこでも使われているので、例えばブログパーツとかブックマークレットとかで使いたいときには、変数名の名前空間での衝突が気になる。</p>
+<p>ということで、勝手な変数名を付けられるソース微修正方法をメモ</p>
+<pre>
+*
+*/
+// add start
+var MySWFObject = (function(){
+var deconcept = undefined;
+// add end
+if(typeof deconcept=="undefined"){ ... ソースが1行で書いてある行  ...
+// add start
+return SWFObject;
+})();
+// add end
+</pre>
+<p>上記だと、MySWFObjectにリネームしています。
+</p></div>
+<div>
+・・・んーそれにしても<br />
+改行されている読み易いSWFObjectソースというのはどこにあるんでしょうか？<br />
+サイト見てもみっからねえっす。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

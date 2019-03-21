@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python, CentOS] enable sharedでコンパイルしたときにライブラリを正しく見ない | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python, CentOS] enable sharedでコンパイルしたときにライブラリを正しく見ない</h1>
+        <p>2008年11月12日</p>
+      </section>
+      <section>
+        <div>
+この構成と</p>
+<pre>
+CPU = x86_64
+OS = CentOS-5.2
+Python = Python-2.4.5のsource
+</pre>
+<p>この手順でPythonをインストールしたら</p>
+<pre>
+cd /usr/local/src
+wget 'http://www.python.org/ftp/python/2.4.5/Python-2.4.5.tgz'
+tar zxvf Python-2.4.5.tgz
+cd Python-2.4.5
+./configure \
+--prefix=/usr/local/python-2.4.5 \
+--enable-shared
+make
+make install
+</pre>
+<p>pythonのPATHは/usr/local/python-2.4.5/bin/pythonを正しく見ているが、<br />
+実際に起動すると<b>2.4.3</b>のPython（CentOSがyumのために入れている既存のものと同じバージョン）で起動されてしまう、という現象が起こった。</p>
+<p>lddコマンドで確認したら<br />
+libpythonを見る先が/usr/lib64/以下になって入ってたので、<br />
+/etc/ld.so.conf.d/以下にpython用の設定ファイルを置く対処をしたら直った。</p>
+<p>/毎度+/ ありがとうっす、ひげの人。（リンク貼るのも面倒な位）
+</p></div>
+<p></p>
+<div>
+時に、&#8211;enable-sharedを今回初めて付けたんですが、<br />
+それはx86_64系でmod_wsgiを入れようと思うと、<br />
+<a href="http://code.google.com/p/modwsgi/wiki/InstallationIssues" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://code.google.com/p/modwsgi/wiki/InstallationIssues', 'ココ']);" >ココ</a>の&#8221;Mixing 32 Bit And 64 Bit Packages&#8221;のような問題がありそのオプションが必須になるからでした。<br />
+有名な問題らしいですが、日本語だとググれなかったので、注意をば。
+</div>
+<p></p>
+<div>
+時に時に、見ているlibpythonが変わると、Pythonの2.4.xのx部分も変わるんだ<br />
+というのも今日気付いた。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

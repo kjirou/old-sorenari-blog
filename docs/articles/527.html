@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] IE8は要素が増えるとsetTimeoutが遅延する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] IE8は要素が増えるとsetTimeoutが遅延する</h1>
+        <p>2012年5月1日</p>
+      </section>
+      <section>
+        <div>
+例えば</p>
+<p>「10000個の要素を表示したページでsetTimeoutすると<br />
+　引数へ設定したマイクロ秒よりもかなり遅延してしまう」</p>
+<p>というような話です
+</p></div>
+<h3>動作確認ページ</h3>
+<div>
+<a href="http://code.kjirou.net/js/test/settimeout_delay_by_many_elements/index.html" target="_blank">IE8は要素数増加でsetTimeoutが遅延するか</a><br />
+※見難いです、すまそ</p>
+<p>開発ツールを出した後に「5px 100&#215;100」を押します<br />
+10000個の要素が生成されると共に<br />
+「前のsetTimeoutからの時間をプリントするsetTimeout」が<br />
+ループで実行されます</p>
+<p>そして<br />
+1. マウスカーソルを10000個のマス目上に置く<br />
+2. マウスカーソルをブラウザ上だが10000マス以外の場所に置く<br />
+3. マウスカーソルをブラウザ上から外す<br />
+4. マウスカーソルをブラウザ上で動かしてみる</p>
+<p>という動作をしてみると<br />
+コンソール上に流れているsetTimeoutの間隔に差異が生じたり<br />
+実行が止まったりするのがわかると思います
+</div>
+<h3>原因と解決</h3>
+<div>
+結局、詳細不明＆未解決です</p>
+<p>ただ、おそらくはマウスイベントが大量に発火するのが原因だと思います<br />
+マスをdisplay:noneで非表示にすると速度が戻りますし</p>
+<p>解決しようとして<br />
+マス と マスの親要素 と document.body に対して<br />
+elem.detachEvent(elem.onmousemove) をして<br />
+全マウスイベントを解除してみましたが変わりませんでした</p>
+<p>というところで諦め中のステータスです
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MySQL,cron,shell] cron用mysqldumpラッパなシェルスクリプト | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MySQL,cron,shell] cron用mysqldumpラッパなシェルスクリプト</h1>
+        <p>2008年7月25日</p>
+      </section>
+      <section>
+        <div>
+「mysqldumpコマンドとcronコマンドを使ってデータベースの自動バックアップ」を行う<br />
+というのは良くあることだと思いますが、<br />
+自分の場合は、その時々でシェルスクリプトを書いており、<br />
+かつ、程よい具合にバックアップされるように、cronスケジュールを複数指定していたりしていて、非常に面倒な作業になってしまっていました。</p>
+<p>最近もまた、同じような設定をする必要に迫られたため<br />
+その内モトは取れるだろうと予測して、いっそのこと専用のシェルスクリプトを作成してみました。<br />
+<b><br />
+<a href="http://code.kjirou.net/sh/utils/mysqldump4cron/mysqldump4cron.sh" target="_blank">mysqldump4cron.sh</a></b></p>
+<p>※設定値を軽く解説<br />
+WEEKLY_TARGET_DAY_OF_WEEK &#8230; 週次バックアップを行う曜日<br />
+MONTHLY_TARGET_DAY &#8230; 月次バックアップを行う日付<br />
+DAYLY_MAX_LIFE &#8230; 日次バックアップを保持する日数<br />
+WEEKLY_MAX_LIFE &#8230; 週次バックアップを保持する日数<br />
+MONTHLY_MAX_LIFE &#8230;月次バックアップを保持する日数<br />
+※すぐに完成するだろうと思ったら、なんと4時間も掛かった・・・。FreeBSDで作業してたからdateが動かなくて微ハマりしてしまった。結局、現在はFreeBSDを捨てて非対応になっていますが、対応する場合は、<a href="http://blog.c-production.com/archives/2006/02/date.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.c-production.com/archives/2006/02/date.html', 'コチラ']);" target="_blank">コチラ</a>参照
+</div>
+<p></p>
+<div>
+mysql-zrmとか専用ツールを使えよ、って話もありますが<br />
+自前のサーバとかWebサービスとか、受託であっても別段の理由が無ければそこまでせんでも、と思います。<br />
+使い慣れたコマンドなので気軽だし、ボーンシェル＋ダンプコマンドなので可搬性に優れるし。</p>
+<p>もし、他にいい方法をご存知の方がいらっしゃいましたら、<br />
+教えていただけるとうれしいです。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

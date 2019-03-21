@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] 配列をプロトタイプ・チェーン継承で拡張する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] 配列をプロトタイプ・チェーン継承で拡張する</h1>
+        <p>2012年2月4日</p>
+      </section>
+      <section>
+        <h3>プロトタイプ・チェーンで配列型を拡張する理由</h3>
+<div>
+主な理由は以下の2つです</p>
+<ul>
+<li>1. <b>JSのArray型は不便</b>なので強化したい（拡張する理由）</li>
+<li>2. <b>Array.prototypeを汚染したくない</b>（Pチェーンで別クラスを作る理由）</li>
+</ul>
+<p>1 は、まぁ説明不要だと思います<br />
+せめて each と indexOf(or inArray) くらいは無きゃ困るし<br />
+願わくば Rubyのcollectがあると断然読み易いコードになります<br />
+後はPythonのany/allなんかも良い<br />
+常に必要になる訳ではないので、ここぞという時に</p>
+<pre><code>var exArr = toExArray(arr);</code></pre>
+<p>こうやってパワーアップさせて処理できたら便利だなと</p>
+<p>2 は、上記を解決するために prototype.js などの一部のライブラリは<br />
+ネイティブな Array.prototype を修正する手段を取っています<br />
+しかし、自分はどうしても気分的に気持ち悪さがあるのと<br />
+ここ数年の流れを見ていると<br />
+その様なコードやライブラリは好まれない傾向があるのとで<br />
+ネイティブ環境を書き換えない方法にしました<br />
+（for (i in arr) をやらなければ大丈夫なので、実害はあまり無いですけどね<br />
+　なお、Object型の拡張はダメ、ゼッタイ）</p>
+<p>で、これらの解決手段として<br />
+　<b>「Arrayをプロトタイプ・チェーンで継承して別クラスを作れば</b><br />
+　　<b>手軽に強化を実現出来ていいんじゃね？」</b><br />
+と思ったのがことの始まりです
+</div>
+<h3>サンプルコード</h3>
+<div>
+結論としては概ね期待通りの効果を得ることができました<br />
+以下、Arrayを強化したCollectionクラスの実装例です</p>
+<pre><code>var Collection = (function(){
+    var cls = function(){
+
+    // 自分を返すために必要
+        this.__myClass__ = arguments.callee;
+    }
+    cls.prototype = new Array();
+
+    //
+    // Array既存メソッドを同じような振る舞いになるように上書き
+    //
+    cls.prototype.toString = function(){
+        return Array.prototype.toString.apply(this.toArray(), arguments);
+    }
+    cls.prototype.slice = function(){
+        return this.__myClass__.convert(Array.prototype.slice.apply(this, arguments));
+    }
+    cls.prototype.splice = function(){
+        return this.__myClass__.convert(Array.prototype.splice.apply(this, arguments));
+    }
+    cls.prototype.concat = function(){
+        throw new Error(&#039;Error in Collection.concat, not implemented&#039;);
+    }
+
+    //
+    // 拡張
+    //
+    cls.prototype.toArray = function(){
+        return Array.prototype.slice.apply(this);
+    }
+
+    cls.prototype.each = function(callback){
+        var i;
+        for (i = 0; i &lt; this.length; i++) {
+            var result = callback(this[i], i);
+            if (result === true) {
+                continue;
+            } else if (result === false) {
+                break;
+            }
+        }
+    }
+
+    cls.prototype.collect = function(callback){
+        var newList = new this.__myClass__(), i;
+        for (i = 0; i &lt; this.length; i++) {
+            var result = callback(this[i], i);
+            if (result !== undefined) newList.push(result);
+        }
+        return newList;
+    }
+
+    cls.prototype.indexOf = function(target){// 無いブラウザの為に
+        var i;
+        for (i = 0; i &lt; this.length; i++) { if (this[i] === target) return i };
+        return -1;
+    }
+
+    cls.prototype.has = function(target){
+        return this.indexOf(target) !== -1;
+    }
+
+    //
+    // 生成関数群
+    //   1) Collection.convert([])
+    //   2) new Collection(引数無し)
+    //   のどちらかを使う
+    //
+    //   new Collection([]) や Collection([]) は
+    //   クラス毎にコンストラクタにベタでコードを書かないといけないので
+    //   手軽でないのでNG
+    //   new Array() の引数の意味とも合わないし
+    //
+    cls.convert = function(arr){
+        if (arr instanceof Array === false) {
+            throw new Error(&#039;Error in Collection.convert, invalid parameter&#039;);
+        }
+        var obj = new this(), i;
+        for (i = 0; i &lt; arr.length; i++) { obj.push(arr[i]) }
+        return obj;
+    }
+
+    return cls;
+})();</code></pre>
+<p>
+※Collectionを更に継承するとバグります<br />
+　__myClass__ の参照がサブクラスで共有されるから
+</div>
+<h3>ちょっと面倒だよねー</h3>
+<div>
+既存のArrayメソッド群の上書きを毎度書かないといけないのは面倒ですよねー<br />
+ってことで、それらをなじませる blendArray という関数を作りました</p>
+<pre><code>/**
+ * Arrayをプロトタイプ・チェーン継承したクラスの
+ * 継承されたメソッド群をなじませる
+ *
+ * 以下に記述のあるメソッドを対象とした
+ * http://1106.suac.net/johoB/JavaScript/jscripta.html#array
+ * Window7の IE8/Firefox3/Chrome で確認
+ */
+var blendArray = function(cls){
+    /** 配列を自クラスインスタンスへ変換する */
+    cls.convert = function(arr){
+        if (arr instanceof Array === false) {
+            throw new Error('Error in {YourArrayClass}.convert, invalid parameter');
+        }
+        var obj = new cls(), i;
+        for (i = 0; i < arr.length; i++) { obj.push(arr[i]) };
+            return obj;
+    }
+
+    /* 配列を返すメソッドは自クラスのインスタンスを返すように変更する */
+    var toMine = function(methodName){
+        return function(){
+            return cls.convert(Array.prototype[methodName].apply(this, arguments));
+        }
+    }
+    cls.prototype.slice = toMine('slice');
+    cls.prototype.splice = toMine('splice');
+
+    // これは解釈が分かれると思うのでエラーを返すのみとする
+    cls.prototype.concat = function(){
+        throw new Error('Error in {YourArrayClass}.concat, not implemented');
+    }
+
+    // 設定しないと使ったときにエラー
+    cls.prototype.toString = function(){
+        var arr = Array.prototype.slice.apply(this); // 配列に変換しないと使えない
+        return Array.prototype.toString.apply(arr, arguments);
+    }
+}</code></pre>
+<p>こんな風に使う</p>
+<pre>
+var YourClass = function(){};
+YourClass.prototype = new Array();
+blendArray(YourClass);
+// 以下にあなたの拡張を定義
+YourClass.prototype.each = function(){}; // ...
+</pre>
+<p>convertが要らないなら、ローカル変数にするか<br />
+__convertDontTouchMe(+とても下品な単語) とかにリネームすればいいと思うヨ
+</div>
+<h3>参考</h3>
+<div>
+<b>テストコードやその他メモ</b><br />
+<a href="http://code.kjirou.net/js/test/array_extension_by_prototype_chain/index.html" target="_blank">プロトタイプ・チェーンを使ったArray型の拡張</a><br />
+<a href="http://code.kjirou.net/js/snippet/blend_array/index.html" target="_blank">blendArray</a></p>
+<p><b>関連エントリ</b><br />
+<a href="/p/509" title="[JavaScript] プロトタイプ・チェーンで最も問題になる点">プロトタイプ・チェーンで最も問題になる点</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

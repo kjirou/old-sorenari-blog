@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Safariでクラッシュするmp3ファイルを修正する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Safariでクラッシュするmp3ファイルを修正する</h1>
+        <p>2012年5月14日</p>
+      </section>
+      <section>
+        <div>
+JavaScriptライブラリの<a href="http://www.schillmania.com/projects/soundmanager2/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.schillmania.com/projects/soundmanager2/', 'SoundManager2']);" target="_blank">SoundManager2</a>を使って<br />
+MacのSafariでmp3の楽曲ファイルを読み込ませた際に、特定の音楽ファイルだけ<br />
+演奏時に正常にループしなくなったりクラッシュしたりする現象が発生しました</p>
+<p>その対応のために複数のツールをまたがるような作業が発生したので<br />
+忘れないようにメモっときます</p>
+<p>なお、SoundManager2はHTML5版ではなくswfファイルを使うFlash版の方です<br />
+中身は見てないので詳細不明ですが、<br />
+SoundManagerを介さずに普通にFlashを使ってても起こることなのかもしれません
+</div>
+<h3>サンプリングレートが44.10kHzだとクラッシュする</h3>
+<div>
+「サンプリングレートが44.10kHzの音ファイル」だとクラッシュしました<br />
+「括弧」付きなのは、音楽のことがよーわからずに言ってるからです・・・</p>
+<p>自分は、音楽ファイルの情報をテキストで出力してくれる<br />
+<a href="http://www.forest.impress.co.jp/lib/pic/video/vdoenc/shinkuuslite.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.forest.impress.co.jp/lib/pic/video/vdoenc/shinkuuslite.html', '真空波動研SuperLite']);" target="_blank">真空波動研SuperLite</a> というツールをインストールして</p>
+<p>↓その出力にこれが含まれているファイルはクラッシュして</p>
+<pre>
+MPEG1-LayerIII 44.10kHz 128.00kb/s CBR JointStereo 2165f
+</pre>
+<p>↓これなら大丈夫！</p>
+<pre>
+MPEG2-LayerIII 22.05kHz 128.00kb/s CBR Stereo 2355f
+</pre>
+<p>という風にして判定しました
+</p></div>
+<h3>44.10kHzから22.05kHzへ変換する方法</h3>
+<div>
+<a href="http://www.nchsoftware.com/jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.nchsoftware.com/jp/', 'NCHソフトウェア']);" target="_blank">NCHソフトウェア</a>が提供している<br />
+音楽ファイル変換ソフト「<a href="http://www.nch.com.au/switch/jp/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.nch.com.au/switch/jp/', 'Switch']);" target="_blank">Switch</a>」を使いました</p>
+<p>基本的な使い方などはわかるだろ、ってことで以下ポイントだけ</p>
+<ul>
+<li>mp3 →(変換)→ wav →(変換)→ mp3 と、一度wavを介して変換する</li>
+<li>wav変換時に「エンコーダオプション」から属性を「22050Hz, 32ビット, ステレオ」を選ぶ</li>
+</ul>
+<p>
+これで 22.05kHz のファイルになって、クラッシュしなくなりました！<br />
+・・・音は劣化してるらしいですけど、気になるほどではというかぶっちゃけワカラン！
+</div>
+<h3>補足</h3>
+<div>
+Safariのバージョンは 5 でした</p>
+<p>今回のエントリで紹介したツールは、全てWindows7で動くフリーのツールです</p>
+<p>Switchは、他に一緒に入ってしまうツールがあったり<br />
+最初の頃に、勝手に先方の公式HPを開いたりして若干アレでしたけど<br />
+自分的には許容範囲内でした
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

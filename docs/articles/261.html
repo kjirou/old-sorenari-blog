@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Flex] Alertのボタンやカレンダーを日本語化 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Flex] Alertのボタンやカレンダーを日本語化</h1>
+        <p>2008年2月6日</p>
+      </section>
+      <section>
+        <div>
+Flexの小ネタもいいところ！<br />
+書かないよりはマシなんじゃね？ってことで。
+</div>
+<div>
+<b>【Alert.showのボタンのラベルを日本語に変える】</b><br />
+デフォルトで 「Yes」「No」なので、「はい」「いいえ」に変えたいときは</p>
+<pre>
+Alert.yesLabel = "はい";
+Alert.noLabel = "いいえ";
+</pre>
+<p>こうやって、クラス変数を直接書き換えて変える！
+</p></div>
+<div>
+<b>【DateChooserやDateFieldの曜日や月を日本語に変える】</b><br />
+例えば、DateFieldの曜日を変えるとき</p>
+<pre>
+var df:DateField = new DateField;
+df.dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+</pre>
+<p>月を変えるときは、monthNamesを変更する。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

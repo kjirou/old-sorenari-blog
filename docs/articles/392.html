@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] dictを拡張する方法 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] dictを拡張する方法</h1>
+        <p>2009年1月21日</p>
+      </section>
+      <section>
+        <div>
+Python-2.5でdictを拡張したいときに、<br />
+今まではこんな風にupdateを使ってたんですが</p>
+<pre>
+&gt;&gt;&gt; d = {'a': 1, 'b': 2}
+&gt;&gt;&gt; d.update({'c': 3})
+&gt;&gt;&gt; d
+{'a': 1, 'c': 3, 'b': 2}
+</pre>
+<p>2行目でわかるとおり、updateメソッドは値を返さないので、<br />
+チト使いにくい・・・。</p>
+<p>sortに対するsortedみたいに、<br />
+別メソッドがあるのかと調べたけども、発見できなかった。
+</div>
+<p></p>
+<div>
+・・・んだけど、今日発見した!!</p>
+<pre>
+&gt;&gt;&gt; dict({'a': 1, 'b': 2}, **{'c': 3})
+{'a': 1, 'c': 3, 'b': 2}
+</pre>
+</div>
+<p></p>
+<div>
+なるほどなー
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

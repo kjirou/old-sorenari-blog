@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Mercurial] ブランチの作成者を確認する | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Mercurial] ブランチの作成者を確認する</h1>
+        <p>2013年5月2日</p>
+      </section>
+      <section>
+        <div>
+ブランチの所有者を表示したかったので、コマンドを探していた。</p>
+<p>どうもコマンドは無いっぽいので、以下の様にワンライナーのシェルを打つ</p>
+<pre>
+hg log -b branch_name --template &#039;{author}\n&#039; | tail -n 1
+</pre>
+<p>.. というか、正確には探したというより教えて貰った</p>
+<blockquote class="twitter-tweet" lang="ja">
+<p>@<a href="https://twitter.com/kjirou" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/kjirou', 'kjirou']);" >kjirou</a> こっちの方が確実かも hg log -b [branch_name] &#8211;template &#8216;{author}\n&#8217; | tail -n 1</p>
+<p>&mdash; 照屋和夫さん (@tell_k) <a href="https://twitter.com/tell_k/status/329788665943433216" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://twitter.com/tell_k/status/329788665943433216', '2013年5月2日']);" >2013年5月2日</a></p></blockquote>
+<p><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>わ、わたしが感謝してあげてるんだから、うれしく思いなさいよっ！
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

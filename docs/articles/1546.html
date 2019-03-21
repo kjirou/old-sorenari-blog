@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>uninitialized constant Jasmine::YAML | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>uninitialized constant Jasmine::YAML</h1>
+        <p>2012年12月6日</p>
+      </section>
+      <section>
+        <div>
+さくらVPSのCentOS6にて<br />
+yumで入れられるRubyから<a href="http://pivotal.github.com/jasmine/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://pivotal.github.com/jasmine/', 'Jasmine']);" target="_blank">Jasmine</a>環境を構築する途中に、ハマったことのメモです
+</div>
+<h3>rake jasmine が動かない</h3>
+<div>
+一通りインストールが終わり、Webサーバを起動しようとしたところ<br />
+&#8220;uninitialized constant Jasmine::YAML&#8221; と件名のエラー出て、動きません</p>
+<pre>
+$rake jasmine
+your tests are here:
+http://localhost:8888/
+rake aborted!
+uninitialized constant Jasmine::YAML
+Tasks: TOP => jasmine => jasmine:server
+(See full trace by running task with --trace)
+</pre>
+</div>
+<h3>Rakefileを修正</h3>
+<div>
+対処として、Rakefileへ require &#8216;yaml&#8217; を追加したら動くようになりました</p>
+<pre><code># ...
+require 'jasmine'
+require 'yaml' # <- Add this
+load 'jasmine/tasks/jasmine.rake'
+# ...</code></pre>
+<p>
+ヤマ勘でやったんだけど、正しいのかな？
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>誤った文字のエスケープをした時の挙動比較 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>誤った文字のエスケープをした時の挙動比較</h1>
+        <p>2009年1月20日</p>
+      </section>
+      <section>
+        <div>
+&#8220;\n&#8221; は大体どの言語でも1バイトの改行文字として解釈されますが、<br />
+&#8220;\w&#8221; などの「エスケープ出来ない文字をエスケープしようとした時」の挙動が不明で、<br />
+調査をしました。</p>
+<p>以下、Python/PHP/Ruby/JavaScriptで比較してます。
+</div>
+<p></p>
+<div>
+<b>Python-2.5.2</b></p>
+<pre>
+&gt;&gt;&gt; "\n"
+'\n'
+&gt;&gt;&gt; "\r"
+'\r'
+&gt;&gt;&gt; "\w"
+'\\w'
+</pre>
+<p>誤ったエスケープの場合は、文字列の &#8220;\&#8221; として解釈されます。</p>
+<p><b>PHP-5.2.6</b><br />
+※末尾の改行文字はターミナルへ出力するためなので無視して下さい。</p>
+<pre>
+$php -r 'echo "\w\n";'
+\w
+$php -r 'echo "\n\n";'
+</pre>
+<p>Pythonと同じく文字列の &#8220;\&#8221; になります。
+</div>
+<p></p>
+<div>
+<b>Ruby-1.8.6</b></p>
+<pre>
+irb(main):001:0&gt; "\n"
+=&gt; "\n"
+irb(main):002:0&gt; "\w"
+=&gt; "w"
+irb(main):003:0&gt; "\w" == "w"
+=&gt; true
+</pre>
+<p>&#8220;\&#8221; はないものとして解釈されるようです。</p>
+<p><b>JavaScript</b></p>
+<pre>
+&gt;&gt;&gt; "\n"
+"
+"
+&gt;&gt;&gt; "\w"
+"w"
+&gt;&gt;&gt; "\w" === "w"
+true
+</pre>
+<p>Rubyと同じように、&#8221;\&#8221; が消え去ります。
+</div>
+<p></p>
+<div>
+ということで「&#8221;\&#8221;を文字列として解釈する」派と<br />
+「ないものとして解釈する」派、があることがわかりました。</p>
+<p>正規表現を文字列で書くときは混乱の元になるので、<br />
+出来れば明示的に &#8220;\\w&#8221; ってやってもらえたりすると助かるなー、と切に願います。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>初Flash | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>初Flash</h1>
+        <p>2007年10月20日</p>
+      </section>
+      <section>
+        <div>
+Flex2 SDK を使った ActionScript3 で Flash作成を始めました。<br />
+ということで、テストで作ったものを晒し。
+</div>
+<div>
+枠の中をボールが延々跳ね返るだけのアプリです。</p>
+<p><a href="http://kjirou.net/main/sample/flash/balls_in_a_box/releases/0.1/index.html">箱の中のボール達 version 0.1</a><br />
+ソースは<a href="http://kjirou.net/main/sample/flash/balls_in_a_box/releases/0.1/">コチラ</a>。
+</div>
+<div>
+<b>【所感とか疑問とか】</b></p>
+<ul>
+<li>たまにボールが埋まって消えてしまうことがありますが、どうせその部分を含めて直すことになるのでそのままになってます。</li>
+<li>最終目的としては、「仮想的な物理世界を構築するフレームワーク」の作成です。ブロック崩しゲームなら、そのフレームワークを使えば簡単に作れるような感じのものを妄想してます・・・が、前途が非常に多難です。</li>
+<li>物体と物体の衝突による変化は、各物体が持つベクトルと物体との接点がわかれば計算で正確にでるはずなんですが、その接点を取る方法がわからない。hitTestObjectじゃ無理っぽい。</li>
+<li>そもそも、hitTestObjectだと、円を描画したものでも四角としてhitTestを行ってしまう？知らないだけかも。</li>
+<li>1フレームに物体が動く距離が大きい場合は、その間の物体の衝突はどうやって判定するんだろうか？</li>
+<li>物体が増えると膨大な計算量になってしまう。他のFlashシューティングゲームとかは、どうやって制御してるんだろうなぁ。</li>
+<li>モデル化は自分なりには丁寧にやっている・・・気がするけど。どうなんだろうか。</li>
+</ul>
+</div>
+<div>
+完成する可能性は極めて低いのですが、勉強がてら、もうちょっと頑張ってみます。<br />
+同じようなFlashアプリのソースを読まんとっ。（面倒臭）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

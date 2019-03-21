@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[AS] 変数名に使える文字の範囲 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[AS] 変数名に使える文字の範囲</h1>
+        <p>2008年2月7日</p>
+      </section>
+      <section>
+        <div>
+ActionScript3で変数名に使える文字の範囲を調べようと思ったら・・・<br />
+ちゃんと書いてあるサイトが見つかりませんでした、無念。
+</div>
+<div>
+まぁ、いいやってんで独自調査をすると<br />
+正規表現にして以下の範囲はちゃんと使えそう</p>
+<pre>
+/^[a-zA-Z_$][a-zA-Z0-9_$]*$/
+</pre>
+<p>大丈夫か不安になりがちな以下もOK</p>
+<pre>
+_
+__
+_1
+$
+$$
+$1
+</pre>
+<p>※数値が先頭にくるのはダメです。
+</p></div>
+<div>
+マルチバイト文字は使えるのかなー？<br />
+と、試したら使えた。</p>
+<p>[<a href="http://kjirou.net/main/sample/flash/study/vars_and_types/UsableChars.swf">証拠のサンプル</a>]<br />
+[<a href="http://kjirou.net/main/sample/flash/study/vars_and_types/UsableChars.as">ソース1</a>]<br />
+[<a href="http://kjirou.net/main/sample/flash/study/vars_and_types/Japanese.as">ソース2</a>]</p>
+<p>ただ、&#8221;？&#8221;が入るとコンパイルエラーだったりと、全部は使えない模様<br />
+Rubyの Array#include? みたいなのを書きたかったぜ！
+</div>
+<div>
+厳密な変数名の範囲について<br />
+ご存知の方がいらっしゃいましたら、是非教えてつかーさい！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

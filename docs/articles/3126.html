@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[npm] 経験値とレベルを管理する rpglevel モジュール | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[npm] 経験値とレベルを管理する rpglevel モジュール</h1>
+        <p>2013年7月10日</p>
+      </section>
+      <section>
+        <div>
+RPG で良くある概念である「経験値とレベル」を管理するための npm モジュールです。</p>
+<p>例えば、ドラクエや Wizardry の各キャラの経験値とレベル、<br />
+今で言うならパズドラのランクや各モンスターの経験値とレベル、<br />
+そういった「経験値とレベル」の関係を表現するために使います。</p>
+<p>ダウンロードやインストール方法は、<a href="https://github.com/kjirou/npm-rpglevel" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-rpglevel', 'GitHub &#8211; rpglevel']);" target="_blank">GitHub &#8211; rpglevel</a> を参照して下さい。</p>
+<p>なお、&quot;npm&quot; と書いてはありますが、<br />
+もちろん .js を直DLして単なる JavaScript ファイルとして<br />
+ブラウザで使用することもできます。
+</div>
+<h3>Usage</h3>
+<div>
+<pre><code>// node.js の場合
+//var RPGLevel = require('rpglevel');
+
+var lv = new RPGLevel();
+
+//
+// 関数で経験値テーブルを作成する
+// 各レベルアップに必要な経験値の差分を return する
+// 配列で直接定義してもいい、e.g. [0, 4, 6, 8, 10]
+//
+//   Lv1 = 0
+//   Lv2 = 4
+//   Lv3 = 6  (Total = 10)
+//   Lv4 = 8  (Total = 18)
+//   Lv5 = 10 (Total = 28)
+//
+lv.defineExpTable(function(level){
+  return level * 2;
+}, {
+  maxLevel: 5
+});
+
+
+// 経験値 10 獲得、レベルは獲得時点で 3 に上がってる
+// レベルアップ処理をする場合は、この返り値で判定して処理を入れる
+lv.gainExp(10);
+
+
+// レベルを返す、下記のショートカット
+console.log(lv.getLevel());  // -&gt; 3
+
+
+// レベルを含むその他の情報を返す
+// 次のレベルアップに必要な経験値などが含まれる
+console.log(lv.getStatuses());  // -&gt; { level:3, .. }
+</code></pre>
+</div>
+<h3>技術的・開発的な話</h3>
+<div>
+<a href="http://blog.kjirou.net/p/3025" title="jQueryプラグインを作りつつ開発環境パワーアップ！">前回</a> に続いて今回やったこと：</p>
+<ul>
+<li>サポート環境に node.js を加えて、ブラウザと両方で動くようにした</li>
+<li><a href="https://npmjs.org/package/rpglevel" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://npmjs.org/package/rpglevel', 'npm パッケージとして登録']);" target="_blank">npm パッケージとして登録</a>した。<br />
+ちなみに <strong><tt>npm adduser</tt> で要求される Email は外部に公開される</strong>ので注意して下さい。</li>
+</ul>
+</div>
+<h3>テストの話</h3>
+<div>
+<a href="https://github.com/airportyh/testem" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/airportyh/testem', 'Testem']);" target="_blank">Testem</a> でHTMLをホストしたり、<tt>testem ci</tt> でもそこまで不便では無いのですが<br />
+やっぱり、node.js で直接行うのと比べると実行速度が遅いです。</p>
+<p>可能な限り node.js 上で行った方が気持良く開発できるので、<br />
+設計面で、ブラウザ依存とそうじゃない部分の分割は、<br />
+多少手間を掛けても細かくやった方がいいと思いました。</p>
+<p><a href="http://visionmedia.github.io/mocha/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://visionmedia.github.io/mocha/', 'mocha']);" target="_blank">mocha</a> 上での実行の分岐には、skipIf みたいな仕組みがあるのかなー？<br />
+・・・パッと見た感じ、無さそうな気もするけど。
+</div>
+<h3>参考リンク</h3>
+<div>
+あざざざざざざーす！</p>
+<ul>
+<li><a href="http://nodejs.jp/nodejs.org_ja/docs/v0.4/api/modules.html#loading_from_node_modules_Folders" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://nodejs.jp/nodejs.org_ja/docs/v0.4/api/modules.html#loading_from_node_modules_Folders', 'Loading from `node_modules` Folders']);" target="_blank">Loading from `node_modules` Folders</a></li>
+<li><a href="http://tmlife.net/programming/javascript/npm-node-js-require-module-memo.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://tmlife.net/programming/javascript/npm-node-js-require-module-memo.html', 'npm と Node.js 上で require を使ったモジュール読み込みの仕組みについてメモ']);" target="_blank">npm と Node.js 上で require を使ったモジュール読み込みの仕組みについてメモ</a></li>
+<li><a href="http://qiita.com/fnobi/items/f6b1574fb9f4518ed520" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://qiita.com/fnobi/items/f6b1574fb9f4518ed520', '3分でできるnpmモジュール']);" target="_blank">3分でできるnpmモジュール</a></li>
+<li><a href="http://tmlife.net/programming/javascript/node-js-ones-own-module-npm-how-to.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://tmlife.net/programming/javascript/node-js-ones-own-module-npm-how-to.html', 'Node.js 用に作った自作モジュールを npm に登録して公開する方法']);" target="_blank">Node.js 用に作った自作モジュールを npm に登録して公開する方法</a></li>
+<li><a href="https://github.com/komagata/eastasianwidth" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/komagata/eastasianwidth', 'komagata/eastasianwidth']);" target="_blank">komagata/eastasianwidth</a> (シンプルなnpmパッケージ例)</li>
+<li><a href="http://multix.jp/wizardry/training.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://multix.jp/wizardry/training.html', 'Wizardry TRAINING GROUNDS']);" target="_blank">Wizardry TRAINING GROUNDS</a> (Wizの経験値テーブルのロジック)</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

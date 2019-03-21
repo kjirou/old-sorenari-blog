@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[PHP] 静的なメソッドを継承した時の問題 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[PHP] 静的なメソッドを継承した時の問題</h1>
+        <p>2008年3月11日</p>
+      </section>
+      <section>
+        <div>
+PHP4でもあった問題ですが、PHP5でもそのままだった
+</div>
+<div>
+とりあえずコードと実行結果</p>
+<p>コード</p>
+<pre>
+&lt;?php
+class SuperClass {
+public static function getInstance() {
+static $instance = null;
+if ($instance === null) $instance = new self;
+return $instance;
+}
+}
+class SubClass extends SuperClass {
+}
+$i = SubClass::getInstance();
+var_dump($i);
+</pre>
+<p>実行結果</p>
+<pre>
+object(SuperClass)#1 (0) {
+}
+</pre>
+<p>と、$i は SubClassのインスタンスであって欲しかったんですけど<br />
+SuperClassのインスタンスになってしまっている</p>
+<p>つまり<br />
+静的なメソッドを継承した場合、サブクラスのメソッドとして呼んでも<br />
+selfキーワードはスーパークラスを指してしまう。<br />
+なお、__CLASS__もスーパークラスを指す。（__CLASS__についてはPHP4もそうだった）
+</div>
+<div>
+・・・なんで、このSingleton（っぽい）パターンは失敗しているんで<br />
+対処しなくちゃいけないんですけど</p>
+<pre>
+public static function getInstance() {
+// SuperClass::getInstanceを_付きにリネームして
+// クラス名を引数に取るようにしてあるものとする
+return parent::_getInstance(__CLASS__);
+}
+</pre>
+<p>まー、これを各クラスに書けばいいやってんで0.2秒で妥協
+</p></div>
+<div>
+あ、すぐ妥協したのは別にPHPだからってんじゃなくて<br />
+最近は言語別の文化を覚えることに少々疑問を感じているからです</p>
+<p>number_formatを使うなら、<br />
+3桁区切りでカンマを入れるアルゴリズムを残して<br />
+どの環境でもすぐに引き出せるようにした方がいいんじゃないか、的な<br />
+（この関数使えよ！ってのは、概ね他の人が(教え|怒っ)てくれるし）
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

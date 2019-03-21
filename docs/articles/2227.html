@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>MacのPostfixの起動時間を延長 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>MacのPostfixの起動時間を延長</h1>
+        <p>2013年1月22日</p>
+      </section>
+      <section>
+        <div>
+Macにて、以下のコマンドでPostfixを起動しても<br />
+60秒でサービスが停止してしまう</p>
+<pre>
+sudo launchctl start org.postfix.master 
+</pre>
+<p></p>
+<p>開発中は不便だよね、ということで<br />
+勝手にサービスが停止してしまうのが嫌ならこうする</p>
+<pre>
+sudo vim /System/Library/LaunchDaemons/org.postfix.master.plist
+
+  (..略..)
+  &lt;array&gt;
+    &lt;string&gt;master&lt;/string&gt;
+    &lt;string&gt;-e&lt;/string&gt;
+    &lt;string&gt;60&lt;/string&gt;  # これを 86400 とかにする
+  &lt;/array&gt;
+  (..略..)
+
+sudo launchctl unload /System/Library/LaunchDaemons/org.postfix.master.plist
+sudo launchctl load /System/Library/LaunchDaemons/org.postfix.master.plist
+</pre>
+<p></p>
+<p>補足:</p>
+<ul>
+<li>編集は Finder から開いて Xcode で修正してもいいが、事前に権限の解放が必要</li>
+<li>unload/loadの反映確認コマンドは不明、実際動かして60秒より長くなってたことで確認</li>
+<li>Mac OSX Mountain Lion で試しました</li>
+<li>参考1) <a href="http://docs.komagata.org/4724" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.komagata.org/4724', 'http://docs.komagata.org/4724']);" target="_blank">http://docs.komagata.org/4724</a></li>
+<li>参考2) <a href="http://www.pistolfly.jp/weblog/2012/01/os-x-lion-postfix.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.pistolfly.jp/weblog/2012/01/os-x-lion-postfix.html', 'http://www.pistolfly.jp/weblog/2012/01/os-x-lion-postfix.html']);" target="_blank">http://www.pistolfly.jp/weblog/2012/01/os-x-lion-postfix.html</a></li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

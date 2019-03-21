@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JS] 続・関数にInterfaceを持たせる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JS] 続・関数にInterfaceを持たせる</h1>
+        <p>2008年1月20日</p>
+      </section>
+      <section>
+        <div>
+ECMAScript4のtypeキーワードの話に触発されて、<br />
+現JavaScriptでも頑張ってみようと思い立った<a href="http://kjirou.sakura.ne.jp/mt/2008/01/interface.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/01/interface.html', '前回']);" >前回</a>。</p>
+<p>個人的に面白そうなネタなので、もうちょい丁寧に作ってみることにした。<br />
+[<a href="http://kjirou.net/main/sample/js/implement/index.html">動作確認・ソース</a>]<br />
+※FireBugのコンソールだと何故かthrowしても例外が飛ばないので、<br />
+　付属のテキストエリアのJSコンソールで動作確認してみてください。
+</div>
+<div>
+例えば、parseIntに投げれるものは strとnumとnull だけにしたいと思ったとき</p>
+<pre>
+var pi = parseInt.implement("snN");
+pi(1); // -> 1
+pi(true); // -> Error
+</pre>
+<p>例えば、numかundefinedのみを持つ配列のみを許容したいとき</p>
+<pre>
+var f = func.implement(["nU"]);
+</pre>
+<p>例えば、ハッシュの形式を決めたいとき</p>
+<pre>
+var f = func.implement({x: "n", y: "a"});
+</pre>
+<p>詳細はソースを参照してください。<br />
+なお、配列とハッシュについて再帰的な処理をしてなかったりと、作りは甘めです。
+</div>
+<div>
+全く使えないということは無い気がする・・・。<br />
+今度無理矢理使ってみるかー
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

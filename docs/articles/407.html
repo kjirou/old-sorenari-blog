@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Pythonクックブックを読んでいる(5) | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Pythonクックブックを読んでいる(5)</h1>
+        <p>2009年3月9日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://kjirou.sakura.ne.jp/mt/2009/03/python4.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2009/03/python4.html', '＜＜ 前回']);" ><b>＜＜ 前回</b></a> |<br />
+次回 ＞＞</p>
+<p>オラ、次の章（OOP）が気になって、ものすげぇ読み飛ばした気がすっぞ！
+</div>
+<p></p>
+<div>
+<b>【5章 サーチとソート】</b></p>
+<p><b>5.3 オブジェクトの属性でソート</b><br />
+これでいいんだってサ！</p>
+<pre>
+import operator
+sorted(seq, key=key=operator.attrgetter(attr))
+</pre>
+<p>本当かよ！！</p>
+<pre>
+class Foo(object):
+def __init__(self):
+self.hoge = None
+def __repr__(self):
+return str(self.hoge)
+f1 = Foo()
+f1.hoge = 1
+f2 = Foo()
+f2.hoge = 2
+f3 = Foo()
+f3.hoge = 3
+import operator
+print sorted([f2, f3, f1], key=operator.attrgetter('hoge')) # -> [1, 2, 3]
+</pre>
+<p>本当だ！！！</p>
+<p><b>5.0 オブジェクトの比較は高コスト</b><br />
+「Pythonにおいて、・・・、2つのオブジェクトの比較とは、<br />
+関係するオブジェクト指向メカニズムの全てにコストのかかる、高価な処理なのだ。」<br />
+（引用なんだけど、一部略で補足を除去）<br />
+気持ち程度に気にしとこう。</p>
+<p><b>5.7 アイテムが加えられてもソート済みに保つ</b><br />
+アイテムの追加や削除の度にリスト全体を再ソートしたくない場合はheapqを使う。</p>
+<pre>
+l = [888, 111, 22, 45, 234, 9, 765]
+import heapq
+heapq.heapify(l)
+print l[0], l[-1] # -&gt; 9 765
+# 追加
+heapq.heappush(l, 3)
+print l[0], l[1] # -&gt; 3 9
+# 削除
+heapq.heappop(l)
+print l[0], l[1] # -&gt; 9 45
+</pre>
+<p><a href="http://ja.wikipedia.org/wiki/%E3%83%92%E3%83%BC%E3%83%97%E3%82%BD%E3%83%BC%E3%83%88" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://ja.wikipedia.org/wiki/%E3%83%92%E3%83%BC%E3%83%97%E3%82%BD%E3%83%BC%E3%83%88', 'ヒープソート']);" >ヒープソート</a>自体良くわかってないんだけど、list.sortよりも「早くて不正確」な感じらしい。
+</div>
+<p></p>
+<div>
+・・・以上。</p>
+<p>性能対策に適切なソートを使いましょう、というネタが多く、<br />
+基本的なソートのアルゴリズムすら知らない自分には時期尚早な感が・・・。<br />
+困ったら開こう！（こればっか）ということで終わりにした。</p>
+<p>てか、むしろこの辺は、サーバサイドの言語よりもJSとかASで先に困りそうな気がする。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

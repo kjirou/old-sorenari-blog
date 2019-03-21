@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Show Your GitHub Activities というサービスを作った | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>Show Your GitHub Activities というサービスを作った</h1>
+        <p>2012年11月29日</p>
+      </section>
+      <section>
+        <div>
+<a href="http://syga.kjirou.net/" target="_blank">Show Your GitHub Activities</a> という<br />
+GitHubの活動をウィジェットとして表示するプチサービスを作りました</p>
+<p>現在、当ブログの右カラムにブログパーツとして出しているのが<br />
+そこで生成したウィジェットとなります</p>
+<p>用途は.. なんだろう？<br />
+自分の凄さを見せつけたい人とか、<br />
+自分へのプレッシャー用とか、<br />
+はたまた、来年の新卒さんに口ばっかりの奴が入ってきたら貼らせるとか？</p>
+<p>ということで、不具合や英語がおかしい所など<br />
+何か発見してしまったら、是非当記事へご一報を！
+</div>
+<h3>利用したライブラリなどの所感</h3>
+<div>
+<ul>
+<li><a href="http://emberjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://emberjs.com/', 'Ember.js v1.0.0-pre.2']);" target="_blank">Ember.js v1.0.0-pre.2</a></li>
+<li><a href="http://twitter.github.com/bootstrap/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://twitter.github.com/bootstrap/', 'Twitter Bootstrap v2.2.1']);" target="_blank">Twitter Bootstrap v2.2.1</a></li>
+<li><a href="http://sugarjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://sugarjs.com/', 'Sugar.js v1.3.6']);" target="_blank">Sugar.js v1.3.6</a></li>
+<li>jQueryとjquery-jsonプラグイン</li>
+<li><a href="http://developer.github.com/v3/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://developer.github.com/v3/', 'GitHub API v3']);" target="_blank">GitHub API v3</a></li>
+</ul>
+<p>
+Ember.js はMVC型のJSフレームワークです<br />
+元々これを試してみたかったので、何か軽いものでも作ろうとサービスを作りました</p>
+<p>感想としては、ざっくり一言で言うと、<br />
+「レールに乗るなら強いけど外れると弱い」という感じでした<br />
+とりあえず、ゲーム系にはあまり良くないので、自分が今後使う頻度は低そうです<br />
+この点については、後日別記事にしようと思ってます</p>
+<p>コアモジュールとして内包されている <a href="http://handlebarsjs.com/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://handlebarsjs.com/', 'handlebars.js']);" target="_blank">handlebars.js</a> は、<br />
+Djangoテンプレートシステムに良く似ているので、Pythonistaなら馴染み易いと思いました</p>
+<p>
+Twitter Bootstrap も試してみたかったので初めて使ってみました<br />
+お手軽だし、それっぽくなっていい感じです<br />
+ボッチグラマとして今後も使うと思います</p>
+<p>ただ、予想以上にカスタマイズ幅が狭くて、<br />
+テーマ色すら、本家にはカスタマイズする機能はありません（外部サイトを介すと可能）</p>
+<p>
+Sugar.js は、ウィジェット側で読み込んでおり、Ember.jsとは競合してません<br />
+（Ember.js も prototype を汚染しているので、同時には使えない）</p>
+<p>最初入れる気は無かったのですが、Date関連の処理で</p>
+<ul>
+<li>&#8216;2012-11-20&#8217;のようなDate-Stringを解析したい</li>
+<li>日時を &#8216;3 hours ago&#8217; などに変換したい</li>
+</ul>
+<p>ということがしたくて、ライブラリを探す前に見てみたらありました</p>
+<p>使ってみると、何と両方解決。しかも、すげー良く出来てる<br />
+例えば先のはこれでオシマイ</p>
+<pre>
+&gt; Date.create(&#039;2012-11-21&#039;).relative()
+&quot;1 week ago&quot;
+</pre>
+<p>・・・ちょっと奥様、ご覧になりました？</p>
+<p>GitHub API は、多分サイトを見て貰えばすぐわかります<br />
+GitHub登録無し・OAuth認証無しでも使えます<br />
+ただ、今回のサービスもそうなんですけど、<br />
+認証無しだと いちIPから60回/60分 が限度です
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

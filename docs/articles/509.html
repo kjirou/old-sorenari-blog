@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] プロトタイプ・チェーンで最も問題になる点 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] プロトタイプ・チェーンで最も問題になる点</h1>
+        <p>2012年2月1日</p>
+      </section>
+      <section>
+        <h3>最もわかり難い点は this.constructor の参照先</h3>
+<div>
+自分が考えるところの、プロトタイプ・チェーンを行う上で最も問題となるのが<br />
+<b>this.constructor が自分を生成した関数（クラス）を参照しなくなる</b>点です</p>
+<pre><code>var Animal = function(){};
+Animal.prototype.constructorIsAnimal = function(){
+    return this.constructor === Animal;
+};
+
+var Dog = function(){};
+Dog.prototype = new Animal();
+var animal = new Animal();
+var dog = new Dog();
+console.log(animal.constructorIsAnimal()); //-&gt; true
+console.log(dog.constructorIsAnimal()); //-&gt; true !!重要!!</code></pre>
+<p>なので、Python の self.__class__ や PHP の self:: のつもりで使ってると<br />
+プロトタイプ・チェーンした際にバグります
+</div>
+<h3>問題になる点が問題になるのは自クラスへの参照が無いから</h3>
+<div>
+で、この問題が表面化する理由は<br />
+そもそも this.constructor 以外に自分の生成元を参照する方法が<br />
+先の === Animal のような静的名前解決以外にないからです<br />
+（コンストラクタ内に限定すれば arguments.callee で代用できます）</p>
+<p>※念のため補足すると、「自分の生成元」ってのは<br />
+　生成された object を new した Function のことです</p>
+<p>つまり、先にも例に出したような self.__class__ や self:: が無いんです</p>
+<p>なので、 self.__class__ が無いのかなぁ思った人の思考として<br />
+<b>「いやぁそんなことないっしょ？ ほらほら！ this.constructor があるじゃない！」</b><br />
+という、一種の罠的なハマりになってしまうことが<br />
+プロトタイプ・チェーンの最たる問題点だと思ってます</p>
+<p>ちなみに、この点の解決ですが<br />
+　1. どこでも参照できるようにクラス変数名を管理し、常に静的名前解決<br />
+　2. 自前の継承関数を作って prototype.__myClass__ 等へ生成元をキープ<br />
+　3. そもそも生成元を参照しなくても良い設計にする、全部prototype内に持つなど<br />
+・・・位のあまりスマートで無い方法しか知りませぬ</p>
+<p>1 は、クラス名を変えた時面倒<br />
+　また、動的スコープを使ってどんなクラスにも有効なメソッドを作った時にコピれなくなる<br />
+2 は、継承方法がオレオレになっちゃう、でも自分はコレで解決してる<br />
+3 は、基本的にprototype内のプロパティ名は継承時の衝突が怖いので<br />
+　出来る限り減らしたくなるはずで、その点に反する
+</div>
+<h3>他の問題点は？</h3>
+<div>
+それが思いつかないんすよねー</p>
+<p>後は、動的スコープである 「<b>this の参照先をちゃんと把握できているか</b>」とか<br />
+「<b>newとfunc()の違いを抑えているか</b>」という<br />
+JSのより基本的な論点の問題（？）とごっちゃになってるんじゃないかと思います<br />
+まぁ、特に後者はわかりにくいですけど・・・</p>
+<p>俺は結構な期間JavaScriptを使って仕事してますが<br />
+それでもまだ this の参照先を間違えることがあります<br />
+特に<b>「俺極めた、大丈夫」</b>とか思ってる状態が一番危険です</p>
+<p>本当はそれらが原因のバグが<br />
+プロトタイプ・チェーンのせいになってるだけじゃないかと思いました
+</div>
+<h3>一方、ロシアはプロトタイプ・チェーンを使わなかった</h3>
+<div>
+不安ならプロトタイプ・チェーンをしない継承をおススメします<br />
+以下のような関数で、単に個別にprototypeのプロパティをコピーする方法です</p>
+<pre><code>var mixin = function(SubClass, superObj){
+    var k;
+    for (k in superObj) { SubClass.prototype[k] = superObj[k] };
+};
+mixin(YourSubClass, new YourSuperClass());</code></pre>
+<p>Arrayなどのネイティブクラスを継承する場合は<br />
+プロトタイプ・チェーンをした方が断然良いです（この理由はいずれ記事にします）</p>
+<p>しかし、ユーザ作成クラスを継承する場合、プロトタイプ・チェーンによる利益は<br />
+「独自継承関数を定義しなくてよい」「instanceof で判定できるようになる」<br />
+以外に無い気がするんすよね
+</div>
+<h3>参考) 確認コード</h3>
+<div>
+<a href="http://code.kjirou.net/js/test/prototype_chain/" target="_blank">JavaScript Prototype-Chain Test</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

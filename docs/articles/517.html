@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>easykvs.php 簡易Key-Value Store API設置用スクリプト | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>easykvs.php 簡易Key-Value Store API設置用スクリプト</h1>
+        <p>2012年2月10日</p>
+      </section>
+      <section>
+        <h3>easykvs.php</h3>
+<div>
+Key-Value ストア形式のWeb-APIアプリを簡単に設置するためのPHP5用スクリプトです</p>
+<p>OpenSocialアプリ開発などで、開発環境用のダミー永続化APIとして使用したり<br />
+ちょっとしたFlashやJavaScriptアプリを作る際のストレージとして使うことを想定しています</p>
+<p>以下が紹介ページ本体です<br />
+<a href="http://pub.kjirou.net/easykvs.php/intro/" target="_blank">easykvs.php introduction</a>
+</div>
+<h3>インストール例</h3>
+<div>
+1. <a href="https://raw.github.com/kjirou/easykvs.php/master/easykvs.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://raw.github.com/kjirou/easykvs.php/master/easykvs.php', 'easykvs.phpのスクリプトをダウンロード']);" target="_blank">easykvs.phpのスクリプトをダウンロード</a>して<br />
+2. 以下のPHPスクリプトを api.php で保存して</p>
+<pre><code>&lt;?php
+ini_set(&#039;display_errors&#039;, &#039;0&#039;);
+require_once &#039;./easykvs.php&#039;;
+EasyKVS::auto_start();</code></pre>
+<p>3. 同じディレクトリに突っ込んで<br />
+4. そのディレクトリに書き込み権限を与える</p>
+<p>・・・という流れで設置完了<br />
+後は api.php に対してリクエストパラメータで操作してデータの更新や取得を行います</p>
+<p>詳細は、上記の紹介ページを参考にして下さい
+</p></div>
+<h3>蛇足</h3>
+<div>
+2年振り位にPHPでクラスを書いたから<br />
+どーしていいんだか皆目見当がつきませんでした</p>
+<p>ヘンなところが有ったら教えて下さいまし
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

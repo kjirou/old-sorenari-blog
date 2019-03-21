@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[Python] ElementTreeモジュールの使い方 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[Python] ElementTreeモジュールの使い方</h1>
+        <p>2012年12月28日</p>
+      </section>
+      <section>
+        <div>
+xml.etree.ElementTree の使い方まとめです<br />
+検証環境は Python-2.7.3
+</div>
+<h3>XMLをパースする / 要素を抽出して操作する</h3>
+<div>
+主要メソッド：</p>
+<ul>
+<li>fromstring = XML文字列を解析してオブジェクトにして返す</li>
+<li>find = 要素を一つだけ抽出する</li>
+<li>findall = 要素を全て抽出する</li>
+</ul>
+<p></p>
+<p>find/findall には、XPath（っぽいだけ？）記法を使います</p>
+<pre><code>element.find('.//tag_name')
+element.findall('./parent/child')
+element.findall('.//*')</code></pre>
+<p>詳細は、<a href="http://code.kjirou.net/py/beginning/ElementTree/simple_xml_parsing.py" target="_blank">こちらのサンプルコード</a>を参照
+</div>
+<h3>名前空間付きの要素を抽出する</h3>
+<div>
+xmls属性や&lt;soap:Body&gt;などで名前空間が指定されている場合は<br />
+以下のように {} で名前空間を指定する必要があります</p>
+<pre><code>element.find('.//{xmls_value}tag_name')
+element.find('.//{http://xxx.xxx/xxx/}tag_name')</code></pre>
+<p>詳細は、<a href="http://code.kjirou.net/py/beginning/ElementTree/namespaced_xml_parsing.py" target="_blank">こちらのサンプルコード</a>を参照
+</div>
+<h3>XML文字列を構造的に生成する</h3>
+<div>
+主要メソッド：</p>
+<ul>
+<li>Element = ルート要素を生成する</li>
+<li>SubElement = 要素を生成する</li>
+<li>remove = 要素を削除する</li>
+<li>tostring = 要素をXML文字列へ変換する</li>
+<li>xml.dom.minidom.parseString/toprettyxml = Pretty-Printするために必要</li>
+</ul>
+<p>詳細は、<a href="http://code.kjirou.net/py/beginning/ElementTree/xml_creating.py" target="_blank">こちらのサンプルコード</a>を参照
+</div>
+<h3>未解決論点</h3>
+<div>
+XMLとして誤っている文字列を強制的にオブジェクトにしたい<br />
+<a href="http://code.kjirou.net/py/beginning/ElementTree/not_well_formed.py" target="_blank">fromstringでは以下のエラーになる</a></p>
+<pre>
+xml.etree.ElementTree.ParseError: not well-formed (invalid token)
+</pre>
+<p>・・・そりゃ無理だよね、って気はしてます
+</p></div>
+<h3>参考リンク</h3>
+<div>
+<ul>
+<li><a href="http://docs.python.jp/2/library/xml.etree.elementtree.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.python.jp/2/library/xml.etree.elementtree.html', 'ElementTree XML API']);" target="_blank">ElementTree XML API</a> .. 日本語ElementTreeドキュメント</li>
+<li><a href="http://docs.python.org/2.7/library/xml.etree.elementtree.html#supported-xpath-syntax" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://docs.python.org/2.7/library/xml.etree.elementtree.html#supported-xpath-syntax', 'Supported XPath syntax']);" target="_blank">Supported XPath syntax</a> .. XPathの書式</li>
+<li><a href="http://www.kanzaki.com/docs/sw/names.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.kanzaki.com/docs/sw/names.html', 'XML名前空間の簡単な説明']);" target="_blank">XML名前空間の簡単な説明</a> .. 名前空間の仕組みを知らなかったので</li>
+</ul>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

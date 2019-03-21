@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>さくらはApacheの権限がユーザと同じだから | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>さくらはApacheの権限がユーザと同じだから</h1>
+        <p>2007年4月28日</p>
+      </section>
+      <section>
+        <div>
+さくらインターネットの場合は、Apacheの権限がユーザと同じなので<br />
+Webアプリ側で何らかのファイルを消すときには、それなりの注意が必要だとわかった。
+</div>
+<div>
+PHPでopendirとか面倒だったので、シェルで消そうと思ってこういうのを書いたら</p>
+<pre>
+shell_exec('find ' . HOME . WWW_DIR . APP_DIR . DATA_DIR ' -type f | xargs rm -f ');
+</pre>
+<p>DATA_DIR が DATE_DIR になってた。</p>
+<p>定数にしてたから良かったものの<br />
+$DATA_DIR を $DATE_DIR で書いてたら、アプリが全部消えるところだった。
+</div>
+<div>
+面倒でも opendir ～ unlink ～ closedir ですね。<br />
+面倒だけど。
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>IE6のcursor属性でハマる | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>IE6のcursor属性でハマる</h1>
+        <p>2007年5月2日</p>
+      </section>
+      <section>
+        <div>
+IE6で</p>
+<pre>
+cursor: pointer; /* マウスポインタを手の形にするスタイル */
+</pre>
+<p>をarea要素に対して指定しても何故か適用されない。
+</p></div>
+<div>
+<s>area要素の href属性に、&#8221;#&#8221; とか &#8220;javascript:void(0);&#8221; とかを入れたら、</s><br />
+<s>表示されるようになりました。</s>
+</div>
+<div>
+15分
+</div>
+<div>
+<b>【後日修正】</b><br />
+<b>hrefに何かを入れたからcursor指定が有効になったのではなくて、</b>単にhrefが指定されているとカーソルの形が変わるだけ、だった。</p>
+<p><a href="http://kjirou.sakura.ne.jp/mt/2007/08/cursor.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2007/08/cursor.html', 'area要素にcursor指定しても効果が無い']);" >area要素にcursor指定しても効果が無い</a>ので、指定するなら紐付けられているimg要素に指定する必要があった。</p>
+<p>javascriptでhref属性を有効にしたり無効にしたりでカーソルの形が変わるならそれでもいいんだけど、noHrefを指定しようが、element.href = null とか false とか undefied とかを指定しようが、一旦設定したhrefはどうにも無効にすることができないようだ。</p>
+<p>うーん・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

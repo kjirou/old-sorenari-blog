@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>SWFGateway.js | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>SWFGateway.js</h1>
+        <p>2008年1月1日</p>
+      </section>
+      <section>
+        <div>
+*<a href="http://kjirou.sakura.ne.jp/mt/2008/01/swfgatewayjs_version_03.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kjirou.sakura.ne.jp/mt/2008/01/swfgatewayjs_version_03.html', 'v 0.3 を作りました']);" >v 0.3 を作りました</a>*</p>
+<p>Flashを介して外部やローカルストレージと通信を行う、JavaScript用ライブラリを作りました。<br />
+正月って暇だなぁ。</p>
+<p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-<br />
+<b>SWFGateway.js</b> version 0.2<br />
+[<a href="http://kjirou.net/main/sample/flash/gateway/releases/0.2/swf_gateway_v_0_2.tar.gz">tar.gz</a>] [<a href="http://kjirou.net/main/sample/flash/gateway/releases/0.2/swf_gateway_v_0_2.zip" onclick="_gaq.push(['_trackEvent','download','http://kjirou.net/main/sample/flash/gateway/releases/0.2/swf_gateway_v_0_2.zip']);" >zip</a>] [<a href="http://kjirou.net/main/sample/flash/gateway/releases/0.2/swf_gateway/">ソース</a>]<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</p>
+<ul>
+<li>使うには Flash Player 9 以上が必要です</li>
+<li>使うだけならasディレクトリは不要です</li>
+<li>中で<a href="http://blog.deconcept.com/swfobject/" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://blog.deconcept.com/swfobject/', 'SWFObject']);" >SWFObject</a>を丸々使っています。毎度ありがとうございます</li>
+<li>Flash内で使っている機能の関係で、現在はローカルに置いた場合は動作しないようになっています・・・ﾅﾝﾃｺｯﾀｲ</li>
+<li>わざわざFlashを介す理由は、クロスブラウザ対応・クロスドメイン対応においてJSと比べて処理が簡単で安定しており、また、JSには無いローカルストレージの使用やソケット通信も可能であるためです。</li>
+</ul>
+</div>
+<div>
+<b>【設置方法】</b></p>
+<p><b>(1) swf_gateway.js を読み込む</b><br />
+解凍したパッケージをサーバに上げたら、HTMLファイルのheadタグ内で、展開した src/swf_gateway.js を読み込みます。<br />
+HTMLファイルと同じ階層内にあると仮定した場合、概ねこんな感じになると思います。</p>
+<pre>
+&lt;head&gt;
+（・・・略・・・）
+&lt;script type="text/javascript" src="./swf_gateway/src/swf_gateway.js" charset="UTF-8"&gt;&lt;/script&gt;
+（・・・略・・・）
+&lt;/head&gt;
+</pre>
+<p>
+<b>(2) swfファイルの出力先を指定する</b><br />
+swfファイルの出力先を指定するために、ブロック要素にidを付けてbody内に記述します。</p>
+<pre>
+&lt;body&gt;
+（・・・略・・・）
+&lt;div id="swf_gateway_container"&gt;&lt;/div&gt;
+（・・・略・・・）
+&lt;/body&gt;
+</pre>
+<p>※ブロック要素内にテキストを入れても通常は何も表示されませんが、Flash Player 9以上が入っていない場合はその中のテキストが表示されるようになります。（SWFObjectのwriteインスタンスメソッドと同じ仕様）</p>
+<p><b>(3) SWFGatewayの初期化を行う</b><br />
+上記で記述したブロック要素のすぐ下にscriptタグを記述し、その中に以下のようなJSソースを記述します。<br />
+writeメソッドの第1引数は、サーバに上げたライブラリのトップディレクトリまでのパスを指定します。（パスの終端は&#8221;/&#8221;で終わるように指定して下さい。）<br />
+第2引数は、上記で記述したブロック要素のid属性値を指定します。</p>
+<pre>
+&lt;script type="text/javascript"&gt;
+SWFGateway.write("./swf_gateway/", "swf_gateway_container");
+&lt;/script&gt;
+</pre>
+<p><s>※onloadイベント内に記述しても勿論構いません</s>ダメかもしれない、理由は調査中</p>
+<p>以上で設置は終了です。
+</p></div>
+<div>
+<b>【リクエストを送信する】</b><br />
+SWFGateway.requestメソッドで送信します。<br />
+例えばこんな感じでリクエストを送信できます。</p>
+<pre>
+SWFGateway.request("http://mydomain.net/foo.php", {
+// "get" or "post"
+method: "get"
+// リクエストパラメータをハッシュで指定
+,params: {
+key1: "value1"
+,key2: "バリュー２"
+}
+// レスポンス取得時のイベントハンドラ
+,handler: function(isCompleted, data){
+alert(data);
+}
+// 上記イベントハンドラの識別子・・・とりあえず重複しないように書いておけばOK
+,handlerId: "valueSender"
+});
+</pre>
+<p>詳細はソースのコメントを参照して下さい・・・。
+</p></div>
+<div>
+<b>【ローカルストレージを使用する】</b><br />
+ローカルストレージに保存する例、第1引数にハッシュ形式で保存する</p>
+<pre>
+SWFGateway.saveToLocal({
+key1: "value1"
+,key2: "バリュー２"
+});
+</pre>
+<p>ローカルストレージから読み出す例</p>
+<pre>
+var data = SWFGateway.loadFromLocal();
+alert(data.key1); // -> 保存時に"key1"のキーで保存したデータを読み出せる
+</pre>
+<p>これも詳細はソースのコメントを参照願います・・・。
+</p></div>
+<div>
+まー微妙なライブラリなんですけど、サンプルコードとしてでも使ってくだされば本望です。<br />
+次はソケット通信だっ！
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>

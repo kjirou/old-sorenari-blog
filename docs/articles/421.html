@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[JavaScript] やる気無し配列等価演算関数 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[JavaScript] やる気無し配列等価演算関数</h1>
+        <p>2009年6月11日</p>
+      </section>
+      <section>
+        <div>
+配列の内容を比較して、等価かどうかを判定する関数を作った。</p>
+<pre>
+var equalArrays = function(a, b){
+return a.sort().toString(a) === b.sort().toString(b)
+};
+</pre>
+<p>動作確認</p>
+<pre>
+&gt;&gt;&gt; equalArrays([1,2,3], [1,2,3,4])
+false
+&gt;&gt;&gt; equalArrays([1,2,3], [2,3,1])
+true
+&gt;&gt;&gt; equalArrays([1,2,3,null], [2,null,3,1])
+true
+&gt;&gt;&gt; equalArrays([1,2,null,3,null], [2,null,3,1])
+false
+&gt;&gt;&gt; equalArrays([1,"str",2,null,3,null], [2,null,3,"str",null,1])
+true
+</pre>
+<p>超適当なのに、意外とちゃんと動くね！</p>
+<p>拾った家具が役に立ったような満足感。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>require時にモジュール無しエラーを出したくない時 | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>require時にモジュール無しエラーを出したくない時</h1>
+        <p>2014年9月21日</p>
+      </section>
+      <section>
+        <div>
+存在しないモジュールを require した場合に、エラーを出さないで null を返す、という関数を作りました。</p>
+<p><a href="https://www.npmjs.org/package/wantit" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://www.npmjs.org/package/wantit', '→ npm']);" target="_blank">→ npm</a><br />
+<a href="https://github.com/kjirou/npm-wantit" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'https://github.com/kjirou/npm-wantit', '→ GitHub']);" target="_blank">→ GitHub</a></p>
+<p>内容は以下のように、<tt>MODULE_NOT_FOUND</tt> のエラーのみ処理を分けているだけです。</p>
+<pre>
+var wantit = function wantit(moduleId){
+  try {
+    return require(moduleId);
+  } catch (err) {
+    if (err.code === &#039;MODULE_NOT_FOUND&#039;) {
+      return null;
+    }
+    throw err;
+  }
+};
+</pre>
+<p></p>
+<p>ちなみに、npm 上にこれだけをやってくれるモジュールが発見できなかったので自作しました。</p>
+<p>皆様、いつもどうしていらっしゃるのでしょうか・・・。
+</p></div>
+
+      </section>
+    </article>
+  </body>
+</html>

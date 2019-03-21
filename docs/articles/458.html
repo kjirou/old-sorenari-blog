@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>[MySQL] SELECT NOCACHE ではなく SQL_NO_CACHE | 旧それなりブログ</title>
+  </head>
+  <body>
+    <header>
+      <p>旧それなりブログの跡地</p>
+      <nav>
+        <ul>
+          <li><a href="https://kjirou.github.io/old-sorenari-blog/">トップへ</a></li>
+          <li><a href="https://kjirou.github.io/blog/">新ブログへ</a></li>
+        </ul>
+      </nav>
+    </header>
+    <article>
+      <section>
+        <h1>[MySQL] SELECT NOCACHE ではなく SQL_NO_CACHE</h1>
+        <p>2010年2月12日</p>
+      </section>
+      <section>
+        <div>
+MySQLで・・・
+</div>
+<h3>○正しい構文</h3>
+<div>
+<pre>
+SELECT SQL_NO_CACHE ...
+</pre>
+</div>
+<h3>×誤った構文</h3>
+<div>
+<pre>
+SELECT NOCACHE ...
+</pre>
+</div>
+<h3>毎回間違える</h3>
+<div>
+毎回間違える上に、<br />
+「動かないのは、&#8221;NOCACHE&#8221;の位置が悪いんじゃないか？」と、<br />
+&#8220;SELECT NOCACHE&#8221; とかでググっても何も出なくてイラっとするので、<br />
+検索用にGoogleに拾われることを期待して、記事にしてみました。</p>
+<p>ついでに、&#8221;SELECT NOCACHE&#8221; とか &#8220;MySQL NOCACHE&#8221; で<br />
+ググる人々のイライラ度を下げて、<br />
+世界平和に貢献できれば、と考えております。　うそだけど
+</div>
+<h3>参考リンク</h3>
+<div>
+<a href="http://dev.mysql.com/doc/refman/5.1/ja/query-cache-in-select.html" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://dev.mysql.com/doc/refman/5.1/ja/query-cache-in-select.html', 'MySQL-5.1: クエリ キャッシュでの SELECT  オプション']);" target="_blank">MySQL-5.1: クエリ キャッシュでの SELECT  オプション</a><br />
+<a href="http://kaworu.jpn.org/kaworu/2008-03-21-1.php" onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://kaworu.jpn.org/kaworu/2008-03-21-1.php', 'MySQLでクエリキャッシュする方法']);" target="_blank">MySQLでクエリキャッシュする方法</a>
+</div>
+
+      </section>
+    </article>
+  </body>
+</html>
