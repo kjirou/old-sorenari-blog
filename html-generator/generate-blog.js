@@ -19,6 +19,18 @@ const publicArticlesUrl = `${publicRootUrl}${ARTICLES_RELATIVE_PATH}/`;
 const rawPages = require(path.join(__dirname, '../crawling/extended-raw-pages.json'));
 
 
+const templateHeader = (props) => {
+  return lodash.template(`<p><%= blogName %>の跡地、画像やスタイルやJSなどが壊れてることがあります。</p>
+<nav>
+  <ul>
+    <li><a href="<%- publicPath %>">トップ</a></li>
+    <li><a href="<%- newBlogUrl %>">新ブログ</a></li>
+    <li><a href="<%- githubUrl %>">GitHub</a></li>
+  </ul>
+</nav>`)(props);
+};
+
+
 //
 // Generate articles
 //
@@ -30,16 +42,7 @@ const templateArticle = (props) => {
     <title><%= articleTitle %> | <%- blogName %></title>
   </head>
   <body>
-    <header>
-      <p><%= blogName %>の跡地</p>
-      <nav>
-        <ul>
-          <li><a href="<%- publicPath %>">トップ</a></li>
-          <li><a href="<%- newBlogUrl %>">新ブログ</a></li>
-          <li><a href="<%- githubUrl %>">GitHub</a></li>
-        </ul>
-      </nav>
-    </header>
+    <header><%= headerHtml %></header>
     <article>
       <section>
         <h1><%= articleTitle %></h1>
@@ -68,10 +71,13 @@ const articles = rawPages
       articleContent: article.rawMainContent,
       articleTitle: article.rawPageTitle,
       blogName: BLOG_NAME,
-      githubUrl: GITHUB_URL,
+      headerHtml: templateHeader({
+        blogName: BLOG_NAME,
+        githubUrl: GITHUB_URL,
+        newBlogUrl: NEW_BLOG_URL,
+        publicPath: PUBLIC_PATH,
+      }),
       lastUpdatedDateString: article.rawDate,
-      newBlogUrl: NEW_BLOG_URL,
-      publicPath: PUBLIC_PATH,
     });
 
     return Object.assign({
@@ -96,16 +102,7 @@ const templateIndexPage = (props) => {
     <title><%- blogName %></title>
   </head>
   <body>
-    <header>
-      <p><%- blogName %>の跡地</p>
-      <nav>
-        <ul>
-          <li><a href="<%- publicPath %>">トップ</a></li>
-          <li><a href="<%- newBlogUrl %>">新ブログ</a></li>
-          <li><a href="<%- githubUrl %>">GitHub</a></li>
-        </ul>
-      </nav>
-    </header>
+    <header><%= headerHtml %></header>
     <article>
       <section>
         <h1><%- blogName %></h1>
@@ -139,9 +136,12 @@ const indexPage = {
   html: templateIndexPage({
     blogName: BLOG_NAME,
     content: generateIndexPageContent(articles),
-    githubUrl: GITHUB_URL,
-    newBlogUrl: NEW_BLOG_URL,
-    publicPath: PUBLIC_PATH,
+    headerHtml: templateHeader({
+      blogName: BLOG_NAME,
+      githubUrl: GITHUB_URL,
+      newBlogUrl: NEW_BLOG_URL,
+      publicPath: PUBLIC_PATH,
+    }),
   }),
 };
 
